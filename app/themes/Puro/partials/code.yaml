@@ -1,0 +1,16 @@
+name: Codice
+handle: Code
+section: Tools
+labelFrom: block_name
+icon: /themes/Puro/assets/images/code.webp
+form:
+  tabs:
+    fields:
+      source_code:
+        label: Codice sorgente
+        type: textarea
+        tab: Proprietà
+      spacing-mixin:
+          type: mixin
+      background-mixin:
+          type: mixin

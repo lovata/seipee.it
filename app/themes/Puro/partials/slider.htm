@@ -1,0 +1,137 @@
+{% partial 'block_head' %}
+	<div class="owl-carousel slider-{{ block_id }} owl-theme {% if box.subcontainer_class == 0 %}container{% endif %}">   
+		{% for card in box.cards %}
+			<div style="position:relative;{% if box.img_as_background %}background-image:url('{{ card.slider_image | media}}');background-repeat: no-repeat;background-size: cover;background-attachment:fixed;background-position: center;height:100%{% endif %}">
+				<div style="position:absolute;
+				text-align:{{ card.text_alignment }};
+				{% if card.vertical_alignment == 'top' %}
+						top:5%;
+						{% set valY = -5 %}
+					{% elseif card.vertical_alignment == '25' %}
+						top: 25%;
+						{% set valY = -25 %}
+					{% elseif card.vertical_alignment == 'center' %}
+						top: 50%;
+						{% set valY = -50 %}
+					{% elseif card.vertical_alignment == '75' %}
+						top: 75%;
+						{% set valY = -75 %}
+					{% elseif card.vertical_alignment == 'bottom' %}
+						bottom:5%;
+				{% endif %}
+				{% if card.horizontal_alignment == 'left' %}
+						left:10%;
+						{% set valX = -10 %}
+					{% elseif card.horizontal_alignment == '25' %}
+						left: 25%;
+						{% set valX = -25 %}
+					{% elseif card.horizontal_alignment == 'center' %}
+						left: 50%;
+						{% set valX = -50 %}
+					{% elseif card.horizontal_alignment == '75' %}
+						left: 75%;
+						{% set valX = -75 %}
+					{% elseif card.horizontal_alignment == 'right' %}
+						right:10%;
+						{% set valX = 10 %}
+				{% endif %}
+				transform: translate({{ valX }}%,{{ valY }}%);
+				z-index:2;" >
+					{% if card.title %}<{% if card.title_size %}{{ card.title_size }}{% else %}h1{% endif %} class="{% if card.title_animate %}animatenow {{ card.title_animate_direction }}{% endif %}" style="color:{{ card.title_color }} !important;{% if card.title_bold %}font-weight:bold !important{% endif %}">{{ card.title }}</{% if card.title_size %}{{ card.title_size }}{% else %}h1{% endif %}>{% endif %}
+					{% if card.subtitle %}<{% if card.subtitle_size %}{{ card.subtitle_size }}{% else %}h1{% endif %} class="{% if card.subtitle_animate %}animatenow {{ card.subtitle_animate_direction }}{% endif %}" style="color:{{ card.subtitle_color }} !important;{% if card.subtitle_bold %}font-weight:bold !important{% endif %}">{{ card.subtitle }}</{% if card.subtitle_size %}{{ card.subtitle_size }}{% else %}h1{% endif %}>{% endif %}
+					{% if card.cta %}<a class="{% if card.cta_class != 'button' %}btn {% endif %}{{ card.cta_class }} {{ card.cta_spacing }} {% if card.cta_animate %}animatenow {{ card.cta_animate_direction }}{% endif %}" href="{{ card.cta_link }}" {% if card.cta_target %}target="_blank" {% endif %} style="border-radius:{{ card.cta_border_radius }}">{{ card.cta }}</a>{% endif %}
+				</div>
+				{% if not box.img_as_background and card.slider_image and not card.slider_video %}
+					{% if box.img_as_link and card.cta_link %}
+                        <a href="{{ card.cta_link }}" {% if card.cta_target %}target="_blank"{% endif %}>
+                    {% endif %}
+                        <img style="position:relative;z-index:0;{% if box.image_width %}width:{{ box.image_width }}px !important;{% endif %}{% if box.image_height %}height:{{ box.image_height }}px !important{% endif %}" src="{{ card.slider_image |media|resize(box.image_width,box.image_height) }}" alt="{{ card.title }}" title="{{ card.title }}" {% if box.lazyload %}class="owl-lazy" data-src="{{ card.slider_image |media }}"{% endif %}>
+                    {% if box.img_as_link %}
+                        </a>
+                    {% endif %}
+				{% endif %}
+				{% if card.slider_video and not card.slider_image %}
+					<video autoplay="" muted="" loop="" id="myVideo" webkit-playsinline playsinline>
+						<source src="{{ card.slider_video | media }}" type="video/mp4">
+					</video>
+				{% endif %}
+			</div>
+		{% endfor %}
+		{% if box.overlay %}
+			<div class="overlay" style="position: absolute;width: 100%;height: 100%;top: 0;left: 0;background:{{ box.overlay_color }};opacity: {{ box.overlay_opacity }}; z-index: ;"></div>
+		{% endif %}
+	</div>
+{% partial 'block_footer' %}
+{% put styles %}
+<style>
+	.owl-prev,.owl-next {
+		font-size:4rem !important;
+		position: absolute;
+		top: 40%;
+		transform: translateY(-40%);
+	}
+	.owl-prev {
+		left: 1vw;
+	}
+	.owl-next {
+		right: 1vw;
+	}
+	.owl-theme .owl-nav {
+		margin-top: 0 !important
+	}
+	.owl-dots {
+		position: absolute;
+		bottom: 1rem;
+		left: 50%;
+		transform: translateX(-50%);
+	}
+	.owl-theme .owl-nav [class*=owl-]:hover {
+    	background: none !important;
+	}
+	.owl-stage {
+		display: flex !important;
+		align-items: {{ box.vertical_align }} !important;
+		{% if box.fixed_height %}
+		img {
+		    height: {{ box.max_height }}px!important;
+		    object-fit: scale-down;
+		}
+		{% endif %}
+	}
+</style>
+{% endput %}
+{% put scripts %}
+<script>
+
+	$(function(){
+		$('.slider-{{ block_id }}').owlCarousel({
+			loop:{% if box.loop %}true{% else %}false{% endif %},
+			{% if box.centeralign %}center: true,{% endif %}
+			nav:{% if box.nav %}true{% else %}false{% endif %},
+			lazyLoad:{% if box.lazyload %}true{% else %}false{% endif %},
+    		dots:{% if box.pagination %}true{% else %}false{% endif %},
+			items:{{box.number_slider}},
+			autoplay:{% if box.autoplay %}true{% else %}false{% endif %},
+            autoplayTimeout:{{box.timing * 1000 }},
+			margin:{{ box.slides_margin }},
+			stagePadding: {% if box.stage_padding %}{{ box.stage_padding }}{% else %}0{% endif %},
+			animateIn:"{{ box.animateIn }}",
+            animateOut:"{{ box.animateOut }}",
+			{% if not box.fixed_height %}autoHeight:true,{% endif %}
+			responsiveClass:true,
+            responsive:{
+                0:{
+                    items:{{ box.number_slider_mobile }},
+					stagePadding: 0
+                },
+                768:{
+                    items:{{ box.number_slider_tablet }}
+                },
+                1280:{
+                    items:{{ box.number_slider }}
+                }
+            }
+		});
+	});
+</script>
+{% endput %}

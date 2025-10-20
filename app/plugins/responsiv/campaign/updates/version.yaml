@@ -1,0 +1,71 @@
+v1.0.1: First version of Campaign
+v1.0.2:
+    - Set up database tables
+    - 000001_create_lists.php
+    - 000002_create_messages.php
+    - 000003_create_message_statuses.php
+    - 000004_create_subscribers.php
+v1.0.3:
+    - Seed all database tables
+    - seed_tables.php
+v1.0.4: Implement the verification process for new subscribers.
+v1.0.5: Minor fix for latest build.
+v1.0.6: Fixes bug preventing a list from being deleted.
+v1.0.7: Improve the efficiency of the subscriber list page.
+v1.0.8: Staggered launch can now be performed for a fixed amount of messages sent every hour.
+v1.1.0: Added subscriber import options. Subscriber IP addresses are now logged.
+v1.1.1: Each campaign message will strictly send once per hour even if the worker is called multiple times.
+v1.1.2: Fixes a bug where launching against group subscribers will send to everyone.
+v1.1.3: Prevent instances of data loss when the source template no longer exists or has changed.
+v1.1.4: Subscriptions are now throttled allowing 3 requests every 15 minutes.
+v1.1.5: Improve caching of message content.
+v1.1.6: User interface improvements.
+v1.1.7: Added back-end permissions for managing campaigns and subscribers.
+v1.1.8: Subscribers are no longer automatically deleted after 14 days.
+v1.1.9: Add a checkbox to automatically confirm new subscribers in the back-end.
+v1.1.10: Fixes subscriber search on list preview screen.
+v1.1.11: Compatibility with October stable.
+v1.1.12: Fixes bug when sorting list by number of subscribers.
+v1.1.13: Fixes issue where duplicate emails being sent for instant campaigns with large subscribers.
+v1.1.14: Update main menu item to include SVG version.
+v1.1.15: The Template component can now specify a custom page for verify and unsubscribe actions.
+v1.1.16: Subscribers can now be confirmed manually. Added filters to subscribers page.
+v1.1.17: Fixes minor bug preventing users from unsubscribing.
+v1.1.18: Fixes bug when creating a subscriber directly from a list.
+v1.1.19: Add event hook called when a user unsubscribes (responsiv.campaign.beforeUnsubscribe).
+v1.1.20: Recipient groups can now be added directly to lists.
+v1.1.21: Add a processing step to the campaign workflow. This fixes a bug where campaigns are marked as sent prematurely.
+v1.1.22: Fixes exception when opening a deleted campaign in the browser.
+v1.1.23: Minor update to subscribe command internals.
+v1.1.24: Update to address framework upgrade.
+v1.1.25: Minor update to the mail sending internals.
+v1.1.26: Fix to the mail sending internals.
+v1.2.0: Add support for capturing meta data with the subscriber.
+v1.2.1: Added unsubscribe and verification events.
+v1.2.2: Fixed issue where invalid subscriber email addresses would prevent campaigns from finishing sending
+v1.2.3: Increased message content limit from 64KB to 16MB
+v1.2.4: Fixes issue duplicating campaigns with older October CMS builds
+v1.2.5: Adds new hook for rendering the subscriber template.
+v1.2.6: Fixed support for accessing the template field data in Twig
+v1.2.7: Fixed issue with messages that have no custom syntax data
+v1.3.0: Adds translation keys
+v1.3.1: Adds custom tag support
+v2.0.0: Dropped support for October CMS v1
+v2.0.1:
+    - Adds dynamic template support
+    - migrate_v2_0_1.php
+v2.0.2: Improve support with October v3
+v2.0.3: Adds List Unsubscribe header to emails
+v2.0.4: Fixes stuck version
+v2.0.5: Compatibility updates with October CMS v3.6
+v3.0.0:
+    - Adds multisite support
+    - migrate_v3_0_0.php
+v3.0.1: Fixes multisite subscription links
+v3.0.2: Language fixes
+v3.0.3: Fixes template refresh when a campaign is duplicated via multisite
+v3.0.4: Fixes link generation in multisite, relative links and custom app URL
+v3.0.5:
+    - Fixes missing processed_at column in messages table
+    - migrate_v3_0_5.php
+v3.0.6: Fixes bug normalizing email addresses on sign up

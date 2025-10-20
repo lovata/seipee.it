@@ -1,0 +1,34 @@
+name: Pannelli
+section: Base
+handle: Panels
+labelFrom: block_name
+icon: /themes/Puro/assets/images/panels.webp
+translatable:
+- titolo
+- paragrafo
+form:
+    tabs:
+        fields:
+            cards:
+                label: Elemento
+                tab: Proprietà
+                itemsExpanded: false
+                type: repeater
+                form:
+                    fields:
+                        titolo:
+                            label: Titolo
+                            type: text
+                        icona:
+                            label: Icona
+                            comment: Elenco delle icone disponibili > <a target="_blank" href="https://fontawesome.com/v4/icons/">Font Awesome</a>
+                            commentHtml: true
+                            type: text
+                        paragrafo: 
+                            label: Testo
+                            type: richeditor
+                            toolbarButtons: paragraphFormat|fontSize|bold|italic|underline|strikeThrough|align|quote|color|emoticons|insertLink|insertPageLink|insertImage|insertVideo|insertTable|undo|redo|clearFormatting|html|fullscreen
+            spacing-mixin:
+                type: mixin
+            background-mixin:
+                type: mixin

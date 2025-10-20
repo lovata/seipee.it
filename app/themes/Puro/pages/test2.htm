@@ -1,0 +1,71 @@
+title = "test2"
+layout = "default"
+url = "/test2"
+==
+<div class="container">
+<div class="row">
+<div class="col-12">
+<div class="image-row d-flex">
+  <img src="/storage/app/media/banner.webp" alt="img1">
+  <img src="/storage/app/media/banner.webp" alt="img2">
+  <img src="/storage/app/media/banner.webp" alt="img3">
+</div>
+</div>
+</div>
+</div>
+<style>
+.image-row {
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+  gap: 1rem;
+}
+
+.image-row img {
+  width: 100%;
+  height: auto;
+  flex: 1 1 0;
+  object-fit: contain;
+}
+</style>
+<script>
+ function adjustImageRow(selector = ".image-row") {
+  document.querySelectorAll(selector).forEach(container => {
+    const images = container.querySelectorAll("img");
+    if (!images.length) return;
+
+    let loaded = 0;
+
+    // Reset altezza prima del calcolo
+    container.style.height = "auto";
+    images.forEach(img => img.style.height = "auto");
+
+    const onLoad = () => {
+      loaded++;
+      if (loaded === images.length) {
+        requestAnimationFrame(() => {
+          const maxHeight = Math.max(...Array.from(images).map(img => img.getBoundingClientRect().height));
+          container.style.height = maxHeight + "px";
+          images.forEach(img => {
+            img.style.height = "100%";
+            img.style.objectFit = "cover";
+          });
+        });
+      }
+    };
+
+    images.forEach(img => {
+      if (img.complete) {
+        onLoad();
+      } else {
+        img.onload = onLoad;
+        img.onerror = onLoad;
+      }
+    });
+  });
+}
+
+$(document).on('render', function() {
+  adjustImageRow(); // Ricalcola per ogni .image-row caricata dinamicamente
+});
+</script>

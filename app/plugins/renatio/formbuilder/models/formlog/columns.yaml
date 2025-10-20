@@ -1,0 +1,32 @@
+# ===================================
+#  List Column Definitions
+# ===================================
+
+columns:
+
+    subject:
+        label: renatio.formbuilder::lang.field.subject
+        searchable: true
+
+    from:
+        label: renatio.formbuilder::lang.field.from
+        searchable: true
+
+    to:
+        label: renatio.formbuilder::lang.field.recipients
+        searchable: true
+
+    form_name:
+        label: renatio.formbuilder::lang.field.form
+        relation: form
+        select: name
+        searchable: true
+        invisible: true
+
+    ip_address:
+        label: renatio.formbuilder::lang.field.ip_address
+        searchable: true
+
+    created_at:
+        label: renatio.formbuilder::lang.field.send_at
+        type: datetime

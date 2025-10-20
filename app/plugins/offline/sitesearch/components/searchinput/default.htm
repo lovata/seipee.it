@@ -1,0 +1,18 @@
+<form action="{{ __SELF__.searchPage | page }}?q={{ query | url_encode(true) }}" method="get">
+    <div class="ss-search-form">
+        <div class="ss-search-form__input">
+            <input name="q" type="text" placeholder="{{ 'offline.sitesearch::lang.search_form_string' | trans }}" 
+                   value="{{ __SELF__.query }}"
+                   autocomplete="off"
+                    {% if __SELF__.useAutoComplete %}
+                        data-track-input
+                        data-request="{{ __SELF__ }}::onType"
+                        data-request-before-update="document.getElementById('autocomplete-results').classList.toggle('ss-search-form__results--visible', !!this.value)"
+                        data-request-update="'{{ __SELF__ }}::autocomplete': '#autocomplete-results'"
+                    {% endif %}
+            >
+            <button class="ss-search-form__submit" type="submit">{{ 'offline.sitesearch::lang.search_button' | trans }}</button>
+        </div>
+        <div class="ss-search-form__results" id="autocomplete-results"></div>
+    </div>
+</form>

@@ -1,0 +1,11 @@
+plugin:
+    name: 'tecnotrade.tecnotradegallery::lang.plugin.name'
+    description: 'tecnotrade.tecnotradegallery::lang.plugin.description'
+    author: tecnotrade
+    icon: oc-icon-image
+    homepage: ''
+navigation:
+    main-menu-item:
+        label: 'Tecnotrade Gallery'
+        url: tecnotrade/tecnotradegallery/galleries
+        icon: icon-life-ring

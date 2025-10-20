@@ -1,0 +1,12 @@
+name: 'inetis.downloadmanager::lang.category.menu_label'
+form: $/inetis/downloadmanager/models/category/fields.yaml
+modelClass: Inetis\DownloadManager\Models\Category
+defaultRedirect: inetis/downloadmanager/categories
+
+create:
+    redirect: 'inetis/downloadmanager/categories/update/:id'
+    redirectClose: inetis/downloadmanager/categories
+
+update:
+    redirect: inetis/downloadmanager/categories
+    redirectClose: inetis/downloadmanager/categories

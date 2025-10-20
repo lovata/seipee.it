@@ -1,0 +1,5 @@
+v1.0.1:
+    - 'Initialize plugin'
+v1.0.2:
+    - 'Adding metafields to ratmd tag table'
+    - add_seo_fields_to_ratmd_bloghub_tags.php

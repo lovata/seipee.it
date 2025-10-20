@@ -1,0 +1,65 @@
+name: Timeline orizzontale
+section: UI Elements
+handle: timeline_hor
+labelFrom: block_name
+icon: /themes/Puro/assets/images/timeline_hor.webp
+form:
+    tabs:
+        fields:
+            title:
+              label: Titolo iniziale
+              type: text
+              default: Apertura uffici
+              span: row
+              spanClass: col-9
+            titleStyle:
+              label: Stile
+              type: dropdown
+              options:
+                "h1": h1
+                "h2": h2
+                "h3": h3
+                "h4": h4
+                "p": p
+              span: row
+              spanClass: col-3
+            description:
+              label: Descrizione iniziale
+              type: richeditor
+              size: small
+              default: >
+                Ire cito ducunt ad neuter ratione. Nunquam transferre mortem. Tumultumque de placidus burgus, carpseris mons! Index de velox fuga, acquirere solitudo.
+            timeline_items:
+              label: Voci della Timeline
+              type: repeater
+              prompt: Aggiungi una voce
+              form:
+                fields:
+                  year:
+                    label: Anno
+                    type: text
+                  title:
+                    label: Titolo
+                    type: text
+                  text:
+                    label: Descrizione
+                    type: richeditor
+                    size: small
+            inverse:
+                label: Anteponi la timeline rispetto ai testi
+                type: switch
+                tab: Configurazioni
+            dotcolor:
+                label: Colore del pallino
+                type: colorpicker
+                default: #4CC9FF
+                tab: Configurazioni
+            linecolor:
+                label: Colore della linea
+                type: colorpicker
+                default: #4CC9FF
+                tab: Configurazioni
+            spacing-mixin:
+                type: mixin
+            background-mixin:
+                type: mixin

@@ -1,0 +1,89 @@
+name: Settori
+section: Tools
+handle: Sectors
+icon: /themes/Puro/assets/images/settori.webp
+form:
+    tabs:
+        fields:
+            cards:
+                label: Elemento
+                tab: Elementi
+                itemsExpanded: false
+                type: repeater
+                form:
+                    fields:
+                        testo:
+                            label: Testo pulsante
+                            type: text
+                        contenuto:
+                            label: Contenuto
+                            type: richeditor
+            larghezza_link:
+                label: Larghezza Link
+                type: number
+                comment: Espresso in colonne
+                default: 4
+                tab: Configurazioni
+                span: row
+                spanClass: col-4
+            larghezza_testo:
+                label: Larghezza Corpo
+                type: number
+                comment: Espresso in colonne
+                default: 7
+                tab: Configurazioni
+                span: row
+                spanClass: col-4
+            col_offset:
+                label: Offset tra colonne
+                type: number
+                default: 1
+                tab: Configurazioni
+                span: row
+                spanClass: col-4
+            button_class:
+                label: Classe dei bottoni
+                type: dropdown
+                default: button
+                options:
+                    button: button
+                    primary: primary
+                    secondary: secondary
+                    success: success     
+                    danger: danger
+                    warning: warning
+                    info: info
+                    light: light
+                    dark: dark
+                    link: link
+                tab: Configurazioni
+                span: row
+                spanClass: col-4
+            gap: 
+                label: Gap tra pulsanti
+                type: number
+                default: 10
+                comment: Espresso in px
+                tab: Configurazioni
+                span: row
+                spanClass: col-4
+            top_offset:
+                label: Offset top sul click
+                type: number
+                default: 70
+                comment: Espresso in px
+                tab: Configurazioni
+                span: row
+                spanClass: col-4
+            invert_order:
+                label: Inverti pulsanti e contenuti su desktop
+                type: switch
+                tab: Configurazioni
+            invert_order_mobile:
+                label: Inverti pulsanti e contenuti su mobile
+                type: switch
+                tab: Configurazioni                
+            spacing-mixin:
+                type: mixin
+            background-mixin:
+                type: mixin

@@ -1,0 +1,154 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+fields:
+
+    #
+    # Duplicate
+    #
+
+    name:
+        label: "Mail subject"
+        context: duplicate
+        comment: "Enter a new name for this campaign."
+
+    #
+    # Initial setup
+    #
+
+    subject:
+        label: "Mail subject"
+        context: [update, setup]
+        comment: "Enter the subject line to use when sending this campaign."
+
+    #
+    # Recipient Details
+    #
+
+    recipients_section:
+        label: "Target Audience"
+        comment: "Select who should receive the campaign message."
+        context: send
+        type: section
+
+    subscriber_lists:
+        label: "Subscriber Lists"
+        type: relation
+        context: send
+        emptyOption: "There are no lists to choose from."
+
+    groups:
+        label: "Recipient Groups"
+        type: checkboxlist
+        context: send
+        placeholder: "There are no groups to choose from."
+
+    #
+    # Launch Details
+    #
+
+    launch_section:
+        label: "Launch Options"
+        comment: "Here you can choose how this campaign should be launched."
+        type: section
+        context: send
+
+    is_delayed:
+        label: "Delayed launch"
+        comment: "Send this message at a later date, otherwise it will be launched immediately."
+        type: checkbox
+        context: send
+
+    launch_at:
+        label: "Launch date"
+        type: datepicker
+        mode: datetime
+        context: send
+        cssClass: field-indent
+        trigger:
+            action: show
+            field: is_delayed
+            condition: checked
+
+    is_staggered:
+        label: "Staggered launch"
+        comment: "Use this option to contact subscribers slowly in batches or over a period of time."
+        type: checkbox
+        context: send
+
+    stagger_type:
+        type: radio
+        span: left
+        cssClass: field-indent
+        context: send
+        options:
+            time: Send over a set period of time
+            count: Send in batches of a fixed amount
+        trigger:
+            action: hide|empty
+            field: is_staggered
+            condition: unchecked
+
+    stagger_time:
+        comment: "Spread messages evenly over this period of time."
+        span: right
+        type: dropdown
+        context: send
+        options:
+            24: One day
+            48: Two days
+            72: One week
+        trigger:
+            action: show
+            field: stagger_type
+            condition: value[time]
+
+    stagger_count:
+        comment: "Maximum number of messages to send every 15 minutes."
+        span: right
+        type: number
+        context: send
+        trigger:
+            action: show
+            field: stagger_type
+            condition: value[count]
+
+    is_repeating:
+        label: "Repeat frequency"
+        comment: "Send on a recurring basis, useful for campaigns with dynamic content."
+        type: checkbox
+        context: send
+
+    repeat_frequency:
+        label: "Repeat frequency"
+        comment: "This campaign will duplicate itself after launch with a delay based on this frequency. It will continue until the campaign has been cancelled."
+        cssClass: field-indent
+        context: send
+        span: left
+        type: dropdown
+        options:
+            daily: Daily
+            weekly: Weekly
+            monthly: Monthly
+            yearly: Yearly
+        trigger:
+            action: show
+            field: is_repeating
+            condition: checked
+
+    #
+    # Included Attachements
+    #
+
+    # attachments_section:
+    #     label: Attachments
+    #     comment: If you would like to include any attachments on the message, upload them here.
+    #     type: section
+    #     context: send
+
+
+    # attachments:
+    #     type: fileupload
+    #     mode: file
+    #     context: send

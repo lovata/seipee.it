@@ -1,0 +1,16 @@
+# ===================================
+#  Relation Behavior Config
+# ===================================
+
+subscribers:
+    label: "Subscriber"
+    list: ~/plugins/responsiv/campaign/models/subscriber/columns_list.yaml
+    form: ~/plugins/responsiv/campaign/models/subscriber/fields.yaml
+    view:
+        toolbarButtons: create|add|remove
+        recordsPerPage: 10
+        showSearch: true
+    manage:
+        recordsPerPage: 10
+        context: relation
+        showSearch: true

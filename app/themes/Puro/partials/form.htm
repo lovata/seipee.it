@@ -1,0 +1,9 @@
+{% set formCode = box.renatio_form_id %}
+{% partial 'block_head' %}
+    {% if formCode %}
+        {# Passa esplicitamente il formCode al componente renderForm #}
+        {% component 'renderBoxForm' formCode=formCode nocache=true %}
+    {% else %}
+        <p>Nessun form selezionato.</p>
+    {% endif %}
+{% partial 'block_footer' %}

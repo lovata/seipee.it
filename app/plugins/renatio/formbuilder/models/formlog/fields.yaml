@@ -1,0 +1,49 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+fields:
+
+    subject:
+        label: renatio.formbuilder::lang.field.subject
+        span: left
+
+    created_at:
+        label: renatio.formbuilder::lang.field.send_at
+        span: right
+
+    from:
+        label: renatio.formbuilder::lang.field.from
+        span: left
+
+    form:
+        label: renatio.formbuilder::lang.field.form
+        type: relation
+        nameFrom: name
+        span: right
+
+tabs:
+
+    fields:
+
+        html:
+            tab: renatio.formbuilder::lang.tab.html
+            path: field_html
+            type: partial
+
+        form_data:
+            tab: renatio.formbuilder::lang.tab.form_data
+            path: field_form_data
+            type: partial
+
+        to:
+            label: renatio.formbuilder::lang.field.to
+            tab: renatio.formbuilder::lang.tab.recipients
+
+        cc:
+            label: renatio.formbuilder::lang.field.cc
+            tab: renatio.formbuilder::lang.tab.recipients
+
+        bcc:
+            label: renatio.formbuilder::lang.field.bcc
+            tab: renatio.formbuilder::lang.tab.recipients

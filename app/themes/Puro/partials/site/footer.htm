@@ -1,0 +1,41 @@
+</div>
+<div class="container py-5">
+    <div class="row">
+        <div class="col-12 col-lg-6 pt-3 address">
+            <h4>{{ global.company_name }}</h4>
+            <p>Sede Legale:<br>Viottolo Croce 1<br>41011 Campogalliano (MO)<br><br>Sede Operativa:<br>Via S. Ferrari 4<br>41011 Campogalliano (MO) <br>
+            <br>
+            <a href="mailto:+39 059 850108"><i class="bi bi-telephone-fill"></i> +39 059 850108</a><br>            <a href="mailto:info@seipee.it"><i class="bi bi-envelope-fill"></i> info@seipee.it</a><br>            </p>
+            <div class="mt-5 social">
+                {% partial 'site/social' %}
+            </div>
+        </div>
+        <div class="col-12 col-lg-3 pt-3">
+            <h4>Legal</h4>
+            <p>P.I. e C.F. 00185010360<br>
+            Cap. Soc. € 120.000,00 i.v.<br>
+            Iscr.Reg.Imp.Mo - R.E.A. n°152011<br>
+            &copy; {{ "now"|date("Y") }} {{ global.company_name }}<br><br>
+            <a href="{% if global.privacypolicylink %}{{ global.privacypolicylink }}{% else %}/privacy-policy{% endif %}" target="_blank">Privacy Policy</a><br>
+            <a href="{% if global.cookiepolicylink %}{{ global.cookiepolicylink }}{% else %}/cookie-policy{% endif %}" target="_blank">Cookie Policy</a><br><br></p>
+        </div>
+        <div class="col-12 col-lg-3 pt-3">
+            
+            <img src="https://seipee.tecnotrade.dev/storage/app/media/rating-legalita-seipee.svg" style="width:140px"><br><br>
+            <a href="https://mail.seipee.it/seipeedata/(S(lvfzx2wc0zhcqnmju4hbr35q))/dataanalyzer/default.aspx" target="_blank">Area Agenti</a><br>
+            <a href="/condizioni-generali-di-vendita">Condizioni Generali di Vendita</a><br>
+            <a href="https://segnalazioni.seipee.it:8443/" target="_blank">Segnalazioni Dlgs 231</a><br>
+            <a href="/accessibilita-wcag">Dichiarazione di conformità WCAG</a>
+        </div>
+
+    </div>
+</div>
+<div class="container pt-2 pb-5">
+    <div class="row">
+        <div class="col-12 center credits">
+            <a href="https://tecnotrade.com" title="Sviluppo web e siti" alt="sviluppo web bologna">made with <i class="bi bi-suit-heart-fill"></i> by tecnotrade</a>
+        </div>
+    </div>
+</div>
+
+<button type="button" id="btn-back-to-top"></button>

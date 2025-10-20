@@ -1,0 +1,28 @@
+url = "/download/:path?*"
+layout = "default"
+title = "Download"
+
+[downloadManagerBrowser]
+rootFolder = 0
+path = "{{ :path }}"
+displaySubFolders = 1
+displayTitle = 1
+displayBreadcrumb = 1
+
+[downloadManagerPasswordForm]
+page = "download.htm"
+==
+<div class="container py-4">
+    <div class="row">
+    <h1>Area Documentale </h1>
+        <div class="col-12 col-lg-8" style="border:1px solid #f7f7f7">
+            {% component 'downloadManagerBrowser' %}
+            
+        </div>
+        <div class="col-12 col-lg-4" style="border:1px solid #f7f7f7">
+            <h3>Sezione privata</h3>
+            <p class="pb-4">Se disponete di una password per accedere a documenti privati inseritela e cliccate sul pulsante cerca</p> 
+            {% component 'downloadManagerPasswordForm' %}
+        </div>
+    </div>
+</div>

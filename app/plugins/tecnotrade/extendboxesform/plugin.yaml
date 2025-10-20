@@ -1,0 +1,6 @@
+plugin:
+    name: 'tecnotrade.extendboxesform::lang.plugin.name'
+    description: 'tecnotrade.extendboxesform::lang.plugin.description'
+    author: tecnotrade
+    icon: oc-icon-chain
+    homepage: ''

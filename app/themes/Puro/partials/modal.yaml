@@ -1,0 +1,66 @@
+name: Modal
+section: Media
+handle: modal
+labelFrom: block_name
+icon: /themes/Puro/assets/images/modal.webp
+order: 350
+form:
+    tabs:
+        fields:
+            cards:
+                label: Elemento
+                tab: Proprietà
+                itemsExpanded: false
+                type: repeater
+                form:
+                    fields:
+                        cta:
+                            label: CTA
+                            type: text
+                        video_url:
+                            label: Codice univoco del video YouTube
+                            type: text
+                        cta_style:
+                            label: Stile
+                            type: dropdown  
+                            options:
+                                button: button
+                                primary: primary
+                                secondary: secondary
+                                success: success     
+                                danger: danger
+                                warning: warning
+                                info: info
+                                light: light
+                                dark: dark
+                                link: link    
+                        cta_outline:
+                            label: Outline
+                            type: switch  
+            vertical_align:
+                label: Centrata verticalmente nella pagina
+                type: switch
+                tab: Proprietà
+            modal_size:
+                label: Dimensione modal
+                type: radio
+                tab: Proprietà
+                options:
+                    modal-sm: Piccola (300px)
+                    modal-md: Normale (500px)
+                    modal-lg: Media (800px)
+                    modal-xl: Grande (1140px)
+
+
+            allineamento:
+                label: Allineamento
+                type: radio
+                tab: Proprietà
+                options:
+                    left: Sinistra
+                    center: Centro
+                    right: Destra
+            spacing-mixin:
+                type: mixin
+            background-mixin:
+                type: mixin

@@ -1,0 +1,114 @@
+@import "../../../../../../../modules/backend/assets/less/core/boot.less";
+
+@campaign-template-selector-item-weight: 155px;
+@campaign-template-selector-item-width: 155px;
+@campaign-template-selector-item-active-color: #5fb6f5;
+@campaign-template-selector-item-active-text: darken(@campaign-template-selector-item-active-color, 15%);
+
+.control-campaign-templateselector {
+    padding-top: 5px;
+
+    >ul, >ul>li {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    > ul > li {
+
+        width: @campaign-template-selector-item-width;
+        margin: 0 15px 15px 0;
+        display: inline-block;
+        text-align: center;
+        vertical-align: top;
+
+        .template-box {
+            display: block;
+            cursor: pointer;
+            text-decoration: none;
+            width: @campaign-template-selector-item-width;
+            height: @campaign-template-selector-item-weight;
+            border: 3px solid rgba(0,0,0,.1);
+            position: relative;
+            .transition(border .3s ease);
+
+            &:before {
+                content: '';
+                display: block;
+                background: rgba(0,0,0,.05);
+                margin: 2px;
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+            }
+
+            .template-icon {
+                display: block;
+                font-size: 56px;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                margin-top: -28px;
+                margin-left: -28px;
+                color: rgba(0,0,0,.25);
+            }
+
+            .template-selected-icon {
+                position: absolute;
+                top: 0;
+                right: 0;
+                width: 22px;
+                height: 22px;
+                color: white;
+                background-color: @campaign-template-selector-item-active-color;
+                opacity: 0;
+                .transition(opacity .3s ease);
+            }
+
+            &:hover {
+                border-color: rgba(0,0,0,.2);
+
+                .template-icon {
+                    color: rgba(0,0,0,.45);
+                }
+            }
+        }
+
+        .template-label {
+            margin: 7px 0;
+            padding: 0;
+            font-weight: 700;
+            font-size: 13px;
+        }
+
+        .template-description {
+            font-size: 12px;
+        }
+
+        &.selected {
+            .template-box {
+                cursor: default;
+                border-color: @campaign-template-selector-item-active-color;
+
+                &:before {
+                    margin: 0;
+                }
+
+                .template-icon {
+                    color: rgba(0,0,0,.45);
+                }
+
+                .template-selected-icon {
+                    opacity: 1;
+                }
+            }
+
+            .template-label {
+                color: @campaign-template-selector-item-active-text;
+            }
+        }
+
+    }
+}

@@ -1,0 +1,27 @@
+url = "/cart"
+layout = "default"
+title = "Cart"
+is_hidden = 0
+
+[viewBag]
+localeUrl[en] = "/cart"
+seo_title = "Cart"
+seo_description = "Cart"
+robot_index = "index"
+robot_follow = "follow"
+
+[cart]
+showDiscountApplier = 1
+discountCodeLimit = 0
+showTaxes = 1
+showShipping = 1
+showProceedToCheckoutButton = 1
+==
+<div class="container py-4">
+    <div class="row">
+        <div class="col-12">
+            <h1>Il tuo carrello</h1>
+            {% component 'cart' %}
+        </div>
+    </div>
+</div>

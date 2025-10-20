@@ -1,0 +1,47 @@
+{% if location_plugin_enabled %}
+    {% if has_floating_labels %}
+        <div class="{{ wrapper_class }}">
+            <div class="form-floating">
+                {{ form_select_country(name, null, {
+                    id: name,
+                    class: class ~ ' form-select',
+                    emptyOption: placeholder,
+                    'data-request': 'onChangeCountry',
+                    'data-request-data': { placeholder: placeholder, name: name },
+                }) }}
+
+                <label for="{{ name }}" class="{{ label_class }}">{{ label }}</label>
+
+                <div data-validate-for="{{ name }}" class="invalid-feedback"></div>
+
+                {% if comment %}
+                    <div class="form-text">{{ comment|raw }}</div>
+                {% endif %}
+            </div>
+        </div>
+    {% else %}
+        <div class="{{ wrapper_class }}">
+            {% if label %}
+                <label for="{{ name }}" class="{{ label_class }} form-label">{{ label }}</label>
+            {% endif %}
+
+            {{ form_select_country(name, null, {
+                id: name,
+                class: class ~ ' form-select',
+                emptyOption: placeholder,
+                'data-request': 'onChangeCountry',
+                'data-request-data': { placeholder: placeholder, name: name },
+            }) }}
+
+            <div data-validate-for="{{ name }}" class="invalid-feedback"></div>
+
+            {% if comment %}
+                <div class="form-text">{{ comment|raw }}</div>
+            {% endif %}
+        </div>
+    {% endif %}
+{% else %}
+    <div class="alert alert-warning" role="alert">
+        You must install <a target="_blank" href="https://octobercms.com/plugin/rainlab-location">Location Plugin</a> to use location fields!
+    </div>
+{% endif %}

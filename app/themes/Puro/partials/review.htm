@@ -1,0 +1,16 @@
+{% partial 'block_head' %}
+<div class="row row-cols-1 row-cols-sm-1 row-cols-md-{{ box.cards|length }}">
+	{% for card in box.cards %}
+		<div class="row">
+			<div class="col-{{ box.proporzioni }} {% if box.inverti_colonne %}order-last{% endif %} {{ card.image_align }}">
+				{% if card.image %}
+					<img src="{{ card.image | media }}" style="{% if card.image_size %}max-width: {{ card.image_size }};{% endif %}border-radius:{{ card.image_border }}">
+				{% endif %}
+			</div>
+			<div class="col-{{ 12 - box.proporzioni }}">
+				<p>{{ card.paragrafo | raw }}</p>
+			</div>
+		</div>
+	{% endfor %}
+</div>
+{% partial 'block_footer' %}

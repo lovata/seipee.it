@@ -1,0 +1,87 @@
+{% partial 'block_head' %}
+<div class="owl-carousel slider-{{ box.uniqueid }} owl-theme {% if box.subcontainer_class == 0 %}container{% endif %}">   
+	{% for productData in box.products %}
+		<div class="product-container text-center" style="padding: 2rem;">
+		{% set product = getProductByUserDefinedId(productData.product_user_defined_id) %}
+		{% if product %}
+			<div class="product-images">
+				{% for imageSet in product.image_sets %}
+					{% for image in imageSet.images %}
+						<img src="{{ image.path }}" alt="{{ product.name }}" style="width: 150px; height: auto;position:relative;left:50%;transform:translateX(-50%);">
+					{% endfor %}
+				{% endfor %}
+			</div>
+			<div>
+				<h4 class="mb-4">{{ product.name }}</h4>
+				<p class="mb-4">{{ product.description|slice(0, 150,)|content }}...</p>
+				<p class="mb-4"><strong>{{product.price['EUR']}}</strong></p>
+				<a href="/store/product/{{product.slug}}" class="button">Scopri Prodotto</a>
+			</div>
+		{% else %}
+			<li>Prodotto non trovato: {{ productData.product_user_defined_id }}</li>
+		{% endif %}
+		</div>
+	{% endfor %}
+</div>
+{% partial 'block_footer' %}
+
+<script>
+
+	$(function(){
+		$('.slider-{{ box.uniqueid }}').owlCarousel({
+			loop:{% if box.loop %}true{% else %}false{% endif %},
+			{% if box.centeralign %}center: true,{% endif %}
+			nav:{% if box.nav %}true{% else %}false{% endif %},
+			lazyLoad:{% if box.lazyload %}true{% else %}false{% endif %},
+    		dots:{% if box.pagination %}true{% else %}false{% endif %},
+			items:{{box.number_slider}},
+			autoplay:{% if box.autoplay %}true{% else %}false{% endif %},
+            autoplayTimeout:{{box.timing * 1000 }},
+			margin:{{ box.slides_margin }},
+			stagePadding: {% if box.stage_padding %}{{ box.stage_padding }}{% else %}0{% endif %},
+			animateIn:"{{ box.animateIn }}",
+            animateOut:"{{ box.animateOut }}",
+			{% if not box.fixed_height %}autoHeight:true,{% endif %}
+			responsiveClass:true,
+            responsive:{
+                0:{
+                    items:{{ box.number_slider_mobile }},
+					stagePadding: 0
+                },
+                768:{
+                    items:{{ box.number_slider_tablet }}
+                },
+                1280:{
+                    items:{{ box.number_slider }}
+                }
+            }
+		});
+	});
+
+</script>
+<style>
+	.owl-prev,.owl-next {
+		font-size:4rem !important;
+		position: absolute;
+		top: 40%;
+		transform: translateY(-40%);
+	}
+	.owl-prev {
+		left: 1vw;
+	}
+	.owl-next {
+		right: 1vw;
+	}
+	.owl-theme .owl-nav {
+		margin-top: 0 !important
+	}
+	.owl-dots {
+		position: absolute;
+		bottom: 1rem;
+		left: 50%;
+		transform: translateX(-50%);
+	}
+	.owl-theme .owl-nav [class*=owl-]:hover {
+    	background: none !important;
+	}
+</style>

@@ -1,0 +1,150 @@
+url = "/newsletter/message/:code"
+title = "Newsletter"
+description = "Template per invio newsletter"
+
+[campaignTemplate]
+isDynamic = 1
+unsubscribePage = "newsletter/unsubscribe"
+
+[global]
+handle = "Site\Tecnotrade"
+==
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Newsletter</title>
+    <style>
+        a
+        {
+            color:#ce4240; text-decoration:none;
+        }
+        a:hover
+        {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body style="padding:0px;margin:0px;background-color:#e0e0e0">
+
+    <!-- Bg -->
+    <table cellspacing="0" cellpadding="0" border="0" width="100%">
+    <tr>
+    <td bgcolor="#e0e0e0">
+        <br />
+
+        <!-- Container -->
+        <table cellspacing="0" cellpadding="0" border="0" align="center">
+            <tr>
+                <td width="700" height="43" bgcolor="#ffffff">
+                    <table cellspacing="0" cellpadding="0" border="0" align="center" width="660" style="width:660px;">
+                        <tr>
+                            <td>
+                                <div style="font-family:Arial, Helvetica, sans-serif;font-size:12px;color:#7a7a7a;">
+                                    Non riesci a leggere questa mail?
+                                    <a href="{browser_url}">Clicca qui</a>.
+                                </div>
+                            </td>
+                            <td align="right">
+                                <div style="font-family:Arial, Helvetica, sans-serif;font-size:12px;color:#7a7a7a;text-align:right">
+                                    
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td width="700" bgcolor="#FFFFFF">
+
+                    <!-- Header -->
+                    <table cellspacing="0" cellpadding="0" border="0" align="center" width="660" style="width:660px;">
+                        <tr>
+                            <td width="660" height="85" valign="bottom" bgcolor="#fff" align="center">
+                                    <div style="padding-bottom: 30px; padding-top: 30px">
+                                        <img
+                                            src="{{ 'logo.webp'|media }}"
+                                            alt="{{ global.company_name }}"
+                                            width="360"
+                                            height="85" />
+                                    </div>
+                            </td>
+                        </tr>
+                    </table>
+
+
+                    <!-- Content -->
+                    <table cellspacing="0" cellpadding="0" border="0" align="center" width="660" style="width:660px;">
+                        <tr>
+                            <td>
+                                <div style="font-size:12px;color:#333333;font-family:Helvetica, Arial, sans-serif;">
+
+                                    <p style="font-size:16px;line-height:150%">{textarea name="intro_content" label="Testo di apertura" size="small"}{/textarea}</p>
+
+                                    {repeater name="content_sections" prompt="Aggiungi un altro blocco"}
+                                        <div style="padding-top: 15px">
+                                            <div style="line-height:150%; font-size:14px">
+                                                {richeditor name="content_body" size="large"}{/richeditor}
+                                            </div>
+                                        </div>
+                                         <div style="padding-top: 15px; padding-bottom:60px">
+                                            <div style="line-height:150%; font-size:16px; font-weight:bold; text-align: center">
+                                                <a style="border:1px #666 solid; color:#666; padding:1rem 4rem; border-radius:10px" href="{text name="link" label="Link" size="small" placeholder="www.azienda.it"}{/text}">
+                                                {text name="cta" label="Testo pulsante" size="small" placeholder="Clicca qui per visualizzare"}{/text}</a>
+                                            </div>
+                                        </div>
+                                    {/repeater}
+
+                                    <br />
+
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <!-- Footer -->
+                    <table cellspacing="0" cellpadding="0" border="0" align="center" width="660" style="width:660px;">
+                        <tr>
+                          <td height="126" valign="middle" bgcolor="#1A3E5B">
+                            <table width="100%" border="0" cellspacing="0" cellpadding="12">
+                                <tr>
+                                    <td align="center" valign="top">
+                                        <div style="color:#fff;font-size:15px;font-family:Arial, Helvetica, sans-serif;">
+                                            {{ global.company_name }}<br>
+                                            {{ global.address }}<br>
+                                           {{ global.cap }} {{ global.town }} ({{ global.province }})<br>
+                                            {{ global.state }}<br><br>
+                                            <a href="mailto:{{ global.email }}">{{ global.email }}</a><br>
+                                            <a href="mailto:{{ global.pec }}">{{ global.pec }}</a></p>
+                                        </div>
+                                        <br />
+                                        <div style="color:#FFFFFF;font-weight:normal;font-size:12px;font-family:Arial, Helvetica, sans-serif;padding-bottom:5px;">
+                                           <br />
+                                            &copy; {{ global.company_name }} &nbsp; &bull; &nbsp; All Rights Reserved<br>
+                                            Non sei interessato?
+                                    <a href="{unsubscribe_url}">Unsubscribe here / Cancellati</a>.
+                                        </div>
+                                    </td>
+                                </tr>
+                              </table>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <br />
+
+                </td>
+            </tr>
+        </table>
+
+        <br />
+
+    </td>
+    </tr>
+    </table>
+
+</body>
+</html>

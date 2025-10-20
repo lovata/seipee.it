@@ -1,0 +1,36 @@
+<div id="newsletter-subscribe-container">
+    <form id="newsletter-form"
+        data-request="campaignSignup::onSignup"
+        data-request-update="'campaignSignup::result': '#newsletter-subscribe-container'">
+        <!--div class="form-group mb-2">
+          <input name="first_name" type="text" class="form-control" placeholder="Nome" />
+        </div>
+        <div class="form-group mb-2">
+          <input name="last_name" type="text" class="form-control" placeholder="Cognome" />
+        </div-->
+        <div class="input-group mb-2">
+          <input name="email" type="text" class="form-control" placeholder="E-mail" style="margin-right: 10px; border-radius: .375rem; color:#333 !important" />
+          <span class="input-group-btn">
+              <button id="subscribe-btn" class="button negative" type="submit" style="border-radius: .375rem;" disabled>Iscriviti</button>
+          </span>
+    
+        </div>		
+        <div class="form-group mb-2">
+            <label>
+                <input type="checkbox" name="meta[InformativaPrivacy]" id="privacy" value="Si" />
+                Dichiaro di aver preso visione dell'informativa sul trattamento dei dati
+            </label>
+        </div>
+    </form>
+</div>
+
+<script>
+document.getElementById('privacy').addEventListener('change', function() {
+    var subscribeBtn = document.getElementById('subscribe-btn');
+    if (this.checked) {
+        subscribeBtn.removeAttribute('disabled');
+    } else {
+        subscribeBtn.setAttribute('disabled', 'disabled');
+    }
+});
+</script>

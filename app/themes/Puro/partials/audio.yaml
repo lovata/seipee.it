@@ -1,0 +1,25 @@
+name: Audio
+section: Media
+handle: audio
+labelFrom: block_name
+icon: /themes/Puro/assets/images/audio.webp
+order: 360
+form:
+    tabs:
+        fields:
+            image_file:
+                label: Immagine
+                type: mediafinder
+                tab: Proprietà
+            audio_file:
+                label: Traccia audio
+                type: mediafinder
+                tab: Proprietà
+            autoplay:
+                label: Autoplay
+                type: checkbox
+                tab: Proprietà
+        spacing-mixin:
+            type: mixin
+        background-mixin:
+            type: mixin

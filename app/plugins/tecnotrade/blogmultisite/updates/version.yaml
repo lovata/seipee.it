@@ -1,0 +1,6 @@
+1.0.1:
+    - Initialize plugin.
+1.0.2:    
+    - Aggiungo site_id a post
+    - add_site_fields.php
+    - modifico boot per aggiungere lo scope site

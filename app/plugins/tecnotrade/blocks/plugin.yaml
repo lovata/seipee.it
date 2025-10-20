@@ -1,0 +1,6 @@
+plugin:
+    name: 'Boxes Extend'
+    description: 'Estnsione delle funzionalità di Boxes Block'
+    author: TecnoTrade
+    icon: oc-icon-adjust
+    homepage: ''

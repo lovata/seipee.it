@@ -1,0 +1,29 @@
+{
+    "name": "renatio/seomanager-plugin",
+    "type": "october-plugin",
+    "description": "Manage SEO for October CMS application with ease.",
+    "homepage": "https://octobercms.com/plugin/renatio-seomanager",
+    "keywords": [
+        "octobercms-plugin",
+        "octobercms",
+        "php",
+        "laravel",
+        "seo"
+    ],
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Michal Plodowski",
+            "email": "michal.plodowski@gmail.com"
+        }
+    ],
+    "require": {
+        "october/rain": "^3.0|^4.0",
+        "composer/installers": "^1.0|^2.0"
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/installers": true
+        }
+    }
+}

@@ -1,0 +1,26 @@
+columns:
+    id:
+        label: 'city.map::lang.sources.id'
+        type: number
+        sortable: true
+    name:
+        label: 'city.map::lang.sources.name'
+        type: text
+        searchable: true
+        sortable: true
+    type:
+        label: 'city.map::lang.sources.type'
+        type: selectable
+        sortable: true
+    is_active:
+        label: 'city.map::lang.sources.active'
+        type: switch
+        sortable: true
+    created_at:
+        label: 'city.map::lang.sources.created'
+        type: datetime
+        sortable: true
+    updated_at:
+        label: 'city.map::lang.sources.updated'
+        type: datetime
+        sortable: true

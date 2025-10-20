@@ -1,0 +1,84 @@
+handle: extra-mixin
+mixin:
+    animated_items:
+      label: Oggetti animati 
+      type: repeater
+      tab: Extra
+      form:
+        fields:
+          extra_filename:
+            label: Immagine
+            type: mediafinder
+          extra_resize:
+            label: Ridimensiona
+            type: dropdown
+            default: 1
+            options:
+              "100%": 100%
+              "90%": 90%
+              "80%": 80%
+              "70%": 70%
+              "60%": 60%
+              "50%": 50%
+              "40%": 40%
+              "30%": 30%
+              "20%": 20%
+              "10%": 10%
+          top_distance:
+            label: Top
+            type: text
+            comment: Inserire UM
+            span: row
+            spanClass: col-3
+          bottom_distance:
+            label: Bottom
+            type: text
+            comment: Inserire UM
+            span: row
+            spanClass: col-3
+          left_distance:
+            label: Left
+            type: text
+            comment: Inserire UM
+            span: row
+            spanClass: col-3
+          right_distance:
+            label: Right
+            type: text
+            comment: Inserire UM
+            span: row
+            spanClass: col-3
+          extra_animation:
+            label: Animazione
+            type: dropdown
+            options:
+                '': Nessuna
+                rotazione: Rotazione
+                updown: Sù - giù
+                leftright: Sinistra - destra
+                triangolo: Triangolo
+            span: row
+            spanClass: col-5
+          extra_animation_duration:
+            label: Durata
+            type: number
+            comment: In secondi
+            span: row
+            spanClass: col-3
+          extra_opacity:
+            label: Opacità
+            type: dropdown
+            options:
+                "0": 0%
+                "0.1": 10%
+                "0.2": 20%
+                "0.3": 30%
+                "0.4": 40%
+                "0.5": 50%
+                "0.6": 60%
+                "0.7": 70%
+                "0.8": 80%
+                "0.9": 90%
+                "1": 100%
+            span: row
+            spanClass: col-4

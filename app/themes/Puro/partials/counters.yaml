@@ -1,0 +1,327 @@
+name: Contatori
+section: Base
+handle: Counters
+labelFrom: block_name
+icon: /themes/Puro/assets/images/contatori.webp
+form:
+    tabs:
+        fields:
+            cards:
+                label: Elemento
+                tab: Elementi
+                itemsExpanded: false
+                type: repeater
+                form:
+                    fields:
+                        col_name: 
+                            label: Nome
+                            type: text
+                            span: row
+                            spanClass: col-6
+                        col_style:
+                            label: Stile
+                            type: dropdown
+                            options:
+                                "h1": h1
+                                "h2": h2
+                                "h3": h3
+                                "h4": h4
+                                "p": p
+                            span: row
+                            spanClass: col-3
+                        col_width: 
+                            label: Larghezza
+                            type: dropdown
+                            span: row
+                            spanClass: col-3
+                            options:
+                                "1": 1
+                                "2": 2
+                                "3": 3
+                                "4": 4
+                                "5": 5
+                                "6": 6
+                                "7": 7
+                                "8": 8
+                                "9": 9
+                                "10": 10
+                                "11": 11
+                                "12": 12
+                            comment: Numero di colonne
+                        value:
+                            label: Valore
+                            type: number
+                            span: row
+                            spanClass: col-3
+                        value_style:
+                            label: Stile
+                            type: dropdown
+                            options:
+                                "h1": h1
+                                "h2": h2
+                                "h3": h3
+                                "h4": h4
+                                "p": p
+                            span: row
+                            spanClass: col-3
+                        value_before:
+                            label: Testo prima
+                            type: text
+                            span: row
+                            spanClass: col-3
+                        value_after:
+                            label: Testo dopo
+                            type: text
+                            span: row
+                            spanClass: col-3
+                        duration:
+                            label: Durata animazione
+                            type: number
+                            comment: Se diversa dal default
+                            span: row
+                            spanClass: col-4
+                        class:
+                            label: Classe
+                            type: text
+                            comment: dell'elemento
+                            span: row
+                            spanClass: col-4
+                        decimals:
+                                label: Mostra decimali
+                                type: switch
+                        currency:
+                            label: Mostra valuta
+                            type: switch
+                        currency_symbol:
+                            label: Simbolo valuta
+                            type: text
+                            span: row
+                            spanClass: col-3
+                            trigger:
+                                action: show
+                                field: currency
+                                condition: checked
+                        _section0:
+                            label: Immagine
+                            type: section
+                        image:
+                            label: Seleziona il file
+                            type: mediafinder
+                            span: row
+                            spanClass: col-6
+                        image_border:
+                            label: Bordo
+                            type: radio
+                            options:
+                                "0rem": Quadrato
+                                "1rem": Arrotondato
+                                "50%": Rotondo
+                            span: row
+                            spanClass: col-3
+                        image_resize:
+                            label: Larghezza
+                            type: dropdown  
+                            options:
+                                "100%" : 100%
+                                "90%" : 90%
+                                "80%" : 80%
+                                "70%" : 70%
+                                "60%" : 60%
+                                "50%" : 50%
+                                "40%" : 40%
+                                "30%" : 30%
+                                "20%" : 20%
+                                "10%" : 10%
+                            default: 100%
+                            span: row
+                            spanClass: col-3
+                        _section1:
+                            label: Icona
+                            type: section
+                            span: row
+                            spanClass: col-10
+                        icon_active:
+                            label: Mostra
+                            type: switch
+                            span: row
+                            spanClass: col-2
+                        icona:
+                            label: Icona
+                            comment: <a target="_blank" href="https://icons.getbootstrap.com/">Bootstrap Icons</a> - inserire solo il nome dell'icona, es. bi-xxx
+                            commentHtml: true
+                            span: row
+                            spanClass: col-9
+                            type: text
+                            trigger:
+                                action: show
+                                field: icon_active
+                                condition: checked
+                        icona_size:
+                            label: Dimensione 
+                            span: row
+                            spanClass: col-3
+                            type: dropdown
+                            options:
+                                "1rem": XS
+                                "2rem": S
+                                "3rem": M
+                                "4.5rem": L
+                                "6rem": XL
+                            trigger:
+                                action: show
+                                field: icon_active
+                                condition: checked                 
+                        icona_color:
+                            label: Colore
+                            type: colorpicker
+                            span: row
+                            spanClass: col-6
+                            trigger:
+                                action: show
+                                field: icon_active
+                                condition: checked
+                        icona_background:
+                            label: Background
+                            type: colorpicker
+                            span: row
+                            spanClass: col-6
+                            trigger:
+                                action: show
+                                field: icon_active
+                                condition: checked
+                        icona_border:
+                            label: Forma
+                            type: radio
+                            options:
+                                "0rem": Quadrata
+                                "1rem": Arrotondata
+                                "50%": Rotonda
+                            span: row
+                            spanClass: col-3
+                            trigger:
+                                action: show
+                                field: icon_active
+                                condition: checked
+                        icona_border_line:
+                            label: Bordo
+                            type: switch
+                            span: row
+                            spanClass: col-3
+                            trigger:
+                                action: show
+                                field: icon_active
+                                condition: checked
+                        icona_border_size:
+                            label: Spessore
+                            span: row
+                            spanClass: col-3
+                            type: dropdown
+                            options:
+                                "1px": 1px
+                                "2px": 2px
+                                "3px": 3px
+                                "4px": 4px
+                                "5px": 5px
+                            trigger:
+                                action: show
+                                field: icona_border_line
+                                condition: checked
+                        icona_border_distance:
+                            label: Distanza
+                            span: row
+                            spanClass: col-3
+                            type: dropdown
+                            options:
+                                "1rem": 1rem
+                                "2rem": 2rem
+                                "3rem": 3rem
+                                "4rem": 4rem
+                                "5rem": 5rem
+                            trigger:
+                                action: show
+                                field: icona_border_line
+                                condition: checked
+            _section11:
+                label: Colori
+                type: section
+                tab: Configurazioni
+            name_color:
+                label: Etichetta
+                type: colorpicker
+                tab: Configurazioni
+            value_color:
+                label: Valore
+                type: colorpicker
+                tab: Configurazioni
+            _section12:
+                label: Animazioni
+                type: section
+                tab: Configurazioni
+            main_duration:
+                label: Durata
+                type: number
+                comment: Espressa in secondi
+                tab: Configurazioni
+                span: row
+                spanClass: col-6
+            main_delay:
+                label: Ritardo
+                type: number
+                comment: Espresso in ms
+                tab: Configurazioni
+                span: row
+                spanClass: col-6
+            main_reverseorder:
+                label: Inverti ordine valore / testo
+                type: switch
+                tab: Configurazioni
+            main_restart:
+                label: Riavvia il contatore se rientra nella viewport
+                type: switch
+                tab: Configurazioni
+            main_loop:
+                label: Riavvia il contatore periodicamente
+                type: switch
+                tab: Configurazioni
+            main_loop_seconds:
+                label: Secondi di attesa per il riavvio
+                type: number
+                tab: Configurazioni
+                span: row
+                spanClass: col-4
+                trigger:
+                    action: show
+                    field: main_loop
+                    condition: checked
+            allineamento:
+                span: auto
+                label: Allineamento
+                tab: Configurazioni
+                type: radio
+                options:
+                    left: Sinistra
+                    center: Centro
+                    right: Destra
+            main_decimal:
+                label: Numedo di decimali
+                type: number
+                comment: Decimali da mostrare
+                tab: Configurazioni
+                span: row
+                spanClass: col-4
+            col_border:
+                label: Bordo esterno
+                type: switch
+                tab: Configurazioni
+            col_color:
+                label: Colore bordo esterno
+                type: colorpicker
+                tab: Configurazioni
+                trigger:
+                    action: show
+                    field: col_border
+                    condition: checked
+            spacing-mixin:
+                type: mixin
+            background-mixin:
+                type: mixin

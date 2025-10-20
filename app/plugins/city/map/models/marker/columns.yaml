@@ -1,0 +1,34 @@
+columns:
+    id:
+        label: 'city.map::lang.markers.id'
+        type: number
+        sortable: true
+    name:
+        label: 'city.map::lang.markers.name'
+        type: text
+        searchable: true
+        sortable: true
+    lat:
+        label: 'city.map::lang.markers.lat'
+        type: number
+        sortable: true
+    lng:
+        label: 'city.map::lang.markers.lng'
+        type: number
+        sortable: true
+    type:
+        label: 'city.map::lang.markers.type'
+        type: selectable
+        sortable: true
+    is_active:
+        label: 'city.map::lang.markers.active'
+        type: switch
+        sortable: true
+    created_at:
+        label: 'city.map::lang.markers.created'
+        type: datetime
+        sortable: true
+    updated_at:
+        label: 'city.map::lang.markers.updated'
+        type: datetime
+        sortable: true

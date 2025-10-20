@@ -1,0 +1,6 @@
+plugin:
+    name: 'Estensione Renatio Con Api Brevo'
+    description: 'Associa i dati del form utente a Brevo '
+    author: Tecnotrade
+    icon: oc-icon-adjust
+    homepage: ''

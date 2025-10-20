@@ -1,0 +1,75 @@
+fields:
+    is_active:
+        label: 'city.map::lang.markers.active'
+        span: full
+        default: 1
+        required: 0
+        type: switch
+    name:
+        label: 'city.map::lang.markers.name'
+        span: left
+        required: 1
+        type: text
+        comment: "\_"
+    type:
+        label: 'city.map::lang.markers.type'
+        showSearch: false
+        span: right
+        required: 1
+        type: dropdown
+        comment: 'city.map::lang.markers.type_comment'
+    lat:
+        label: 'city.map::lang.markers.lat'
+        span: left
+        required: 1
+        type: text
+        comment: 'city.map::lang.maps.lat_comment'
+    lng:
+        label: 'city.map::lang.markers.lng'
+        span: right
+        required: 1
+        type: text
+        comment: 'city.map::lang.maps.lng_comment'
+    color:
+        label: 'city.map::lang.markers.color'
+        span: auto
+        type: colorpicker
+        commentAbove: 'city.map::lang.markers.color_comment'
+    image:
+        label: 'city.map::lang.markers.image'
+        mode: image
+        span: right
+        trigger:
+            action: show
+            field: type
+            condition: 'value[marker]'
+        type: mediafinder
+        commentHtml: true
+        commentAbove: 'city.map::lang.markers.image_comment'
+    size:
+        label: 'city.map::lang.markers.size'
+        span: right
+        required: 1
+        trigger:
+            action: show
+            field: type
+            condition: 'value[circle]'
+        type: text
+    description:
+        label: 'city.map::lang.markers.description'
+        size: large
+        span: full
+        trigger:
+            action: show
+            field: type
+            condition: 'value[marker]'
+        type: richeditor
+        comment: 'city.map::lang.markers.description_comment'
+    _ruler1:
+        type: ruler
+    maps:
+        label: 'city.map::lang.maps.menu_label'
+        nameFrom: name
+        span: left
+        type: relation
+        comment: 'city.map::lang.markers.maps_comment'

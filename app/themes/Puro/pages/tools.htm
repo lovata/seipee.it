@@ -1,0 +1,16 @@
+url = "/tools"
+layout = "default"
+title = "Tools"
+==
+Indirizzo di queta pagina: <br>
+{{this.page.baseFileName|page({page:posts.CurrentPage+1}) }}
+<br><br>
+Lingua in uso sul sito in questo momento:<br>
+{{ this.site.code }}
+<br><br>
+Controllo sulla lingua per contenuti diversi:<br>
+{% if this.site.code == 'English' %}
+   inglese
+ {% else %}
+    italiano
+ {% endif %}

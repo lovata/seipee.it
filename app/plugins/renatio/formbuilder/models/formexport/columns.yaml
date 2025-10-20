@@ -1,0 +1,30 @@
+# ===================================
+#  List Column Definitions
+# ===================================
+
+columns:
+
+    id: renatio.formbuilder::lang.field.id
+    name: renatio.formbuilder::lang.field.name
+    code: renatio.formbuilder::lang.field.code
+    description: renatio.formbuilder::lang.field.description
+    from_email: renatio.formbuilder::lang.field.from_email
+    from_name: renatio.formbuilder::lang.field.from_name
+    recipients: renatio.formbuilder::lang.field.recipients
+    cc_recipients: renatio.formbuilder::lang.field.cc_recipients
+    bcc_recipients: renatio.formbuilder::lang.field.bcc_recipients
+    success_message: renatio.formbuilder::lang.field.success_message
+    error_message: renatio.formbuilder::lang.field.error_message
+    css_class: renatio.formbuilder::lang.field.css_class
+    reply_email: renatio.formbuilder::lang.field.reply_email
+    reply_name: renatio.formbuilder::lang.field.reply_name
+    response_email: renatio.formbuilder::lang.field.response_email
+    response_name: renatio.formbuilder::lang.field.response_name
+    redirect_to: renatio.formbuilder::lang.field.redirect_to
+    template_code: renatio.formbuilder::lang.field.template
+    response_template_code: renatio.formbuilder::lang.field.response_template
+    markup: renatio.formbuilder::lang.field.markup
+    has_floating_labels: renatio.formbuilder::lang.field.has_floating_labels
+    created_at: renatio.formbuilder::lang.field.created_at
+    updated_at: renatio.formbuilder::lang.field.updated_at
+    fields: renatio.formbuilder::lang.tab.fields

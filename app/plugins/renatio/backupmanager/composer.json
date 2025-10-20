@@ -1,0 +1,31 @@
+{
+    "name": "renatio/backupmanager-plugin",
+    "type": "october-plugin",
+    "description": "Backup October CMS application with ease.",
+    "homepage": "https://octobercms.com/plugin/renatio-backupmanager",
+    "keywords": [
+        "octobercms-plugin",
+        "octobercms",
+        "php",
+        "laravel",
+        "backup"
+    ],
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Michal Plodowski",
+            "email": "michal.plodowski@gmail.com"
+        }
+    ],
+    "require": {
+        "spatie/laravel-backup": "^8.1",
+        "october/rain": "^3.0",
+        "composer/installers": "~1.0",
+        "spatie/laravel-collection-macros": "^7.12"
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/installers": true
+        }
+    }
+}

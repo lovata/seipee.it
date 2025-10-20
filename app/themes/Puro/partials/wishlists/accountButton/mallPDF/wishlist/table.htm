@@ -1,0 +1,14 @@
+<table class="mall-cart__table">
+    <thead>
+    {% partial 'wishlists/table/header' %}
+    </thead>
+    <tbody>
+    {% for product in items %}
+        {% partial 'mallPDF/wishlist/row' product=product %}
+    {% endfor %}
+    </tbody>
+    <tfoot>
+    {% partial 'wishlists/table/total'      totals=wishlist.totals %}
+    {% partial 'wishlists/table/taxes'      totals=wishlist.totals %}
+    </tfoot>
+</table>

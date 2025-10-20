@@ -1,0 +1,6 @@
+plugin:
+    name: 'tecnotrade.blogmultisite::lang.plugin.name'
+    description: 'tecnotrade.blogmultisite::lang.plugin.description'
+    author: Tecnotrade
+    icon: oc-icon-globe
+    homepage: ''

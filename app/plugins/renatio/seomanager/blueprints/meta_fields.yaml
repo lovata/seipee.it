@@ -1,0 +1,92 @@
+uuid: ae3d2c25-3a0e-4765-8b36-d1666fc0e31f
+name: SEO Meta Fields
+type: mixin
+handle: Renatio\SeoManager\MetaFields
+
+fields:
+
+    is_seo_manager:
+        cssClass: hidden
+        tab: renatio.seomanager::lang.tab.meta
+        column: false
+        scope: false
+
+    meta_title:
+        label: renatio.seomanager::lang.field.meta_title
+        tab: renatio.seomanager::lang.tab.meta
+        comment: renatio.seomanager::lang.comments.meta_title
+        commentHtml: true
+        attributes: { 'data-limit': 60 }
+        cssClass: countable
+        column: false
+        scope: false
+
+    meta_description:
+        label: renatio.seomanager::lang.field.meta_description
+        type: textarea
+        tab: renatio.seomanager::lang.tab.meta
+        size: tiny
+        attributes: { 'data-limit': 160 }
+        comment: renatio.seomanager::lang.comments.meta_description
+        commentHtml: true
+        cssClass: countable
+        span: left
+        column: false
+        scope: false
+
+    meta_keywords:
+        label: renatio.seomanager::lang.field.meta_keywords
+        type: textarea
+        tab: renatio.seomanager::lang.tab.meta
+        size: tiny
+        span: right
+        column: false
+        scope: false
+
+    robot_index:
+        label: renatio.seomanager::lang.field.robot_index
+        type: radio
+        tab: renatio.seomanager::lang.tab.meta
+        span: left
+        default: index
+        options:
+            index: [ renatio.seomanager::lang.robot.index, renatio.seomanager::lang.robot.index_comment ]
+            noindex: [ renatio.seomanager::lang.robot.noindex, renatio.seomanager::lang.robot.noindex_comment ]
+        column: false
+        scope: false
+
+    robot_follow:
+        label: renatio.seomanager::lang.field.robot_follow
+        tab: renatio.seomanager::lang.tab.meta
+        type: radio
+        span: right
+        default: follow
+        options:
+            follow: [ renatio.seomanager::lang.robot.follow, renatio.seomanager::lang.robot.follow_comment ]
+            nofollow: [ renatio.seomanager::lang.robot.nofollow, renatio.seomanager::lang.robot.nofollow_comment ]
+        column: false
+        scope: false
+
+    robot_advanced:
+        label: renatio.seomanager::lang.field.robot_advanced
+        tab: renatio.seomanager::lang.tab.meta
+        comment: renatio.seomanager::lang.comments.robot_advanced
+        span: left
+        column: false
+        scope: false
+
+    canonical_url:
+        label: renatio.seomanager::lang.field.canonical_url
+        tab: renatio.seomanager::lang.tab.meta
+        comment: renatio.seomanager::lang.comments.canonical_url
+        span: left
+        column: false
+        scope: false
+
+    redirect_url:
+        label: renatio.seomanager::lang.field.redirect_url
+        tab: renatio.seomanager::lang.tab.meta
+        comment: renatio.seomanager::lang.comments.redirect_url
+        span: right
+        column: false
+        scope: false

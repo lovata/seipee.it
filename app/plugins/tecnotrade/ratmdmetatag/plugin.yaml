@@ -1,0 +1,6 @@
+plugin:
+    name: 'tecnotrade.ratmdmetatag::lang.plugin.name'
+    description: 'tecnotrade.ratmdmetatag::lang.plugin.description'
+    author: tecnotrade
+    icon: oc-icon-flash
+    homepage: ''

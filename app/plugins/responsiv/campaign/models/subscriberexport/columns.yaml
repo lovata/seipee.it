@@ -1,0 +1,16 @@
+# ===================================
+#  List Column Definitions
+# ===================================
+
+columns:
+
+    email: Email
+    first_name: First Name
+    last_name: Last Name
+    lists: "Lists"
+    created_at: "Opt-in Date"
+    created_ip_address: "Opt-in IP Address"
+    confirmed_at: "Confirmed Date"
+    confirmed_ip_address: "Confirmed IP Address"
+    updated_at: "Last Updated Date"
+    message_type: "Preferred Message Type"

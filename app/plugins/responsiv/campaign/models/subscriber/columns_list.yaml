@@ -1,0 +1,28 @@
+# ===================================
+#  List Column Definitions
+# ===================================
+
+columns:
+    email:
+        label: Email
+        searchable: true
+
+    first_name:
+        label: First Name
+        searchable: true
+
+    last_name:
+        label: Last Name
+        searchable: true
+
+    created_at:
+        label: Subscribed
+        type: date
+
+    unsubscribed_at:
+        label: Unsubscribed
+        type: date
+
+    confirmed_at:
+        label: Confirmed
+        type: date

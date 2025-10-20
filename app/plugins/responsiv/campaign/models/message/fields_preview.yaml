@@ -1,0 +1,116 @@
+
+
+fields:
+
+    subject:
+        label: "Mail subject"
+        disabled: true
+
+    #
+    # Recipient Details
+    #
+
+    recipients_section:
+        label: "Target Audience"
+        type: section
+
+    subscriber_lists:
+        label: "Subscriber Lists"
+        type: relation
+        emptyOption: "This campaign was not sent to any subscriber lists."
+
+    groups:
+        label: "Recipient Groups"
+        type: checkboxlist
+        placeholder: "This campaign was not sent to any recipient groups."
+
+    #
+    # Launch Details
+    #
+
+    launch_section:
+        label: "Launch Details"
+        type: section
+
+    is_delayed:
+        label: "Delayed launch"
+        type: checkbox
+
+    launch_at:
+        label: "Launch date"
+        type: datepicker
+        mode: datetime
+        cssClass: field-indent
+        trigger:
+            action: show
+            field: is_delayed
+            condition: checked
+
+    is_staggered:
+        label: "Staggered launch"
+        type: checkbox
+
+    stagger_type:
+        type: radio
+        span: left
+        cssClass: field-indent
+        options:
+            time: Sent over a set period of time
+            count: Sent in batches of a fixed amount
+        trigger:
+            action: hide
+            field: is_staggered
+            condition: unchecked
+
+    stagger_time:
+        comment: "Spread messages evenly over this period of time."
+        span: right
+        type: dropdown
+        options:
+            24: One day
+            48: Two days
+            72: One week
+        trigger:
+            action: show
+            field: stagger_type
+            condition: value[time]
+
+    stagger_count:
+        comment: "Maximum number of messages to send every 15 minutes."
+        span: right
+        type: number
+        trigger:
+            action: show
+            field: stagger_type
+            condition: value[count]
+
+    is_repeating:
+        label: "Repeating campaign"
+        type: checkbox
+
+    repeat_frequency:
+        label: "Repeat frequency"
+        cssClass: field-indent
+        span: left
+        type: dropdown
+        options:
+            daily: Daily
+            weekly: Weekly
+            monthly: Monthly
+            yearly: Yearly
+        trigger:
+            action: show
+            field: is_repeating
+            condition: checked
+
+    #
+    # Included Attachements
+    #
+
+    # attachments_section:
+    #     label: Attachments
+    #     type: section
+
+    # attachments:
+    #     type: fileupload
+    #     mode: file

@@ -1,0 +1,36 @@
+# ===================================
+#  List Column Definitions
+# ===================================
+
+columns:
+
+    name:
+        label: renatio.formbuilder::lang.field.name
+        searchable: true
+
+    code:
+        label: renatio.formbuilder::lang.field.code
+        searchable: true
+
+    description:
+        label: renatio.formbuilder::lang.field.description
+        type: summary
+        searchable: true
+
+    created_at:
+        label: renatio.formbuilder::lang.field.created_at
+        type: datetime
+
+    updated_at:
+        label: renatio.formbuilder::lang.field.updated_at
+        type: datetime
+
+    actions:
+        label: renatio.formbuilder::lang.field.actions
+        type: partial
+        path: column_actions
+        clickable: false
+        sortable: false
+        cssClass: 'column-button'
+        align: center
+        width: '110px'

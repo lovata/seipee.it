@@ -1,0 +1,101 @@
+{% partial 'block_head' %}
+<div class="tab-container row">
+  <div class="tab-buttons col-12 col-md-{{ box.larghezza_link }}{% if box.invert_order %} order-md-2{% endif %}{% if box.invert_order_mobile %} order-2{% else %} order-1{% endif %}">
+    {% for card in box.cards %}
+        <button class="{{ box.button_class }} {% if loop.index == 1 %}active{% endif %}" data-tab="sector{{ loop.index }}">{{ card.testo }}</button>
+    {% endfor %}
+  </div>
+
+  <div class="tab-content-wrapper col-12 offset-md-{{ box.col_offset }} col-md-{{ box.larghezza_testo }}{% if box.invert_order %} order-md-1{% endif %}{% if box.invert_order_mobile %} order-1{% else %} order-2{% endif %}">
+    {% for card in box.cards %}
+        <div class="tab-content {% if loop.index == 1 %}active{% endif %}" id="sector{{ loop.index }}">
+          {{ card.contenuto | raw }}
+        </div>
+    {% endfor %}
+  </div>
+</div>
+{% partial 'block_footer' %}
+
+<style>
+.tab-container {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 auto;
+}
+
+.tab-buttons {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: {{ box.gap }}px;
+}
+
+.button.active {
+  background: #333 !important;
+  color: #fff !important;
+}
+
+.tab-content-wrapper {
+  flex: 2;
+  padding: 0 2rem;
+  position: relative;
+  min-height: 200px;
+  overflow: hidden;
+}
+@media(max-width:992px){
+    .tab-content-wrapper.order-2 {
+        padding-top:2rem !important
+    }
+    .tab-buttons.order-2 {
+        padding-top:2rem !important
+    }
+}
+/* contenuti nascosti: assoluti, invisibili */
+.tab-content {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  pointer-events: none;
+}
+
+/* contenuto attivo: visibile e posizionato normalmente */
+.tab-content.active {
+  opacity: 1;
+  transform: translateY(0);
+  position: relative;
+  pointer-events: auto;
+}
+</style>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const buttons = document.querySelectorAll('.button');
+  const contents = document.querySelectorAll('.tab-content');
+  const contentWrapper = document.querySelector('.tab-content-wrapper');
+  const scrollOffset = {{ box.top_offset }};
+  const mobileMaxWidth = 992;
+
+  buttons.forEach(button => {
+    button.addEventListener('click', () => {
+      const target = button.dataset.tab;
+
+      // Gestione bottoni
+      buttons.forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
+
+      // Gestione contenuti
+      contents.forEach(content => {
+        content.classList.toggle('active', content.id === target);
+      });
+
+      // Scroll su mobile con offset
+      if (contentWrapper && window.innerWidth < mobileMaxWidth) {
+        const topPosition = contentWrapper.getBoundingClientRect().top + window.pageYOffset - scrollOffset;
+        window.scrollTo({ top: topPosition, behavior: 'smooth' });
+      }
+    });
+  });
+});
+</script>

@@ -1,0 +1,405 @@
+[viewBag]
+==
+<?php
+use RainLab\Blog\Models\Post as PostModel;
+use RainLab\Blog\Models\Category as CategoryModel;
+use Illuminate\Support\Facades\Config;
+use System\Models\File;
+use RainLab\Translate\Models\Locale;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
+
+
+
+function onEnd()
+{
+    
+    
+     $pageFile = $this->getPage()->getFileName();   
+     
+     $slug = $this->param('slug');
+     $currentLanguage=App::currentLocale();
+     
+     $defaultLocale = "it";
+     $isAtranslation=false;
+     if($defaultLocale!=$currentLanguage){
+         $isAtranslation=true;
+     }
+     if($pageFile=="blog-post.htm"){
+     $tecnoMeta=$this->getPostMetaInformation=$this->getPostMetaInformation($slug,$currentLanguage,$isAtranslation);
+     
+      $this["tecnoMeta"]=$tecnoMeta;
+     }
+     
+    // Altre istruzioni PHP...
+}
+
+
+function getPostMetaInformation($slug,$currentLanguage,$isAtranslation){
+    
+    if($isAtranslation===true){
+        $this->loadInfoTranslatedPost($slug,$currentLanguage);
+        return $this->loadInfoTranslatedPost($slug,$currentLanguage);
+    }
+    else{
+        return $this->loadLocaleInfoPost($slug);
+    }
+
+}
+
+function loadLocaleInfoPost($slug){
+    $post = PostModel::with('user')->where('slug', $slug)->first();
+    $locale='it_IT';
+    $type='article';
+    $siteName='Puro';
+    $title='';
+    $description='';
+    $publishedAt='';
+    $modifiedAt='';
+    $canonicalUrl='';
+    $robotIndex='';
+    $robotFollow='';
+    $author='';
+    $request = Request::createFromGlobals();
+    $currentUrl = $request->fullUrl();
+    $featuredImagePath='';
+    $imageMimeType='';
+    
+    if ($post) {
+        /*title*/
+        
+        if (empty(trim($post->meta_title)) ){
+            $title=$post->title;
+            
+        }
+        else{
+            $title=$post->meta_title;
+           
+        }
+        /* data pubblicazione */
+        if(!empty(trim($post->published_at))){
+            $publish=$post->published_at;
+            $dateTime = new DateTime($publish);
+            $publishedAt = $dateTime->format('Y-m-d\TH:i:sP');
+        }
+
+        
+        /* data modifica */
+        if(!empty(trim($post->updated_at))){
+            $edited=$post->updated_at;
+            $dateTime = new DateTime($edited);
+            $modifiedAt = $dateTime->format('Y-m-d\TH:i:sP');
+        }
+        
+        /*description*/
+        if (empty(trim($post->meta_description)) ){
+            $description=strip_tags($post->excerpt);
+            
+        }
+        else{
+            $description=strip_tags($post->meta_description);
+            
+        }
+        /*canonical_url*/
+        if (empty(trim($post->canonical_url)) ){
+            $canonicalUrl=$currentUrl;
+            
+        }
+        else{
+            $canonicalUrl=$post->canonical_url;
+            
+        }
+        /*robot index*/
+        if (empty(trim($post->robot_index)) ){
+            $robotIndex="index";
+            
+        }
+        else{
+            $robotIndex=$post->robot_index;
+            
+        }
+        /* robot follow */
+        if (empty(trim($post->robot_follow)) ){
+            $robotFollow="follow";
+            
+        }
+        else{
+            $robotFollow=$post->robot_follow;
+            
+        }
+
+        
+        $metadata = $post->metadata;
+        
+
+        if (isset($metadata['principal_image'])) {
+            /*$imageName = rawurlencode($metadata['principal_image']);
+            $disk = Storage::disk('media'); // Sostituisci 'media' con il nome del disco di archiviazione che stai utilizzando
+            $principalImagePath = $disk->url($imageName);
+            $imageMimeType = $disk->mimeType($imageName);
+            $siteUrl = url('/');
+            $featuredImagePath=$siteUrl.$principalImagePath;
+            */
+            $imageName = $metadata['principal_image'];
+            $disk = Storage::disk('media');
+            $principalImagePath = $disk->url($imageName);
+            $imageMimeType = $disk->mimeType($imageName);
+
+            // Ottieni solo il nome del file dall'immagine
+            $imageNameEncoded = rawurlencode(basename($imageName));
+
+    // Combina il percorso dell'immagine con il percorso del sito e il nome del file codificato
+            $featuredImagePath = url('/') . dirname($principalImagePath) . '/' . $imageNameEncoded;
+            
+        }
+        $author=$post->user->first_name.' '.$post->user->last_name;
+       
+        
+       
+       
+    }
+    return $postMetaTags=[
+        'title'=>$title,
+        'type'=>$type,
+        'hreflocale'=>'it',
+        'hrefdefault'=>$currentUrl,
+        'locale'=>$locale,
+        'author'=>$author,
+        'published'=>$publishedAt,
+        'updated'=>$modifiedAt,
+        'description'=>$description,
+        'url'=>$currentUrl,
+        'sitename'=>$siteName,
+        'image'=>$featuredImagePath,
+        'mimetype'=>$imageMimeType,
+        'robotFollow'=>$robotFollow,
+        'robotIndex'=>$robotIndex,
+        'twitterdescription'=>$description,
+        'twittertitle'=>$title
+        ];
+   
+    return $postMetaTags;
+    
+}
+
+function loadInfoTranslatedPost($slug,$currentLanguage){
+    $tableName = DB::connection()->getTablePrefix() . 'rainlab_translate_indexes';
+    $translatedIndex = DB::table($tableName)
+        ->where('locale', '=', $currentLanguage)
+        ->where('model_type','=','RainLab\Blog\Models\Post')
+        ->where('item', '=', 'slug')
+        ->where('value','=',$slug)
+        ->first();
+     if($translatedIndex){
+         
+         $idIndex=$translatedIndex->id;
+         $idModelOriginal=$translatedIndex->model_id;
+         $locale=$translatedIndex->locale;
+         
+         /* translated_attributes*/
+         $table2Name = DB::connection()->getTablePrefix() . 'rainlab_translate_attributes';
+         $translatedAttributes = DB::table($table2Name)
+            ->where('model_id','=',$idModelOriginal)
+            ->where('model_type','=','RainLab\Blog\Models\Post')
+            ->first();
+        if($translatedAttributes){
+           
+            
+            $originalPost = PostModel::find($idModelOriginal);
+            return $this->buildMetaTranslatedPost($translatedIndex,$translatedAttributes,$originalPost,$locale);
+        }
+        
+        
+
+     }
+     else{
+         return false;
+     }   
+     
+}
+
+protected function getIdPostTranslated($slug,$currentLanguage,){
+        
+    $tableName = DB::connection()->getTablePrefix() . 'rainlab_translate_indexes';
+    $translatedPost = DB::table($tableName)
+        ->where('locale', '=', $currentLanguage)
+        ->where('model_type','=','RainLab\Blog\Models\Post')
+        ->where('item', '=', 'slug')
+        ->where('value','=',$slug)
+        ->first();
+    if($translatedPost){
+      return $translatedPost->model_id;
+    }   
+    else{
+        false;
+    }        
+        
+ }
+
+/* costruisco i meta per i post tradotti */
+ public function buildMetaTranslatedPost($translatedIndex,$translatedAttributes,$originalPost,$locale){
+    $post=$originalPost;
+    /*dump($post);*/
+    $translatedDatas=json_decode($translatedAttributes->attribute_data);
+    
+   
+    $locale=$locale;
+    $type='article';
+    $siteName='Puro';
+    $title='';
+    $description='';
+    $publishedAt='';
+    $modifiedAt='';
+    $canonicalUrl='';
+    $robotIndex='';
+    $robotFollow='';
+    $author='https://tecnotrade.com';
+    $request = Request::createFromGlobals();
+    $currentUrl = $request->fullUrl();
+    $featuredImagePath='';
+    $imageMimeType='';
+    
+
+    if ( empty( trim($translatedDatas->title) ) ){
+        if(!empty(trim($post->title))){
+             $title=$post->title;
+        }
+    }
+    else{
+        $title=$translatedDatas->title;
+        
+    }
+    if(!empty(trim($post->published_at))){
+        $publish=$post->published_at;
+        $dateTime = new DateTime($publish);
+        $publishedAt = $dateTime->format('Y-m-d\TH:i:sP');
+    }
+    if(!empty(trim($post->updated_at))){
+        $edited=$post->updated_at;
+        $dateTime = new DateTime($edited);
+        $modifiedAt = $dateTime->format('Y-m-d\TH:i:sP');
+    }
+   
+   /*description*/
+    if (empty(trim($post->meta_description)) ){
+        
+        $description=strip_tags($post->excerpt);
+       
+    }
+    else{
+       
+        $description=strip_tags($post->meta_description);
+        
+    }
+    
+    /*canonical_url*/
+     $canonicalUrl=$currentUrl;
+     
+     /*robot index*/
+    if (empty(trim($post->robot_index)) ){
+        $robotIndex="index";
+        
+    }
+    else
+    {
+        $robotIndex=$post->robot_index;
+           
+        
+    }
+    /* robot follow */
+    if (empty(trim($post->robot_follow)) ){
+        $robotFollow="follow";
+        
+    }
+    else{
+        $robotFollow=$post->robot_follow;
+        
+    }
+    
+    $imageName='';
+    
+    if( isset($translatedDatas->metadata->principal_image) ){
+          
+         if($translatedDatas->metadata->principal_image !='' ){
+             
+            $imageName = $translatedDatas->metadata->principal_image;
+         }
+         else{
+            $metadata = $post->metadata;
+            $imageName=$metadata['principal_image'];
+             
+            
+         }
+    }    
+    else{
+       
+        $metadata = $post->metadata;
+        $imageName=$metadata['principal_image'];
+                
+                    
+    }
+    if($imageName!=''){
+        
+        $disk = Storage::disk('media');
+        $principalImagePath = $disk->url($imageName);
+        $imageMimeType = $disk->mimeType($imageName);
+
+        // Ottieni solo il nome del file dall'immagine
+        $imageNameEncoded = rawurlencode(basename($imageName));
+
+        // Combina il percorso dell'immagine con il percorso del sito e il nome del file codificato
+        $featuredImagePath = url('/') . dirname($principalImagePath) . '/' . $imageNameEncoded;
+    }
+    else{
+       
+    }
+    
+  return $postMetaTags=[
+        'title'=>$title,
+        'type'=>$type,
+        'hreflocale'=>$locale,
+        'hrefdefault'=>$currentUrl,
+        'locale'=>$locale,
+        'author'=>$author,
+        'published'=>$publishedAt,
+        'updated'=>$modifiedAt,
+        'description'=>$description,
+        'url'=>$currentUrl,
+        'sitename'=>$siteName,
+        'image'=>$featuredImagePath,
+        'mimetype'=>$imageMimeType,
+        'robotFollow'=>$robotFollow,
+        'robotIndex'=>$robotIndex,
+        'twitterdescription'=>$description,
+        'twittertitle'=>$title
+        ];
+  
+   
+
+ }
+?>
+==
+<title>{{tecnoMeta.title}}</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="{{tecnoMeta.description}}" />
+<meta name="title" content="{{tecnoMeta.title}}">
+<meta name='robots' content='{{tecnoMeta.robotIndex}}, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' />
+<link rel="alternate" hreflang="{{tecnoMeta.hreflocale}}" href="{{tecnoMeta.hrefdefault}}" />
+<link rel="alternate" hreflang="x-default" href="{{tecnoMeta.hrefdefault}}" />
+<link rel="canonical" href="{{tecnoMeta.url}}" />
+<meta property="og:locale" content="{{tecnoMeta.locale}}" />
+<meta property="og:type" content="{{tecnoMeta.type}}" />
+<meta property="og:title" content="{{tecnoMeta.title}}" />
+<meta property="og:description" content="{{tecnoMeta.description}}" />
+<meta property="og:url" content="{{tecnoMeta.url}}" />
+<meta property="og:site_name" content="{{tecnoMeta.sitename}}" />
+<meta property="article:published_time" content="{{tecnoMeta.published}}" />
+<meta property="article:modified_time" content="{{tecnoMeta.updated}}" />
+<meta property="og:image" content="{{tecnoMeta.image}}" />
+<meta property="og:image:width" content="600" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image:type" content="{{tecnoMeta.mimetype}}" />
+<meta name="author" content="{{tecnoMeta.author}}" />
+<meta name="twitter:description" content="{{tecnoMeta.twitterdescription}}">
+<meta name="twitter:title" content="{{tecnoMeta.twittertitle}}">

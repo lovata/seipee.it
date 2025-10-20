@@ -1,0 +1,12 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+fields:
+    name:
+        label: Campaign name
+        comment: "Enter a name to help you identify this campaign later."
+
+    page:
+        label: "Select message template"
+        type: Responsiv\Campaign\FormWidgets\TemplateSelector

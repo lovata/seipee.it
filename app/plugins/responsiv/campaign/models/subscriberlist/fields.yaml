@@ -1,0 +1,18 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+fields:
+    name:
+        label: Name
+        span: auto
+
+    code:
+        label: Code
+        span: auto
+        preset: name
+
+    description:
+        label: Description
+        type: textarea
+        size: small

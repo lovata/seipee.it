@@ -1,0 +1,93 @@
+name: Accordion
+section: Tools
+handle: Accordion
+labelFrom: block_name
+icon: /themes/Puro/assets/images/accordion.webp
+form:
+    tabs:
+        fields:
+            cards:
+                label: Elemento
+                tab: Proprietà
+                itemsExpanded: false
+                type: repeater
+                form:
+                    fields:
+                        title:
+                            label: Titolo
+                            type: text
+                        testo:
+                            label: Testo
+                            type: richeditor
+            first_open:
+                label: Prima domanda aperta
+                type: switch
+                tab: Configurazioni
+            _section11:
+                label: Domanda
+                type: section
+                tab: Configurazioni
+            titolo_colore: 
+                label: Titolo attivo
+                type: colorpicker
+                tab: Configurazioni
+                span: row
+                spanClass: col-6
+            titolo_sfondo: 
+                label: Background attivo
+                type: colorpicker
+                tab: Configurazioni
+                span: row
+                spanClass: col-6
+            titolo_colore_inattivo: 
+                label: Titolo inattivo
+                type: colorpicker
+                tab: Configurazioni
+                span: row
+                spanClass: col-6
+            titolo_sfondo_inattivo: 
+                label: Background inattivo
+                type: colorpicker
+                tab: Configurazioni
+                span: row
+                spanClass: col-6
+            titolo_bold:
+                label: Grassetto
+                type: switch
+                tab: Configurazioni
+            _section12:
+                label: Risposta
+                type: section
+                tab: Configurazioni
+            corpo_colore:
+                label: Corpo
+                type: colorpicker
+                tab: Configurazioni
+                span: row
+                spanClass: col-6
+            body_background:
+                label: Background
+                type: colorpicker
+                tab: Configurazioni
+                span: row
+                spanClass: col-6
+            _section13:
+                label: Icona
+                type: section
+                tab: Configurazioni
+            active_icon_color: 
+                label: Attiva
+                type: colorpicker
+                tab: Configurazioni 
+                span: row
+                spanClass: col-6
+            notactive_icon_color: 
+                label: Inattiva
+                type: colorpicker
+                tab: Configurazioni 
+                span: row
+                spanClass: col-6
+            spacing-mixin:
+                type: mixin
+            background-mixin:
+                type: mixin

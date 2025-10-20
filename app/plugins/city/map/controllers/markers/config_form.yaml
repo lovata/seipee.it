@@ -1,0 +1,10 @@
+name: 'city.map::lang.markers.menu_label_one'
+form: $/city/map/models/marker/fields.yaml
+modelClass: City\Map\Models\Marker
+defaultRedirect: city/map/markers
+create:
+    redirect: 'city/map/markers/update/:id'
+    redirectClose: city/map/markers
+update:
+    redirect: city/map/markers
+    redirectClose: city/map/markers

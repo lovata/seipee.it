@@ -1,0 +1,139 @@
+{% partial 'block_head' %}
+<div id="lightgallery" class="justifiedGallery" >
+        {% for card in box.cards %}
+            {% for image in card.image %}
+                <a href="{{ image | media }}" data-src="{{ image | media }}">
+                    <img loading="eager" class="img-responsive" alt="{{ card.titolo }}" src="{{ image | media | resize(box.preview_height) }}"/>
+                </a>
+            {% endfor %}
+        {% endfor %}
+</div>
+{% partial 'block_footer' %}
+
+{% if box.show_autoplay %}{% put scripts %}<script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.2/plugins/autoplay/lg-autoplay.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>{% endput %}{% endif %}
+{% if box.show_fullscreen %}{% put scripts %}<script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.2/plugins/fullscreen/lg-fullscreen.umd.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>{% endput %}{% endif %}
+{% put scripts %}<script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.2/plugins/hash/lg-hash.umd.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>{% endput %}
+{% if box.show_pager %}{% put scripts %}<script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.2/plugins/pager/lg-pager.umd.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>{% endput %}{% endif %}
+{% if box.show_rotate %}{% put scripts %}<script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.2/plugins/rotate/lg-rotate.umd.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>{% endput %}{% endif %}
+{% if box.show_share %}{% put scripts %}<script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.2/plugins/share/lg-share.umd.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>{% endput %}{% endif %}
+{% if box.show_thumbnail %}{% put scripts %}<script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.2/plugins/thumbnail/lg-thumbnail.umd.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>{% endput %}{% endif %}
+{% if box.show_zoom %}{% put scripts %}<script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.2/plugins/zoom/lg-zoom.umd.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>{% endput %}{% endif %}
+{% put scripts %}
+<script>
+    function initJustifiedGallery() {
+        const $gallery = $(".justifiedGallery");
+        if (!$gallery.hasClass("jg-initialized")) {
+            $gallery.justifiedGallery({
+                lastRow: "nojustify", // Mostra l’ultima riga anche se incompleta
+                rowHeight: {{ box.preview_height }},
+                margins: {{ box.margin_size }}
+            });
+        }
+    }
+
+    function initGallery() {
+        const galleryEl = document.getElementById('lightgallery');
+
+        if (galleryEl && galleryEl.querySelectorAll('a').length > 0) {
+            if (!galleryEl.classList.contains('lg-initialized')) {
+                lightGallery(galleryEl, {
+                    plugins: [
+                        {% if box.show_fullscreen %}lgFullscreen,{% endif %}
+                        {% if box.show_autoplay %}lgAutoplay,{% endif %}
+                        lgHash,
+                        {% if box.show_pager %}lgPager,{% endif %}
+                        {% if box.show_rotate %}lgRotate,{% endif %}
+                        {% if box.show_share %}lgShare,{% endif %}
+                        {% if box.show_zoom %}lgZoom,{% endif %}
+                        {% if box.show_thumbnail %}lgThumbnail{% endif %}
+                    ],
+                    licenseKey: '0000-0000-000-0000',
+                    download: {% if box.show_download %}true{% else %}false{% endif %},
+                    speed: 500
+                });
+            }
+        } else {
+            console.warn('Galleria non pronta, ritento...');
+            setTimeout(initGallery, 300);
+        }
+    }
+
+    $(document).ready(function () {
+        initJustifiedGallery();
+        initGallery();
+    });
+
+    // Hook OctoberCMS AJAX partial updates
+    $(document).on('ajaxUpdate', function () {
+        initJustifiedGallery();
+        initGallery();
+    });
+</script>
+{% endput %}
+<style>
+.lg-toolbar .lg-close:after {
+    content: '\F659';
+	font-family: bootstrap-icons;
+}
+.lg-icon.lg-zoom-in:after {
+    content: '\F62C';
+	font-family: bootstrap-icons;
+}
+.lg-next:before {
+    content: '\F138';
+	font-family: bootstrap-icons;
+}
+.lg-prev:after {
+    content: '\F12F';
+	font-family: bootstrap-icons;
+}
+.lg-outer .lg-share:after {
+    content: '\F52E';
+	font-family: bootstrap-icons;
+}
+.lg-rotate-right:after {
+    content: '\F116';
+	font-family: bootstrap-icons;
+}
+.lg-rotate-left:after {
+    content: '\F117';
+	font-family: bootstrap-icons;
+}
+.lg-flip-hor:after {
+    content: '\F5A9';
+	font-family: bootstrap-icons;
+}
+.lg-flip-ver:after {
+    content: '\F5A8';
+	font-family: bootstrap-icons;
+}
+.lg-fullscreen:after {
+    content: '\F3DF';
+	font-family: bootstrap-icons;
+}
+.lg-toolbar .lg-download:after {
+    content: '\F29B';
+	font-family: bootstrap-icons;
+}
+.lg-outer .lg-share-facebook .lg-icon:after {
+    content: '\F344';
+	font-family: bootstrap-icons;
+}
+.lg-outer .lg-share-twitter .lg-icon:after {
+    content: '\F8DB';
+	font-family: bootstrap-icons;
+}
+.lg-outer .lg-share-pinterest .lg-icon:after {
+    content: '\F663';
+	font-family: bootstrap-icons;
+}
+.lg-outer .lg-share-pinterest .lg-icon:after {
+    content: '\F663';
+	font-family: bootstrap-icons;
+}
+.lg-autoplay-button:after,.lg-show-autoplay .lg-autoplay-button:after {
+    content: '\F4F1';
+	font-family: bootstrap-icons;
+}
+
+</style>

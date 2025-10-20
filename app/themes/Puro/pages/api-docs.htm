@@ -1,0 +1,318 @@
+title = "API Docs"
+layout = "default"
+url = "/api-docs"
+
+[viewBag]
+robot_index = "noindex"
+robot_follow = "nofollow"
+==
+<div class="container py-4">
+<h1>📘 Documentazione API REST</h1>
+<p>Questa documentazione descrive le API REST disponibili per l'integrazione con i sistemi Seipee.</p>
+
+<div class="py-5">
+    <h2 style="margin-top:0;">📚 Indice degli endpoint</h2>
+    <ul style="list-style:none;padding-left:0;" class="navigator">
+    <li><a href="#section-1" class="button">Autenticazione</a></li>
+    <li><a href="#section-2" class="button">Struttura delle richieste GET</a></li>
+    <li><a href="#section-3" class="button">Items</a></li>
+    <li><a href="#section-4" class="button">Items Options - label</a></li>
+    <li><a href="#section-5" class="button">Items Options - values</a></li>
+    <li><a href="#section-6" class="button">Items - Options</a></li>
+    <li><a href="#section-7" class="button">Inventory</a></li>
+    <li><a href="#section-8" class="button">Inventory external</a></li>
+    <li><a href="#section-9" class="button">User Products Aliases</a></li>
+    <li><a href="#section-10" class="button">User Visible Values</a></li>
+    <li><a href="#section-11" class="button">Country-States</a></li>
+    <li><a href="#section-12" class="button">Customers</a></li>
+    <li><a href="#section-13" class="button">Payments</a></li>
+    <li><a href="#section-14" class="button">Users</a></li>
+    </ul>
+</div>
+
+<h2 id="section-1">🔐 Autenticazione</h2>
+<p>Per accedere agli endpoint protetti è necessario effettuare il login e ottenere un token JWT.</p>
+<h3>Login</h3>
+<pre><code>POST https://mail.seipee.it/login
+Content-Type: application/json
+
+{
+  "username": "*****",
+  "password": "*****"
+}
+</code></pre>
+<h4>Risposta</h4>
+<pre><code>{
+  "httpStatusCode": 100,
+  "message": "Autenticazione avvenuta con successo",
+  "stackTrace": null,
+  "token": "jwt_token_string",
+  "user": "testseipee"
+}
+</code></pre>
+<p>Il token va poi passato nelle richieste successive via header:</p>
+<pre><code>Authorization: Bearer {token}</code></pre>
+<h2 id="section-2">🧠 Struttura delle richieste GET</h2>
+<p>Endpoint generico per interrogare tabelle/vista:</p>
+<pre><code>GET https://mail.seipee.it/Get</code></pre>
+<p><strong>Parametri:</strong></p>
+<ul>
+<li><code>Table</code>: Nome della vista o tabella SQL</li>
+<li><code>Where</code>: Clausola WHERE SQL (opzionale)</li>
+<li><code>Page</code>: Numero pagina</li>
+<li><code>Rows</code>: Numero righe per pagina</li>
+</ul>
+<h4>Risposta generica:</h4>
+<pre><code>{
+  "httpStatusCode": 100,
+  "message": "string",
+  "stackTrace": "string",
+  "result": [ ... ]
+}
+</code></pre>
+<h2 id="section-3">GET Items</h2>
+<p><strong>Metodo:</strong> <code>GET</code><br/><strong>URL:</strong> <code>https://mail.seipee.it:7713/Get?Table=xbtvw_B2B_product</code><br/><strong>Autenticazione:</strong> Bearer Token <code>{{token}}</code></p>
+<p><em>Restituisce la lista dei prodotti disponibili a catalogo. Ogni record rappresenta un articolo identificato da un codice unico e corredato da informazioni tecniche e commerciali come prezzo, dimensioni, peso e confezionamento.</em></p>
+<h3>📦 Esempio risposta</h3>
+<pre><code>{
+  "CodiceArticolo": "01002056B003C000001",
+  "Descrizione": "Motore asincrono",
+  "Tipo_imballo": "CARTONE",
+  "Larghezza": 14.0,
+  "Lunghezza": 20.0,
+  "Altezza": 22.0,
+  "PesoNetto": 3.3,
+  "Prezzo": 255.0,
+  "CodiceIva": "22"
+}</code></pre>
+<h3>🔍 Campi restituiti</h3>
+<table><tr><th>Campo</th><th>Tipo</th><th>Descrizione</th></tr>
+<tr><td>CodiceArticolo</td><td>string</td><td>Codice identificativo del prodotto</td></tr>
+<tr><td>Descrizione</td><td>string</td><td>Descrizione tecnica dell'articolo</td></tr>
+<tr><td>Tipo_imballo</td><td>string</td><td>Tipo di confezionamento</td></tr>
+<tr><td>Larghezza</td><td>number</td><td>Larghezza del prodotto</td></tr>
+<tr><td>Lunghezza</td><td>number</td><td>Lunghezza del prodotto</td></tr>
+<tr><td>Altezza</td><td>number</td><td>Altezza del prodotto</td></tr>
+<tr><td>PesoNetto</td><td>number</td><td>Peso netto del prodotto</td></tr>
+<tr><td>Prezzo</td><td>number</td><td>Prezzo unitario</td></tr>
+<tr><td>CodiceIva</td><td>string</td><td>Codice IVA applicato</td></tr>
+</table><hr/>
+<h2 id="section-4">GET Items Options - label</h2>
+<p><strong>Metodo:</strong> <code>GET</code><br/><strong>URL:</strong> <code>https://mail.seipee.it:7713/Get?Table=xbtvw_B2B_TipoVar</code><br/><strong>Autenticazione:</strong> Bearer Token <code>{{token}}</code></p>
+<p><em>Fornisce l’elenco delle caratteristiche variabili che possono essere associate ai prodotti (es. colore, potenza, configurazione). Serve per costruire una configurazione dinamica di prodotto.</em></p>
+<h3>📦 Esempio risposta</h3>
+<pre><code>{
+  "Codice": "S0001",
+  "Descrizione": "MOTORI",
+  "obbliga": true,
+  "DateIns": "2014-01-16T15:52:00",
+  "DateUpd": "2014-02-19T15:50:00"
+}</code></pre>
+<h3>🔍 Campi restituiti</h3>
+<table><tr><th>Campo</th><th>Tipo</th><th>Descrizione</th></tr>
+<tr><td>Codice</td><td>string</td><td>Codice dell'opzione</td></tr>
+<tr><td>Descrizione</td><td>string</td><td>Nome o etichetta dell'opzione</td></tr>
+<tr><td>obbliga</td><td>boolean</td><td>Se l'opzione è obbligatoria</td></tr>
+<tr><td>DateIns</td><td>datetime</td><td>Data inserimento</td></tr>
+<tr><td>DateUpd</td><td>datetime</td><td>Data aggiornamento</td></tr>
+</table><hr/>
+<h2 id="section-5">GET Items Options - values</h2>
+<p><strong>Metodo:</strong> <code>GET</code><br/><strong>URL:</strong> <code>https://mail.seipee.it:7713/Get?Table=xbtvw_B2B_VarLingua</code><br/><strong>Autenticazione:</strong> Bearer Token <code>{{token}}</code></p>
+<p><em>Restituisce tutti i valori possibili per ciascuna opzione definita nelle caratteristiche di prodotto, ad esempio: colore = rosso, blu, verde.</em></p>
+<h3>📦 Esempio risposta</h3>
+<pre><code>{
+  "CodiceCaratteristica": "S0001",
+  "Valore": "A",
+  "Lingua": "IT"
+}</code></pre>
+<h3>🔍 Campi restituiti</h3>
+<table><tr><th>Campo</th><th>Tipo</th><th>Descrizione</th></tr>
+<tr><td>CodiceCaratteristica</td><td>string</td><td>Codice dell'opzione</td></tr>
+<tr><td>Valore</td><td>string</td><td>Valore selezionabile per l'opzione</td></tr>
+<tr><td>Lingua</td><td>string</td><td>Lingua del valore</td></tr>
+</table><hr/>
+<h2 id="section-6">GET Items - Options</h2>
+<p><strong>Metodo:</strong> <code>GET</code><br/><strong>URL:</strong> <code>https://mail.seipee.it:7713/Get?Table=xbtvw_B2B_productVar</code><br/><strong>Autenticazione:</strong> Bearer Token <code>{{token}}</code></p>
+<p><em>Restituisce l’associazione tra prodotti e valori selezionati per ogni opzione configurabile. Serve a capire quali combinazioni sono realmente disponibili per ciascun prodotto.</em></p>
+<h3>📦 Esempio risposta</h3>
+<pre><code>{
+  "CodiceArticolo": "01002056B003C000001",
+  "CodiceTipoCaratteristica": "S0004",
+  "CodiceCaratteristica": "F03",
+  "DataIns": "2018-10-10T14:34:00",
+  "DataUpd": "2018-10-10T14:34:00"
+}</code></pre>
+<h3>🔍 Campi restituiti</h3>
+<table><tr><th>Campo</th><th>Tipo</th><th>Descrizione</th></tr>
+<tr><td>CodiceArticolo</td><td>string</td><td>Codice articolo associato</td></tr>
+<tr><td>CodiceTipoCaratteristica</td><td>string</td><td>Codice del tipo opzione</td></tr>
+<tr><td>CodiceCaratteristica</td><td>string</td><td>Codice del valore dell'opzione</td></tr>
+<tr><td>DataIns</td><td>datetime</td><td>Data inserimento</td></tr>
+<tr><td>DataUpd</td><td>datetime</td><td>Data aggiornamento</td></tr>
+</table><hr/>
+<h2 id="section-7">GET Inventory</h2>
+<p><strong>Metodo:</strong> <code>GET</code><br/><strong>URL:</strong> <code>https://mail.seipee.it:7713/Get?Table=xbtvw_B2B_Giac</code><br/><strong>Autenticazione:</strong> Bearer Token <code>{{token}}</code></p>
+<p><em>Restituisce le giacenze attuali a magazzino per ogni articolo, utili per la verifica della disponibilità prima dell’ordine.</em></p>
+<h3>📦 Esempio risposta</h3>
+<pre><code>{
+  "CodiceArticolo": "01002056C003X003472",
+  "Quantita": 1.0
+}</code></pre>
+<h3>🔍 Campi restituiti</h3>
+<table><tr><th>Campo</th><th>Tipo</th><th>Descrizione</th></tr>
+<tr><td>CodiceArticolo</td><td>string</td><td>Codice articolo</td></tr>
+<tr><td>Quantita</td><td>number</td><td>Quantità disponibile a magazzino</td></tr>
+</table><hr/>
+<h2 id="section-8">GET Inventory external</h2>
+<p><strong>Metodo:</strong> <code>GET</code><br/><strong>URL:</strong> <code>https://mail.seipee.it:7713/Get?Table=xbtvw_B2B_GiacCD</code><br/><strong>Autenticazione:</strong> Bearer Token <code>{{token}}</code></p>
+<p><em>Restituisce le giacenze allocate presso magazzini esterni o in conto deposito. Utile per clienti che hanno scorte riservate.</em></p>
+<h3>📦 Esempio risposta</h3>
+<pre><code>{
+  "CodiceArticolo": "01002056B005X000001",
+  "CodiceCliente": "",
+  "Quantita": 103.0
+}</code></pre>
+<h3>🔍 Campi restituiti</h3>
+<table><tr><th>Campo</th><th>Tipo</th><th>Descrizione</th></tr>
+<tr><td>CodiceArticolo</td><td>string</td><td>Codice articolo</td></tr>
+<tr><td>CodiceCliente</td><td>string</td><td>Cliente assegnatario del deposito</td></tr>
+<tr><td>Quantita</td><td>number</td><td>Quantità in conto deposito</td></tr>
+</table><hr/>
+<h2 id="section-9">GET User Products Aliases</h2>
+<p><strong>Metodo:</strong> <code>GET</code><br/><strong>URL:</strong> <code>https://mail.seipee.it:7713/Get?Table=xbtvw_B2B_CodAlt</code><br/><strong>Autenticazione:</strong> Bearer Token <code>{{token}}</code></p>
+<p><em>Fornisce l’elenco dei codici articolo alternativi utilizzati dai clienti, permettendo la corrispondenza tra il proprio codice interno e quello fornito dal cliente.</em></p>
+<h3>📦 Esempio risposta</h3>
+<pre><code>{
+  "CodiceArticolo": "01002056C014X000001",
+  "CodiceCliente": "C001150",
+  "CodiceAlternativo": "27122"
+}</code></pre>
+<h3>🔍 Campi restituiti</h3>
+<table><tr><th>Campo</th><th>Tipo</th><th>Descrizione</th></tr>
+<tr><td>CodiceArticolo</td><td>string</td><td>Codice articolo interno</td></tr>
+<tr><td>CodiceCliente</td><td>string</td><td>Codice cliente associato</td></tr>
+<tr><td>CodiceAlternativo</td><td>string</td><td>Codice prodotto fornito dal cliente</td></tr>
+</table><hr/>
+<h2 id="section-10">GET User Visible Values</h2>
+<p><strong>Metodo:</strong> <code>GET</code><br/><strong>URL:</strong> <code>https://mail.seipee.it:7713/Get?Table=xbtvw_B2B_VarCf</code><br/><strong>Autenticazione:</strong> Bearer Token <code>{{token}}</code></p>
+<p><em>Restituisce l’elenco delle varianti visibili o configurabili da un determinato cliente per un determinato prodotto.</em></p>
+<h3>📦 Esempio risposta</h3>
+<pre><code>{
+  "CodiceCaratteristica": "VAR100006",
+  "CodiceMotoreBase": "021050901A03XXX00001",
+  "CodiceCliente": {},
+  "DataIns": "2018-09-18T20:26:00",
+  "DataUpd": "2019-08-07T16:07:00"
+}</code></pre>
+<h3>🔍 Campi restituiti</h3>
+<table>
+<tr><th>Campo</th><th>Tipo</th><th>Descrizione</th></tr>
+<tr><td>CodiceCaratteristica</td><td>string</td><td>Codice della caratteristica variabile</td></tr>
+<tr><td>CodiceMotoreBase</td><td>string</td><td>Codice motore base associato</td></tr>
+<tr><td>CodiceCliente</td><td>string</td><td>Codice cliente associato (opzionale)</td></tr>
+<tr><td>DataIns</td><td>datetime</td><td>Data di inserimento</td></tr>
+<tr><td>DataUpd</td><td>datetime</td><td>Data di aggiornamento</td></tr>
+</table><hr/>
+<h2 id="section-11">GET Country-States</h2>
+<p><strong>Metodo:</strong> <code>GET</code><br/><strong>URL:</strong> <code>https://mail.seipee.it:7713/Get?Table=xbtvw_B2B_CountryAndStates</code><br/><strong>Autenticazione:</strong> Bearer Token <code>{{token}}</code></p>
+<p><em>Fornisce l’elenco delle nazioni e stati supportati per indirizzi e spedizioni.</em></p>
+<h3>📦 Esempio risposta</h3>
+<pre><code>{
+  "CODE": "01",
+  "COUNTRY_CODE": "JP"
+}</code></pre>
+<h3>🔍 Campi restituiti</h3>
+<table>
+<tr><th>Campo</th><th>Tipo</th><th>Descrizione</th></tr>
+<tr><td>CODE</td><td>string</td><td>Codice stato interno</td></tr>
+<tr><td>COUNTRY_CODE</td><td>string</td><td>Codice paese ISO (es. IT, FR, JP)</td></tr>
+</table><hr/>
+<h2 id="section-12">GET Customers</h2>
+<p><strong>Metodo:</strong> <code>GET</code><br/><strong>URL:</strong> <code>https://mail.seipee.it:7713/Get?Table=xbtvw_B2B_CUSTOMERS</code><br/><strong>Autenticazione:</strong> Bearer Token <code>{{token}}</code></p>
+<p><em>Restituisce l’anagrafica completa dei clienti abilitati all’accesso B2B: dati fiscali, indirizzi, metodi di pagamento e contatti.</em></p>
+<h3>📦 Esempio risposta</h3>
+<pre><code>{
+  "CODICE_CLIENTE_ARCA": "C000001",
+  "COMPANY": "IRRILAND SRL",
+  "INDIRIZZO": "VIA TOGLIATTI, 4",
+  "ZIP": "42016",
+  "CITY": "GUASTALLA",
+  "COUNTRY_ID": "IT",
+  "PARTITA_IVA": "01526580350",
+  "PAGAMENTO": "ANTICIPATO",
+  "EMAIL_AGENTE": "c.romei@cristianromei.it"
+}</code></pre>
+<h3>🔍 Campi restituiti</h3>
+<table>
+<tr><th>Campo</th><th>Tipo</th><th>Descrizione</th></tr>
+<tr><td>CODICE_CLIENTE_ARCA</td><td>string</td><td>Codice cliente univoco</td></tr>
+<tr><td>COMPANY</td><td>string</td><td>Nome azienda</td></tr>
+<tr><td>INDIRIZZO</td><td>string</td><td>Indirizzo completo</td></tr>
+<tr><td>ZIP</td><td>string</td><td>CAP</td></tr>
+<tr><td>CITY</td><td>string</td><td>Città</td></tr>
+<tr><td>COUNTRY_ID</td><td>string</td><td>Codice paese</td></tr>
+<tr><td>PARTITA_IVA</td><td>string</td><td>Partita IVA</td></tr>
+<tr><td>PAGAMENTO</td><td>string</td><td>Metodo di pagamento predefinito</td></tr>
+<tr><td>EMAIL_AGENTE</td><td>string</td><td>Email dell’agente di riferimento</td></tr>
+</table><hr/>
+<h2 id="section-13">GET Payments</h2>
+<p><strong>Metodo:</strong> <code>GET</code><br/><strong>URL:</strong> <code>https://mail.seipee.it:7713/Get?Table=xbtvw_B2B_PAYMENTS</code><br/><strong>Autenticazione:</strong> Bearer Token <code>{{token}}</code></p>
+<p><em>Restituisce i metodi di pagamento accettati, utili per configurare correttamente gli ordini e le preferenze dei clienti.</em></p>
+<h3>📦 Esempio risposta</h3>
+<pre><code>{
+  "CODICE": "0001",
+  "DESCRIZIONE": "40% ADVANCE - 60% BEFORE SHIPMENT"
+}</code></pre>
+<h3>🔍 Campi restituiti</h3>
+<table>
+<tr><th>Campo</th><th>Tipo</th><th>Descrizione</th></tr>
+<tr><td>CODICE</td><td>string</td><td>Codice pagamento</td></tr>
+<tr><td>DESCRIZIONE</td><td>string</td><td>Descrizione del metodo di pagamento</td></tr>
+</table><hr/>
+<h2 id="section-14">GET Users</h2>
+<p><strong>Metodo:</strong> <code>GET</code><br/><strong>URL:</strong> <code>https://mail.seipee.it:7713/Get?Table=xbtvw_B2B_Users</code><br/><strong>Autenticazione:</strong> Bearer Token <code>{{token}}</code></p>
+<p><em>Fornisce i dati anagrafici e logistici relativi agli utenti aziendali (sedi, contatti operativi, preferenze di spedizione e pagamento).</em></p>
+<h3>📦 Esempio risposta</h3>
+<pre><code>{
+  "ID_TIPO_CONTATTO": -5,
+  "TIPO_CONTATTO": "Sede Operativa",
+  "NOME": "ELDI SRL",
+  "EMAIL": {},
+  "PAGAMENTO": "RB31",
+  "SPEDIZIONE": "V"
+}</code></pre>
+<h3>🔍 Campi restituiti</h3>
+<table>
+<tr><th>Campo</th><th>Tipo</th><th>Descrizione</th></tr>
+<tr><td>ID_TIPO_CONTATTO</td><td>int</td><td>ID del tipo di contatto</td></tr>
+<tr><td>TIPO_CONTATTO</td><td>string</td><td>Tipo contatto (es. sede operativa)</td></tr>
+<tr><td>NOME</td><td>string</td><td>Nome azienda o utente</td></tr>
+<tr><td>EMAIL</td><td>object</td><td>Email (può essere vuota)</td></tr>
+<tr><td>PAGAMENTO</td><td>string</td><td>Metodo di pagamento</td></tr>
+<tr><td>SPEDIZIONE</td><td>string</td><td>Tipo di spedizione</td></tr>
+</table><hr/>
+</div>
+<style>
+.button {
+    margin-bottom: .5rem
+}
+table {
+    border-collapse: separate;
+    width: 100%;
+}
+th {
+    background: #ECF0F1;
+}
+th,td {
+    border: 1px solid #ccc !important;
+    padding: .2rem .5rem;
+}
+h2 {
+    font-weight: 700 !important;
+    padding-top: 2rem;
+}
+h3 {
+    padding-top: 1rem;
+}
+
+</style>

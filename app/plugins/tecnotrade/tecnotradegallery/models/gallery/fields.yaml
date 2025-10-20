@@ -1,0 +1,21 @@
+fields:
+    name:
+        label: Name
+        span: auto
+        type: text
+    slug:
+        label: Slug
+        span: auto
+        preset:
+            field: name
+            type: slug
+        type: text
+    images:
+        label: 'Media Finder'
+        mode: image
+        maxItems: '100'
+        thumbOptions:
+            mode: crop
+            extension: auto
+        span: auto
+        type: mediafinder

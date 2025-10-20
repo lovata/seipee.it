@@ -1,0 +1,99 @@
+# ===================================
+#  Field Definitions
+# ===================================
+
+tabs:
+
+    fields:
+
+        recaptcha_hint:
+            type: hint
+            tab: renatio.formbuilder::lang.tab.recaptcha
+            path: $/renatio/formbuilder/models/settings/_recaptcha_hint
+
+        site_key:
+            label: renatio.formbuilder::lang.settings.site_key
+            tab: renatio.formbuilder::lang.tab.recaptcha
+            comment: renatio.formbuilder::lang.settings.site_key_comment
+
+        secret_key:
+            label: renatio.formbuilder::lang.settings.secret_key
+            tab: renatio.formbuilder::lang.tab.recaptcha
+            comment: renatio.formbuilder::lang.settings.secret_key_comment
+
+        lang:
+            label: renatio.formbuilder::lang.settings.lang
+            tab: renatio.formbuilder::lang.tab.recaptcha
+            type: dropdown
+            options:
+                '': Auto-detect
+                ar: Arabic
+                bn: Bengali
+                bg: Bulgarian
+                ca: Catalan
+                zh-CN: Chinese (Simplified)
+                zh-TW: Chinese (Traditional)
+                hr: Croatian
+                cs: Czech
+                da: Danish
+                nl: Dutch
+                en-GB: English (UK)
+                en: English (US)
+                et: Estonian
+                fil: Filipino
+                fi: Finnish
+                fr: French
+                fr-CA: French (Canadian)
+                de: German
+                gu: Gujarati
+                de-AT: German (Austria)
+                de-CH: German (Switzerland)
+                el: Greek
+                iw: Hebrew
+                hi: Hindi
+                hu: Hungarain
+                id: Indonesian
+                it: Italian
+                ja: Japanese
+                kn: Kannada
+                ko: Korean
+                lv: Latvian
+                lt: Lithuanian
+                ms: Malay
+                ml: Malayalam
+                mr: Marathi
+                no: Norwegian
+                fa: Persian
+                pl: Polish
+                pt: Portuguese
+                pt-BR: Portuguese (Brazil)
+                pt-PT: Portuguese (Portugal)
+                ro: Romanian
+                ru: Russian
+                sr: Serbian
+                sk: Slovak
+                sl: Slovenian
+                es: Spanish
+                es-419: Spanish (Latin America)
+                sv: Swedish
+                ta: Tamil
+                te: Telugu
+                th: Thai
+                tr: Turkish
+                uk: Ukrainian
+                ur: Urdu
+                vi: Vietnamese
+
+        theme:
+            label: renatio.formbuilder::lang.settings.theme
+            tab: renatio.formbuilder::lang.tab.recaptcha
+            type: dropdown
+            options:
+                light: Light
+                dark: Dark
+
+        prune_logs_period:
+            label: renatio.formbuilder::lang.settings.prune_logs_period
+            tab: renatio.formbuilder::lang.tab.form_logs
+            comment: renatio.formbuilder::lang.settings.prune_logs_period_comment
+            type: number

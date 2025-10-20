@@ -1,0 +1,26 @@
+url = "/search"
+layout = "default"
+title = "Search results"
+is_hidden = 0
+
+[searchResults]
+resultsPerPage = 8
+showProviderBadge = 1
+noResultsMessage = "Your search returned no results."
+visitPageMessage = "Visit page"
+minQueryLength = 0
+
+[viewBag]
+localeUrl[en] = "/search"
+seo_title = "Search results"
+seo_description = "Search results"
+robot_index = "index"
+robot_follow = "follow"
+==
+<div class="w-3/4 m-auto">
+    <h2 class="mb-8">{{ 'offline.mall::frontend.search.heading' | trans({query: searchResults.query}) | escape }}</h2>
+
+    <div class="pt-8">
+        {% component 'searchResults' %}
+    </div>
+</div>

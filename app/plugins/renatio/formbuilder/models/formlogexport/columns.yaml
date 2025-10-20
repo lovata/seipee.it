@@ -1,0 +1,18 @@
+# ===================================
+#  List Column Definitions
+# ===================================
+
+columns:
+
+    id: renatio.formbuilder::lang.field.id
+    form_id: renatio.formbuilder::lang.field.form_id
+    form_data: renatio.formbuilder::lang.field.form_data
+    content_html: renatio.formbuilder::lang.field.content_html
+    subject: renatio.formbuilder::lang.field.subject
+    from: renatio.formbuilder::lang.field.from
+    to: renatio.formbuilder::lang.field.to
+    cc: renatio.formbuilder::lang.field.cc
+    bcc: renatio.formbuilder::lang.field.bcc
+    ip_address: renatio.formbuilder::lang.field.ip_address
+    created_at: renatio.formbuilder::lang.field.created_at
+    updated_at: renatio.formbuilder::lang.field.updated_at

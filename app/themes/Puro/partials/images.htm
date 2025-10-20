@@ -1,0 +1,14 @@
+{% partial 'block_head' %}
+<div class="row row-cols-1 row-cols-sm-1 row-cols-md-{{ (box.cards|length / 2)|round }} row-cols-lg-{{ box.cards|length }}" style="display: flex !important; align-items: {{ box.vertical_align }} !important;">
+	{% for card in box.cards %}
+		<div class="col {{ box.content_class }}">
+			{% if card.cta_link or card.cta_link_url %}
+				<a href="{% if card.cta_link %}/storage/app/media{{ card.cta_link }}{% elseif card.cta_link_url %}{{ card.cta_link_url }}{% endif %}" {% if card.cta_target %}target="_blank"{% endif %}>
+			{% endif %}
+				{% if card.image %}<img src="{{ card.image | media }}" style="border-radius:{{ card.image_border }}; width:{{ card.image_resize }} !important;" class="{% if card.image_mobile %}d-none d-md-inline{% endif %} {{ card.image_class }} {{ card.allineamento }} pb-0 pb-sm-3">{% endif %}
+				{% if card.image_mobile %}<img src="{{ card.image_mobile | media }}" style="border-radius:{{ card.image_mobile_border }}; width:{{ card.image_mobile_resize }} !important; padding: {{ card.distanza_da_desktop_image }} 0" class="{% if card.image_mobile %}d-inline d-md-none{% endif %} {{ card.mobile_allineamento }} {% if card.mobile_allineamento == 'mx-auto'%}d-block{% endif %} {{ card.image_mobile_class }}">{% endif %}
+			{% if card.cta_link or card.cta_link_url %}</a>{% endif %}
+		</div>
+	{% endfor %}
+</div>
+{% partial 'block_footer' %}

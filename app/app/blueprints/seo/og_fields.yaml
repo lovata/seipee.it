@@ -1,0 +1,42 @@
+uuid: ae4d2c25-3a0e-4765-8b36-d1666fc0e31f
+name: SEO OG Fields
+type: mixin
+handle: Renatio\SeoManager\OgFields
+
+fields:
+
+    og_title:
+        label: renatio.seomanager::lang.field.og_title
+        tab: renatio.seomanager::lang.tab.og_tags
+        comment: renatio.seomanager::lang.comments.og_title
+        span: left
+        column: false
+        scope: false
+
+    og_type:
+        label: renatio.seomanager::lang.field.og_type
+        tab: renatio.seomanager::lang.tab.og_tags
+        span: right
+        comment: renatio.seomanager::lang.comments.og_type
+        column: false
+        scope: false
+
+    og_description:
+        label: renatio.seomanager::lang.field.og_description
+        type: textarea
+        tab: renatio.seomanager::lang.tab.og_tags
+        size: tiny
+        comment: renatio.seomanager::lang.comments.og_description
+        column: false
+        scope: false
+
+    og_image:
+        label: renatio.seomanager::lang.field.og_image
+        type: mediafinder
+        mode: image
+        maxItems: 1
+        tab: renatio.seomanager::lang.tab.og_tags
+        commentAbove: renatio.seomanager::lang.comments.og_image_comment
+        span: left
+        column: false
+        scope: false

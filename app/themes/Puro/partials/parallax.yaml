@@ -1,0 +1,20 @@
+name: Banner / Parallax
+section: Hero
+handle: Parallax
+labelFrom: block_name
+icon: /themes/Puro/assets/images/banner_full_screen.webp
+
+translatable:
+- title
+form:
+    fields:
+      image_background:
+            label: Immagine 
+            type: mediafinder
+      image_background_height:
+            label: Altezza 
+            type: number
+      spacing-mixin:
+            type: mixin
+      background-mixin:
+            type: mixin              

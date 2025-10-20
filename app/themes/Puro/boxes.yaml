@@ -1,0 +1,18 @@
+# /themes/your-theme/boxes.yaml
+templates:
+-   name: Home Page 1
+    handle: hp1
+    boxes:
+    - partial: slider
+      data: # Use the data property to define default values for the Box.
+          number_slider: 1
+          number_slider_tablet: 1
+          number_slider_mobile: 1
+          animateIn: slideInLeft
+          animateOut: slideOutLeft
+    - partial: Testo
+      data: # Use the data property to define default values for the Box.
+          testo: Default Title
+    - partial: blog_lastposts
+    - partial: Cta
+

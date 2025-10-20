@@ -1,0 +1,55 @@
+{% partial 'block_head' %}
+<div class="row row-cols-1 row-cols-sm-1 row-cols-md-{{ box.cards|length }}">
+    {% for card in box.cards %}
+      <div class="col text-{{ card.allineamento }}">
+        {% if card.cta %}
+          <button type="button" class="btn btn{% if card.cta_outline %}-outline{% endif %}-{{ card.cta_style }} video-btn" data-bs-toggle="modal" data-bs-target="#Modal" data-src="https://www.youtube.com/embed/{{ card.video_url }}" >
+              {{ card.cta }}
+          </button>
+        {% endif %}
+      </div>
+    {% endfor %}
+{% partial 'block_footer' %}
+
+<!-- Modal -->
+<div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog {% if box.vertical_align %}modal-dialog-centered{% endif %} {{ box.modal_size }} modal-fullscreen-md-down">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="ratio ratio-16x9">
+          <iframe class="embed-responsive-item" src="" id="video"  allowscriptaccess="always" allow="autoplay"></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% put scripts %}
+<script>
+    let videoSrc;
+    document.querySelectorAll('.video-btn').forEach(button => {
+      button.addEventListener('click', () => {
+        videoSrc = button.dataset.src;
+      });
+    });
+    document.getElementById('Modal').addEventListener('shown.bs.modal', () => {
+      document.getElementById('video').src = videoSrc + "?autoplay=1&amp;modestbranding=1&amp;showinfo=0";
+    });
+    document.getElementById('Modal').addEventListener('hide.bs.modal', () => {
+      document.getElementById('video').src = videoSrc;
+    });
+</script>
+{% endput %}
+
+<style>
+.modal-header {
+    border: none;
+}
+.modal-content {
+    background: none;
+    border: none;
+}
+</style>

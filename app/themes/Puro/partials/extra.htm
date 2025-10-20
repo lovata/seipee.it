@@ -1,0 +1,15 @@
+{% for item in box.animated_items %}
+{% set anim_type = item.extra_animation %}
+<img src="{{ item.extra_filename | media }}" style="position:absolute;
+{% if item.top_distance %}top:{{ item.top_distance }};{% endif %}
+{% if item.bottom_distance %}bottom:{{ item.bottom_distance }};{% endif %}
+{% if item.left_distance %}left:{{ item.left_distance }};{% endif %}
+{% if item.right_distance %}right:{{ item.right_distance }};{% endif %}
+{% if item.extra_animation %}animation:{{ item.extra_animation }} {{ item.extra_animation_duration}}s 
+{% if anim_type =='rotazione' %}
+        cubic-bezier(1, 0.99, 0.03, 0.01) infinite
+{% elseif anim_type =='updown' or anim_type =='leftright' or anim_type =='triangolo' %}
+        linear infinite
+{% endif %};{% endif %}
+opacity: {{ item.extra_opacity }};width:{{item.extra_resize}}!important"
+{% endfor %}

@@ -1,0 +1,76 @@
+{% partial 'block_head' %}
+    <div class="accordion accordion-flush" id="accordion">
+        {% for card in box.cards %}
+            <div class="accordion-item">
+                <p class="accordion-header" id="heading{{ loop.index }}">
+                    <button class="accordion-button {% if (box.first_open == 1 and loop.index > 1) or box.first_open == 0  %}collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ loop.index }}" aria-expanded="{% if loop.index > 1 %}false{% else %}{% endif %}" aria-controls="collapse{{ loop.index }}">
+                        {{ card.title }}
+                    </button>
+                </p>
+                <div id="collapse{{ loop.index }}" class="accordion-collapse collapse {% if loop.index == 1  and box.first_open %}show{% endif %}" aria-labelledby="heading{{ loop.index }}" data-bs-parent="#accordion">
+                    <div class="accordion-body">
+                        {{ card.testo | raw }}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% partial 'block_footer' %}
+{% put styles %}
+<style>
+    {% if box.titolo_sfondo %}
+    .accordion-button:not(.collapsed) {
+        background-color: {{ box.titolo_sfondo }} !important;
+    }
+    {% endif %}
+    {% if box.titolo_colore %}
+    .accordion-button:not(.collapsed) {
+        color: {{ box.titolo_colore }} !important;
+    }
+    {% endif %}
+    {% if box.titolo_bold %}
+    .accordion-button {
+        font-weight: bold !important;
+    }
+    {% endif %}
+    .accordion-icon-active-color {
+        color: #fff !important;
+    }
+    {% if box.active_icon_color %}
+    .accordion-button:not(.collapsed)::after {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23{{ box.active_icon_color |replace({'#': ''}) }}'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e") !important;
+    }
+    {% endif %}
+    {% if box.notactive_icon_color %}
+    .accordion-button::after {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23{{ box.notactive_icon_color |replace({'#': ''}) }}'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e") !important;
+    }
+    {% endif %}
+    {% if box.body_background %}
+    .accordion-body {
+        background-color: {{ box.body_background }} !important;
+    }
+    {% endif %}
+    {% if box.corpo_colore %}
+    .accordion-body {
+        p {
+            color: {{ box.corpo_colore }} !important;
+        }
+    }
+    {% endif %}
+    {% if box.titolo_sfondo_inattivo %}
+    .accordion-header {
+        .collapsed {
+            background: {{ box.titolo_sfondo_inattivo }} !important;
+        }
+    }
+    {% endif %}
+    {% if box.titolo_colore_inattivo %}
+    .accordion-header {
+        .collapsed {
+            color: {{ box.titolo_colore_inattivo }} !important;
+        }
+    }
+    {% endif %}
+</style>
+{% endput %}

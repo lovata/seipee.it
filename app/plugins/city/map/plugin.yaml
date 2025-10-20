@@ -1,0 +1,45 @@
+plugin:
+    name: 'city.map::lang.plugin.name'
+    description: 'city.map::lang.plugin.description'
+    author: 'City'
+    icon: oc-icon-globe
+    homepage: 'https://ci-ty.city'
+permissions:
+    city.map.maps:
+        tab: 'city.map::lang.plugin.name'
+        label: 'city.map::lang.maps.menu_label'
+        order: 500
+    city.map.markers:
+        tab: 'city.map::lang.plugin.name'
+        label: 'city.map::lang.markers.menu_label'
+        order: 510
+    city.map.sources:
+        tab: 'city.map::lang.plugin.name'
+        label: 'city.map::lang.sources.menu_label'
+        order: 520
+navigation:
+    map:
+        label: 'city.map::lang.plugin.name'
+        url: city/map/maps
+        icon: icon-globe
+        permissions:
+            - 'city.map.*'
+        sideMenu:
+            maps:
+                label: 'city.map::lang.maps.menu_label'
+                url: city/map/maps
+                icon: icon-globe
+                permissions:
+                    - city.map.maps
+            markers:
+                label: 'city.map::lang.markers.menu_label'
+                url: city/map/markers
+                icon: icon-map-marker
+                permissions:
+                    - city.map.markers
+            sources:
+                label: 'city.map::lang.sources.menu_label'
+                url: city/map/sources
+                icon: icon-bullseye
+                permissions:
+                    - city.map.sources

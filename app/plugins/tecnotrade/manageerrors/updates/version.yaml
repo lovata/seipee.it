@@ -1,0 +1,20 @@
+v1.0.1:
+    - 'Initialize plugin'
+v1.0.2:
+    - 'Created table tecnotrade_manageerrors_errors'
+    - builder_table_create_tecnotrade_manageerrors_errors.php
+v1.0.3:
+    - 'Drop table tecnotrade_manageerrors_errors'
+    - builder_table_delete_tecnotrade_manageerrors_errors.php
+v1.0.4:
+    - 'Created table tecnotrade_manageerrors_error'
+    - builder_table_create_tecnotrade_manageerrors_error.php
+v1.0.5:
+    - 'Updated table tecnotrade_manageerrors_error'
+    - builder_table_update_tecnotrade_manageerrors_error.php
+v1.0.6:
+    - 'Updated table tecnotrade_manageerrors_error'
+    - builder_table_update_tecnotrade_manageerrors_error_2.php
+v1.0.7:
+    - 'Updated table tecnotrade_manageerrors_error'
+    - builder_table_update_tecnotrade_manageerrors_error_3.php

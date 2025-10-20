@@ -1,0 +1,12 @@
+*
+!server.crt
+!private.key
+!server_pl.crt
+!private_pl.pem
+!server_de.crt
+!private_de.pem
+!server_sk.crt
+!private_sk.pem
+!server_hu.crt
+!private_hu.pem
+!.gitignore

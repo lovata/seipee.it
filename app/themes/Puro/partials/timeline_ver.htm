@@ -1,0 +1,166 @@
+{% partial 'block_head' %}
+
+<div class="vertical-timeline">
+{% for item in box.timeline_items %}
+  <div class="timeline-item left">
+    <div class="content-box">
+      <{{ item.titleStyle }}>{{ item.title | raw }}</{{ item.titleStyle }}>
+      {{ item.text | raw }}
+    </div>
+    <div class="year-circle">{{ item.year }}</div>
+  </div>
+{% endfor %}
+{% partial 'block_footer' %}
+{% put styles %}
+<style>
+.vertical-timeline {
+  position: relative;
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 20px 0;
+}
+
+.vertical-timeline::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 4px;
+  background: #ccc;
+  transform: translateX(-50%);
+}
+
+.timeline-item {
+  position: relative;
+  width: 50%;
+  padding: 20px;
+  box-sizing: border-box;
+  opacity: 0;
+  transform: translateX(0);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.timeline-item.visible {
+  opacity: 1;
+}
+
+.timeline-item.left {
+  left: 0;
+  text-align: right;
+}
+
+.timeline-item.left.visible {
+  transform: translateX(-20px);
+}
+
+.timeline-item.right {
+  left: 50%;
+  text-align: left;
+}
+
+.timeline-item.right.visible {
+  transform: translateX(20px);
+}
+
+.timeline-item .year-circle {
+  position: absolute;
+  top: 20px;
+  width: 50px;
+  height: 50px;
+  background: #00BCD4;
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 50px;
+  text-align: center;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.timeline-item.left .year-circle {
+  right: -45px;
+}
+
+.timeline-item.right .year-circle {
+  left: -45px;
+}
+
+.content-box {
+  background: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  position: relative;
+}
+
+.content-box h4 {
+  margin: 0;
+  font-size: 14px;
+  color: #888;
+}
+
+.content-box strong {
+  display: block;
+  margin: 5px 0;
+  font-size: 16px;
+}
+
+.content-box p {
+  font-size: 13px;
+  color: #666;
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+  .timeline-item,
+  .timeline-item.left,
+  .timeline-item.right {
+    width: 100%;
+    left: 0 !important;
+    padding-left: 30px;
+    padding-right: 30px;
+    text-align: left;
+    margin-bottom: 30px;
+  }
+
+  .timeline-item .year-circle {
+    position: relative;
+    margin: 0 auto 15px auto;
+    left: 0 !important;
+    right: 0 !important;
+    display: block;
+  }
+
+  .vertical-timeline::before {
+    left: 50%;
+    transform: none;
+  }
+
+  .timeline-item.left.visible,
+  .timeline-item.right.visible {
+    transform: translateY(20px);
+  }
+}
+</style>
+{% endput %}
+{% put scripts %}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const items = document.querySelectorAll('.timeline-item');
+  items.forEach((item, index) => {
+    const side = (index % 2 === 0) ? 'left' : 'right';
+    item.classList.add(side);
+  });
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  items.forEach(item => observer.observe(item));
+});
+</script>
+{% endput %}

@@ -1,0 +1,16 @@
+plugin:
+    name: 'tecnotrade.manageerrors::lang.plugin.name'
+    description: 'tecnotrade.manageerrors::lang.plugin.description'
+    author: tecnotrade
+    icon: oc-icon-arrow-circle-o-down
+    homepage: ''
+navigation:
+    main-menu-item:
+        label: 'Error Handler'
+        url: /
+        icon: icon-life-ring
+        sideMenu:
+            side-menu-item:
+                label: Errors
+                url: tecnotrade/manageerrors/errors
+                icon: icon-sitemap

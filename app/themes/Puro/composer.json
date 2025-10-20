@@ -1,0 +1,8 @@
+{
+    "name": "tecnotrade/puro-theme",
+    "type": "october-theme",
+    "description": "Puro Tecnotrade theme.",
+    "require": {
+        "composer/installers": "~1.0"
+    }
+}

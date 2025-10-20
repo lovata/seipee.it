@@ -1,0 +1,143 @@
+name: Colonne contenitori
+section: Base
+handle: ColumnsNest
+labelFrom: block_name
+children: true
+icon: /themes/Puro/assets/images/columns_nest.webp
+form:
+    tabs:
+        fields:
+            cards:
+                label: Elemento
+                tab: Proprietà
+                itemsExpanded: false
+                type: repeater
+                form:
+                    fields:
+                        col_name: 
+                            label: Nome colonna
+                            type: text
+                        _section1:
+                            type: section
+                            label: Larghezza
+                            comment: Numero di colonne
+                        col_width: 
+                            label: Desktop
+                            type: dropdown
+                            span: row
+                            spanClass: col-4
+                            options:
+                                "1": 1
+                                "2": 2
+                                "3": 3
+                                "4": 4
+                                "5": 5
+                                "6": 6
+                                "7": 7
+                                "8": 8
+                                "9": 9
+                                "10": 10
+                                "11": 11
+                                "12": 12
+                        col_width_md: 
+                            label: Tablet
+                            type: dropdown
+                            span: row
+                            spanClass: col-4
+                            options:
+                                "1": 1
+                                "2": 2
+                                "3": 3
+                                "4": 4
+                                "5": 5
+                                "6": 6
+                                "7": 7
+                                "8": 8
+                                "9": 9
+                                "10": 10
+                                "11": 11
+                                "12": 12
+                        col_width_sm: 
+                            label: Mobile
+                            type: dropdown
+                            span: row
+                            spanClass: col-4
+                            options:
+                                "1": 1
+                                "2": 2
+                                "3": 3
+                                "4": 4
+                                "5": 5
+                                "6": 6
+                                "7": 7
+                                "8": 8
+                                "9": 9
+                                "10": 10
+                                "11": 11
+                                "12": 12
+                        _section2:
+                            type: section
+                            label: Ordinamento
+                        col_order:
+                            label: Desktop
+                            type: text
+                            span: row
+                            spanClass: col-4
+                        col_order_tablet:
+                            label: Tablet
+                            type: text
+                            span: row
+                            spanClass: col-4
+                        col_order_mobile:
+                            label: Mobile
+                            type: text
+                            span: row
+                            spanClass: col-4
+                        class:
+                            label: Classe
+                            type: text
+                            span: row
+                            spanClass: col-4
+                        allineamento:
+                            label: Allineamento desktop
+                            span: row
+                            spanClass: col-4
+                            type: radio
+                            options:
+                                text-md-start: Sinistra
+                                text-md-center: Centro
+                                text-md-end: Destra
+                        allineamento_mobile:
+                            label: Allineamento mobile
+                            span: row
+                            spanClass: col-4
+                            type: radio
+                            options:
+                                text-start: Sinistra
+                                text-center: Centro
+                                text-end: Destra    
+            allineamento:
+                span: auto
+                label: Allineamento
+                tab: Opzioni
+                type: radio
+                options:
+                    left: Sinistra
+                    center: Centro
+                    right: Destra
+            col_border:
+                label: Bordo esterno
+                type: switch
+                tab: Opzioni
+            col_color:
+                label: Colore bordo esterno
+                type: colorpicker
+                tab: Opzioni
+                trigger:
+                    action: show
+                    field: card_border
+                    condition: checked
+            spacing-mixin:
+                type: mixin
+            background-mixin:
+                type: mixin

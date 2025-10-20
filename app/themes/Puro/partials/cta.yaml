@@ -1,0 +1,87 @@
+name: CTA
+section: Base
+handle: Cta
+labelFrom: block_name
+icon: /themes/Puro/assets/images/cta.webp
+form:
+    tabs:
+        fields:
+            cards:
+                label: Elemento
+                tab: Proprietà
+                itemsExpanded: false
+                type: repeater
+                form:
+                    fields:
+                        cta:
+                            label: CTA
+                            type: text  
+                        cta_link:
+                            label: Link ad un documento locale
+                            type: mediafinder
+                        cta_link_url:
+                            label: Link ad una pagina web
+                            comment: Non inserire la barra iniziale per link interni. Inserire il percorso completo per link esterni
+                            type: text
+                        cta_target:
+                            label: Apri in una nuova finestra
+                            type: checkbox                             
+                        cta_style:
+                            label: Stile
+                            type: dropdown  
+                            options:
+                                button: button
+                                primary: primary
+                                secondary: secondary
+                                success: success     
+                                danger: danger
+                                warning: warning
+                                info: info
+                                light: light
+                                dark: dark
+                                link: link    
+                        cta_outline:
+                            label: Outline
+                            type: checkbox                                      
+                        allineamento:
+                            span: auto
+                            label: Allineamento
+                            type: hidden
+                            options:
+                                left: Sinistra
+                                center: Centro
+                                right: Destra
+            allineamento:
+                label: Allineamento
+                type: balloon-selector
+                tab: Configurazioni
+                options:
+                    left: Sinistra
+                    center: Centro
+                    right: Destra
+            disposizione:
+                label: Disposizione
+                type: balloon-selector
+                tab: Configurazioni
+                options:
+                    hor: Orizzontale
+                    ver: Verticale
+            distanza_vert:
+                label: Distanza
+                type: dropdown
+                tab: Configurazioni
+                options:
+                    .5rem: .5rem
+                    1rem: 1rem
+                    2rem: 2rem
+                    3rem: 3rem
+                    4rem: 4rem
+                    5rem: 5rem
+                trigger:
+                    action: show
+                    field: disposizione
+                    condition: value[ver]
+            spacing-mixin:
+                type: mixin
+            background-mixin:
+                type: mixin

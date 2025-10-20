@@ -1,0 +1,10 @@
+{% partial 'block_head' %}
+<div class="row">
+    <div class="col" style="text-align:{{ box.allineamento }}">
+        <{{ box.titolo_class }} class="{% if box.titolo_animate == 1 %} animate {{ box.titolo_animate_direction }} {% endif %}{% if box.titolo_style %}{{ box.titolo_style }}{% endif %}" style="{% if box.titolo_spacing %}padding-bottom:{{ box.titolo_spacing }}!important;{% endif %}color:{{ box.titolo_color }}!important;">{{ box.titolo | raw }}</{{ box.titolo_class }}>
+        {% if box.sottotitolo %}
+            <{{ box.sottotitolo_class }} class="{% if box.sottotitolo_animate == 1 %} animate {{ box.sottotitolo_animate_direction }} {% endif %}" style="color:{{ box.sottotitolo_color }}!important;">{{ box.sottotitolo | raw }}</{{ box.sottotitolo_class }}>
+        {% endif %}
+    </div>
+</div>
+{% partial 'block_footer' %}

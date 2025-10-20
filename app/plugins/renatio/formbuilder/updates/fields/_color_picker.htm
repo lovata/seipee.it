@@ -1,0 +1,21 @@
+<div class="{{ wrapper_class }}">
+    {% if label %}
+        <label for="{{ name }}" class="{{ label_class }} form-label">{{ label }}</label>
+    {% endif %}
+
+    <input
+        id="{{ name }}"
+        type="color"
+        name="{{ name }}"
+        value="{{ default }}"
+        class="{{ class }} form-control form-control-color"
+        placeholder="{{ placeholder }}"
+        {{ custom_attributes|raw }}
+    >
+
+    <div data-validate-for="{{ name }}" class="invalid-feedback"></div>
+
+    {% if comment %}
+        <div class="form-text">{{ comment|raw }}</div>
+    {% endif %}
+</div>

@@ -1,0 +1,27 @@
+name: Testo / HTML
+section: Base
+handle: Testo
+labelFrom: block_name
+order: 10
+icon: /themes/Puro/assets/images/testo.webp
+form:
+  tabs:
+    fields:
+      testo:
+        label: Testo
+        type: richeditor
+        tab: Proprietà
+        toolbarButtons: paragraphFormat|fontSize|bold|italic|underline|strikeThrough|align|quote|color|emoticons|insertLink|insertPageLink|insertImage|insertVideo|insertTable|undo|redo|clearFormatting|html|fullscreen
+      allineamento:
+        span: auto
+        label: Allineamento
+        type: radio
+        tab: Proprietà
+        options:
+            left: Sinistra
+            center: Centro
+            right: Destra
+      spacing-mixin:
+                type: mixin
+      background-mixin:
+                type: mixin

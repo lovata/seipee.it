@@ -1,0 +1,91 @@
+.control-campaign-templateselector {
+  padding-top: 5px;
+}
+.control-campaign-templateselector > ul,
+.control-campaign-templateselector > ul > li {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.control-campaign-templateselector > ul > li {
+  width: 155px;
+  margin: 0 15px 15px 0;
+  display: inline-block;
+  text-align: center;
+  vertical-align: top;
+}
+.control-campaign-templateselector > ul > li .template-box {
+  display: block;
+  cursor: pointer;
+  text-decoration: none;
+  width: 155px;
+  height: 155px;
+  border: 3px solid rgba(0, 0, 0, 0.1);
+  position: relative;
+  -webkit-transition: border 0.3s ease;
+  transition: border 0.3s ease;
+}
+.control-campaign-templateselector > ul > li .template-box:before {
+  content: '';
+  display: block;
+  background: rgba(0, 0, 0, 0.05);
+  margin: 2px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.control-campaign-templateselector > ul > li .template-box .template-icon {
+  display: block;
+  font-size: 56px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -28px;
+  margin-left: -28px;
+  color: rgba(0, 0, 0, 0.25);
+}
+.control-campaign-templateselector > ul > li .template-box .template-selected-icon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 22px;
+  height: 22px;
+  color: white;
+  background-color: #5fb6f5;
+  opacity: 0;
+  -webkit-transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease;
+}
+.control-campaign-templateselector > ul > li .template-box:hover {
+  border-color: rgba(0, 0, 0, 0.2);
+}
+.control-campaign-templateselector > ul > li .template-box:hover .template-icon {
+  color: rgba(0, 0, 0, 0.45);
+}
+.control-campaign-templateselector > ul > li .template-label {
+  margin: 7px 0;
+  padding: 0;
+  font-weight: 700;
+  font-size: 13px;
+}
+.control-campaign-templateselector > ul > li .template-description {
+  font-size: 12px;
+}
+.control-campaign-templateselector > ul > li.selected .template-box {
+  cursor: default;
+  border-color: #5fb6f5;
+}
+.control-campaign-templateselector > ul > li.selected .template-box:before {
+  margin: 0;
+}
+.control-campaign-templateselector > ul > li.selected .template-box .template-icon {
+  color: rgba(0, 0, 0, 0.45);
+}
+.control-campaign-templateselector > ul > li.selected .template-box .template-selected-icon {
+  opacity: 1;
+}
+.control-campaign-templateselector > ul > li.selected .template-label {
+  color: #1795f1;
+}

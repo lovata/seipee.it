@@ -1,0 +1,64 @@
+{% partial 'block_head' %}
+    {% set posts = boxBlogPosts.posts %}
+    {% set postPage = boxBlogPosts.postPage%}
+    {% set categoryPage = boxBlogPosts.categoryPage %}
+    {% set tagPage = boxBlogPosts.tagPage %}
+        <div class="post-list row row-cols-1 row-cols-sm-{{ box.blog_post_per_row_mobile }} row-cols-md-{{ box.blog_post_per_row_tablet }} row-cols-lg-{{ box.blog_post_per_row }}">
+            {% for post in posts %}
+                <div class="col post">
+                    <div style="{% if box.border %}border: {{ box.border_width }} {{ box.border_type}} {{ box.border_color }};{% endif %} {% if box.inner_padding %}padding:{{ box.inner_padding }};{% endif %}">
+                        <div class="post-container row">
+                            <div class="col order-{{ box.order_title }} {{ box.title_class }}">
+                                <a href="{{ postPage ~ post.slug }}">
+                                    <{{ box.title_style }}>{{ post.title }}</{{ box.title_style }}>
+                                </a>
+                            </div>
+                            {% if post.metadata.principal_image and box.show_image %} 
+                                <div class="col {% if box.order_image %}order-{{ box.order_image }}{% endif %} featured-images text-center" style="{% if box.image_padding %}padding-top: {{ box.image_padding}} !important;padding-bottom: {{ box.image_padding}} !important;{% endif %}"> 
+                                    <a href="{{ postPage ~ post.slug }}">
+                                        <img data-src="{{ image.filename }}" src="{{ post.metadata.principal_image|media|resize(box.image_width,box.image_height, {filename: true ,extension: 'webp', mode: 'crop'}) }}" style="{% if box.image_border %}border-radius:{{ box.image_border }}{% endif %}" class="{{ box.image_class}}" alt="{{ post.title }}">
+                                    </a>
+                                </div> 
+                            {% endif %}
+                            {% if box.show_date %}
+                                <div class="col {% if box.order_date %}order-{{ box.order_date }}{% endif %} {{ box.date_class }} text-{{ box.date_allineamento }}" style="{% if box.date_padding %}padding-top: {{ box.date_padding}} !important;padding-bottom: {{ box.date_padding}} !important;{% endif %}">
+                                    {{ post.published_at|date( box.date_format ) }}
+                                </div>
+                            {% endif %}
+                            {% if box.show_category %}
+                                <div class="col {% if box.order_category %}order-{{ box.order_category }}{% endif %} {{ category_class }}">
+                                    {% for category in post.categories %}
+                                        <a href="{{ categoryPage ~ category.slug }}">{{ category.name }}</a> {{ box.category_separator }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}                                
+                            {% if box.show_excerpt %}
+                                <div class="col {% if box.order_excerpt %}order-{{ box.order_excerpt }}{% endif %} {{ box.excerpt_class }} text-{{ box.excerpt_allineamento }}" style="{% if box.excerpt_padding %}padding-top: {{ box.excerpt_padding}} !important; padding-bottom: {{ box.excerpt_padding}} !important;{% endif %}">
+                                    {{ post.summary | striptags | slice(0,box.excerpt_length)|join(' ') }}
+                                </div>
+                            {% endif %}
+                            {%  if box.show_link %}
+                                <div class="col {% if box.order_link %}order-{{ box.order_link }}{% endif %} {{ box.link_class }} text-{{ box.link_allineamento }}" style="{% if box.link_padding %}padding-top: {{ box.link_padding}} !important;padding-bottom: {{ box.link_padding}} !important;{% endif %}">
+                                    <a class=" {{ box.link_style }}" href="{{ postPage ~ post.slug }}">
+                                        {{ box.link_text }}
+                                    </a>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="no-data">{{ TecnotradePostList.noPostsMessage }}</div>
+            {% endfor %}
+        </div>
+        {% if box.show_all_posts_link %}
+        <div class="center py-3">
+            <a href="{{ box.show_all_posts_url }}" class="button">{{ box.show_all_posts_text }}</a>
+        </div>
+        {% endif %}
+{% partial 'block_footer' %}
+<style>
+    .post-container .col {
+        flex: 100% !important;
+    }
+</style>

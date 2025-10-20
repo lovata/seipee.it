@@ -1,0 +1,600 @@
+url = "/calcolo-risparmio"
+layout = "default"
+title = "Calcolo Risparmio"
+==
+<link href="{{ ['assets/less/calcolo.less']|theme }}" rel="stylesheet">
+{% put scripts %}
+    <script src="/themes/Puro/assets/js/calculator.js"></script>
+{% endput %}
+<div class="container">
+      <div class="row">
+          <div class="col-lg-1 col-md-1"></div>
+          <div class="col-lg-10 col-md-10 col-sx-12 col-sm-12">
+            <main class="container my-4">
+                <div class="calculator-container">
+                    <h1 class="text-center mb-4">Calcolatore di risparmio</h1><br>
+                    <p class="center">Inserire eventuali commenti e/o riferimenti per vostro utilizzo interno<br><br>
+                    <input type="text" maxlength="80" class="mb-4  form-control" id="RiferimentoCliente" placeholder="Note e riferimenti interni (opzionale)"></input>
+                    </p>
+                   <!-- Selezione Motori -->
+                   <div class="section-container">
+                        <h2 class="text-center mb-4">Selezione Motori</h2>
+                        <div class="row mb-4">
+                            <div class="col-12 col-md-3 offset-md-3">
+                                <label class="form-label text-end" id="titoli-tabelle"><i class="bi bi-arrow-down-square"></i> Oggi</label>
+                                <select id="select_vecchio" class="form-control">
+                                    <option value="1" selected="">IE1</option>
+                                    <option value="2">IE2</option>
+                                    <option value="3">IE3</option>
+                                    <option value="4">IE4</option>
+                                    <option value="5">IE5</option>
+                                </select>
+                            </div>
+                           <div class="col-12 col-md-3">
+                                <label class="form-label" id="titoli-tabelle"><i class="bi bi-arrow-up-right-square"></i> Domani</label>
+                                <select id="select_nuovo" class="form-control">
+                                    <option value="1">IE1</option>
+                                    <option value="2" selected="">IE2</option>
+                                    <option value="3">IE3</option>
+                                    <option value="4">IE4</option>
+                                    <option value="5">IE5</option>
+                                </select>
+                            </div>
+                        </div>
+                        <h2 class="text-center mb-4" id="titoloMotori">IE1 vs IE2</h2>
+                        <!-- Potenza -->
+                        <div class="mb-4 col-12 col-md-4 offset-md-4">
+                            <label class="form-label" id="titoli-tabelle">Inserisci Potenza Motore [kW]:</label>
+                            <input type="number" id="potenzaMotore" class="form-control is-invalid" placeholder="0" step="0.01" min="0" max="1000"><div class="invalid-feedback">Potenza: 0-1000 kW</div> 
+                        </div>
+                        <br>
+                       <!-- Funzionamento -->
+                        <div class="row align-items-center mb-3">
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                <label class="form-label"><i class="bi bi-clock-history"></i> Ore Funzionamento Giornaliere:</label>
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                        <input type="range" id="oreFunzionamento" class="form-range" min="0" max="24" value="4">
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                        <input type="number" id="oreFunzionamentoNumber" class="form-control mt-2 funzionamentoNumber" value="4" min="0" max="24" step="1">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row align-items-center mb-3">
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                <label class="form-label"><i class="bi bi-calendar2-week"></i> Giorni Funzionamento Settimanali:</label>
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                        <input type="range" id="giorniFunzionamento" class="form-range" min="0" max="7" value="2">
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                        <input type="number" id="giorniFunzionamentoNumber" class="form-control mt-2 funzionamentoNumber" value="2" min="0" max="7" step="1">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                         <div class="row align-items-center mb-3">
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                <label class="form-label"><i class="bi bi-calendar-month"></i> Settimane Funzionamento Annuali:</label>
+                                </div>
+                            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                        <input type="range" id="settimaneFunzionamento" class="form-range" min="0" max="52" value="13">
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                        <input type="number" id="settimaneFunzionamentoNumber" class="form-control mt-2 funzionamentoNumber" value="13" min="0" max="52" step="1">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="text-end">
+                            <h3><strong>Ore Annuali: <span id="oreAnnualiTotali">104 Ore</span></strong></h3>
+                        </div> 
+                    </div>
+
+                    <!-- Carichi -->
+                    <div class="section-container">
+                        <h2 class="text-center mb-4">Carichi</h2>
+                        <div class="row mb-4">
+                            <div class="col-md-3">
+                                <div class="carico-box">
+                                    <h3>Carico 25%</h3>
+                                    <input type="range" id="carico25" class="form-range" min="0" max="100" value="15">
+                                    <input type="number" id="carico25Number" class="form-control mt-2" value="15" min="0" max="100" step="1">
+                                    <p class="utilizzo">15% Utilizzo</p>
+                                    <small class="ore-annuali">Ore Annuali: 15.6 Ore</small>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="carico-box">
+                                    <h3>Carico 50%</h3>
+                                    <input type="range" id="carico50" class="form-range" min="0" max="100" value="5">
+                                    <input type="number" id="carico50Number" class="form-control mt-2" value="5" min="0" max="100" step="1">
+                                    <p class="utilizzo">5% Utilizzo</p>
+                                    <small class="ore-annuali">Ore Annuali: 5.2 Ore</small>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="carico-box">
+                                    <h3>Carico 75%</h3>
+                                    <input type="range" id="carico75" class="form-range" min="0" max="100" value="40">
+                                    <input type="number" id="carico75Number" class="form-control mt-2" value="40" min="0" max="100" step="1">
+                                    <p class="utilizzo">40% Utilizzo</p>
+                                    <small class="ore-annuali">Ore Annuali: 41.6 Ore</small>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="carico-box">
+                                    <h3>Carico 100%</h3>
+                                    <input type="range" id="carico100" class="form-range" min="0" max="100" value="40">
+                                    <input type="number" id="carico100Number" class="form-control mt-2" value="40" min="0" max="100" step="1">
+                                    <p class="utilizzo">40% Utilizzo</p>
+                                    <small class="ore-annuali">Ore Annuali: 41.6 Ore</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Tariffa -->
+                    <div class="section-container">
+                        <h2 class="text-center mb-4">Tariffa elettrica</h2>
+                        <div class="mb-4 col-12 col-md-6 offset-md-3">
+                            <label class="form-label" id="titoli-tabelle">Indica il costo [€/kWh]:</label>
+                            <input type="range" id="tariffaElettrica" class="form-range" min="0.01" max="1" step="0.01" value="0.17">
+                            <input type="number" id="tariffaElettricaNumber" class="form-control mt-2" value="0.17" min="0.01" max="1" step="0.01">
+                          <!--  <span class="range-value">0.17 €/kWh</span>-->
+                        </div>
+                   </div>
+                    <!-- Efficienze -->
+                    <div class="section-container">
+                        <h2 class="text-center mb-1">Efficienza</h2>
+                        <h3 class="text-center mb-4">% di rendimento del motore </h3>
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <div class="efficienze-grid">
+                                    <div class="row">
+                                        <!-- Efficienze per 25% -->
+                                        <div class="col-3">
+                                            <div class="mb-2 text-center">
+                                                <label class="form-labe effi_pre" for="eff_IE1_25">
+                                                    <p class="small-bold-text">Al 25% del carico</p>
+                                                    <i class="bi bi-circle-fill"></i><i class="bi bi-circle"></i><i class="bi bi-circle"></i><i class="bi bi-circle"></i></br><br>
+                                                    Efficienza IE1:</label>
+                                                <input type="number" id="eff_IE1_25" class="form-control" value="0.23">
+                                            </div>
+                                            <div class="mb-2">
+                                                <label class="form-label   effi_post" for="eff_IE2_25">
+                                                Efficienza IE2:</label>
+                                                <input type="number" id="eff_IE2_25" class="form-control" value="0.1">
+                                            </div>
+                                        </div>
+                                        <!-- Efficienze per 50% -->
+                                        <div class="col-3">
+                                            <div class="mb-2 text-center">
+                                                <label class="form-label effi_pre" for="eff_IE1_50">
+                                                    <p class="small-bold-text">Al 50% del carico</p>
+                                                    <i class="bi bi-circle-fill"></i><i class="bi bi-circle-fill"></i><i class="bi bi-circle"></i><i class="bi bi-circle"></i></br><br>
+                                                    
+                                                    Efficienza IE1:</label>
+                                                <input type="number" id="eff_IE1_50" class="form-control  " value="0.14">
+                                            </div>
+                                            <div class="mb-2 text-center">
+                                                <label class="form-label effi_post" for="eff_IE2_50">
+                                                    Efficienza IE2:</label>
+                                                <input type="number" id="eff_IE2_50" class="form-control  " value="0.1">
+                                            </div>
+                                        </div>
+                                        <!-- Efficienze per 75% -->
+                                        <div class="col-3">
+                                            <div class="mb-2 text-center">
+                                                <label class="form-label  effi_pre" for="eff_IE1_75">
+                                                    <p class="small-bold-text">Al 75% del carico</p>
+                                                    <i class="bi bi-circle-fill"></i><i class="bi bi-circle-fill"></i><i class="bi bi-circle-fill"></i><i class="bi bi-circle"></i></br><br>
+                                                    
+                                                    Efficienza IE1:</label>
+                                                <input type="number" id="eff_IE1_75" class="form-control" value="0.1">
+                                            </div>
+                                            <div class="mb-2 text-center">
+                                                <label class="form-label  effi_post" for="eff_IE2_75">
+                                                    Efficienza IE2:</label>
+                                                <input type="number" id="eff_IE2_75" class="form-control" value="0.1">
+                                            </div>
+                                        </div>
+                                        <!-- Efficienze per 100% -->
+                                        <div class="col-3">
+                                            <div class="mb-2 text-center">
+                                                <label class="form-label   effi_pre" for="eff_IE1_100">
+                                                    <p class="small-bold-text">Al 100% del carico</p>
+                                                    <i class="bi bi-circle-fill"></i><i class="bi bi-circle-fill"></i><i class="bi bi-circle-fill"></i><i class="bi bi-circle-fill"></i></br><br>
+                                                    
+                                                    Efficienza IE1:</label>
+                                                <input type="number" id="eff_IE1_100" class="form-control" value="0.1">
+                                            </div>
+                                            <div class="mb-2 text-center">
+                                                <label class="form-label   effi_post" for="eff_IE2_100">
+                                                       Efficienza IE2:</label>
+                                                <input type="number" id="eff_IE2_100" class="form-control " value="0.1">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                      </div>
+                  </div>
+                  <!-- Risultati -->
+                 
+                </main></div>
+              </div>
+             
+            <div class="col-lg-6 col-md-6"></div>
+        </div>
+        <div class="container"><div class="section-container">
+            
+              <div class="row">
+                <div class="col-12">
+                 <div class="text-center mb-4"><h2> Ecco quanto puoi risparmiare:</h2> </div>
+                    <div class="container table-wrapper">
+                      <!-- Tabella responsiva -->
+                      <div class="table-responsive">
+                      <table class="table table-bordered table-striped table-hover text-center">
+                    
+                      <thead class="thead-dark">
+                      <tr>
+                          <th>Periodo</th>
+                          <th>Risparmio<br>Totale</th>
+                          <th>Risparmio<br>25%</th>
+                          <th>Risparmio<br>50%</th>
+                          <th>Risparmio<br>75%</th>
+                          <th>Risparmio<br>100%</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>1 Anno</td>
+                          <td id="risparmioTotale1">0 €</td>
+                          <td id="risparmio25_1">0 €</td>
+                          <td id="risparmio50_1">0 €</td>
+                          <td id="risparmio75_1">0 €</td>
+                          <td id="risparmio100_1">0 €</td>
+                        </tr>
+                        <tr>
+                          <td>2 Anni</td>
+                          <td id="risparmioTotale2">0 €</td>
+                          <td id="risparmio25_2">0 €</td>
+                          <td id="risparmio50_2">0 €</td>
+                          <td id="risparmio75_2">0 €</td>
+                          <td id="risparmio100_2">0 €</td>
+                        </tr>
+                        <tr>
+                          <td>4 Anni</td>
+                          <td id="risparmioTotale4">0 €</td>
+                          <td id="risparmio25_4">0 €</td>
+                          <td id="risparmio50_4">0 €</td>
+                          <td id="risparmio75_4">0 €</td>
+                          <td id="risparmio100_4">0 €</td>
+                        </tr>
+                        <tr>
+                          <td>6 Anni</td>
+                          <td id="risparmioTotale6">0 €</td>
+                          <td id="risparmio25_6">0 €</td>
+                          <td id="risparmio50_6">0 €</td>
+                          <td id="risparmio75_6">0 €</td>
+                          <td id="risparmio100_6">0 €</td>
+                        </tr>
+                        <tr>
+                          <td>8 Anni</td>
+                          <td id="risparmioTotale8">0 €</td>
+                          <td id="risparmio25_8">0 €</td>
+                          <td id="risparmio50_8">0 €</td>
+                          <td id="risparmio75_8">0 €</td>
+                          <td id="risparmio100_8">0 €</td>
+                        </tr>
+                        <tr>
+                          <td>10 Anni</td>
+                          <td id="risparmioTotale10">0 €</td>
+                          <td id="risparmio25_10">0 €</td>
+                          <td id="risparmio50_10">0 €</td>
+                          <td id="risparmio75_10">0 €</td>
+                          <td id="risparmio100_10">0 €</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+        </div>
+ <br>
+        <form id="sendPdfForm" onsubmit="return false;">
+        {{ form_token() }}
+            <div class="row gx-2 pulsantitable justify-content-center align-items-center">
+                <div class="col-12 col-md-6 mb-3 d-flex flex-column flex-md-row gap-1">
+                  <input type="email" id="emailReport" class="form-control me-md-2" placeholder="Inserisci Email">
+                  <button type="button" id="btnSendEmail" class="button w-100">
+                    <i class="fas fa-envelope"></i> Invia Email
+                  </button>
+                </div>
+
+              <div class="col-12 col-md-3 mb-3 d-flex justify-content-center">
+                <button type="button" id="btnPdf" class="btn button w-100">
+                  <i class="fas fa-print"></i> Genera PDF
+                </button>
+              </div>
+
+              <div class="col-12 col-md-3 mb-3 d-flex justify-content-center">
+                <button id="azzera" class="button w-100">
+                  <i class="fas fa-stop"></i> Azzera
+                </button>
+              </div>
+            </div>
+         </form>
+    </div>
+</div>
+    
+<div id="customModal" class="modal fade" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalTitle"></h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="text-center mb-4">
+                                <i class="modal-icon fas fa-4x mb-3"></i>
+                                <p class="modal-message"></p>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+</div></div>
+
+
+<script>
+  document.getElementById('btnPdf').addEventListener('click', function () {
+    // Leggi i valori correnti dalla pagina (adatta i selettori ai tuoi campi reali)
+    var riferimentoCliente = document.getElementById('RiferimentoCliente')?.value || '';
+    var kw = document.getElementById('potenzaMotore')?.value || '';
+    var vecchio_label = document.getElementById('select_vecchio')
+      ?.options[document.getElementById('select_vecchio').selectedIndex].text || '';
+    var nuovo_label = document.getElementById('select_nuovo')
+      ?.options[document.getElementById('select_nuovo').selectedIndex].text || '';
+    var oreFunzionamentoNumber = document.getElementById('oreFunzionamentoNumber')?.value || '';
+    var giorniFunzionamentoNumber = document.getElementById('giorniFunzionamentoNumber')?.value || '';
+    var settimaneFunzionamentoNumber = document.getElementById('settimaneFunzionamentoNumber')?.value || '';
+    var oreAnnualiTotali = document.getElementById('oreAnnualiTotali')?.textContent.trim() || '';
+    var carico25Number = document.getElementById('carico25Number')?.value || '';
+    var carico50Number = document.getElementById('carico50Number')?.value || '';
+    var carico75Number = document.getElementById('carico75Number')?.value || '';
+    var carico100Number = document.getElementById('carico100Number')?.value || '';
+    var eff_IE1_25 = document.getElementById('eff_IE1_25')?.value || '';
+    var eff_IE2_25 = document.getElementById('eff_IE2_25')?.value || '';
+    var eff_IE1_50 = document.getElementById('eff_IE1_50')?.value || '';
+    var eff_IE2_50 = document.getElementById('eff_IE2_50')?.value || '';
+    var eff_IE1_75 = document.getElementById('eff_IE1_75')?.value || '';
+    var eff_IE2_75 = document.getElementById('eff_IE2_75')?.value || '';
+    var eff_IE1_100 = document.getElementById('eff_IE1_100')?.value || '';
+    var eff_IE2_100 = document.getElementById('eff_IE2_100')?.value || '';
+    var risparmioTotale1 = document.getElementById('risparmioTotale1')?.textContent.trim() || '';
+    var risparmioTotale2 = document.getElementById('risparmioTotale2')?.textContent.trim() || '';
+    var risparmioTotale4 = document.getElementById('risparmioTotale4')?.textContent.trim() || '';
+    var risparmioTotale6 = document.getElementById('risparmioTotale6')?.textContent.trim() || '';
+    var risparmioTotale8 = document.getElementById('risparmioTotale8')?.textContent.trim() || '';
+    var risparmioTotale10 = document.getElementById('risparmioTotale10')?.textContent.trim() || '';
+    var risparmio25_1 = document.getElementById('risparmio25_1')?.textContent.trim() || '';
+    var risparmio25_2 = document.getElementById('risparmio25_2')?.textContent.trim() || '';
+    var risparmio25_4 = document.getElementById('risparmio25_4')?.textContent.trim() || '';
+    var risparmio25_6 = document.getElementById('risparmio25_6')?.textContent.trim() || '';
+    var risparmio25_8 = document.getElementById('risparmio25_8')?.textContent.trim() || '';
+    var risparmio25_10 = document.getElementById('risparmio25_10')?.textContent.trim() || '';
+    var risparmio50_1 = document.getElementById('risparmio50_1')?.textContent.trim() || '';
+    var risparmio50_2 = document.getElementById('risparmio50_2')?.textContent.trim() || '';
+    var risparmio50_4 = document.getElementById('risparmio50_4')?.textContent.trim() || '';
+    var risparmio50_6 = document.getElementById('risparmio50_6')?.textContent.trim() || '';
+    var risparmio50_8 = document.getElementById('risparmio50_8')?.textContent.trim() || '';
+    var risparmio50_10 = document.getElementById('risparmio50_10')?.textContent.trim() || '';
+    var risparmio75_1 = document.getElementById('risparmio75_1')?.textContent.trim() || '';
+    var risparmio75_2 = document.getElementById('risparmio75_2')?.textContent.trim() || '';
+    var risparmio75_4 = document.getElementById('risparmio75_4')?.textContent.trim() || '';
+    var risparmio75_6 = document.getElementById('risparmio75_6')?.textContent.trim() || '';
+    var risparmio75_8 = document.getElementById('risparmio75_8')?.textContent.trim() || '';
+    var risparmio75_10 = document.getElementById('risparmio75_10')?.textContent.trim() || '';
+    var risparmio100_1 = document.getElementById('risparmio100_1')?.textContent.trim() || '';
+    var risparmio100_2 = document.getElementById('risparmio100_2')?.textContent.trim() || '';
+    var risparmio100_4 = document.getElementById('risparmio100_4')?.textContent.trim() || '';
+    var risparmio100_6 = document.getElementById('risparmio100_6')?.textContent.trim() || '';
+    var risparmio100_8 = document.getElementById('risparmio100_8')?.textContent.trim() || '';
+    var risparmio100_10 = document.getElementById('risparmio100_10')?.textContent.trim() || '';
+
+    var params = new URLSearchParams({
+      riferimentoCliente: riferimentoCliente,
+      kw: kw,
+      vecchio_label,
+      nuovo_label,
+      oreFunzionamentoNumber,
+      giorniFunzionamentoNumber,
+      settimaneFunzionamentoNumber,
+      oreAnnualiTotali,
+      carico25Number,
+      carico50Number,
+      carico75Number,
+      carico100Number,
+      eff_IE1_25,
+      eff_IE2_25,
+      eff_IE1_50,
+      eff_IE2_50,
+      eff_IE1_75,
+      eff_IE2_75,
+      eff_IE1_100,
+      eff_IE2_100,
+      risparmioTotale1,
+      risparmioTotale2,
+      risparmioTotale4,
+      risparmioTotale6,
+      risparmioTotale8,
+      risparmioTotale10,
+      risparmio25_1,
+      risparmio25_2,
+      risparmio25_4,
+      risparmio25_6,
+      risparmio25_8,
+      risparmio25_10,
+      risparmio50_1,
+      risparmio50_2,
+      risparmio50_4,
+      risparmio50_6,
+      risparmio50_8,
+      risparmio50_10,
+      risparmio75_1,
+      risparmio75_2,
+      risparmio75_4,
+      risparmio75_6,
+      risparmio75_8,
+      risparmio75_10,
+      risparmio100_1,
+      risparmio100_2,
+      risparmio100_4,
+      risparmio100_6,
+      risparmio100_8,
+      risparmio100_10,
+    });
+
+    // Costruisci l'URL verso la route che genera il PDF
+    var url = '{{ "/pdf/calcolo-risparmio"|app }}' + '?' + params.toString();
+
+    // Apri in nuova scheda per innescare il download
+    window.open(url, '_blank', 'noopener');
+  });
+</script>
+<script>
+(function () {
+  // --- Helpers ---
+  function val(id)   { return document.getElementById(id)?.value ?? ''; }
+  function txt(id)   { return (document.getElementById(id)?.textContent || '').trim(); }
+  function selTxt(id){
+    var el = document.getElementById(id);
+    return el ? (el.options[el.selectedIndex]?.text || '') : '';
+  }
+
+  // Colleziona TUTTI i parametri come nel bottone PDF
+  function collectReportParams () {
+    return {
+      // Selezioni e potenza
+      riferimentoCliente: val('riferimentoCliente'),
+      kw: val('potenzaMotore'),
+      vecchio_label: selTxt('select_vecchio'),
+      nuovo_label:   selTxt('select_nuovo'),
+
+      // Funzionamento
+      oreFunzionamentoNumber:       val('oreFunzionamentoNumber'),
+      giorniFunzionamentoNumber:    val('giorniFunzionamentoNumber'),
+      settimaneFunzionamentoNumber: val('settimaneFunzionamentoNumber'),
+      oreAnnualiTotali:             txt('oreAnnualiTotali'),
+
+      // Carichi
+      carico25Number: val('carico25Number'),
+      carico50Number: val('carico50Number'),
+      carico75Number: val('carico75Number'),
+      carico100Number:val('carico100Number'),
+
+      // Efficienze
+      eff_IE1_25:  val('eff_IE1_25'),
+      eff_IE2_25:  val('eff_IE2_25'),
+      eff_IE1_50:  val('eff_IE1_50'),
+      eff_IE2_50:  val('eff_IE2_50'),
+      eff_IE1_75:  val('eff_IE1_75'),
+      eff_IE2_75:  val('eff_IE2_75'),
+      eff_IE1_100: val('eff_IE1_100'),
+      eff_IE2_100: val('eff_IE2_100'),
+
+      // Tabella risultati (tutte le celle)
+      risparmioTotale1:  txt('risparmioTotale1'),
+      risparmioTotale2:  txt('risparmioTotale2'),
+      risparmioTotale4:  txt('risparmioTotale4'),
+      risparmioTotale6:  txt('risparmioTotale6'),
+      risparmioTotale8:  txt('risparmioTotale8'),
+      risparmioTotale10: txt('risparmioTotale10'),
+
+      risparmio25_1:  txt('risparmio25_1'),
+      risparmio25_2:  txt('risparmio25_2'),
+      risparmio25_4:  txt('risparmio25_4'),
+      risparmio25_6:  txt('risparmio25_6'),
+      risparmio25_8:  txt('risparmio25_8'),
+      risparmio25_10: txt('risparmio25_10'),
+
+      risparmio50_1:  txt('risparmio50_1'),
+      risparmio50_2:  txt('risparmio50_2'),
+      risparmio50_4:  txt('risparmio50_4'),
+      risparmio50_6:  txt('risparmio50_6'),
+      risparmio50_8:  txt('risparmio50_8'),
+      risparmio50_10: txt('risparmio50_10'),
+
+      risparmio75_1:  txt('risparmio75_1'),
+      risparmio75_2:  txt('risparmio75_2'),
+      risparmio75_4:  txt('risparmio75_4'),
+      risparmio75_6:  txt('risparmio75_6'),
+      risparmio75_8:  txt('risparmio75_8'),
+      risparmio75_10: txt('risparmio75_10'),
+
+      risparmio100_1:  txt('risparmio100_1'),
+      risparmio100_2:  txt('risparmio100_2'),
+      risparmio100_4:  txt('risparmio100_4'),
+      risparmio100_6:  txt('risparmio100_6'),
+      risparmio100_8:  txt('risparmio100_8'),
+      risparmio100_10: txt('risparmio100_10'),
+    };
+  }
+
+  // --- Bind sicuro una sola volta ---
+  var form = document.getElementById('sendPdfForm');
+  var btn  = document.getElementById('btnSendEmail');
+  if (!btn || btn.dataset.bound === '1') return;
+  btn.dataset.bound = '1';
+
+  btn.addEventListener('click', async function (e) {
+    e.preventDefault();
+    if (btn.disabled) return;
+    btn.disabled = true;
+
+    try {
+      var csrf  = form.querySelector('input[name="_token"]')?.value || '';
+      var email = (document.getElementById('emailReport').value || '').trim();
+      if (!email) { alert('Inserisci un indirizzo email.'); return; }
+
+      // Colleziona parametri
+      var p = collectReportParams();
+
+      // Prepara la POST
+      var fd = new FormData(form);   // include già _token
+      fd.set('email', email);
+
+      // Aggiungi TUTTI i campi al body (nomi allineati alle Route)
+      Object.keys(p).forEach(function (k) { fd.set(k, p[k]); });
+
+      // Invio
+      var res = await fetch('{{ "/pdf/send"|app }}', {
+        method: 'POST',
+        headers: { 'X-CSRF-TOKEN': csrf },
+        body: fd,
+        credentials: 'same-origin'
+      });
+      var json = await res.json();
+
+      alert(res.ok && json.ok ? 'Report inviato correttamente.' : (json.message || 'Invio email fallito.'));
+    } catch (err) {
+      console.error(err);
+      alert('Errore di rete durante l’invio.');
+    } finally {
+      btn.disabled = false;
+    }
+  });
+})();
+</script>

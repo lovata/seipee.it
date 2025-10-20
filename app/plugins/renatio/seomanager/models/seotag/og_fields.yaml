@@ -1,0 +1,31 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+og_title:
+    label: renatio.seomanager::lang.field.og_title
+    tab: renatio.seomanager::lang.tab.og_tags
+    comment: renatio.seomanager::lang.comments.og_title
+    span: left
+
+og_type:
+    label: renatio.seomanager::lang.field.og_type
+    tab: renatio.seomanager::lang.tab.og_tags
+    span: right
+    comment: renatio.seomanager::lang.comments.og_type
+
+og_description:
+    label: renatio.seomanager::lang.field.og_description
+    type: textarea
+    tab: renatio.seomanager::lang.tab.og_tags
+    size: tiny
+    comment: renatio.seomanager::lang.comments.og_description
+
+og_image:
+    label: renatio.seomanager::lang.field.og_image
+    type: mediafinder
+    mode: image
+    maxItems: 1
+    tab: renatio.seomanager::lang.tab.og_tags
+    commentAbove: renatio.seomanager::lang.comments.og_image_comment
+    span: left

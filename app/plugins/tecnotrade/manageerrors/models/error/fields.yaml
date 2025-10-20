@@ -1,0 +1,29 @@
+fields:
+    error_code:
+        label: 'Error code'
+        span: auto
+        type: number
+    error_message:
+        label: 'Error message'
+        span: auto
+        type: textarea
+    error_date:
+        label: 'Error date'
+        span: auto
+        type: datepicker
+    page_url:
+        label: 'Page url'
+        span: auto
+        type: text
+    import_status:
+        label: 'Import status'
+        span: auto
+        type: number
+    error_line:
+        label: 'Error line'
+        span: auto
+        type: number
+    error_file:
+        label: 'Error file'
+        span: auto
+        type: text

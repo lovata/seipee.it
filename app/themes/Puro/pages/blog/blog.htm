@@ -1,0 +1,93 @@
+url = "/blog/:page?"
+layout = "default"
+title = "Blog"
+
+[blogPosts]
+pageNumber = "{{ :page }}"
+postsPerPage = 12
+noPostsMessage = "No posts found"
+sortOrder = "random"
+categoryPage = "blog/blog-category"
+postPage = "blog/blog-post"
+
+[blogCategories]
+slug = "{{ :slug }}"
+displayEmpty = 0
+categoryPage = "blog/blog-category"
+
+[viewBag]
+seo_title = "Blog"
+seo_description = "Blog"
+robot_index = "index"
+robot_follow = "follow"
+==
+<div class="container py-4">
+    <div class="row">
+		<div class="col-12 text-center">
+			<h1>Il nostro Blog</h1>
+			<p class="small">Buona lettura!</p>
+        </div>
+    </div>
+</div>
+
+<div class="container pb-5">
+    <div class="row">
+        <div class="col-12 {% if global.blog_shows_categories %}col-lg-9{% endif %}">
+            {% set posts = blogPosts.posts %}
+            <div class="post-list row">
+                {% for post in posts|sort((a, b) => a.bloghub.meta.Ordinamento > b.bloghub.meta.Ordinamento ) %}
+                    <div class="post-container col-12 {{ global.blog_posts_number}}">
+                        <div class="featured-images text-center"> 
+                            <a href="{{ post.url }}" aria-label="{{ post.title }}">
+                                <img data-src="{{ image.filename }}" width="865" height="481" src="{{ post.metadata.principal_image|media|resize(865, 481, { mode: 'crop' })| webp }}" alt="{{ post.title }}">
+                            </a>
+                        </div>
+                        <h3><a href="{{ post.url }}">{{ post.title }}</a></h3>
+                        <p class="info">
+                            {% if global.blog_shows_post_category %}
+                                {% for category in post.categories %}
+                                    <a href="{{ category.url }}">{{ category.name }}</a>{% if not loop.last %}, {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                            {% if global.blog_shows_post_date %}
+                                {{ post.published_at|date('d M Y') }}
+                            {% endif %}
+                            {% if global.blog_shows_post_author %}
+                                Autore
+                            {% endif %}
+                        </p>
+                        custom -{{ post.bloghub.meta.Ordinamento }}-field
+                        {% if global.blog_shows_post_excerpt %}
+                            <p class="excerpt">{{ post.summary|raw|slice(0,global.blog_post_excerpt_length) }}</p>
+                        {% endif %}
+                    </div>
+                {% else %}
+                    <div class="no-data">{{ blogPosts.noPostsMessage }}</div>
+                {% endfor %}
+            </div>
+            
+            {% if posts.lastPage > 1 %}
+                <ul class="pagination">
+                    {% if posts.currentPage > 1 %}
+                        <li><a href="{{ this.page.baseFileName|page({ (blogPosts.pageParam): (posts.currentPage-1) }) }}">&larr; Prev</a></li>
+                    {% endif %}
+            
+                    {% for page in posts.currentPage..posts.currentPage+10 %}
+                        <li class="{{ posts.currentPage == page ? 'active' : null }}">
+                            <a href="{{ this.page.baseFileName|page({ (blogPosts.pageParam): page }) }}">{{ page }}</a>
+                        </li>
+                    {% endfor %}
+            
+                    {% if posts.lastPage > posts.currentPage %}
+                        <li><a href="{{ this.page.baseFileName|page({ (blogPosts.pageParam): (posts.currentPage+1) }) }}">Next &rarr;</a></li>
+                    {% endif %}
+                </ul>
+            {% endif %}
+        </div>
+        {% if global.blog_shows_categories %}
+            <div class="col-12 col-lg-3">
+                {% component 'blogCategories' %}
+            </div>
+        {% endif %}
+	</div>
+</div>

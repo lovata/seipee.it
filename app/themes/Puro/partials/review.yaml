@@ -1,0 +1,79 @@
+name: Reviews
+section: Tools
+handle: Reviews
+labelFrom: block_name
+icon: /themes/Puro/assets/images/reviews.webp
+translatable:
+- paragrafo
+form:
+    tabs:
+        fields:
+            cards:
+                label: Elemento
+                tab: Proprietà
+                itemsExpanded: false
+                type: repeater
+                form:
+                    fields:
+                        paragrafo: 
+                            label: Testo
+                            type: richeditor
+                        image:
+                            label: Immagine
+                            type: mediafinder
+                        image_border:
+                            label: Bordo
+                            type: radio
+                            options:
+                                "0rem": Quadrato
+                                "1rem": Arrotondato
+                                "50%": Rotondo
+                            span: row
+                            spanClass: col-4
+                        image_align:
+                            label: Allineamento
+                            type: radio
+                            options:
+                                "left" : Sinistra
+                                "center" : Centrato
+                                "right" : Destra
+                            span: row
+                            spanClass: col-4
+                        image_size:
+                            label: Dimensione
+                            type: dropdown
+                            span: row
+                            spanClass: col-4
+                            options:
+                                "100%" : 100%
+                                "90%" : 90%
+                                "80%" : 80%
+                                "70%" : 70%
+                                "60%" : 60%
+                                "50%" : 50%
+                                "40%" : 40%
+                                "30%" : 30%
+                                "20%" : 20%
+                                "10%" : 10%
+                                
+            proporzioni:
+                label: Proporzione tra immagine e testo
+                type: dropdown
+                tab: Opzioni
+                default: 5
+                options:    
+                    2: "20% / 80%"
+                    3: "30% / 70%"
+                    5: "40% / 60%"
+                    6: "50% / 50%"
+                    7: "60% / 40%"
+                    9: "70% / 30%"
+                    10: "80% / 20%"
+            inverti_colonne:
+                label: Inverti colonne
+                type: switch
+                tab: Opzioni
+            spacing-mixin:
+                type: mixin
+            background-mixin:
+                type: mixin

@@ -1,0 +1,74 @@
+fields:
+    is_active:
+        label: 'city.map::lang.sources.active'
+        span: full
+        default: 1
+        required: 0
+        type: switch
+    name:
+        label: 'city.map::lang.sources.name'
+        span: left
+        required: 1
+        type: text
+    type:
+        label: 'city.map::lang.sources.type'
+        showSearch: false
+        span: right
+        required: 1
+        type: dropdown
+    _file_info:
+        type: hint
+        mode: info
+        label: 'city.map::lang.sources.type_option.geojson'
+        commentHtml: true
+        comment: 'city.map::lang.sources.file_info'
+        trigger:
+            action: show
+            field: type
+            condition: 'value[geoJson]'
+    file:
+        label: 'city.map::lang.sources.file'
+        mode: file
+        fileTypes: 'json,geojson'
+        useCaption: 0
+        thumbOptions:
+            mode: crop
+            extension: auto
+        span: left
+        required: 1
+        trigger:
+            action: show
+            field: type
+            condition: 'value[geoJson]'
+        type: fileupload
+        comment: 'city.map::lang.sources.file_comment'
+    _custom_info:
+        type: hint
+        mode: info
+        label: 'city.map::lang.sources.type_option.custom'
+        commentHtml: true
+        comment: 'city.map::lang.sources.custom_info'
+        trigger:
+            action: show
+            field: type
+            condition: 'value[custom]'
+    value:
+        label: 'city.map::lang.sources.class_name'
+        span: left
+        placeholder: Vendor\Plugin\Models\SomeData
+        default: City\Map\Classes\Source\Sample\Places
+        required: 1
+        trigger:
+            action: show
+            field: type
+            condition: 'value[custom]'
+        type: text
+        comment: 'city.map::lang.sources.class_name_comment'
+    _ruler1:
+        type: ruler
+    maps:
+        label: 'city.map::lang.maps.menu_label'
+        nameFrom: name
+        span: left
+        type: relation
+        comment: 'city.map::lang.sources.maps_comment'

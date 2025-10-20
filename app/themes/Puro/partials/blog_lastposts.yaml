@@ -1,0 +1,596 @@
+name: 'Blog (ultimi posts)'
+handle: blog_lastposts
+section: Tools
+labelFrom: block_name
+icon: /themes/Puro/assets/images/blog.webp
+components:
+    boxBlogPosts:
+        addToLayout: true
+        noCache: true
+        numPosts: '= blog_post_number'
+        categorySlug: '= blog_post_category_id'
+form:
+    tabs:
+      fields:
+        blog_post_number:
+            type: number
+            label: Post visualizzati 
+            tab: Proprietà
+            comment: Inserisci il numero di post da visualizzare
+            default: 3
+            span: row
+            spanClass: col-6
+        blog_sort_order:
+            type: dropdown
+            label: Ordinamento
+            tab: Proprietà
+            comment: 
+            options:
+                "": Seleziona un ordinamento
+                "published_at asc": Dal meno recente
+                "published_at desc": Dal più recente
+                "random": random
+            span: row
+            spanClass: col-6
+        _section00:
+            label: Post per riga
+            type: section
+            comment: Indicare quanti post devono essere visualizzati sulla stessa linea
+            tab: Proprietà
+        blog_post_per_row:
+            type: number
+            label: Desktop
+            tab: Proprietà
+            default: 3
+            span: row
+            spanClass: col-4 
+        blog_post_per_row_tablet:
+            type: number
+            label: Tablet
+            tab: Proprietà
+            default: 3
+            span: row
+            spanClass: col-4 
+        blog_post_per_row_mobile:
+            type: number
+            label: Mobile
+            tab: Proprietà
+            default: 3
+            span: row
+            spanClass: col-4                                    
+        blog_post_category_id:
+            label: Seleziona categoria
+            tab: Proprietà
+            type: dropdown
+            options: getBoxBlogPostCategoryOptions
+            comment: Indica la categoria dei post da visualizzare
+            span: row
+            spanClass: col-6
+        blog_post_tag_id:
+            label: Seleziona tag
+            tab: Proprietà
+            type: dropdown
+            options: getBoxBlogPostTagsOptions
+            comment: Indica il tag dei post da visualizzare
+            default: 
+            span: row
+            spanClass: col-6
+        blog_post_page_url:
+            label: Inserisci la pagina del single post
+            tab: Proprietà
+            type: text
+            comment: Indica la pagina a cui punterà il link cliccando sul single post        
+            default: /blog/
+        blog_post_category_page_url:
+            label: Inserisci la pagina della singola categoria
+            tab: Proprietà
+            type: text
+            comment: Indica la pagina a cui punterà il link cliccando sul single post    
+            default: /blog/category/
+        blog_post_tag_page_url:
+            label: Inserisci la pagina dei tag
+            tab: Proprietà
+            type: text
+            comment: Indica la pagina a cui punterà il link cliccando sul tag di un post       
+            default: /tag/
+        border:
+            label: Bordo
+            type: switch
+            tab: Proprietà
+        border_color:
+            label: Colore
+            type: colorpicker
+            tab: Proprietà
+            trigger:
+              action: show
+              field: border
+              condition: checked
+        border_type:
+            label: Tipo linea
+            type: balloon-selector
+            tab: Proprietà
+            options:
+                "solid": Continua
+                "dashed": Tratteggiata
+                "dotted": Puntiforme
+            trigger:
+              action: show
+              field: border
+              condition: checked
+        border_width:
+            label: Spessore
+            type: balloon-selector
+            tab: Proprietà
+            options:
+                1px: 1px
+                2px: 2px
+                3px: 3px
+                4px: 4px
+            trigger:
+              action: show
+              field: border
+              condition: checked
+        inner_padding:
+            label: Spaziatura interna
+            type: dropdown
+            tab: Proprietà
+            options:
+                "0rem": Nessuno
+                "1rem": 1rem
+                "2rem": 2rem
+                "3rem": 3rem
+                "4rem": 4rem
+                "5rem": 5rem
+        _section10:
+            label: Titolo
+            type: section
+            tab: Configurazione
+        title_style:
+            label: Stile
+            type: dropdown
+            tab: Configurazione
+            default: "h3"
+            span: row
+            spanClass: col-4
+            options:
+                "h1": h1
+                "h2": h2
+                "h3": h3
+                "h4": h4
+        title_class:
+            label: Classe
+            tab: Configurazione
+            type: text
+            span: row
+            spanClass: col-4 
+        order_title:
+            label: Ordinamento
+            type: number
+            tab: Configurazione
+            span: row
+            spanClass: col-4
+        _section11:
+            label: Immagine
+            type: section
+            tab: Configurazione
+            span: row
+            spanClass: col-8
+        show_image:
+            label: Visualizza
+            type: switch
+            tab: Configurazione
+            span: row
+            spanClass: col-4
+        image_width:
+            label: Larghezza
+            tab: Configurazione
+            type: text
+            span: row
+            default: 800
+            spanClass: col-2
+            trigger:
+              action: show
+              field: show_image
+              condition: checked
+        image_height:
+            label: Altezza
+            tab: Configurazione
+            type: text
+            span: row
+            default: 450
+            spanClass: col-2
+            trigger:
+              action: show
+              field: show_image
+              condition: checked
+        image_class:
+            label: Classe
+            tab: Configurazione
+            type: text
+            span: row
+            spanClass: col-4
+            trigger:
+              action: show
+              field: show_image
+              condition: checked   
+        order_image:
+            label: Ordinamento
+            type: number
+            tab: Configurazione
+            span: row
+            spanClass: col-4
+            trigger:
+              action: show
+              field: show_image
+              condition: checked
+        image_border:
+            label: Bordo
+            type: balloon-selector
+            tab: Configurazione
+            span: row
+            spanClass: col-8
+            options:
+                "0rem": Quadrato
+                "1rem": Arrotondato
+                "50%": Rotondo
+            trigger:
+              action: show
+              field: show_image
+              condition: checked
+        image_padding:
+            label: Spaziatura 
+            type: dropdown
+            tab: Configurazione
+            span: row
+            spanClass: col-4
+            options:
+                "0rem": Nessuno
+                "1rem": 1rem
+                "2rem": 2rem
+                "3rem": 3rem
+                "4rem": 4rem
+                "5rem": 5rem
+                "6rem": 6rem
+                "7rem": 7rem
+                "8rem": 8rem
+                "9rem": 9rem
+                "10rem": 10rem
+            trigger:
+              action: show
+              field: show_image
+              condition: checked
+        _section12:
+            label: Data
+            type: section
+            tab: Configurazione
+            span: row
+            spanClass: col-8
+        show_date:
+            label: Visualizza
+            type: switch
+            tab: Configurazione 
+            span: row
+            spanClass: col-4
+        date_format:
+            label: Formato
+            tab: Configurazione
+            type: dropdown
+            options:
+                'j/m/Y': 23/10/2025
+                'j-m-Y': 23-10-2025
+                'j M Y': 23 ott 2025
+                'j F Y': 23 ottobre 2025
+                'D j M Y': sab 23 ott 2025
+                'D j F Y': sab 23 ottobre 2025
+                'l j M Y': sabato 23 ott 2025
+                'l j F Y': sabato 23 ottobre 2025
+            span: row
+            spanClass: col-4
+            trigger:
+              action: show
+              field: show_date
+              condition: checked
+        date_class:
+            label: Classe
+            tab: Configurazione
+            type: text
+            span: row
+            spanClass: col-4
+            trigger:
+              action: show
+              field: show_date
+              condition: checked   
+        order_date:
+            label: Ordinamento
+            type: number
+            tab: Configurazione
+            span: row
+            spanClass: col-4
+            trigger:
+              action: show
+              field: show_date
+              condition: checked
+        date_allineamento:
+            label: Allineamento
+            tab: Configurazione
+            type: balloon-selector
+            options:
+                left: Sinistra
+                center: Centro
+                right: Destra
+            span: row
+            spanClass: col-8
+            trigger:
+              action: show
+              field: show_date
+              condition: checked
+        date_padding:
+            label: Spaziatura 
+            type: dropdown
+            tab: Configurazione
+            span: row
+            spanClass: col-4
+            options:
+                "0rem": Nessuno
+                "1rem": 1rem
+                "2rem": 2rem
+                "3rem": 3rem
+                "4rem": 4rem
+                "5rem": 5rem
+                "6rem": 6rem
+                "7rem": 7rem
+                "8rem": 8rem
+                "9rem": 9rem
+                "10rem": 10rem
+            trigger:
+              action: show
+              field: show_date
+              condition: checked
+        _section13:
+            label: Estratto
+            type: section
+            tab: Configurazione
+            span: row
+            spanClass: col-8
+        show_excerpt:
+            label: Visualizza
+            type: switch
+            tab: Configurazione
+            span: row
+            spanClass: col-4
+        excerpt_class:
+            label: Classe
+            type: text
+            tab: Configurazione
+            default: "anteprima"
+            span: row
+            spanClass: col-4
+            trigger:
+              action: show
+              field: show_excerpt
+              condition: checked
+        excerpt_length:
+            label: Lunghezza
+            type: number
+            tab: Configurazione
+            span: row
+            spanClass: col-4
+            trigger:
+              action: show
+              field: show_excerpt
+              condition: checked
+        order_excerpt:
+            label: Ordinamento
+            type: number
+            tab: Configurazione
+            span: row
+            spanClass: col-4
+            trigger:
+              action: show
+              field: show_excerpt
+              condition: checked
+        excerpt_allineamento:
+            label: Allineamento
+            tab: Configurazione
+            type: balloon-selector
+            options:
+                left: Sinistra
+                center: Centro
+                right: Destra
+            span: row
+            spanClass: col-8
+            trigger:
+              action: show
+              field: show_excerpt
+              condition: checked
+        excerpt_padding:
+            label: Spaziatura 
+            type: dropdown
+            tab: Configurazione
+            span: row
+            spanClass: col-4
+            options:
+                "0rem": Nessuno
+                "1rem": 1rem
+                "2rem": 2rem
+                "3rem": 3rem
+                "4rem": 4rem
+                "5rem": 5rem
+                "6rem": 6rem
+                "7rem": 7rem
+                "8rem": 8rem
+                "9rem": 9rem
+                "10rem": 10rem
+            trigger:
+              action: show
+              field: show_excerpt
+              condition: checked
+        _section135:
+            label: Collegamento
+            type: section
+            tab: Configurazione
+            span: row
+            spanClass: col-8
+        show_link:
+            label: Visualizza
+            type: switch
+            tab: Configurazione
+            span: row
+            spanClass: col-4
+        link_text:
+            label: Testo
+            type: text
+            tab: Configurazione
+            span: row
+            spanClass: col-3
+            trigger:
+              action: show
+              field: show_link
+              condition: checked
+        link_class:
+            label: Classe
+            type: text
+            tab: Configurazione
+            span: row
+            spanClass: col-3
+            trigger:
+              action: show
+              field: show_link
+              condition: checked
+        link_style:
+            label: Stile
+            tab: Configurazione
+            type: dropdown  
+            options:
+                button: button
+                primary: primary
+                secondary: secondary
+                success: success     
+                danger: danger
+                warning: warning
+                info: info
+                light: light
+                dark: dark
+                link: link
+            span: row
+            spanClass: col-3
+            trigger:
+              action: show
+              field: show_link
+              condition: checked
+        order_link:
+            label: Ordinamento
+            type: number
+            tab: Configurazione
+            span: row
+            spanClass: col-3
+            trigger:
+              action: show
+              field: show_link
+              condition: checked
+        link_allineamento:
+            label: Allineamento
+            tab: Configurazione
+            type: balloon-selector
+            options:
+                left: Sinistra
+                center: Centro
+                right: Destra
+            span: row
+            spanClass: col-8
+            trigger:
+              action: show
+              field: show_link
+              condition: checked
+        link_padding:
+            label: Spaziatura 
+            type: dropdown
+            tab: Configurazione
+            span: row
+            spanClass: col-4
+            options:
+                "0rem": Nessuno
+                "1rem": 1rem
+                "2rem": 2rem
+                "3rem": 3rem
+                "4rem": 4rem
+                "5rem": 5rem
+                "6rem": 6rem
+                "7rem": 7rem
+                "8rem": 8rem
+                "9rem": 9rem
+                "10rem": 10rem
+            trigger:
+              action: show
+              field: show_link
+              condition: checked
+        _section14:
+            label: Categoria
+            type: section
+            tab: Configurazione
+            span: row
+            spanClass: col-8
+        show_category:
+            label: Visualizza
+            type: switch
+            tab: Configurazione
+            span: row
+            spanClass: col-4
+        category_class:
+            label: Classe
+            type: text
+            tab: Configurazione
+            span: row
+            spanClass: col-4
+            trigger:
+              action: show
+              field: show_category
+              condition: checked
+        category_separator:
+            label: Serparatore
+            type: text
+            tab: Configurazione
+            span: row
+            spanClass: col-4
+            trigger:
+              action: show
+              field: show_category
+              condition: checked
+        order_category:
+            label: Ordinamento
+            type: number
+            tab: Configurazione
+            span: row
+            spanClass: col-4
+            trigger:
+              action: show
+              field: show_category
+              condition: checked            
+        show_all_posts_link:
+            label: Mostra link al blog
+            type: switch
+            tab: Configurazione
+        show_all_posts_text:
+            label: Testo
+            type: text
+            tab: Configurazione
+            span: row
+            spanClass: col-6
+            trigger:
+              action: show
+              field: show_all_posts_link
+              condition: checked
+        show_all_posts_url:
+            label: Link
+            type: text
+            tab: Configurazione
+            span: row
+            spanClass: col-6
+            trigger:
+              action: show
+              field: show_all_posts_link
+              condition: checked
+        spacing-mixin:
+          type: mixin
+        background-mixin:
+          type: mixin

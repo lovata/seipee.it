@@ -1,0 +1,10 @@
+name: 'city.map::lang.sources.source'
+form: $/city/map/models/source/fields.yaml
+modelClass: City\Map\Models\Source
+defaultRedirect: city/map/sources
+create:
+    redirect: 'city/map/sources/update/:id'
+    redirectClose: city/map/sources
+update:
+    redirect: city/map/sources
+    redirectClose: city/map/sources

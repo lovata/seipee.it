@@ -1,0 +1,7 @@
+1.0.0:
+    - 'First version of City Dynamic Maps'
+    - create_table_maps.php
+    - create_table_markers.php
+    - create_table_sources.php
+1.0.1: 'Added compatibility with October CMS 2.2'
+1.0.2: 'Added compatibility with October CMS 3.2'

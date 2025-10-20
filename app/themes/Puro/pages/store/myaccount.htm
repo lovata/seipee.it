@@ -1,0 +1,26 @@
+url = "/account/:page?"
+layout = "default"
+title = "Account"
+is_hidden = 0
+
+[session]
+security = "user"
+redirect = "store/login"
+checkToken = 0
+
+[myAccount]
+page = "{{ :page }}"
+
+[viewBag]
+seo_title = "Account"
+seo_description = "Account"
+robot_index = "index"
+robot_follow = "follow"
+==
+<div class="container py-4">
+    <div class="row">
+        <div class="col-12">
+            {% component 'myAccount' %}
+        </div>
+    </div>
+</div>

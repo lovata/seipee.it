@@ -1,0 +1,302 @@
+name: Slider Prodotti
+section: Hero
+handle: productBlueprintBox
+labelFrom: block_name
+icon: /themes/Puro/assets/images/slider.webp
+form:
+    tabs:
+        fields:
+            title:
+                label: Titolo del Box
+                type: text
+                tab: Proprietà
+                span: row
+                spanClass: col-6
+            title_heading: 
+                label: Stile
+                type: dropdown
+                tab: Proprietà  
+                options:
+                    "h1" : h1
+                    "h2" : h2
+                    "h3" : h3
+                    "h4" : h4
+                default: "h2"
+                span: row
+                spanClass: col-6
+            number_slider: 
+                label: Slide Desktop
+                type: number
+                tab: Proprietà
+                span: row
+                spanClass: col-4       
+            number_slider_tablet: 
+                label: Slide Tablet
+                type: number
+                tab: Proprietà
+                span: row
+                spanClass: col-4
+            number_slider_mobile: 
+                label: Slide Mobile
+                type: number
+                tab: Proprietà
+                span: row
+                spanClass: col-4
+            animateIn:
+                label: Animazione in entrata
+                type: dropdown
+                options:
+                    "bounce": bounce
+                    "flash": flash
+                    "pulse": pulse
+                    "rubberBand": rubberBand
+                    "shakeX": shakeX
+                    "shakeY": shakeY
+                    "headShake": headShake
+                    "swing": swing
+                    "tada": tada
+                    "wobble": wobble
+                    "jello": jello
+                    "heartBeat": heartBeat
+                    "backInDown": backInDown
+                    "backInLeft": backInLeft
+                    "backInRight": backInRight
+                    "backInUp": backInUp
+                    "bounceIn": bounceIn
+                    "bounceInDown": bounceInDown
+                    "bounceInLeft": bounceInLeft
+                    "bounceInRight": bounceInRight
+                    "bounceInUp": bounceInUp
+                    "fadeIn": fadeIn
+                    "fadeInDown": fadeInDown
+                    "fadeInDownBig": fadeInDownBig
+                    "fadeInLeft": fadeInLeft
+                    "fadeInLeftBig": fadeInLeftBig
+                    "fadeInRight": fadeInRight
+                    "fadeInRightBig": fadeInRightBig
+                    "fadeInUp": fadeInUp
+                    "fadeInUpBig": fadeInUpBig
+                    "fadeInTopLeft": fadeInTopLeft
+                    "fadeInTopRight": fadeInTopRight
+                    "fadeInBottomLeft": fadeInBottomLeft
+                    "fadeInBottomRight": fadeInBottomRight
+                    "flip": flip
+                    "flipInX": flipInX
+                    "flipInY": flipInY
+                    "lightSpeedInRight": lightSpeedInRight
+                    "lightSpeedInLeft": lightSpeedInLeft
+                    "lightSpeedOutRight": lightSpeedOutRight
+                    "lightSpeedOutLeft": lightSpeedOutLeft
+                    "rotateIn": rotateIn
+                    "rotateInDownLeft": rotateInDownLeft
+                    "rotateInDownRight": rotateInDownRight
+                    "rotateInUpLeft": rotateInUpLeft
+                    "rotateInUpRight": rotateInUpRight
+                    "hinge": hinge
+                    "jackInTheBox": jackInTheBox
+                    "rollIn": rollIn
+                    "zoomIn": zoomIn
+                    "zoomInDown": zoomInDown
+                    "zoomInLeft": zoomInLeft
+                    "zoomInRight": zoomInRight
+                    "zoomInUp": zoomInUp
+                    "slideInDown": slideInDown
+                    "slideInLeft": slideInLeft
+                    "slideInRight": slideInRight
+                    "slideInUp": slideInUp
+                tab: Proprietà
+                span: row
+                spanClass: col-6
+                comment: Per vedere le animazioni <a href="https://animate.style/" target="_blank">clicca qui</a>
+                commentHtml: true
+            animateOut:
+                label: Animazione in uscita
+                type: dropdown
+                options:
+                    "bounce": bounce
+                    "flash": flash
+                    "pulse": pulse
+                    "rubberBand": rubberBand
+                    "shakeX": shakeX
+                    "shakeY": shakeY
+                    "headShake": headShake
+                    "swing": swing
+                    "tada": tada
+                    "wobble": wobble
+                    "jello": jello
+                    "heartBeat": heartBeat
+                    "backOutDown": backOutDown
+                    "backOutLeft": backOutLeft
+                    "backOutRight": backOutRight
+                    "backOutUp": backOutUp
+                    "bounceOut": bounceOut
+                    "bounceOutDown": bounceOutDown
+                    "bounceOutLeft": bounceOutLeft
+                    "bounceOutRight": bounceOutRight
+                    "bounceOutUp": bounceOutUp
+                    "fadeOut": fadeOut
+                    "fadeOutDown": fadeOutDown
+                    "fadeOutDownBig": backInUp
+                    "fadeOutLeft": fadeOutLeft
+                    "fadeOutLeftBig": fadeOutLeftBig
+                    "fadeOutRight": fadeOutRight
+                    "fadeOutRightBig": fadeOutRightBig
+                    "fadeOutUp": fadeOutUp
+                    "fadeOutUpBig": fadeOutUpBig
+                    "fadeOutTopLeft": fadeOutTopLeft
+                    "fadeOutTopRight": fadeOutTopRight
+                    "fadeOutBottomRight": fadeOutBottomRight
+                    "fadeOutBottomLeft": fadeOutBottomLeft
+                    "flip": flip
+                    "flipOutX": flipOutX
+                    "flipOutY": flipOutY
+                    "lightSpeedOutRight": lightSpeedOutRight
+                    "lightSpeedOutLeft": lightSpeedOutLeft
+                    "rotateOut": rotateOut
+                    "rotateOutDownLeft": rotateOutDownLeft
+                    "rotateOutDownRight": rotateOutDownRight
+                    "rotateOutUpLeft": rotateOutUpLeft
+                    "rotateOutUpRight": rotateOutUpRight
+                    "hinge": hinge
+                    "jackInTheBox": jackInTheBox
+                    "rollOut": rollOut
+                    "zoomOut": zoomOut
+                    "zoomOutDown": zoomOutDown
+                    "zoomOutLeft": zoomOutLeft
+                    "zoomOutRight": zoomOutRight
+                    "zoomOutUp": zoomOutUp
+                    "slideOutDown": slideOutDown
+                    "slideOutLeft": slideOutLeft
+                    "slideOutRight": slideOutRight
+                    "slideOutUp": slideOutUp
+                tab: Proprietà
+                span: row
+                spanClass: col-6
+            autoplay: 
+                label: Autoplay
+                type: switch
+                tab: Proprietà
+                span: row
+                spanClass: col-4
+                comment: avvia riproduzione automatica
+            loop: 
+                label: Loop
+                type: switch
+                tab: Proprietà
+                span: row
+                spanClass: col-4
+                comment: riproduzione continua
+            centeralign:
+                label: Allinea elementi al centro
+                type: switch
+                tab: Proprietà
+                span: row
+                spanClass: col-4
+                comment: Usare con gli elementi non omogenei sullo schermo
+            nav: 
+                label: Navigation
+                type: switch
+                tab: Proprietà
+                span: row
+                spanClass: col-6
+                comment: mostra pulsanti next/prev
+            pagination: 
+                label: Paginatore
+                type: switch
+                tab: Proprietà
+                span: row
+                spanClass: col-6
+                comment: mostra dots di navigazione
+            timing:
+                label: Intervallo tra le slides
+                type: number
+                min: 2
+                step: 1
+                tab: Proprietà    
+                default: 5   
+                comment: Espresso in secondi   
+                span: row
+                spanClass: col-4 
+            slides_margin:
+                label: Margine tra le slides
+                type: number
+                tab: Proprietà
+                default: 0
+                span: row
+                spanClass: col-4
+                comment: Espresso in px
+            stage_padding:
+                label: Stage padding
+                type: number
+                tab: Proprietà
+                default: 0
+                span: row
+                spanClass: col-4
+                comment: Espresso in px
+            fixed_height:
+                label: Altezza fissa
+                type: switch
+                tab: Proprietà
+                span: row
+                spanClass: col-3
+            max_height: 
+                label: Altezza
+                type: number
+                tab: Proprietà
+                span: row
+                spanClass: col-3
+                comment: Espressa in px
+                trigger:
+                    action: show
+                    field: fixed_height
+                    condition: checked
+            lazyload:
+                label: Lazyload
+                type: switch
+                tab: Proprietà
+                span: row
+                spanClass: col-6
+            img_as_background: 
+                label: Immagini come background
+                type: switch
+                tab: Proprietà
+                span: row
+                spanClass: col-12
+                comment: Impostare per visualizzare le immagini degli slider come background e non utilizzando il tag img (possibili tagli delle immagini)
+            image_width:
+                label: Larghezza
+                tab: Proprietà
+                type: text
+                span: row
+                spanClass: col-3
+            image_height:
+                label: Altezza
+                tab: Proprietà
+                type: text
+                span: row
+                spanClass: col-3
+            uniqueid:
+                label: Identificativo univoco
+                comment: Nel caso si utilizzino più slider nella stessa pagina identificarli con numeri differenti
+                type: number
+                min: 1
+                step: 1
+                tab: Proprietà
+                default: 1  
+                span: row
+                spanClass: col-6 
+            products:
+                label: Prodotti
+                type: repeater
+                tab: Slides Prodotti
+                form:
+                    fields:
+                        product_user_defined_id:
+                            label: ID del Prodotto
+                            type: text
+                            placeholder: Inserisci l'user_defined_id del prodotto
+            spacing-mixin:
+                type: mixin
+            background-mixin:
+                type: mixin
+

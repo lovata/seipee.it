@@ -1,0 +1,431 @@
+name: Cards
+section: Base
+handle: ImageCards
+labelFrom: block_name
+icon: /themes/Puro/assets/images/cards.webp
+form:
+    tabs:
+        fields:                          
+            _section10:
+                type: section
+                label: Numero elementi
+                tab: Configurazione
+            elements_number: 
+                label: Desktop
+                type: number
+                tab: Configurazione
+                span: row
+                spanClass: col-4       
+            elements_number_tablet: 
+                label: Tablet
+                type: number
+                tab: Configurazione
+                span: row
+                spanClass: col-4
+            elements_number_mobile: 
+                label: Mobile
+                type: number
+                tab: Configurazione
+                span: row
+                spanClass: col-4
+            allineamento:
+                label: Allineamento dei contenuti
+                tab: Configurazione
+                type: radio
+                options:
+                    left: Sinistra
+                    center: Centro
+                    right: Destra
+                span: row
+                spanClass: col-6
+            box_padding:
+                label: Spaziatura interna
+                tab: Configurazione
+                type: dropdown
+                options:
+                    0rem: 0
+                    1rem: 1
+                    2rem: 2
+                    3rem: 3
+                    4rem: 4
+                    5rem: 5
+                default: 0
+                span: row
+                spanClass: col-6
+            _section11:
+                type: section
+                label: Distanze
+                tab: Configurazione
+            card_distance_image:
+                label: Tra immagine e titolo
+                tab: Configurazione
+                type: dropdown
+                options:
+                    0rem: 0
+                    1rem: 1
+                    2rem: 2
+                    3rem: 3
+                    4rem: 4
+                    5rem: 5
+                default: 0
+                span: row
+                spanClass: col-4
+            card_distance_title:
+                label: Tra titolo e testo
+                tab: Configurazione
+                type: dropdown
+                options:
+                    0rem: 0
+                    1rem: 1
+                    2rem: 2
+                    3rem: 3
+                    4rem: 4
+                    5rem: 5
+                default: 0
+                span: row
+                spanClass: col-4
+            card_distance_cta:
+                label: Tra testo e cta
+                tab: Configurazione
+                type: dropdown
+                options:
+                    0rem: 0
+                    1rem: 1
+                    2rem: 2
+                    3rem: 3
+                    4rem: 4
+                    5rem: 5
+                default: 0
+                span: row
+                spanClass: col-4
+            image_full_width_in_card:
+                label: Immagine a piena larghezza nella card
+                type: switch
+                tab: Configurazione    
+                span: row
+                spanClass: col-12
+            same_height:
+                label: Disabilita la stessa altezza per tutte le card
+                type: switch
+                tab: Configurazione    
+                span: row
+                spanClass: col-12
+            link_everywhere:
+                label: Inserisci collegamento su tutta la card
+                type: switch
+                tab: Configurazione    
+                span: row
+                spanClass: col-12  
+            same_card_height:
+                label: Forza la stessa altezza per tutte le card
+                type: switch
+                tab: Configurazione 
+            same_image_height:
+                label: Forza la stessa altezza per tutte le immagini
+                type: switch
+                tab: Configurazione  
+            image_height:
+                label: Altezza su desktop
+                type: number
+                tab: Configurazione
+                comment: Espresso in pixel  
+                span: row
+                spanClass: col-6
+                trigger:
+                    action: show
+                    field: same_image_height
+                    condition: checked
+            image_height_mobile:
+                label: Altezza su mobile
+                type: number              
+                tab: Configurazione
+                comment: Espresso in pixel 
+                span: row
+                spanClass: col-6
+                trigger:
+                    action: show
+                    field: same_image_height
+                    condition: checked 
+            _section12:
+                type: section
+                label: Bordo della card
+                tab: Configurazione
+            border_size:
+                label: Spessore
+                type: dropdown  
+                options:
+                    0px: 0px
+                    1px: 1px
+                    2px: 2px
+                    3px: 3px
+                    4px: 4px
+                tab: Configurazione
+                span: row
+                spanClass: col-4
+            border_style:
+                label: Stile
+                type: dropdown  
+                options:
+                    "0rem": Quadrato
+                    "1rem": Arrotondato 1
+                    "2rem": Arrotondato 2
+                    "3rem": Arrotondato 3
+                tab: Configurazione
+                span: row
+                spanClass: col-4
+            border_line:
+                label: Linea
+                type: dropdown  
+                options:
+                    "solid": Continua
+                    "dotted": Puntini
+                    "dashed": Tratteggio
+                tab: Configurazione
+                span: row
+                spanClass: col-4
+            card_color:
+                label: Colore
+                type: colorpicker
+                tab: Configurazione
+            _section13:
+                type: section
+                label: Background della card
+                tab: Configurazione
+            card_background_transparent:
+                type: switch
+                label: Colorato
+                tab: Configurazione
+                span: row
+                spanClass: col-2
+            card_background_color:
+                label: Seleziona il colore
+                type: colorpicker
+                tab: Configurazione
+                span: row
+                spanClass: col-10
+                trigger:
+                    action: show
+                    field: card_background_transparent
+                    condition: checked 
+            cards:
+                label: Elenco cards
+                tab: Elementi
+                itemsExpanded: false
+                type: repeater
+                form:
+                    fields:
+                        title: 
+                            label: Titolo
+                            type: text
+                            span: row
+                            spanClass: col-9
+                        title_heading: 
+                            label: Stile
+                            type: dropdown  
+                            options:
+                                "h1" : h1
+                                "h2" : h2
+                                "h3" : h3
+                                "h4" : h4
+                            default: "h2"
+                            span: row
+                            spanClass: col-3
+                        _section0:
+                            label: Immagine
+                            type: section
+                        image:
+                            label: Seleziona il file
+                            type: mediafinder
+                            span: row
+                            spanClass: col-9
+                        image_border:
+                            label: Bordo
+                            type: radio
+                            options:
+                                "0rem": Quadrato
+                                "1rem": Arrotondato
+                                "50%": Rotondo
+                            span: row
+                            spanClass: col-3
+                        alt_text: 
+                            label: Testo alternativo
+                            type: text
+                            comment: Opzionale, se non compilato viene utilizzato il titolo
+                        _section1:
+                            label: Icona
+                            type: section
+                            span: row
+                            spanClass: col-10
+                        icon_active:
+                            label: Mostra
+                            type: switch
+                            span: row
+                            spanClass: col-2
+                        icona:
+                            label: Icona
+                            comment: <a target="_blank" href="https://icons.getbootstrap.com/">Bootstrap Icons</a> - inserire solo il nome dell'icona, es. bi-xxx
+                            commentHtml: true
+                            span: row
+                            spanClass: col-9
+                            type: text
+                            trigger:
+                                action: show
+                                field: icon_active
+                                condition: checked
+                        icona_size:
+                            label: Dimensione 
+                            span: row
+                            spanClass: col-3
+                            type: dropdown
+                            options:
+                                "1rem": XS
+                                "2rem": S
+                                "3rem": M
+                                "4.5rem": L
+                                "6rem": XL
+                            trigger:
+                                action: show
+                                field: icon_active
+                                condition: checked                 
+                        icona_color:
+                            label: Colore
+                            type: colorpicker
+                            span: row
+                            spanClass: col-6
+                            trigger:
+                                action: show
+                                field: icon_active
+                                condition: checked
+                        icona_background:
+                            label: Background
+                            type: colorpicker
+                            span: row
+                            spanClass: col-6
+                            trigger:
+                                action: show
+                                field: icon_active
+                                condition: checked
+                        icona_border:
+                            label: Forma
+                            type: radio
+                            options:
+                                "0rem": Quadrata
+                                "1rem": Arrotondata
+                                "50%": Rotonda
+                            span: row
+                            spanClass: col-3
+                            trigger:
+                                action: show
+                                field: icon_active
+                                condition: checked
+                        icona_border_line:
+                            label: Bordo
+                            type: switch
+                            span: row
+                            spanClass: col-3
+                            trigger:
+                                action: show
+                                field: icon_active
+                                condition: checked
+                        icona_border_size:
+                            label: Spessore
+                            span: row
+                            spanClass: col-3
+                            type: dropdown
+                            options:
+                                "1px": 1px
+                                "2px": 2px
+                                "3px": 3px
+                                "4px": 4px
+                                "5px": 5px
+                            trigger:
+                                action: show
+                                field: icona_border_line
+                                condition: checked
+                        icona_border_distance:
+                            label: Distanza
+                            span: row
+                            spanClass: col-3
+                            type: dropdown
+                            options:
+                                "1rem": 1rem
+                                "2rem": 2rem
+                                "3rem": 3rem
+                                "4rem": 4rem
+                                "5rem": 5rem
+                            trigger:
+                                action: show
+                                field: icona_border_line
+                                condition: checked
+                        _section2:
+                            label: Testo
+                            type: section
+                        paragrafo: 
+                            label: 
+                            type: richeditor
+                            toolbarButtons: paragraphFormat|fontSize|bold|italic|underline|strikeThrough|align|quote|color|emoticons|insertLink|insertPageLink|insertImage|insertVideo|insertTable|undo|redo|clearFormatting|html|fullscreen
+                        cta:
+                            label: Testo del pulsante
+                            type: text
+                            span: row
+                            spanClass: col-4
+                        cta_link:
+                            label: Link ad un documento
+                            type: mediafinder
+                            span: row
+                            spanClass: col-4
+                        cta_link_url:
+                            label: Link ad una pagina
+                            comment: Non inserire la barra iniziale
+                            type: text
+                            span: row
+                            spanClass: col-4
+                        cta_target:
+                            label: Apri in una nuova finestra
+                            type: switch                             
+                        cta_style:
+                            label: Stile
+                            type: dropdown  
+                            options:
+                                button: button
+                                primary: primary
+                                secondary: secondary
+                                success: success     
+                                danger: danger
+                                warning: warning
+                                info: info
+                                light: light
+                                dark: dark
+                                link: link
+                            span: row
+                            spanClass: col-8
+                        cta_outline:
+                            label: Outline
+                            type: switch
+                            span: row
+                            spanClass: col-4     
+                        animate:
+                            label: Animazione
+                            type: switch
+                            tab: Configurazione
+                            span: row
+                            spanClass: col-4
+                        animate_direction:
+                            label: Direzione
+                            type: radio
+                            tab: Configurazione
+                            options:
+                                "animateup": Dal basso verso l'alto
+                                "animatedown": Dall'alto verso il basso
+                                "animateleft": Da destra a sinistra
+                                "animateright": Da sinistra a destra
+                            span: row
+                            spanClass: col-8
+                            trigger:
+                                action: show
+                                field: animate
+                                condition: checked                          
+            spacing-mixin:
+                type: mixin
+            background-mixin:
+                type: mixin

@@ -1,0 +1,9 @@
+{
+    "name": "responsiv/campaign-plugin",
+    "type": "october-plugin",
+    "description": "Send messages to subscription lists",
+    "require": {
+        "october/rain": ">=3.6",
+        "composer/installers": "~1.0"
+    }
+}

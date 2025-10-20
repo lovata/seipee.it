@@ -1,0 +1,31 @@
+{
+    "name": "tecnotrade/brevoform-plugin",
+    "type": "october-plugin",
+    "description": "Invio Form A Brevo tramite Renatio Form Builder.",
+    "homepage": "https://tecnotrade.com",
+    "keywords": [
+        "octobercms-plugin",
+        "octobercms",
+        "form",
+        "integration",
+        "brevo"
+    ],
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "andrea berni",
+            "email": "andrea@tecnotrade.com"
+        }
+    ],
+    "require": {
+        "october/rain": "^3.0",
+        "composer/installers": "~1.0",
+        "renatio/formbuilder-plugin": ">=4.0.6"
+        
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/installers": true
+        }
+    }
+}

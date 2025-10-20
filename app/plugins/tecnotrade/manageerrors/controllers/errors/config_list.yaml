@@ -1,0 +1,12 @@
+list: $/tecnotrade/manageerrors/models/error/columns.yaml
+modelClass: Tecnotrade\Manageerrors\Models\Error
+title: Errors
+noRecordsMessage: 'backend::lang.list.no_records'
+showSetup: true
+showCheckboxes: true
+recordsPerPage: 20
+toolbar:
+    buttons: list_toolbar
+    search:
+        prompt: 'backend::lang.list.search_prompt'
+recordUrl: 'tecnotrade/manageerrors/errors/update/:id'

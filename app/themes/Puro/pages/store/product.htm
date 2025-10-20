@@ -1,0 +1,93 @@
+url = "/store/product/:slug/:variant?"
+layout = "default"
+title = "Product"
+is_hidden = 0
+
+[viewBag]
+localeUrl[en] = "/store/product/:slug/:variant?"
+robot_index = "index"
+robot_follow = "follow"
+
+[product]
+product = ":slug"
+variant = ":slug"
+redirectOnPropertyChange = 0
+currentVariantReviewsOnly = 0
+
+[products relatedProducts]
+filterComponent = "productsFilter"
+setPageTitle = 0
+includeVariants = 0
+includeChildren = 0
+perPage = 3
+paginate = 0
+sort = "random"
+
+[wishlistButton]
+==
+<?php
+use OFFLINE\Mall\Models\Category;
+use OFFLINE\Mall\Models\Product;
+use Illuminate\Support\Str;
+
+function onStart() {
+    // Fetch the category from the product component.
+    $productComponent = $this->findComponentByName('product');
+    $item = optional($productComponent)->item;
+    if (!$item) {
+        return;
+    }
+
+    $category = optional($item->categories)->first();
+    if (!$category) {
+        return;
+    }
+    // If a category is available, use it for the products component.
+    $this->findComponentByName('relatedProducts')->category = $category;
+
+    // SEO - Recupera il prodotto basato sullo slug passato nell'URL
+    $slug = $this->param('slug');
+    $product = Product::where('slug', $slug)->first();
+
+    if ($product) {
+        // Meta title con fallback
+        $this->page->meta_title = $product->meta_title ?: $product->name;
+
+        // Meta description con fallback da campo description (limitato, HTML rimosso)
+        $description = $product->meta_description;
+
+        if (empty($description) && !empty($product->description)) {
+            $description = Str::limit(strip_tags($product->description), 160);
+        }
+
+        // Set final variables
+        $this->page->meta_description = $description;
+        $this->page->meta_keywords = $product->meta_keywords;
+    }
+}
+?>
+==
+<div class="container py-8">
+    <div class="row">
+        <div class="col-12"> 
+            {% component 'product' %}
+            {% if global.show_related_items %}
+                <h2>Altri prodotti in questa categoria</h2>
+                {% component 'relatedProducts' %}
+                {% put styles %}
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.4.2/jquery.fancybox.min.css">
+                {% endput %}
+                {% put scripts %}
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.4.2/jquery.fancybox.min.js"></script>
+                    <script>
+                        $(function () {
+                            $('[data-fancybox="product"]').fancybox({
+                                loop: true
+                            });
+                        })
+                    </script>
+                {% endput %}
+            {% endif %}
+        </div>
+    </div>
+</div>

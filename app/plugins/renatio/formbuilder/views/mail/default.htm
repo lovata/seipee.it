@@ -1,0 +1,7 @@
+subject = "Default Form"
+description = "Default Form Template"
+==
+{% for field in form.getData() %}
+    **{{ field.label }}:** {{ field.value }}
+
+{% endfor %}

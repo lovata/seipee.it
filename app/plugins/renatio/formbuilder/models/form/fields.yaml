@@ -1,0 +1,227 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+fields:
+
+    name:
+        label: renatio.formbuilder::lang.field.name
+        span: left
+
+    template_code:
+        label: renatio.formbuilder::lang.field.template
+        type: dropdown
+        options: listMailTemplates
+        comment: renatio.formbuilder::lang.comment.template_code
+        emptyOption: renatio.formbuilder::lang.field.empty
+        span: right
+
+tabs:
+
+    fields:
+
+        from_email:
+            label: renatio.formbuilder::lang.field.from_email
+            tab: renatio.formbuilder::lang.tab.details
+            span: left
+
+        from_name:
+            label: renatio.formbuilder::lang.field.from_name
+            tab: renatio.formbuilder::lang.tab.details
+            span: right
+
+        description:
+            label: renatio.formbuilder::lang.field.description
+            tab: renatio.formbuilder::lang.tab.details
+            type: textarea
+            size: tiny
+
+        fields:
+            tab: renatio.formbuilder::lang.tab.fields
+            type: partial
+            path: field_fields
+
+        _section_recipients:
+            label: renatio.formbuilder::lang.field.recipients
+            tab: renatio.formbuilder::lang.tab.recipients
+            type: section
+            comment: renatio.formbuilder::lang.comment.recipients
+
+        recipients:
+            type: repeater
+            tab: renatio.formbuilder::lang.tab.recipients
+            titleFrom: email
+            minItems: 1
+            prompt: renatio.formbuilder::lang.comment.new_recipient
+            form:
+                fields:
+                    email:
+                        label: renatio.formbuilder::lang.field.email
+                        span: left
+
+                    recipient_name:
+                        label: renatio.formbuilder::lang.field.recipient_name
+                        span: right
+
+        _section_cc_recipients:
+            label: renatio.formbuilder::lang.field.cc_recipients
+            tab: renatio.formbuilder::lang.tab.recipients
+            type: section
+            comment: renatio.formbuilder::lang.comment.cc_recipients
+
+        cc_recipients:
+            type: repeater
+            tab: renatio.formbuilder::lang.tab.recipients
+            titleFrom: email
+            prompt: renatio.formbuilder::lang.comment.new_recipient
+            form:
+                fields:
+                    email:
+                        label: renatio.formbuilder::lang.field.email
+                        span: left
+                    recipient_name:
+                        label: renatio.formbuilder::lang.field.recipient_name
+                        span: right
+
+        _section_bcc_recipients:
+            label: renatio.formbuilder::lang.field.bcc_recipients
+            tab: renatio.formbuilder::lang.tab.recipients
+            type: section
+            comment: renatio.formbuilder::lang.comment.bcc_recipients
+
+        bcc_recipients:
+            type: repeater
+            tab: renatio.formbuilder::lang.tab.recipients
+            titleFrom: email
+            prompt: renatio.formbuilder::lang.comment.new_recipient
+            form:
+                fields:
+                    email:
+                        label: renatio.formbuilder::lang.field.email
+                        span: left
+
+                    recipient_name:
+                        label: renatio.formbuilder::lang.field.recipient_name
+                        span: right
+
+        success_message:
+            label: renatio.formbuilder::lang.field.success_message
+            tab: renatio.formbuilder::lang.tab.messages
+            type: textarea
+            size: tiny
+            comment: renatio.formbuilder::lang.comment.success_message
+            default: renatio.formbuilder::lang.message.success
+
+        error_message:
+            label: renatio.formbuilder::lang.field.error_message
+            tab: renatio.formbuilder::lang.tab.messages
+            type: textarea
+            size: tiny
+            comment: renatio.formbuilder::lang.comment.error_message
+            default: renatio.formbuilder::lang.message.error
+
+        reply_email:
+            label: renatio.formbuilder::lang.field.reply_email
+            tab: renatio.formbuilder::lang.tab.reply
+            type: dropdown
+            options: getFieldsOptions
+            comment: renatio.formbuilder::lang.comment.reply_email
+            emptyOption: renatio.formbuilder::lang.field.empty
+            dependsOn: fields
+            context: update
+            span: left
+
+        reply_name:
+            label: renatio.formbuilder::lang.field.reply_name
+            tab: renatio.formbuilder::lang.tab.reply
+            type: dropdown
+            options: getFieldsOptions
+            comment: renatio.formbuilder::lang.comment.reply_name
+            emptyOption: renatio.formbuilder::lang.field.empty
+            dependsOn: fields
+            context: update
+            span: right
+
+        response_template_code:
+            label: renatio.formbuilder::lang.field.response_template
+            tab: renatio.formbuilder::lang.tab.response
+            type: dropdown
+            options: listMailTemplates
+            emptyOption: renatio.formbuilder::lang.field.empty
+            context: update
+            span: left
+
+        response_email:
+            label: renatio.formbuilder::lang.field.response_email
+            tab: renatio.formbuilder::lang.tab.response
+            type: dropdown
+            options: getFieldsOptions
+            comment: renatio.formbuilder::lang.comment.response_email
+            emptyOption: renatio.formbuilder::lang.field.empty
+            dependsOn: fields
+            context: update
+            span: left
+
+        response_name:
+            label: renatio.formbuilder::lang.field.response_name
+            tab: renatio.formbuilder::lang.tab.response
+            type: dropdown
+            options: getFieldsOptions
+            comment: renatio.formbuilder::lang.comment.response_name
+            emptyOption: renatio.formbuilder::lang.field.empty
+            dependsOn: fields
+            context: update
+            span: right
+
+        _markup_hint:
+            tab: renatio.formbuilder::lang.tab.markup
+            type: hint
+            path: markup_hint_field
+
+        markup:
+            label: renatio.formbuilder::lang.tab.markup
+            tab: renatio.formbuilder::lang.tab.markup
+            type: codeeditor
+            size: giant
+            language: html
+            comment: renatio.formbuilder::lang.comment.markup
+
+        css_class:
+            label: renatio.formbuilder::lang.field.css_class
+            comment: renatio.formbuilder::lang.field.css_class_comment
+            tab: renatio.formbuilder::lang.tab.options
+            placeholder: class1 class2
+            span: left
+
+        has_floating_labels:
+            label: renatio.formbuilder::lang.field.has_floating_labels
+            type: switch
+            comment: renatio.formbuilder::lang.comment.has_floating_labels
+            commentHtml: true
+            tab: renatio.formbuilder::lang.tab.options
+            span: left
+
+        redirect_to:
+            label: renatio.formbuilder::lang.field.redirect_to
+            comment: renatio.formbuilder::lang.comment.redirect_to
+            tab: renatio.formbuilder::lang.tab.options
+            span: left
+
+        _section_logging:
+            label: renatio.formbuilder::lang.field.logging
+            tab: renatio.formbuilder::lang.tab.options
+            type: section
+
+        is_log_enabled:
+            label: renatio.formbuilder::lang.field.is_log_enabled
+            type: switch
+            tab: renatio.formbuilder::lang.tab.options
+            comment: renatio.formbuilder::lang.comment.is_log_enabled
+            span: left
+
+        is_autoresponder_log_enabled:
+            label: renatio.formbuilder::lang.field.is_autoresponder_log_enabled
+            type: switch
+            tab: renatio.formbuilder::lang.tab.options
+            comment: renatio.formbuilder::lang.comment.is_autoresponder_log_enabled
+            span: left

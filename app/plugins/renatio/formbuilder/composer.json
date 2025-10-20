@@ -1,0 +1,32 @@
+{
+    "name": "renatio/formbuilder-plugin",
+    "type": "october-plugin",
+    "description": "Build custom front-end forms with ease.",
+    "homepage": "https://octobercms.com/plugin/renatio-formbuilder",
+    "keywords": [
+        "octobercms-plugin",
+        "octobercms",
+        "php",
+        "laravel",
+        "form",
+        "contact"
+    ],
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Michal Plodowski",
+            "email": "michal.plodowski@gmail.com"
+        }
+    ],
+    "require": {
+        "october/rain": "^3.0",
+        "composer/installers": "~1.0",
+        "google/recaptcha": "^1.2",
+        "bkwld/cloner": "^3.10"
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/installers": true
+        }
+    }
+}

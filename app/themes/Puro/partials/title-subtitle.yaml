@@ -1,0 +1,133 @@
+name: Titolo / Sottotitolo
+section: Base
+handle: title-subtitle
+labelFrom: block_name
+order: 20
+icon: /themes/Puro/assets/images/title-subtitle.webp
+form:
+  tabs:
+    fields:
+      _section10:
+        label: Titolo
+        type: section
+        tab: Proprietà
+      titolo:
+        label: Testo
+        type: text
+        tab: Proprietà
+        span: row
+        spanClass: col-9
+      titolo_class:
+        label: Stile
+        type: dropdown
+        tab: Proprietà
+        options:
+            "h1": h1
+            "h2": h2
+            "h3": h3
+            "h4": h4
+            "p": p
+        span: row
+        spanClass: col-3
+      titolo_style:
+        label: Classe
+        type: text
+        tab: Proprietà
+        span: row
+        spanClass: col-6
+      titolo_spacing:
+        label: Distanza dal sottotitolo
+        tab: Proprietà
+        type: dropdown
+        options:
+            0rem: 0
+            1rem: 1
+            2rem: 2
+            3rem: 3
+            4rem: 4
+            5rem: 5
+            6rem: 6
+            7rem: 7
+            8rem: 8
+            9rem: 9
+            10rem: 10
+        default: 0
+        span: row
+        spanClass: col-6
+      titolo_color:
+        label: Colore
+        type: colorpicker
+        tab: Proprietà
+      titolo_animate:
+        label: Animazione
+        type: switch
+        tab: Proprietà
+      titolo_animate_direction:
+        label: Direzione
+        type: radio
+        tab: Proprietà
+        options:
+            "animateup": Dal basso verso l'alto
+            "animatedown": Dall'alto verso il basso
+            "animateleft": Da destra a sinistra
+            "animateright": Da sinistra a destra
+        trigger:
+            action: show
+            field: titolo_animate
+            condition: checked   
+      _section11:
+        label: Sottotitolo
+        type: section
+        tab: Proprietà
+      sottotitolo:
+        label: Testo
+        type: text
+        tab: Proprietà
+        span: row
+        spanClass: col-9
+      sottotitolo_class:
+        label: Stile
+        tab: Proprietà
+        type: dropdown
+        options:
+            "h1": h1
+            "h2": h2
+            "h3": h3
+            "h4": h4
+            "p" : p
+        span: row
+        spanClass: col-3
+      sottotitolo_color:
+        label: Colore
+        type: colorpicker
+        tab: Proprietà
+      sottotitolo_animate:
+        label: Animazione
+        type: switch
+        tab: Proprietà
+      sottotitolo_animate_direction:
+        label: Direzione
+        type: radio
+        tab: Proprietà
+        options:
+            "animateup": Dal basso verso l'alto
+            "animatedown": Dall'alto verso il basso
+            "animateleft": Da destra a sinistra
+            "animateright": Da sinistra a destra
+        trigger:
+            action: show
+            field: sottotitolo_animate
+            condition: checked   
+      allineamento:
+        span: auto
+        label: Allineamento
+        type: radio
+        tab: Proprietà
+        options:
+            left: Sinistra
+            center: Centro
+            right: Destra
+      spacing-mixin:
+                type: mixin
+      background-mixin:
+                type: mixin

@@ -1,0 +1,95 @@
+{% set block_id = random(1,1000) %}
+<div class="{% if box.hide_mobile %}d-none{% else %}d-block{% endif %} {% if box.hide_tablet %}d-md-none{% else %}d-md-block{% endif %} {% if box.hide_desktop %}d-lg-none{% else %}d-lg-block{% endif %} {% if box.container_class == 0 %}container {% endif %}{{ box.wrapper_class }}{% if box.animate == 1 %} animate {{ box.animate_direction }}{% endif %}" style="{% if box.background_color %}background-color: {{ box.background_color }};{% endif %}
+{% if box.margin %}margin-top: {{ box.margin}};margin-bottom: {{ box.margin}};{% endif %}
+{% if box.padding %}padding: {{ box.padding}} 0;{% endif %}
+{% if box.background_image %}background:url({{ box.background_image | media }});background-size:cover;{% endif %}
+{% if box.background_attachment %}background-attachment: fixed;{% endif %}
+{% if box.background_position %}background-position: {{ box.background_position}};{% endif %} position:relative;" id="{{ block_id }}">
+    <div class="{{ box.content_class }} {% if box.subcontainer_class == 0 %}container{% endif %}" style="z-index: 1;position: relative;">
+        <div class="{{ box.allineamento }}" style="line-height:0">
+            {% if box.video_id %}
+                <div style="width: {{ box.video_width }}; display:inline-block">
+                    <div class="videoWrapper">
+                        <iframe src="https://www.youtube.com/embed/{{ box.video_id }}?controls={% if box.controls %}1{% else %}0{% endif %}&{% if box.autoplay %}autoplay=1&mute=1&{% endif %}{% if box.hide_related %}rel=0&{% endif %}{% if box.loop %}loop=1&playlist={{ box.video_id }}{% endif %}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    </div>
+                </div>
+            {% elseif box.video_file %}
+                <video id="video-{{ block_id }}" {% if box.controls %}controls{% endif %} {% if box.autoplay %}autoplay muted{% endif %} {% if box.loop %}loop{% endif %} width="{{ box.video_width }}" {% if box.poster_image %}poster="{{ box.poster_image|media }}"{% endif %} webkit-playsinline playsinline preload="none" class="lazy-video">
+                    <source data-src="{{ box.video_file | media }}" type="video/mp4">
+                </video>
+            {% endif %}
+            {% if box.video_title %}
+                <{{ box.video_title_size }}>{{ box.video_title }}</{{ box.video_title_size }}>
+            {% endif %}
+            {% if box.video_subtitle %}
+                <{{ box.video_subtitle_size }}>{{ box.video_subtitle }}</{{ box.video_subtitle_size }}>
+            {% endif %}
+            {% if box.video_description %}
+                <p>{{ box.video_description | raw }}</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% if box.video_id %}
+<style>
+#{{ block_id }} .videoWrapper {
+  position: relative;
+{% if box.aspect_ratio == '1' %}
+        padding-bottom: 56.25%; /* 16:9 */
+    {% elseif box.aspect_ratio ==  '2' %}
+        padding-bottom: 177.77%; /* 9:16 */
+    {% elseif box.aspect_ratio ==  '3' %}
+        padding-bottom: 100%; /* 1:1 */
+    {% elseif box.aspect_ratio ==  '4' %}
+        padding-bottom: 133.33%; /* 4:3 */    
+    {% else %}
+    padding-bottom: 56.25%; /* 16:9 */
+  {% endif %}
+  height: 0;
+}
+#{{ block_id }} .videoWrapper iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+</style>
+{% endif %}
+
+{% put scripts %}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const video = document.getElementById("video-{{ block_id }}");
+    if (!video) {
+        return;
+    }
+
+    const loadVideo = () => {
+        const source = video.querySelector("source");
+        if (!source || source.src) {
+            return;
+        }
+
+        source.src = source.dataset.src;
+        video.load();
+    };
+
+    if ("IntersectionObserver" in window) {
+        console.log("👁️ IntersectionObserver supportato");
+        const observer = new IntersectionObserver((entries, obs) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    loadVideo();
+                    obs.unobserve(video);
+                }
+            });
+        }, { rootMargin: "0px 0px 200px 0px" });
+
+        observer.observe(video);
+    } else {
+        loadVideo();
+    }
+});
+</script>
+{% endput %}

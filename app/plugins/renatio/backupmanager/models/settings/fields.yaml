@@ -1,0 +1,233 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+tabs:
+
+    fields:
+
+        databases:
+            label: renatio.backupmanager::lang.field.databases
+            tab: renatio.backupmanager::lang.tab.database
+            type: checkboxlist
+            comment: renatio.backupmanager::lang.comment.databases
+
+        exclude_tables:
+            label: renatio.backupmanager::lang.field.exclude_tables
+            tab: renatio.backupmanager::lang.tab.database
+            type: taglist
+            options: true
+            mode: array
+            comment: renatio.backupmanager::lang.comment.exclude_tables
+
+        database_dump_compressor:
+            label: renatio.backupmanager::lang.field.database_dump_compressor
+            tab: renatio.backupmanager::lang.tab.database
+            type: switch
+            comment: renatio.backupmanager::lang.comment.database_dump_compressor
+
+        include:
+            label: renatio.backupmanager::lang.field.include
+            tab: renatio.backupmanager::lang.tab.files
+            type: repeater
+            form:
+                fields:
+                    path:
+                        label: renatio.backupmanager::lang.field.path
+            commentAbove: renatio.backupmanager::lang.comment.include
+
+        exclude:
+            label: renatio.backupmanager::lang.field.exclude
+            tab: renatio.backupmanager::lang.tab.files
+            type: repeater
+            form:
+                fields:
+                    path:
+                        label: renatio.backupmanager::lang.field.path
+            commentAbove: renatio.backupmanager::lang.comment.exclude
+
+        follow_links:
+            label: renatio.backupmanager::lang.field.follow_links
+            tab: renatio.backupmanager::lang.tab.files
+            type: switch
+            comment: renatio.backupmanager::lang.comment.follow_links
+
+        ignore_unreadable_directories:
+            label: renatio.backupmanager::lang.field.ignore_unreadable_directories
+            tab: renatio.backupmanager::lang.tab.files
+            type: switch
+            comment: renatio.backupmanager::lang.comment.ignore_unreadable_directories
+
+        backup_name:
+            label: renatio.backupmanager::lang.field.backup_name
+            tab: renatio.backupmanager::lang.tab.destination
+            comment: renatio.backupmanager::lang.comment.backup_name
+
+        filename_prefix:
+            label: renatio.backupmanager::lang.field.filename_prefix
+            tab: renatio.backupmanager::lang.tab.destination
+            comment: renatio.backupmanager::lang.comment.filename_prefix
+
+        disks:
+            label: renatio.backupmanager::lang.field.disks
+            tab: renatio.backupmanager::lang.tab.destination
+            type: checkboxlist
+            comment: renatio.backupmanager::lang.comment.disks
+
+        scheduler_hint:
+            tab: renatio.backupmanager::lang.tab.scheduler
+            type: hint
+            path: $/renatio/backupmanager/models/settings/_scheduler_hint.htm
+
+        app_scheduler:
+            label: renatio.backupmanager::lang.field.app_scheduler
+            tab: renatio.backupmanager::lang.tab.scheduler
+            type: dropdown
+            emptyOption: renatio.backupmanager::lang.schedule.choose
+            options: getSchedulerOptions
+
+        app_scheduler_custom:
+            label: renatio.backupmanager::lang.field.cron_expression
+            tab: renatio.backupmanager::lang.tab.scheduler
+            cssClass: field-indent
+            placeholder: '* * * * *'
+            trigger:
+                action: show
+                field: app_scheduler
+                condition: value[custom]
+
+        db_scheduler:
+            label: renatio.backupmanager::lang.field.db_scheduler
+            tab: renatio.backupmanager::lang.tab.scheduler
+            type: dropdown
+            emptyOption: renatio.backupmanager::lang.schedule.choose
+            options: getSchedulerOptions
+
+        db_scheduler_custom:
+            label: renatio.backupmanager::lang.field.cron_expression
+            tab: renatio.backupmanager::lang.tab.scheduler
+            cssClass: field-indent
+            placeholder: '* * * * *'
+            trigger:
+                action: show
+                field: db_scheduler
+                condition: value[custom]
+
+        clean_scheduler:
+            label: renatio.backupmanager::lang.field.clean_scheduler
+            tab: renatio.backupmanager::lang.tab.scheduler
+            type: dropdown
+            emptyOption: renatio.backupmanager::lang.schedule.choose
+            options: getSchedulerOptions
+
+        clean_scheduler_custom:
+            label: renatio.backupmanager::lang.field.cron_expression
+            tab: renatio.backupmanager::lang.tab.scheduler
+            cssClass: field-indent
+            placeholder: '* * * * *'
+            trigger:
+                action: show
+                field: clean_scheduler
+                condition: value[custom]
+
+        monitor_scheduler:
+            label: renatio.backupmanager::lang.field.monitor_scheduler
+            tab: renatio.backupmanager::lang.tab.scheduler
+            type: dropdown
+            emptyOption: renatio.backupmanager::lang.schedule.choose
+            options: getSchedulerOptions
+
+        monitor_scheduler_custom:
+            label: renatio.backupmanager::lang.field.cron_expression
+            tab: renatio.backupmanager::lang.tab.scheduler
+            cssClass: field-indent
+            placeholder: '* * * * *'
+            trigger:
+                action: show
+                field: monitor_scheduler
+                condition: value[custom]
+
+        password_hint:
+            tab: renatio.backupmanager::lang.tab.security
+            type: hint
+            path: $/renatio/backupmanager/models/settings/_password_hint.htm
+
+        zip_password:
+            label: renatio.backupmanager::lang.field.zip_password
+            tab: renatio.backupmanager::lang.tab.security
+            type: sensitive
+            allowCopy: false
+            comment: renatio.backupmanager::lang.comment.password
+
+        keep_all:
+            label: renatio.backupmanager::lang.field.keep_all
+            tab: renatio.backupmanager::lang.tab.cleanup
+            type: number
+            comment: renatio.backupmanager::lang.comment.keep_all
+            span: left
+
+        keep_daily:
+            label: renatio.backupmanager::lang.field.keep_daily
+            tab: renatio.backupmanager::lang.tab.cleanup
+            type: number
+            comment: renatio.backupmanager::lang.comment.keep_daily
+            span: left
+
+        keep_weekly:
+            label: renatio.backupmanager::lang.field.keep_weekly
+            tab: renatio.backupmanager::lang.tab.cleanup
+            type: number
+            comment: renatio.backupmanager::lang.comment.keep_weekly
+            span: left
+
+        keep_monthly:
+            label: renatio.backupmanager::lang.field.keep_monthly
+            tab: renatio.backupmanager::lang.tab.cleanup
+            type: number
+            comment: renatio.backupmanager::lang.comment.keep_monthly
+            span: left
+
+        keep_yearly:
+            label: renatio.backupmanager::lang.field.keep_yearly
+            tab: renatio.backupmanager::lang.tab.cleanup
+            type: number
+            comment: renatio.backupmanager::lang.comment.keep_yearly
+            span: left
+
+        delete_oldest_when_mb:
+            label: renatio.backupmanager::lang.field.delete_oldest_when_mb
+            tab: renatio.backupmanager::lang.tab.cleanup
+            type: number
+            comment: renatio.backupmanager::lang.comment.delete_oldest_when_mb
+            span: left
+
+        monitor_max_age_in_days:
+            label: renatio.backupmanager::lang.field.monitor_max_age_in_days
+            tab: renatio.backupmanager::lang.tab.monitor
+            type: number
+            span: left
+
+        monitor_max_storage_in_mb:
+            label: renatio.backupmanager::lang.field.monitor_max_storage_in_mb
+            tab: renatio.backupmanager::lang.tab.monitor
+            type: number
+            comment: renatio.backupmanager::lang.comment.monitor_max_storage_in_mb
+            span: left
+
+        notification_email:
+            label: renatio.backupmanager::lang.field.notification_email
+            tab: renatio.backupmanager::lang.tab.notifications
+            comment: renatio.backupmanager::lang.comment.notification_email
+
+        notifications:
+            label: renatio.backupmanager::lang.field.notifications
+            tab: renatio.backupmanager::lang.tab.notifications
+            type: checkboxlist
+            quickselect: true
+            options:
+                BackupWasSuccessfulNotification: renatio.backupmanager::lang.notification.backup_success
+                BackupHasFailedNotification: renatio.backupmanager::lang.notification.backup_failed
+                CleanupWasSuccessfulNotification: renatio.backupmanager::lang.notification.cleanup_success
+                CleanupHasFailedNotification: renatio.backupmanager::lang.notification.cleanup_failed
+                HealthyBackupWasFoundNotification: renatio.backupmanager::lang.notification.monitor_success
+                UnhealthyBackupWasFoundNotification: renatio.backupmanager::lang.notification.monitor_failed

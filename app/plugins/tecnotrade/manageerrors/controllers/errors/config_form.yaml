@@ -1,0 +1,10 @@
+name: Errors
+form: $/tecnotrade/manageerrors/models/error/fields.yaml
+modelClass: Tecnotrade\Manageerrors\Models\Error
+defaultRedirect: tecnotrade/manageerrors/errors
+create:
+    redirect: 'tecnotrade/manageerrors/errors/update/:id'
+    redirectClose: tecnotrade/manageerrors/errors
+update:
+    redirect: tecnotrade/manageerrors/errors
+    redirectClose: tecnotrade/manageerrors/errors

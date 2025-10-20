@@ -1,0 +1,11 @@
+<div id="lightgallery" class="{% if __SELF__.property('enableJustifiedGallery') %} justifiedGallery {% endif %} d-flex flex-wrap my-4" >
+    {% if gallery %}
+        {% for image in gallery.images %}
+            <a class="col-12 {{ __SELF__.property('width') }} p-2" href="/storage/app/media{{ image }}" data-src="/storage/app/media{{ image }}">
+                <img class="img-responsive" src="/storage/app/media{{ image }}"/>
+            </a>
+        {% endfor %}
+    {% else %}
+    <h3><strong>Seleziona una galleria da visualizzare</strong></h3>
+    {% endif %}
+</div>

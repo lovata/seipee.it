@@ -1,0 +1,45 @@
+# ===================================
+#  List Column Definitions
+# ===================================
+
+columns:
+    status_code:
+        label: Status
+        relation: status
+        select: name
+        sortable: false
+        type: selectable
+        width: 130px
+
+    name:
+        label: Name
+        searchable: true
+        type: partial
+        path: column_name
+
+    subject:
+        label: Subject
+        searchable: true
+        invisible: true
+
+    launch_at:
+        label: Launched
+        type: date
+        width: 15%
+
+    created_at:
+        label: Created
+        type: date
+        width: 15%
+        invisible: true
+
+    updated_at:
+        label: Last updated
+        type: datetime
+        width: 20%
+        invisible: true
+
+    count_repeat:
+        label: Count
+        invisible: true
+        width: 10%

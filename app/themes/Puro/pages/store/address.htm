@@ -1,0 +1,29 @@
+url = "/address/:address?/:redirect?/:set?"
+layout = "default"
+title = "Address"
+is_hidden = 0
+
+[viewBag]
+localeUrl[en] = "/address/:address?/:redirect?/:set?"
+seo_title = "Address"
+seo_description = "Address"
+robot_index = "index"
+robot_follow = "follow"
+
+[session]
+security = "user"
+redirect = "home"
+checkToken = 0
+
+[addressForm]
+address = "{{ :address }}"
+redirect = "{{ :redirect }}"
+set = "{{ :set }}"
+==
+<div class="container py-4">
+    <div class="row">
+        <div class="col-12">
+            {% component 'addressForm' %}
+        </div>
+    </div>
+</div>

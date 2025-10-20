@@ -1,0 +1,11 @@
+handle: tt-image-mixin
+mixin:
+    sliders:
+        label: Immmagine
+        type: repeater
+        form:
+            fields:
+                 image:
+                    label: Immagine 
+                    type: mediafinder
+

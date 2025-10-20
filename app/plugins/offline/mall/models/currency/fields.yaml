@@ -1,0 +1,38 @@
+fields:
+    is_enabled:
+        type: switch
+        label: offline.mall::lang.currency_settings.is_enabled
+        span: left
+        default: true
+    is_default:
+        type: switch
+        label: offline.mall::lang.currency_settings.set_as_default
+        span: right
+    code:
+        type: text
+        label: offline.mall::lang.currency_settings.currency_code
+        span: auto
+    symbol:
+        type: text
+        label: offline.mall::lang.currency_settings.currency_symbol
+        span: auto
+    rate:
+        type: text
+        label: offline.mall::lang.currency_settings.currency_rate
+        span: auto
+    decimals:
+        type: text
+        label: offline.mall::lang.currency_settings.currency_decimals
+        span: auto
+    format:
+        type: codeeditor
+        label: offline.mall::lang.currency_settings.currency_format
+        span: left
+        size: small
+        language: twig
+        default: |
+            {{ price|number_format(currency.decimals, " ", ",") }} ({{ currency.symbol }})
+    help:
+        type: partial
+        span: left
+        path: $/offline/mall/models/currency/_help.htm

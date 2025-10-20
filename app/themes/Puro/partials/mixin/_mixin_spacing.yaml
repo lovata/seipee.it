@@ -1,0 +1,217 @@
+handle: spacing-mixin
+mixin:
+    _section0:
+        type: section
+        tab: Opzioni
+        label: Spaziature verticali
+    padding:
+        label: Padding Desktop
+        type: dropdown
+        tab: Opzioni
+        span: row
+        spanClass: col-6
+        options:
+            "0rem": Nessuno
+            "1rem": 1rem
+            "2rem": 2rem
+            "3rem": 3rem
+            "4rem": 4rem
+            "5rem": 5rem
+            "6rem": 6rem
+            "7rem": 7rem
+            "8rem": 8rem
+            "9rem": 9rem
+            "10rem": 10rem
+            "11rem": 11rem
+            "12rem": 12rem
+            "13rem": 13rem
+            "14rem": 14rem
+            "15rem": 15rem
+            "16rem": 16rem
+            "17rem": 17rem
+            "18rem": 18rem
+            "19rem": 19rem
+            "20rem": 20rem
+    padding_mobile:
+        label: Padding Mobile
+        type: dropdown
+        tab: Opzioni
+        span: row
+        spanClass: col-6
+        options:
+            "idem": Identico
+            "0rem": 0rem
+            "1rem": 1rem
+            "2rem": 2rem
+            "3rem": 3rem
+            "4rem": 4rem
+            "5rem": 5rem
+            "6rem": 6rem
+            "7rem": 7rem
+            "8rem": 8rem
+            "9rem": 9rem
+            "10rem": 10rem
+            "11rem": 11rem
+            "12rem": 12rem
+            "13rem": 13rem
+            "14rem": 14rem
+            "15rem": 15rem
+            "16rem": 16rem
+            "17rem": 17rem
+            "18rem": 18rem
+            "19rem": 19rem
+            "20rem": 20rem
+    margin:
+        label: Margine Desktop
+        type: dropdown
+        tab: Opzioni
+        span: row
+        spanClass: col-6
+        options:
+            "0rem": Nessuno
+            "1rem": 1rem
+            "2rem": 2rem
+            "3rem": 3rem
+            "4rem": 4rem
+            "5rem": 5rem
+            "6rem": 6rem
+            "7rem": 7rem
+            "8rem": 8rem
+            "9rem": 9rem
+            "10rem": 10rem
+            "11rem": 11rem
+            "12rem": 12rem
+            "13rem": 13rem
+            "14rem": 14rem
+            "15rem": 15rem
+            "16rem": 16rem
+            "17rem": 17rem
+            "18rem": 18rem
+            "19rem": 19rem
+            "20rem": 20rem
+    margin_mobile:
+        label: Margine Mobile
+        type: dropdown
+        tab: Opzioni
+        span: row
+        spanClass: col-6
+        options:
+            "idem": Identico
+            "0rem": 0rem
+            "1rem": 1rem
+            "2rem": 2rem
+            "3rem": 3rem
+            "4rem": 4rem
+            "5rem": 5rem
+            "6rem": 6rem
+            "7rem": 7rem
+            "8rem": 8rem
+            "9rem": 9rem
+            "10rem": 10rem
+            "11rem": 11rem
+            "12rem": 12rem
+            "13rem": 13rem
+            "14rem": 14rem
+            "15rem": 15rem
+            "16rem": 16rem
+            "17rem": 17rem
+            "18rem": 18rem
+            "19rem": 19rem
+            "20rem": 20rem
+    _section1:
+        type: section
+        tab: Opzioni
+        label: Stili opzionali
+    wrapper_class:
+        label: Classe del contenitore
+        type: text
+        tab: Opzioni
+        span: row
+        spanClass: col-6
+    content_class:
+        label: Classe del contenuto
+        type: text
+        tab: Opzioni
+        span: row
+        spanClass: col-6
+    _section3:
+        type: section
+        tab: Opzioni
+        label: Larghezza del contenitore
+    container_class:
+        label: Fullscreen
+        type: switch
+        tab: Opzioni
+        span: row
+        spanClass: col-6
+    subcontainer_class:
+        label: Anche il contenuto
+        type: switch
+        tab: Opzioni
+        trigger:
+            action: show
+            field: container_class
+            condition: checked
+        span: row
+        spanClass: col-6            
+    _section4:
+        type: section
+        tab: Opzioni
+        label: Animazioni in entrata
+    animate:
+        label: Abilita
+        type: switch
+        tab: Opzioni
+        span: row
+        spanClass: col-4
+    animate_direction:
+        label: Direzione
+        type: radio
+        tab: Opzioni
+        options:
+            "animateup": Dal basso verso l'alto
+            "animatedown": Dall'alto verso il basso
+            "animateleft": Da destra a sinistra
+            "animateright": Da sinistra a destra
+            "animate__rotateInDownLeft" : Rotazione da basso/sinistra
+            "animate__rotateInDownRight" : Rotazione da basso/destra
+            "animate__rotateInUpLeft" : Rotazione da alto/sinistra
+            "animate__rotateInUpRight" : Rotazione da alto/destra
+        span: row
+        spanClass: col-8
+        trigger:
+            action: show
+            field: animate
+            condition: checked
+    _section5:
+        type: section
+        tab: Opzioni
+        label: Nome del blocco
+    block_name:
+        label: Inserire un nome identificativo
+        type: text
+        tab: Opzioni
+    _section2:
+        type: section
+        tab: Opzioni
+        label: Visibilità
+        comment: Selezionare la modalità in cui il blocco verrà <b>nascosto</b>
+        commentHtml: true
+    hide_desktop:
+        label: Desktop
+        type: switch
+        tab: Opzioni
+        span: row
+        spanClass: col-4
+    hide_tablet:
+        label: Tablet
+        type: switch
+        tab: Opzioni
+        span: row
+        spanClass: col-4
+    hide_mobile:
+        label: Mobile
+        type: switch
+        tab: Opzioni
+        span: row
+        spanClass: col-4

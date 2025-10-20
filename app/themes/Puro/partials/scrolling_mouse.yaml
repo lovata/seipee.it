@@ -1,0 +1,178 @@
+name: Scrolling
+section: UI Elements
+handle: scrolling_item
+labelFrom: block_name
+icon: /themes/Puro/assets/images/scrolling-mouse.webp
+form:
+    tabs:
+        fields:
+            pull_up:
+                label: Annega nel blocco precedente
+                type: switch
+                tab: Proprietà
+            box_height:
+                label: Altezza blocco
+                type: text
+                comment: Espresso in px
+                default: 35
+                tab: Proprietà
+                span: row
+                spanClass: col-4 
+            mouse_width:
+                label: Larghezza mouse
+                type: text
+                comment: Espresso in px
+                default: 15
+                tab: Proprietà
+                span: row
+                spanClass: col-4 
+            mouse_height:
+                label: Altezza mouse
+                type: text
+                comment: Padding laterale espresso in px
+                default: 10
+                tab: Proprietà
+                span: row
+                spanClass: col-4 
+            border:
+                label: Bordo
+                type: switch
+                tab: Proprietà
+            border_width:
+                label: Larghezza
+                type: number
+                tab: Proprietà
+                comment: Espresso in px
+                default: 2
+                span: row
+                spanClass: col-2
+                trigger:
+                  action: show
+                  field: border
+                  condition: checked
+            border_radius:
+                label: Raggio
+                type: number
+                tab: Proprietà
+                comment: Espresso in px
+                default: 25
+                span: row
+                spanClass: col-2
+                trigger:
+                  action: show
+                  field: border
+                  condition: checked
+            border_type:
+                label: Tipo linea
+                span: row
+                spanClass: col-8
+                type: balloon-selector
+                tab: Proprietà
+                options:
+                    "solid": Continua
+                    "dashed": Tratteggiata
+                    "dotted": Puntiforme
+                trigger:
+                  action: show
+                  field: border
+                  condition: checked
+            border_color:
+                label: Colore
+                type: colorpicker
+                tab: Proprietà
+                trigger:
+                  action: show
+                  field: border
+                  condition: checked
+            item_type:
+                label: Tipo oggetto
+                type: balloon-selector
+                tab: Proprietà
+                options:
+                  "": Rotellina
+                  \F128: Freccia
+            _section11:
+                label: Freccia
+                type: section
+                tab: Proprietà
+                trigger:
+                  action: show
+                  field: item_type
+                  condition: value[\F128]
+            arrow_size:
+                label: Dimensione
+                type: balloon-selector
+                default: 1
+                options:
+                    1: Piccola
+                    2: Media
+                    3: Grande
+                tab: Proprietà
+                trigger:
+                  action: show
+                  field: item_type
+                  condition: value[\F128]
+            arrow_color:
+                label: Colore
+                type: colorpicker
+                tab: Proprietà
+                trigger:
+                  action: show
+                  field: item_type
+                  condition: value[\F128]
+            _section12:
+                label: Rotellina
+                type: section
+                tab: Proprietà
+                trigger:
+                  action: show
+                  field: item_type
+                  condition: value[]
+            wheel_width:
+                label: Larghezza 
+                type: number
+                tab: Proprietà
+                comment: Espresso in px
+                default: 3
+                span: row
+                spanClass: col-4
+                trigger:
+                  action: show
+                  field: item_type
+                  condition: value[]
+            wheel_height:
+                label: Altezza 
+                type: number
+                tab: Proprietà
+                comment: Espresso in px
+                default: 10
+                span: row
+                spanClass: col-4
+                trigger:
+                  action: show
+                  field: item_type
+                  condition: value[]
+            wheel_scroll_duration:
+                label: Durata 
+                type: number
+                tab: Proprietà
+                comment: Espresso in sec
+                default: 2
+                span: row
+                spanClass: col-4
+                trigger:
+                  action: show
+                  field: item_type
+                  condition: value[]
+            wheel_color:
+                label: Colore 
+                type: colorpicker
+                tab: Proprietà
+                trigger:
+                  action: show
+                  field: item_type
+                  condition: value[]
+            spacing-mixin:
+                type: mixin
+            background-mixin:
+                type: mixin

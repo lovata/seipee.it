@@ -1,0 +1,18 @@
+# ===================================
+#  Import/Export Behavior Config
+# ===================================
+
+import:
+    title: renatio.formbuilder::lang.field.import
+    list: $/renatio/formbuilder/models/fieldtypeimport/columns.yaml
+    modelClass: Renatio\FormBuilder\Models\FieldTypeImport
+    redirect: renatio/formbuilder/fieldtypes
+    permissions: renatio.formbuilder.access_field_types.import_export
+
+export:
+    title: renatio.formbuilder::lang.field.export
+    fileName: fieldtypes
+    list: $/renatio/formbuilder/models/fieldtypeexport/columns.yaml
+    modelClass: Renatio\FormBuilder\Models\FieldTypeExport
+    redirect: renatio/formbuilder/fieldtypes
+    permissions: renatio.formbuilder.access_field_types.import_export

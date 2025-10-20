@@ -1,0 +1,70 @@
+[staticMenu]
+code = "main"
+
+[sitePicker]
+
+[searchInput]
+useAutoComplete = 1
+autoCompleteResultCount = 5
+showProviderBadge = 0
+==
+{% placeholder headerBefore %}
+
+<div class="header-top d-none d-lg-block">
+    <div class="row">
+        <div class="col-6 ps-5">
+            <p>{{ 'Benvenuti in' |_ }} {{ global.company_name }} 
+            {% if global.telefono %}<a href="mailto:{{ global.telefono }}"><i class="bi bi-telephone-fill"></i> {{ global.telefono }}</a>{% endif %}
+            {% if global.email %}<a href="mailto:{{ global.email }}"><i class="bi bi-envelope-fill"></i> {{ global.email }}</a>{% endif %}
+            </p>
+        </div>
+        <div class="col-6 relative right pe-4">
+            <div class="search">
+                {% component 'searchInput' %}
+            </div>
+            <div class="flags">
+                <div class="{{ this.site.locale }} language-select">
+                    {% set availableSites = sitePicker.sites %}
+                    <select class="language-switcher" onchange="window.location.href=this.value">
+                        {% for site in availableSites %}
+                            <option 
+                                value="{{ site.url }}" 
+                                data-flag="{{ site.locale | media }}.webp"
+                                {% if site.locale == this.site.locale %}selected{% endif %}
+                            >
+                                {{ site.name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="header-main">
+        <div class="row">
+            <div class="col-12 col-lg-1 logo d-flex align-items-center">
+                <a href="{% if this.site.locale == 'it' %}/{% else %}/{{ this.site.locale }}{% endif %}">
+                    <img src="{{ 'logo.webp'|media }}" width="110" id="logo" height="70" alt="Home Page" class="ps-4" />
+                </a>
+            </div>
+            <div class="col-12 col-lg-9 center desktop-menu">
+                <nav>
+                    {% component 'staticMenu' %}
+                </nav>
+            </div>
+            <div class="col-12 col-lg-2 right py-2">
+                {% partial 'accountButton/default' %}
+                {% if global.show_wishlist %}
+                    {% partial 'site/wishlist' %}
+                {% endif %}
+                {% if global.show_cart %}
+                    {% partial 'cartButton/default' %}
+                {% endif %}
+            </div>
+        </div>        
+</div>
+<div class="hide-on-large">
+    {% partial 'site/mobile' %}
+</div>
+{% placeholder headerAfter %}

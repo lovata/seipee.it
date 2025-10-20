@@ -1,0 +1,31 @@
+{% if __SELF__.currentItem.items.count < 1 %}
+    {% partial __SELF__ ~ '::empty' %}
+{% else %}
+
+    {% set items = __SELF__.currentItem.items %}
+    {% set totals = __SELF__.currentItem.totals %}
+
+    <div class="mall-cart__wrapper">
+        <div class="mall-table-overflow" style="overflow-y: auto">
+            <table class="mall-cart__table">
+                <thead>
+                {% partial 'wishlists/table/header' %}
+                </thead>
+                <tbody>
+                {% for product in __SELF__.currentItem.items %}
+                    {% partial 'wishlists/table/entry' product=product %}
+                {% endfor %}
+                </tbody>
+                <tfoot>
+                {% partial 'wishlists/table/total' totals=totals %}
+                {% if __SELF__.showShipping %}
+                    {% partial __SELF__ ~ '::shipping'  shipping=totals.shippingTotal %}
+                    {% partial 'wishlists/table/grandtotal' totals=totals %}
+                {% endif %}
+                {% partial 'wishlists/table/taxes' totals=totals %}
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+{% endif %}

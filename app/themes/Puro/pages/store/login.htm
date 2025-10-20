@@ -1,0 +1,21 @@
+url = "/login"
+layout = "default"
+title = "Login"
+is_hidden = 0
+
+[signUp]
+redirect = "/account"
+
+[viewBag]
+seo_title = "Login"
+seo_description = "Login"
+robot_index = "index"
+robot_follow = "follow"
+==
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            {% component 'signUp' %}
+        </div>
+    </div>
+</div>

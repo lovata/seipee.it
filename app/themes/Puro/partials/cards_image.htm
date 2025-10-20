@@ -1,0 +1,40 @@
+{% partial 'block_head' %}
+<div class="row row-cols-{{ box.elements_number_mobile }} row-cols-md-{{ box.elements_number_tablet }} row-cols-lg-{{ box.elements_number }}">
+	{% for card in box.cards %}
+		<div class="col text-{{ box.allineamento }} mb-4 {% if box.same_height == 0 %}d-flex align-items-stretch{% endif %}">
+			{% if box.link_everywhere %}
+				<a href={% if card.cta_link %}"/storage/app/media{{ card.cta_link }}"{% elseif card.cta_link_url %}"{{ card.cta_link_url }}"{% endif %} {% if card.cta_target %}target="_blank"{% endif %}>
+			{% endif %}
+				<div class="card {% if box.same_card_height %}h-100{% endif %} {% if card.animate == 1 %} animate {{ card.animate_direction }}{% endif %}" style="width:100%;{% if not box.image_full_width_in_card %}padding: {{ box.box_padding}};{% endif %}border-radius: {{ box.border_style }}; border:{{ box.border_size }} {{ box.border_line }} {% if box.card_color %} {{ box.card_color }}{% endif %}!important;background:{% if box.card_background_transparent %}{{ box.card_background_color }}{% else %}transparent{% endif %} !important;">
+						{% if card.image %}
+							<img src="{{ card.image | media }}" style="border-radius:{{ card.image_border }};{% if box.allineamento == 'center'%}margin:0 auto;{% endif %}" class="card-img" alt="{% if card.alt_text %}{{ card.alt_text }}{% else %}{{ card.title }}{% endif %}">
+						{% endif %}
+					{% if box.image_full_width_in_card %}
+						<div style="padding: {{ box.box_padding}}">
+					{% endif %}
+						{% if card.icona %}
+							<i class="bi {{ card.icona }} mb-3" style="font-size:{{ card.icona_size }};color:{{ card.icona_color }}; background:{{ card.icona_background }}; border-radius:{{ card.icona_border }};{% if card.icona_border_line %}border:{{ card.icona_border_size }} solid {% endif %};padding: {% if card.icona_border_distance %}{{ card.icona_border_distance }}{% else%}1rem{% endif %}"></i>
+						{% endif %}
+						{% if card.title %}<{{ card.title_heading }} style="padding-top:{{ box.card_distance_image }}">{{ card.title }}</{{ card.title_heading }}>{% endif %}
+						{% if card.paragrafo %}<div style="{% if box.card_distance_title %}padding-top:{{ box.card_distance_title }}{% endif %}">{{ card.paragrafo | raw }}</div>{% endif %}
+						{% if card.cta %}
+							{% if card.cta_link %}
+								<div style="padding-top:{{ box.card_distance_cta }}">
+									<a href="/storage/app/media{{ card.cta_link }}" {% if card.cta_target %}target="_blank"{% endif %} class="btn btn{% if card.cta_outline %}-outline{% endif %}-{{ card.cta_style }} mb-4">{{ card.cta }}</a>
+								</div>
+							{% endif %}
+							{% if card.cta_link_url %}
+								<div style="padding-top:{{ box.card_distance_cta }}">
+									<a href="{{ card.cta_link_url }}" {% if card.cta_target %}target="_blank"{% endif %} class="btn btn{% if card.cta_outline %}-outline{% endif %}-{{ card.cta_style }} mb-4">{{ card.cta }}</a>
+								</div>
+							{% endif %}
+						{% endif %}
+					{% if box.image_full_width_in_card %}
+						</div>
+					{% endif %}
+				</div>
+			{% if box.link_everywhere %}</a>{% endif %}
+		</div>
+	{% endfor %}
+</div>
+{% partial 'block_footer' %}

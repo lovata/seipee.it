@@ -1,0 +1,11 @@
+# ===================================
+#  Import/Export Behavior Config
+# ===================================
+
+export:
+    title: renatio.formbuilder::lang.field.export
+    fileName: formlogs
+    list: $/renatio/formbuilder/models/formlogexport/columns.yaml
+    modelClass: Renatio\FormBuilder\Models\FormLogExport
+    redirect: renatio/formbuilder/formlogs
+    permissions: renatio.formbuilder.access_form_logs.export

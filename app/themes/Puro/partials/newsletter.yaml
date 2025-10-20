@@ -1,0 +1,48 @@
+name: Newsletter
+section: Tools
+handle: Newsletter
+labelFrom: block_name
+icon: /themes/Puro/assets/images/newsletter.webp
+form:
+  tabs:
+    fields:
+      email_placeholder:
+        label: Testo per campo indirizzo email
+        type: text
+        tab: Proprietà
+      subscribe:
+        label: Testo per pulsante iscrizione
+        type: text
+        tab: Proprietà
+      subscribe_style:
+          label: Stile del pulsante
+          tab: Proprietà
+          type: dropdown  
+          span: row
+          spanClass: col-8
+          options:
+              button: button
+              primary: primary
+              secondary: secondary
+              success: success     
+              danger: danger
+              warning: warning
+              info: info
+              light: light
+              dark: dark
+              link: link
+      subscribe_outline:
+          label: Outline
+          tab: Proprietà
+          type: switch
+          span: row
+          spanClass: col-4
+      privacy:
+        label: Testo Privacy
+        type: richeditor
+        toolbarButtons: paragraphFormat|fontSize|bold|italic|underline|strikeThrough|align|quote|color|emoticons|insertLink|insertPageLink|insertImage|insertVideo|insertTable|undo|redo|clearFormatting|html|fullscreen
+        tab: Proprietà        
+      spacing-mixin:
+                type: mixin
+      background-mixin:
+                type: mixin

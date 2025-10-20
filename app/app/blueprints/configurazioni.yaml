@@ -1,0 +1,287 @@
+uuid: tecnotrade
+handle: Site\Tecnotrade
+type: global
+name: Configurazioni aziendali
+drafts: false
+
+structure:
+    maxDepth: 0
+
+navigation:
+    parent: settings
+    icon: icon-hdd-o
+    description: Definisci le proprietà per tutti i siti Tecnotrade basati su tema puro
+    category: CATEGORY_CMS
+
+fields:
+    company_name:
+        label: Nome dell'azienda
+        comment: Ragione sociale
+        type: text      
+        tab: Principale 
+    address:
+        label: Indirizzo
+        type: text      
+        tab: Principale         
+    cap:
+        label: CAP
+        comment:
+        type: text
+        span: row
+        spanClass: col-2         
+        tab: Principale
+    town:
+        label: Località
+        comment:
+        type: text
+        span: row
+        spanClass: col-6         
+        tab: Principale   
+    province:
+        label: Provinca
+        comment:
+        type: text
+        span: row
+        spanClass: col-1         
+        tab: Principale
+    state:
+        label: Stato
+        comment:
+        type: text
+        span: row
+        spanClass: col-3         
+        tab: Principale
+    email:
+        label: E-mail principale
+        comment:
+        type: text
+        span: row
+        spanClass: col-3
+        tab: Principale 
+    pec:
+        label: PEC
+        comment:
+        type: text
+        span: row
+        spanClass: col-3         
+        tab: Principale 
+    vat:
+        label: Partita IVA
+        comment:
+        type: text
+        span: row
+        spanClass: col-3         
+        tab: Principale          
+    sdi:
+        label: SDI
+        comment:
+        type: text
+        span: row
+        spanClass: col-3         
+        tab: Principale      
+    telefono:
+        label: Telefono
+        comment:
+        type: text
+        span: row
+        spanClass: col-6         
+        tab: Principale  
+    mobile:
+        label: Mobile / Cellulare
+        comment:
+        type: text
+        span: row
+        spanClass: col-6
+        tab: Principale
+    favicon_file:
+        label: Favicon
+        comment:
+        type: mediafinder
+        span: row
+        spanClass: col-4
+        tab: Principale        
+    privacypolicylink:
+        label: URL Pagina della Privacy Policy
+        comment: Inserire solo se pagina esterna al sito
+        type: text
+        span: row
+        spanClass: col-4
+        tab: Principale
+    cookiepolicylink:
+        label: URL Pagina della Cookie Policy
+        comment: Inserire solo se pagina esterna al sito
+        type: text
+        span: row
+        spanClass: col-4
+        tab: Principale
+    linkedin:
+        label: Linkedin
+        comment: URL Linkedin
+        type: text
+        span: row
+        spanClass: col-6         
+        tab: Principale        
+    instagram:
+        label: Instagram
+        comment: URL Instagram profile
+        type: text
+        span: row
+        spanClass: col-6         
+        tab: Principale 
+    facebook:
+        label: Facebook
+        comment: URL facebook page
+        type: text
+        span: row
+        spanClass: col-6         
+        tab: Principale 
+    youtube:
+        label: Youtube
+        comment: Youtube channel
+        type: text
+        span: row
+        spanClass: col-6
+        tab: Principale
+    twitter:
+        label: Twitter / X
+        comment: TwitterX
+        type: text
+        span: row
+        spanClass: col-6
+        tab: Principale
+    pinterest:
+        label: Pinterest
+        comment: Pinterest
+        type: text
+        span: row
+        spanClass: col-6
+        tab: Principale          
+    blog_posts_number:
+        label: Numero di post da mostrare
+        comment: Sulla singola riga
+        type: dropdown
+        options: 
+            col-lg-12: 1
+            col-lg-6: 2
+            col-md-6 col-lg-4: 3
+            col-md-4 col-lg-3: 4
+        tab: Blog (Elenco post)        
+    blog_shows_categories:
+        label: Mostra l'elenco delle categorie
+        type: switch
+        tab: Blog (Elenco post)        
+    blog_shows_post_category:
+        label: Mostra la categoria del post
+        type: switch
+        tab: Blog (Elenco post)        
+    blog_shows_post_date:
+        label: Mostra la data del post
+        type: switch
+        tab: Blog (Elenco post)        
+    blog_shows_post_excerpt:
+        label: Mostra l'estratto del post
+        type: switch
+        tab: Blog (Elenco post)        
+    blog_post_excerpt_length:
+        label: Lunghezza dell'estratto in caratteri
+        type: number
+        tab: Blog (Elenco post)    
+        default: 150
+        trigger:
+            action: show
+            field: blog_shows_post_excerpt
+            condition: checked
+    blog_show_related_posts:
+        label: Mostra i post correlati
+        type: switch
+        tab: Blog (Post)                                
+    main_seotitle:
+        label: SEO Title
+        comment: Titolo di default per tutte le pagine del sito
+        type: text
+        span: row
+        spanClass: col-6         
+        tab: SEO 
+    main_seo_keywords:
+        label: SEO Keywords
+        comment: Keywords di default per tutte le pagine del sito
+        type: text
+        span: row
+        spanClass: col-6
+        tab: SEO 
+    main_seo_description:
+        label: SEO Description 
+        comment: Description di default per tutte le pagine del sito
+        type: textarea
+        size: small
+        tab: SEO                 
+    items_list_type:
+        label: Visualizzazione elenco prodotti
+        comment: Modalità di visualizzazione dei prodotti
+        type: checkboxlist
+        span: row
+        spanClass: col-6        
+        options: 
+            list: Lista / Elenco
+            tab: A griglia
+        tab: Mall
+    show_item_price:
+        label: Mostra prezzo
+        comment: Mostra il prezzo del prodotto       
+        type: switch
+        tab: Mall
+    show_items_availability:
+        label: Mostra disponibilità
+        comment: Mostra il valore della disponibilità di magazzino       
+        type: switch
+        tab: Mall
+    show_cart:
+        label: Mostra carrello
+        comment: Mostra il carrello nelle schede prodotto    
+        type: switch
+        tab: Mall
+    show_wishlist:
+        label: Mostra wishlist
+        comment: Mostra il pulsante Aggiungi alla Wishlist   
+        type: switch
+        tab: Mall        
+    show_related_items:
+        label: Mostra prodotti consigliati
+        comment: Visualizza articoli correlati nella scheda del prodotto      
+        type: switch
+        tab: Mall
+    show_related_items_cart:
+        label: Mostra prodotti consigliati nel carrello
+        comment: Visualizza articoli correlati nel carrello       
+        type: switch
+        tab: Mall
+    brevo_smtp_api:
+        label: Brevo Smtp Api
+        comment: Smtp Api Account Di Brevo
+        type: text      
+        tab: Brevo
+    nome_campo_email_per_brevo:
+        label: 'Inserire il nome del campo contenente la mail: brv_EMAIL o semplicemente EMAIL'
+        comment: Nome campo email
+        type: text      
+        tab: Brevo
+    nome_campo_brevo_contentente_id_liste:
+        label: 'Inserire il nome del campo che conterra uno o più id lista a cui inviare i dati a Brevo esempio: brv_LIST'
+        comment: campo contenente l'id o gli id delle liste separate da virgole, campo hidden con visibilità visible
+        type: text      
+        tab: Brevo        
+    prefisso_attributi_singoli_da_inviare_a_brevo:
+        label: 'Inserire il prefisso degli attributi con valore singolo da inviare a brevo come specificati sulla piattaforma es: brv_attr_NOMECAMPOMAIUSCOLO'
+        comment: Prefisso attributi singloli brevo
+        type: text      
+        tab: Brevo    
+    prefisso_attributi_a_multipla_scelta_da_inviare_a_brevo:
+        label: 'Inserire il prefisso degli attributi che possono avere più opzioni es: brv_multi_NOMECAMPOMAIUSCOLO'
+        comment: Prefisso attributi a valori multipli brevo
+        type: text      
+        tab: Brevo          
+    app_debug_mail:
+        label: Email per debug
+        comment: Inserire la mail alla quale inviare gli errori di sistema
+        type: text
+        tab: Site Debug              

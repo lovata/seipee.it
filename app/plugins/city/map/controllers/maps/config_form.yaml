@@ -1,0 +1,10 @@
+name: 'city.map::lang.maps.map'
+form: $/city/map/models/map/fields.yaml
+modelClass: City\Map\Models\Map
+defaultRedirect: city/map/maps
+create:
+    redirect: 'city/map/maps/update/:id'
+    redirectClose: city/map/maps
+update:
+    redirect: city/map/maps
+    redirectClose: city/map/maps

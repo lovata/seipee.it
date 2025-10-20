@@ -1,0 +1,48 @@
+description = "Default layout"
+
+[searchInput]
+useAutoComplete = 1
+autoCompleteResultCount = 5
+showProviderBadge = 1
+
+[enhancedEcommerceAnalytics]
+
+[mallDependencies]
+
+[session]
+security = "all"
+checkToken = 0
+
+[global]
+handle = "Site\Tecnotrade"
+
+[campaignSignup]
+list = "followers"
+confirm = 0
+metaData = 1
+templatePage = "newsletter/default-template"
+
+[ratMdMetaTag]
+==
+<!DOCTYPE html>
+<html lang="{{ this.site.locale }}">
+    <head>
+        {% partial 'site/meta' %}
+        {% component "enhancedEcommerceAnalytics" %}
+        {% component 'mallDependencies' %}
+    </head>
+    <body class="{{ 'page-'~this.page.id }}">
+        <header>
+            {% partial 'site/header' %}
+        </header>
+        <main>
+            {% page %}
+        </main>
+        <footer>
+            {% partial 'site/footer' %}
+        </footer>
+        {% partial 'site/utility' %}
+        {% framework extras %}
+        {% scripts %}
+    </body>
+</html>

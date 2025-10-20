@@ -1,0 +1,14 @@
+# ===================================
+#  List Column Definitions
+# ===================================
+
+columns:
+
+    id: renatio.formbuilder::lang.field.id
+    name: renatio.formbuilder::lang.field.name
+    code: renatio.formbuilder::lang.field.code
+    description: renatio.formbuilder::lang.field.description
+    markup: renatio.formbuilder::lang.field.markup
+    created_at: renatio.formbuilder::lang.field.created_at
+    updated_at: renatio.formbuilder::lang.field.updated_at
+    is_default: renatio.formbuilder::lang.field.is_default

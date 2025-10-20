@@ -1,0 +1,47 @@
+fields:
+    is_active:
+        label: 'city.map::lang.maps.active'
+        span: full
+        default: 1
+        required: 0
+        type: switch
+    name:
+        label: 'city.map::lang.maps.name'
+        span: full
+        required: 1
+        type: text
+    lat:
+        label: 'city.map::lang.maps.lat'
+        span: auto
+        required: 1
+        type: text
+        comment: 'city.map::lang.maps.lat_comment'
+    lng:
+        label: 'city.map::lang.maps.lng'
+        span: auto
+        required: 1
+        type: text
+        comment: 'city.map::lang.maps.lng_comment'
+    zoom:
+        label: 'city.map::lang.maps.zoom'
+        showSearch: false
+        span: left
+        default: '10'
+        type: dropdown
+        comment: 'city.map::lang.maps.zoom_comment'
+    _ruler1:
+        type: ruler
+    markers:
+        label: 'city.map::lang.markers.menu_label'
+        nameFrom: name
+        select: concat(name, IF(!is_active, ' (Disabled!)', ''))
+        span: left
+        type: relation
+        comment: 'city.map::lang.maps.markers_comment'
+    sources:
+        label: 'city.map::lang.sources.menu_label'
+        nameFrom: name
+        select: concat(name, IF(!is_active, ' (Disabled!)', ''))
+        span: right
+        type: relation
+        comment: 'city.map::lang.maps.sources_comment'

@@ -1,0 +1,11 @@
+{% partial 'block_head' %}
+<div class="row row-cols-1 row-cols-sm-1 row-cols-md-{{ box.cards|length }}"  >
+	{% for card in box.cards %}
+		<div class="col-12 {% if card.col_width %} col-lg-{{ card.col_width }}{% endif %} text-{{ box.allineamento }} mb-4 {{ card.class }} {{ card.allineamento }} {{ card.allineamento_mobile }} {% if card.col_order_mobile %}order-{{ card.col_order_mobile }}{% endif %} {% if card.col_order %}order-lg-{{ card.col_order }}{% endif %}">
+			<div style="{% if box.col_border %}padding: 1rem; border:1px solid{% endif %}{% if box.col_color %} {{ box.col_color }}{% endif %}">
+				{{ card.paragrafo|raw }}
+			</div>
+		</div>
+	{% endfor %}
+</div>
+{% partial 'block_footer' %}

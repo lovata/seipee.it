@@ -1,0 +1,26 @@
+{% partial 'block_head' %}
+<div class="text-{{ box.allineamento }}">
+{% for card in box.cards %}
+		{% if card.cta %}
+            {% if card.cta_link  %}
+                {% if box.disposizione == 'ver' %}
+                    <div style="padding-bottom:{{ box.distanza_vert }}">
+                {% endif %}
+					    <a href="/storage/app/media{{ card.cta_link }}" {% if card.cta_target %}target="_blank"{% endif %} class="btn btn{% if card.cta_outline %}-outline{% endif %}-{{ card.cta_style }}">{{ card.cta }}</a>
+                {% if box.disposizione == 'ver' %}
+                    </div>
+                {% endif %}
+    		{% endif %}
+    		{% if card.cta_link_url and not card.cta_link %}
+                {% if box.disposizione == 'ver' %}
+                    <div style="padding-bottom:{{ box.distanza_vert }}">
+                {% endif %}
+    				    <a href="{{ card.cta_link_url }}" {% if card.cta_target %}target="_blank"{% endif %} class="btn btn{% if card.cta_outline %}-outline{% endif %}-{{ card.cta_style }}">{{ card.cta }}</a>
+                {% if box.disposizione == 'ver' %}
+                    </div>
+                {% endif %}
+			{% endif %}
+		{% endif %}
+{% endfor %}
+</div>
+{% partial 'block_footer' %}

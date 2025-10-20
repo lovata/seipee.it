@@ -1,0 +1,122 @@
+handle: background-mixin
+mixin:
+    background_color:
+        label: Colore
+        type: colorpicker
+        tab: Background
+    background_image:
+        label: Immagine
+        type: mediafinder
+        tab: Background
+        span: row
+        spanClass: col-6
+    background_video:
+        label: Video
+        type: mediafinder
+        tab: Background
+        span: row
+        spanClass: col-6
+    hide_on_mobile:
+        label: Nascondi immagine / video su mobile
+        type: switch
+        tab: Background
+    background_position:
+        label: Posizione X
+        type: balloon-selector
+        tab: Background
+        options:
+            left: Sinistra
+            center: Centro
+            right: Destra
+        span: row
+        spanClass: col-6
+    background_position_y:
+        label: Posizione Y
+        type: balloon-selector
+        tab: Background
+        options:
+            top: Alto
+            center: Centro
+            bottom: Basso
+        span: row
+        spanClass: col-6
+    background_repeat:
+        label: Ripetizione
+        type: balloon-selector
+        tab: Background
+        options:
+            repeat: Sì
+            no-repeat: No
+            repeat-x: Orizzontale
+            repeat-y: Verticale
+        span: row
+        spanClass: col-9
+    background_size:
+        label: Dimensione
+        type: dropdown
+        tab: Background
+        options:
+            100%: 100%
+            90%: 90%
+            80%: 80%
+            70%: 70%
+            60%: 60%
+            50%: 50%
+            40%: 40%
+            30%: 30%
+            20%: 20%
+            10%: 10%
+        span: row
+        spanClass: col-3
+    background_attachment:
+        label: Posizione fissa
+        type: switch
+        tab: Background
+        span: row
+        spanClass: col-6
+    background_overflow:
+        label: Overflow nascosto
+        type: switch
+        tab: Background
+        span: row
+        spanClass: col-6
+    parallax:
+        label: Effetto parallasse
+        type: switch
+        tab: Background
+    parallax_speed:
+        label: Velocità
+        type: balloon-selector
+        tab: Background
+        options:
+            "0.2": Minima
+            "0.4": Media
+            "0.7": Massima
+        trigger:
+            action: show
+            field: parallax
+            condition: checked
+    background_opacity:
+        label: Opacità
+        type: dropdown
+        tab: Background
+        options:
+            "0": 0%
+            "0.1": 10%
+            "0.2": 20%
+            "0.3": 30%
+            "0.4": 40%
+            "0.5": 50%
+            "0.6": 60%
+            "0.7": 70%
+            "0.8": 80%
+            "0.9": 90%
+            "1": 100%
+        span: row
+        spanClass: col-3
+    background_opacity_color:
+        label: Colore opacità
+        type: colorpicker
+        tab: Background
+        span: row
+        spanClass: col-9

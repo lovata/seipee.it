@@ -1,0 +1,205 @@
+{% partial 'block_head' %}
+{% set uid = random(10000) %}
+<div class="wrapper-{{ uid }}">
+  <picture>
+    <img src="{{ box.immagine | media }}" alt="Hotspot Image" style="width:100%; display:block; object-fit:cover;">
+  </picture>
+
+  {% for item in box.hotspots %}
+    <button 
+      type="button"
+      class="hotspot-btn"
+      data-bs-backdrop="false"
+      data-bs-keyboard="true"
+      data-bs-toggle="modal"
+      data-bs-target="#{{ uid }}_modal"
+      data-index="{{ loop.index0 }}"
+      style="top: {{ item.posY }}%; left: {{ item.posX }}%;">
+      {% if box.hotspot_number %}{{ loop.index }}{% endif %}
+    </button>
+  {% endfor %}
+</div>
+
+<!-- Bootstrap Modal -->
+<div class="modal fade" id="{{ uid }}_modal" tabindex="-1" aria-labelledby="{{ uid }}_title" aria-hidden="true">
+  <div class="modal-dialog {{ box.label_width }} modal-dialog-centered">
+    <div class="modal-content p-2">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Chiudi"></button>
+      </div>
+      <div class="modal-body text-center">
+        <img id="{{ uid }}_image" src="" alt="Hotspot image" class="img-fluid mb-3">
+        <h5 class="modal-title" id="{{ uid }}_title">Titolo</h5>
+        <div id="{{ uid }}_text" class="richeditor-output text-start"></div>
+        <div class="modal-nav mt-4">
+          <button type="button" id="{{ uid }}_prev" aria-label="Precedente">
+            <svg xmlns="http://www.w3.org/2000/svg" style="width:28px; height:28px" viewBox="0 0 24 24" fill="none"><path d="M15 18L9 12L15 6" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button type="button" id="{{ uid }}_next" aria-label="Successivo">
+            <svg xmlns="http://www.w3.org/2000/svg" style="width:28px; height:28px" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% partial 'block_footer' %}
+
+{% put scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const uid = "{{ uid }}";
+  const modalEl = document.getElementById(uid + '_modal');
+  const image = document.getElementById(uid + '_image');
+  const title = document.getElementById(uid + '_title');
+  const text = document.getElementById(uid + '_text');
+  const prevBtn = document.getElementById(uid + '_prev');
+  const nextBtn = document.getElementById(uid + '_next');
+  let currentIndex = 0;
+
+  const data = [
+    {% for item in box.hotspots %}
+    {
+      title: {{ item.title | json_encode | raw }},
+      testo: {{ item.testo | json_encode | raw }},
+      image: "{{ item.image | media }}"
+    }{{ not loop.last ? ',' }}
+    {% endfor %}
+  ];
+
+  // Assegna direttamente la logica agli hotspot
+  document.querySelectorAll('.hotspot-btn').forEach((btn) => {
+    btn.addEventListener('click', function () {
+      const index = parseInt(this.getAttribute('data-index'), 10);
+      if (!isNaN(index)) updateModal(index);
+    });
+  });
+
+  function updateModal(index) {
+    const item = data[index];
+    if (!item) return;
+    image.src = item.image;
+    title.innerText = item.title;
+    text.innerHTML = item.testo;
+    currentIndex = index;
+  }
+
+  prevBtn.addEventListener('click', () => {
+    const newIndex = (currentIndex - 1 + data.length) % data.length;
+    updateModal(newIndex);
+  });
+
+  nextBtn.addEventListener('click', () => {
+    const newIndex = (currentIndex + 1) % data.length;
+    updateModal(newIndex);
+  });
+
+  modalEl.addEventListener('hidden.bs.modal', () => {
+    image.src = '';
+    title.innerText = '';
+    text.innerHTML = '';
+  });
+});
+</script>
+{% endput %}
+{% put styles %}
+<style>
+.wrapper-{{ uid }} {
+    position: relative;
+    width: {{ box.image_resize }};
+}
+.wrapper-{{ uid }} .modal-backdrop.show {
+      opacity: 0 !important;
+      pointer-events: none;
+    }
+.wrapper-{{ uid }} .hotspot-btn {
+    position: absolute;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    {% if box.hotspot_number %}
+      width: {{ box.hotspot_number_size }};
+      height: {{ box.hotspot_number_size }};
+      border-radius: {{ box.hotspot_number_border }};
+      font-weight: {% if box.hotspot_number_bold %}bold{% else %}normal{% endif %};
+      background-color: {{ box.hotspot_number_background }};
+      color: {{ box.hotspot_number_color }};
+    {% else %}
+      width: {{ box.hotspot_size }};
+      height: {{ box.hotspot_size }};
+      border-radius: 50%;
+      background-color: {{ box.hotspot_color }};
+      color: white;
+      box-shadow: #666 0 0 10px;
+      transition: transform {{ box.hotspot_speed }};
+    {% endif %}
+  }
+.wrapper-{{ uid }} .hotspot-btn::after {
+      content: "";
+      position: absolute;
+      width: {{ box.hotspot_size }};
+      height: {{ box.hotspot_size }};
+      background: {{ box.hotspot_color }};
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+      top: 0; left: 0;
+    }
+.wrapper-{{ uid }} .modal.right .modal-dialog {
+        position: fixed;
+        right: 0;
+        margin: 0;
+        height: 100%;
+        max-width: 420px;
+        transform: translateX(100%);
+        transition: transform 0.3s ease-out;
+      }
+
+.wrapper-{{ uid }} .modal.right.show .modal-dialog {
+        transform: translateX(0);
+      }
+
+.modal-content {
+        height: 100%;
+        overflow-y: auto;
+        border-radius: 0;
+        background-color: {{ box.title_color_background }} !important;
+      }
+
+.wrapper-{{ uid }} .modal-nav {
+        display: flex;
+        justify-content: center;
+        gap: 24px;
+        margin-top: 20px;
+      }
+
+.wrapper-{{ uid }} .modal-nav button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 6px;
+      }
+
+
+.wrapper-{{ uid }} .modal.show {
+        background: rgba(0, 0, 0, 0.6);
+      }
+.wrapper-{{ uid }} .modal-nav svg {
+    width: 28px;
+    height: 28px;
+}
+.wrapper-{{ uid }} .hotspot-btn:hover {
+    transform: scale(1.15);
+}
+@keyframes pulse {
+  0%   { transform: scale(1); opacity: 1; }
+  100% { transform: scale(2); opacity: 0; }
+}
+.modal-header {
+    border-bottom: 0px !important;
+    padding: .4rem 1rem 0  !important;
+}
+</style>
+{% endput %}

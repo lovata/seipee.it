@@ -1,0 +1,22 @@
+name: Form
+section: Tools
+handle: Form
+labelFrom: block_name
+icon: /themes/Puro/assets/images/form.webp
+components:
+    renderBoxForm:
+        addToLayout: true
+        noCache: true
+        formCode: '= renatio_form_id'
+form:
+    tabs:
+        fields:
+            renatio_form_id:
+                label: Seleziona Form
+                tab: Proprietà
+                type: dropdown
+                options: getRenatioFormsCode
+            spacing-mixin:
+                type: mixin
+            background-mixin:
+                type: mixin

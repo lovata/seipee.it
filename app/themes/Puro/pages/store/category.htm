@@ -1,0 +1,83 @@
+url = "/store/:slug*"
+layout = "default"
+title = "Category"
+is_hidden = 0
+
+[viewBag]
+localeUrl[en] = "/store/:slug*"
+robot_index = "index"
+robot_follow = "follow"
+
+[products]
+category = ":slug"
+filterComponent = "productsFilter"
+setPageTitle = 1
+includeVariants = 1
+includeChildren = 1
+perPage = 9
+paginate = 1
+sort = "name"
+
+[productsFilter]
+category = ":slug"
+includeChildren = 1
+includeVariants = 1
+showPriceFilter = 1
+showBrandFilter = 1
+showOnSaleFilter = 1
+includeSliderAssets = 1
+==
+<div class="container py-4">
+    <div class="row">
+        <div class="col-12 col-lg-3">
+            {% component 'productsFilter' %}
+        </div>
+        <div class="col-12 col-lg-9">
+            <div class="puro-layout-container">
+                <h2 class="pl-4">{{ products.category.name }}</h2>
+                <div class="sort-grid-list-container">
+                    <div class="pushing-sort-order">
+                        {# Appending sort order #}
+                        {# partial __SELF__ ~ '::sorter' #}
+                    </div>
+                    <div class="grid-list-container">
+                        <div class="grid-container">
+                            <a class="select-grid" href="#"><i class="bi bi-grid-1x2-fill"></i></a>
+                        </div>
+                        <div class="list-container">
+                            <a class="select-list" href="#"><i class="bi bi-list-task"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% component 'products' %}
+        </div>
+    </div>
+</div>
+
+{% put scripts %}
+    <script>
+        $(function () {
+            $("a.select-list").click(function(e) {
+                e.preventDefault(); // Previeni il comportamento predefinito del link
+                $(this).addClass("selected"); // Aggiungi la classe selected all'elemento cliccato
+                $(".col-lg-4").removeClass("col-lg-4").addClass("col-lg-12"); // Cambia tutte le col-lg-4 in col-lg-12
+                $("a.select-grid").removeClass("selected"); // Rimuovi la classe selected dall'altro link
+            });
+
+            // Gestisci il clic su a.select-grid
+            $("a.select-grid").click(function(e) {
+                e.preventDefault(); // Previeni il comportamento predefinito del link
+                $(this).addClass("selected"); // Aggiungi la classe selected all'elemento cliccato
+                $(".col-lg-12").removeClass("col-lg-12").addClass("col-lg-4"); // Cambia tutte le col-lg-12 in col-lg-4
+                $("a.select-list").removeClass("selected"); // Rimuovi la classe selected dall'altro link
+            });
+        })
+         $( document ).on( "ajaxComplete", function() {
+            if($('a.select-list').hasClass('selected')){
+                $(".col-lg-4").removeClass("col-lg-4").addClass("col-lg-12"); // Cambia tutte le col-lg-4 in col-lg-12
+                $("a.select-grid").removeClass("selected");
+            }
+        });
+    </script>
+{% endput %}

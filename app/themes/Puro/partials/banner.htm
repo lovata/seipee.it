@@ -1,0 +1,53 @@
+{% partial 'block_head' %}
+		<div
+		class="relative {% if box.container_class == 0 %}container {% endif %}{{ box.wrapper_class }}
+		{% if box.animate == 1 %} animate {{ box.animate_direction }}{% endif %}
+		{% if box.parallax == 1 %}jarallax {% endif %}" 
+		style="position:relative; 
+		{% if not box.container_class %}background-image: url('{{ (box.background_image | media ) }}');{% endif %}
+		{% if box.background_attachment == 1 %}background-attachment: fixed;{% endif %}
+		height: {{ banner_height }}px;background-size: cover;background-repeat: no-repeat;
+		{% if box.margin %}margin-top: {{ box.margin}};margin-bottom: {{ box.margin}};{% endif %}">
+			<div style="position:absolute;
+				text-align:{{ box.text_alignment }};
+				{% if box.vertical_alignment == 'top' %}
+						top:5%;
+						{% set valY = -5 %}
+					{% elseif box.vertical_alignment == '25' %}
+						top: 25%;
+						{% set valY = -25 %}
+					{% elseif box.vertical_alignment == 'center' %}
+						top: 50%;
+						{% set valY = -50 %}
+					{% elseif box.vertical_alignment == '75' %}
+						top: 75%;
+						{% set valY = -75 %}
+					{% elseif box.vertical_alignment == 'bottom' %}
+						bottom:5%;
+				{% endif %}
+				{% if box.horizontal_alignment == 'left' %}
+						left:10%;
+						{% set valX = -10 %}
+					{% elseif box.horizontal_alignment == '25' %}
+						left: 25%;
+						{% set valX = -25 %}
+					{% elseif box.horizontal_alignment == 'center' %}
+						left: 50%;
+						{% set valX = -50 %}
+					{% elseif box.horizontal_alignment == '75' %}
+						left: 75%;
+						{% set valX = -75 %}
+					{% elseif box.horizontal_alignment == 'right' %}
+						right:10%;
+						{% set valX = 10 %}
+				{% endif %}
+				transform: translate({{ valX }}%,{{ valY }}%);
+				z-index:1;" >
+					{% if box.title %}<{% if box.title_size %}{{ box.title_size }}{% else %}h1{% endif %} class="{% if box.title_animate %}animatenow {{ box.title_animate_direction }}{% endif %}" style="color:{{ box.title_color }} !important;{% if box.title_bold %}font-weight:bold !important{% endif %}">{{ box.title }}</{% if box.title_size %}{{ box.title_size }}{% else %}h1{% endif %}>{% endif %}
+					{% if box.subtitle %}<{% if box.subtitle_size %}{{ box.subtitle_size }}{% else %}h1{% endif %} class="{% if box.subtitle_animate %}animatenow {{ box.subtitle_animate_direction }}{% endif %}" style="color:{{ box.subtitle_color }} !important;{% if box.subtitle_bold %}font-weight:bold !important{% endif %}">{{ box.subtitle }}</{% if box.subtitle_size %}{{ box.subtitle_size }}{% else %}h1{% endif %}>{% endif %}
+					{% if box.subtitle %}{{ box.text | raw }}{% endif %}
+					{% if box.cta %}<a class="{% if box.cta_class != 'button' %}btn {% endif %}{{ box.cta_class }} {{ box.cta_spacing }} {% if box.cta_animate %}animatenow {{ box.cta_animate_direction }}{% endif %}" href="{{ box.cta_link }}" {% if cta_target %}target="_blank" {% endif %} style="border-radius:{{ box.cta_border_radius }}">{{ box.cta }}</a>{% endif %}
+				</div>
+
+
+{% partial 'block_footer' %}

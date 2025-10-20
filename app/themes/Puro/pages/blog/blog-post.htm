@@ -1,0 +1,152 @@
+url = "/blog/:slug"
+layout = "default"
+title = "Blog Post"
+
+[blogPost]
+slug = "{{ :slug }}"
+categoryPage = "blog/blog-category"
+
+[blogPosts]
+pageNumber = "{{ :page }}"
+postsPerPage = 3
+noPostsMessage = "No posts found"
+sortOrder = "random"
+categoryPage = "blog/blog-category"
+postPage = "blog/blog-post"
+
+[bloghubTags]
+tagPage = "blog/tag-page"
+onlyPromoted = 0
+amount = 10
+
+[blogPosts blogPosts2]
+pageNumber = "{{ :page }}"
+postsPerPage = 5
+noPostsMessage = "No posts found"
+sortOrder = "published_at desc"
+categoryPage = "blog/blog-category"
+postPage = "blog/blog-post"
+
+[viewBag]
+seo_title = "Blog Post"
+seo_description = "Blog Post"
+robot_index = "index"
+robot_follow = "follow"
+==
+<div class="container pt-5 news-page">
+    <div class="row blog-post">
+        <div class="col-12 col-md-8">
+            {% set post = blogPost.post %}
+            <div class="post-container">
+                <h1>{{ post.title }}</h1>
+                <img src="{{ post.metadata.principal_image|media }}">
+                <div class="category">
+                    {% if post.categories|length %}
+                        {% for category in post.categories %}
+                            <a href="{{ category.url }}">{{ category.name }}</a>{% if not loop.last %}, {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <div class="info">
+                    {{ post.published_at|date('d M Y') }}
+                </div>
+                <div class="views">
+                    {{ post.ratmd_bloghub_unique_views }}
+                </div>
+                {% if post.ratmd_bloghub_tags.count %} 
+                    <div class="tag-list">
+                        <ul > 
+                            {% for item in post.ratmd_bloghub_tags %} 
+                                <li>
+                                    <a href="/tag/{{ item.slug }}">{{ item.title }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul> 
+                    </div>
+                {% endif %}
+                <div class="content">
+                    {{ post.content|content }}
+                </div>
+                {% component 'bottomNews' %}
+                {% if post.ratmd_bloghub_tags.count %} 
+                    <div class="tag-list-bottom">
+                        <ul > 
+                            {% for item in post.ratmd_bloghub_tags %} 
+                                <li>             
+                                    <a href="/tag/{{ item.slug }}">{{ item.title }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul> 
+                    </div>
+                {% endif %}
+            </div>
+            <div>
+   
+            </div>
+
+        </div>
+        <div class="col-12 col-md-3 offset-md-1 recent">
+            <h2 class="title"><span>{{ 'Post recenti'|_}}</span></h2>
+            <div class="recenti" style="margin-bottom:3rem">
+                {% set posts = blogPosts2.posts %}
+            <div class="post-list row">
+                {% for post in posts |slice(1,6)%}
+                    <div class="col-12 pb-4">
+                        <div class="post">
+                            <div class="post-container row">
+                                <div class="featured-images"> 
+                                    <a href="{{ post.url }}">
+                                        <img src="{{ post.metadata.principal_image|media }}">
+                                    </a>
+                                </div> 
+                                <div> 
+                                    <p class="info">
+                                        {{ post.published_at|date('d M Y') }}
+                                    </p>
+                                    <h3><a href="{{ post.url }}">{{ post.title }}</a></h3>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container pb-4">
+    <h2 style="padding: 2rem 0 1rem 0"><span>{{ 'Potrebbe interessarti anche' |_ }}</span></h2>
+    <div class="related">
+        {% set posts = blogPosts.posts %}
+        <div class="post-list row">
+            {% for post in posts %}
+                <div class="post col-12 col-lg-4">
+                    <div class="post-container">
+                        {% if post.metadata.principal_image %} 
+                            <div class="featured-images text-center"> 
+                                <a href="{{ post.url }}">
+                                    <img data-src="{{ image.filename }}" src="{{ post.metadata.principal_image|media }}" alt="{{ post.title }}">
+                                </a>
+                            </div> 
+                        {% endif %}
+                        <p class="category">
+                            {% for category in post.categories %}
+                                <a href="{{ category.url }}">{{ category.name }}</a>
+                            {% endfor %}
+                        </p>
+                        <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
+                        
+                        <p class="info">
+                            {{ post.published_at|date('d M Y') }}
+                        </p>
+        
+                        <p class="excerpt">{{ post.summary | striptags | slice(0,250)|join(' ') }}</p>
+                    </div>
+                </div>
+            {% else %}
+                <div class="no-data">{{ blogPosts.noPostsMessage }}</div>
+            {% endfor %}
+        </div>
+    </div>
+</div>

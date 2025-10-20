@@ -1,0 +1,18 @@
+# ===================================
+#  List Column Definitions
+# ===================================
+
+columns:
+    name:
+        label: Name
+        searchable: true
+
+    description:
+        label: Description
+
+    subscribers_count:
+        label: Subscribers
+        sortable: false
+        relation: subscribers
+        relationCount: true
+        default: 0

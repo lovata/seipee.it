@@ -1,0 +1,46 @@
+{% partial 'block_head' %}
+<div class="row row-cols-1 row-cols-sm-1 row-cols-md-{{ box.cards|length }}">
+	{% for card in box.cards %}
+		<div class="col-12 {% if card.col_width %} col-lg-{{ card.col_width }}{% endif %} text-{{ box.allineamento }} mb-4 {{ card.class }}">
+			<div class="d-flex flex-column{% if box.main_reverseorder %}-reverse{% endif %}" style="{% if box.col_border %}padding: 1rem; border:1px solid{% endif %}{% if box.col_color %} {{ box.col_color }}{% endif %}">
+				{% if card.image %}
+					<img src="{{ card.image | media }}" style="border-radius:{{ card.image_border }};width:{{ card.image_resize }};{% if box.allineamento == 'center'%}margin:0 auto;{% endif %}" class="card-img">
+				{% endif %}
+				{% if card.icona %}
+					<i class="bi {{ card.icona }} mb-3" style="font-size:{{ card.icona_size }};color:{{ card.icona_color }} !important; background:{{ card.icona_background }}; border-radius:{{ card.icona_border }};{% if card.icona_border_line %}border:{{ card.icona_border_size }} solid {% endif %};padding: {% if card.icona_border_distance %}{{ card.icona_border_distance }}{% else%}1rem{% endif %}"></i>
+				{% endif %}
+				<div style="display: flex; margin: 0 auto;">
+                    {% if card.value_before %}<{{ card.value_style }} {% if box.value_color %}style="color:{{ box.value_color }} !important;"{% endif %}>{{ card.value_before }}</{{ card.value_style }}>{% endif %}
+    				<{{ card.value_style }} {% if box.value_color %}style="color:{{ box.value_color }} !important;"{% endif %} class="purecounter purecounter-{{ loop.index }}" data-purecounter-start="0" data-purecounter-end="{{ card.value }}" {% if card.duration %}data-purecounter-duration="{{ card.duration }}"{% endif %}
+    					{% if card.decimals %}data-purecounter-decimals="true"{% endif %} {% if card.currency %}data-purecounter-currency="{{ card.currency_symbol }}"{% endif %} >
+    					{{ card.value }}
+    				</{{ card.value_style }}>
+                    {% if card.value_after %}<{{ card.value_style }} {% if box.value_color %}style="color:{{ box.value_color }} !important;"{% endif %}>{{ card.value_after }}</{{ card.value_style }}>{% endif %}
+                </div>
+				<{{ card.col_style }} {% if box.name_color %}style="color:{{ box.name_color }} !important;"{% endif %}>{{ card.col_name }}</{{ card.col_style }}>
+			</div>
+		</div>
+	{% endfor %}
+</div>
+{% partial 'block_footer' %}
+<script src="https://cdn.jsdelivr.net/npm/@srexi/purecounterjs/dist/purecounter_vanilla.js"></script>
+<script>
+    new PureCounter({
+        // Setting that can't' be overriden on pre-element
+        selector: ".purecounter", // HTML query selector for spesific element
+
+        // Settings that can be overridden on per-element basis, by `data-purecounter-*` attributes:
+        start: 0, // Starting number [uint]
+    	end: 100, // End number [uint]
+		duration: {{ box.main_duration|default(3) }}, // The time in seconds for the animation to complete [seconds]
+        delay: {{ box.main_duration|default(10) }}, // The delay between each iteration (the default of 10 will produce 100 fps) [miliseconds]
+        once: {{ box.main_restart }}, // Counting at once or recount when the element in view [boolean]
+        pulse: {% if box.main_loop %}{{ main_loop_seconds|default(15) }}{% else %}false{% endif %}, // Repeat count for certain time [boolean:false|seconds]
+        decimals: {{ box.main_decimal|default(0) }}, // How many decimal places to show. [uint]
+        legacy: true, // If this is true it will use the scroll event listener on browsers
+        filesizing: false, // This will enable/disable File Size format [boolean]
+        currency: false, // This will enable/disable Currency format. Use it for set the symbol too [boolean|char|string]
+        formater: "it-IT", // Number toLocaleString locale/formater, by default is "en-US" [string|boolean:false]
+        separator: true, // This will enable/disable comma separator for thousands. Use it for set the symbol too [boolean|char|string]
+});
+</script>

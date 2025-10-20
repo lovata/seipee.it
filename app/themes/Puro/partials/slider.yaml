@@ -1,0 +1,501 @@
+name: Slider
+section: Hero
+handle: slider
+labelFrom: block_name
+icon: /themes/Puro/assets/images/slider.webp
+assets:
+    js:
+    -   name: https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js
+        attributes:
+            async: "async"
+    css:
+    -   name: https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css
+    -   name: https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css
+    -   name: https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.compat.min.css
+form:
+    tabs:
+        fields:
+            number_slider: 
+                label: Slide Desktop
+                type: number
+                tab: Proprietà
+                span: row
+                spanClass: col-4       
+            number_slider_tablet: 
+                label: Slide Tablet
+                type: number
+                tab: Proprietà
+                span: row
+                spanClass: col-4
+            number_slider_mobile: 
+                label: Slide Mobile
+                type: number
+                tab: Proprietà
+                span: row
+                spanClass: col-4
+            animateIn:
+                label: Animazione in entrata
+                type: dropdown
+                options:
+                    "bounce": bounce
+                    "flash": flash
+                    "pulse": pulse
+                    "rubberBand": rubberBand
+                    "shakeX": shakeX
+                    "shakeY": shakeY
+                    "headShake": headShake
+                    "swing": swing
+                    "tada": tada
+                    "wobble": wobble
+                    "jello": jello
+                    "heartBeat": heartBeat
+                    "backInDown": backInDown
+                    "backInLeft": backInLeft
+                    "backInRight": backInRight
+                    "backInUp": backInUp
+                    "bounceIn": bounceIn
+                    "bounceInDown": bounceInDown
+                    "bounceInLeft": bounceInLeft
+                    "bounceInRight": bounceInRight
+                    "bounceInUp": bounceInUp
+                    "fadeIn": fadeIn
+                    "fadeInDown": fadeInDown
+                    "fadeInDownBig": fadeInDownBig
+                    "fadeInLeft": fadeInLeft
+                    "fadeInLeftBig": fadeInLeftBig
+                    "fadeInRight": fadeInRight
+                    "fadeInRightBig": fadeInRightBig
+                    "fadeInUp": fadeInUp
+                    "fadeInUpBig": fadeInUpBig
+                    "fadeInTopLeft": fadeInTopLeft
+                    "fadeInTopRight": fadeInTopRight
+                    "fadeInBottomLeft": fadeInBottomLeft
+                    "fadeInBottomRight": fadeInBottomRight
+                    "flip": flip
+                    "flipInX": flipInX
+                    "flipInY": flipInY
+                    "lightSpeedInRight": lightSpeedInRight
+                    "lightSpeedInLeft": lightSpeedInLeft
+                    "lightSpeedOutRight": lightSpeedOutRight
+                    "lightSpeedOutLeft": lightSpeedOutLeft
+                    "rotateIn": rotateIn
+                    "rotateInDownLeft": rotateInDownLeft
+                    "rotateInDownRight": rotateInDownRight
+                    "rotateInUpLeft": rotateInUpLeft
+                    "rotateInUpRight": rotateInUpRight
+                    "hinge": hinge
+                    "jackInTheBox": jackInTheBox
+                    "rollIn": rollIn
+                    "zoomIn": zoomIn
+                    "zoomInDown": zoomInDown
+                    "zoomInLeft": zoomInLeft
+                    "zoomInRight": zoomInRight
+                    "zoomInUp": zoomInUp
+                    "slideInDown": slideInDown
+                    "slideInLeft": slideInLeft
+                    "slideInRight": slideInRight
+                    "slideInUp": slideInUp
+                tab: Proprietà
+                span: row
+                spanClass: col-6
+                comment: Per vedere le animazioni <a href="https://animate.style/" target="_blank">clicca qui</a>
+                commentHtml: true
+            animateOut:
+                label: Animazione in uscita
+                type: dropdown
+                options:
+                    "bounce": bounce
+                    "flash": flash
+                    "pulse": pulse
+                    "rubberBand": rubberBand
+                    "shakeX": shakeX
+                    "shakeY": shakeY
+                    "headShake": headShake
+                    "swing": swing
+                    "tada": tada
+                    "wobble": wobble
+                    "jello": jello
+                    "heartBeat": heartBeat
+                    "backOutDown": backOutDown
+                    "backOutLeft": backOutLeft
+                    "backOutRight": backOutRight
+                    "backOutUp": backOutUp
+                    "bounceOut": bounceOut
+                    "bounceOutDown": bounceOutDown
+                    "bounceOutLeft": bounceOutLeft
+                    "bounceOutRight": bounceOutRight
+                    "bounceOutUp": bounceOutUp
+                    "fadeOut": fadeOut
+                    "fadeOutDown": fadeOutDown
+                    "fadeOutDownBig": backInUp
+                    "fadeOutLeft": fadeOutLeft
+                    "fadeOutLeftBig": fadeOutLeftBig
+                    "fadeOutRight": fadeOutRight
+                    "fadeOutRightBig": fadeOutRightBig
+                    "fadeOutUp": fadeOutUp
+                    "fadeOutUpBig": fadeOutUpBig
+                    "fadeOutTopLeft": fadeOutTopLeft
+                    "fadeOutTopRight": fadeOutTopRight
+                    "fadeOutBottomRight": fadeOutBottomRight
+                    "fadeOutBottomLeft": fadeOutBottomLeft
+                    "flip": flip
+                    "flipOutX": flipOutX
+                    "flipOutY": flipOutY
+                    "lightSpeedOutRight": lightSpeedOutRight
+                    "lightSpeedOutLeft": lightSpeedOutLeft
+                    "rotateOut": rotateOut
+                    "rotateOutDownLeft": rotateOutDownLeft
+                    "rotateOutDownRight": rotateOutDownRight
+                    "rotateOutUpLeft": rotateOutUpLeft
+                    "rotateOutUpRight": rotateOutUpRight
+                    "hinge": hinge
+                    "jackInTheBox": jackInTheBox
+                    "rollOut": rollOut
+                    "zoomOut": zoomOut
+                    "zoomOutDown": zoomOutDown
+                    "zoomOutLeft": zoomOutLeft
+                    "zoomOutRight": zoomOutRight
+                    "zoomOutUp": zoomOutUp
+                    "slideOutDown": slideOutDown
+                    "slideOutLeft": slideOutLeft
+                    "slideOutRight": slideOutRight
+                    "slideOutUp": slideOutUp
+                tab: Proprietà
+                span: row
+                spanClass: col-6
+            autoplay: 
+                label: Autoplay
+                type: switch
+                tab: Proprietà
+                span: row
+                spanClass: col-4
+                comment: avvia riproduzione automatica
+            loop: 
+                label: Loop
+                type: switch
+                tab: Proprietà
+                span: row
+                spanClass: col-4
+                comment: riproduzione continua
+            centeralign:
+                label: Allinea elementi al centro
+                type: switch
+                tab: Proprietà
+                span: row
+                spanClass: col-4
+                comment: Usare con gli elementi non omogenei sullo schermo
+            nav: 
+                label: Navigation
+                type: switch
+                tab: Proprietà
+                span: row
+                spanClass: col-4
+                comment: mostra pulsanti next/prev
+            pagination: 
+                label: Paginatore
+                type: switch
+                tab: Proprietà
+                span: row
+                spanClass: col-4
+                comment: mostra dots di navigazione
+            lazyload:
+                label: Lazyload
+                type: switch
+                tab: Proprietà
+                span: row
+                spanClass: col-4
+            timing:
+                label: Intervallo tra le slides
+                type: number
+                min: 2
+                step: 1
+                tab: Proprietà    
+                default: 5   
+                comment: Espresso in secondi   
+                span: row
+                spanClass: col-4 
+            slides_margin:
+                label: Margine tra le slides
+                type: number
+                tab: Proprietà
+                default: 0
+                span: row
+                spanClass: col-4
+                comment: Espresso in px
+            stage_padding:
+                label: Stage padding
+                type: number
+                tab: Proprietà
+                default: 0
+                span: row
+                spanClass: col-4
+                comment: Espresso in px
+            _section11:
+                label: Allineamento
+                type: section
+                tab: Proprietà
+            vertical_align:
+                label: Verticale
+                type: balloon-selector
+                tab: Proprietà
+                options:
+                    start: "Alto"
+                    center: "Centro"
+                    end: "Basso"
+            fixed_height:
+                label: Altezza fissa
+                type: switch
+                tab: Proprietà
+                span: row
+                spanClass: col-3
+            max_height: 
+                label: Altezza
+                type: number
+                tab: Proprietà
+                span: row
+                spanClass: col-3
+                comment: Espressa in px
+                trigger:
+                    action: show
+                    field: fixed_height
+                    condition: checked
+            img_as_background: 
+                label: Immagini come background
+                type: switch
+                tab: Proprietà
+                span: row
+                spanClass: col-12
+                comment: Impostare per visualizzare le immagini degli slider come background e non utilizzando il tag img (possibili tagli delle immagini)
+            img_as_link:
+                label: Rendi cliccabile l'Immagine
+                type: switch
+                tab: Proprietà
+                span: row
+                spanClass: col-12
+            image_width:
+                label: Larghezza
+                tab: Proprietà
+                type: text
+                span: row
+                spanClass: col-6
+            image_height:
+                label: Altezza
+                tab: Proprietà
+                type: text
+                span: row
+                spanClass: col-6                 
+            cards:
+                label: Inserisci slides
+                tab: Slides
+                itemsExpanded: false
+                type: repeater
+                form:
+                    fields:
+                        slider_image:
+                            label: Immagine
+                            type: mediafinder 
+                            span: row
+                            spanClass: col-6
+                        slider_video:
+                            label: Video
+                            type: mediafinder
+                            span: row
+                            spanClass: col-6                          
+                        _section1:
+                            type: section
+                            label: Titolo principale
+                        title: 
+                            label: Inserire il testo
+                            type: text
+                            span: row
+                            spanClass: col-9
+                        title_size:
+                            label: Stile
+                            type: dropdown
+                            options:
+                                "h1": h1
+                                "h2": h2
+                                "h3": h3
+                                "h4": h4
+                                "h5": h5
+                                "h6": h6
+                            span: row
+                            spanClass: col-3
+                        title_bold:
+                            label: Bold
+                            type: switch
+                        title_animate:
+                            label: Animazione
+                            type: switch
+                        title_animate_direction:
+                            label: Direzione
+                            type: balloon-selector
+                            default: animateup
+                            options:
+                                "animateup": Dal basso
+                                "animatedown": Dall'alto
+                                "animateleft": Da destra
+                                "animateright": Da sinistra
+                            trigger:
+                                action: show
+                                field: title_animate
+                                condition: checked
+                        title_color:
+                            label: Colore
+                            type: colorpicker                           
+                        _section2:
+                            type: section
+                            label: Titolo secondario                            
+                        subtitle: 
+                            label: Inserire il testo
+                            type: text
+                            span: row
+                            spanClass: col-9
+                        subtitle_size:
+                            label: Stile
+                            type: dropdown
+                            default: h2
+                            options:
+                                "h1": h1
+                                "h2": h2
+                                "h3": h3
+                                "h4": h4
+                                "h5": h5
+                                "h6": h6
+                            span: row
+                            spanClass: col-3
+                        subtitle_bold:
+                            label: Bold
+                            type: switch                            
+                        subtitle_animate:
+                            label: Animazione
+                            type: switch
+                        subtitle_animate_direction:
+                            label: Direzione
+                            type: balloon-selector
+                            default: animateup
+                            options:
+                                "animateup": Dal basso
+                                "animatedown": Dall'alto
+                                "animateleft": Da destra
+                                "animateright": Da sinistra
+                            trigger:
+                                action: show
+                                field: subtitle_animate
+                                condition: checked
+                        subtitle_color:
+                            label: Colore
+                            type: colorpicker                           
+                        _section3:
+                            type: section
+                            label: Pulsante / Call to action                                 
+                        cta:
+                            label: Inserire il testo
+                            type: text
+                            span: row
+                            spanClass: col-6
+                        cta_link:
+                            label: Link
+                            type: text
+                            span: row
+                            spanClass: col-6
+                        cta_target:
+                            label: Apri in una nuova finestra
+                            type: switch   
+                            span: row
+                            spanClass: col-6
+                        cta_class:
+                            label: Classe
+                            type: dropdown  
+                            span: row
+                            spanClass: col-6
+                            default: button
+                            options:
+                                button: button
+                                btn-primary: primary
+                                btn-secondary: secondary
+                                btn-success: success     
+                                btn-danger: danger
+                                btn-warning: warning
+                                btn-info: info
+                                btn-light: light
+                                btn-dark: dark
+                                btn-link: link                              
+                        cta_spacing:
+                            label: Margine superiore
+                            type: balloon-selector
+                            default: mt-1
+                            options:
+                                mt-0: 0
+                                mt-1: 1
+                                mt-2: 2
+                                mt-3: 3
+                                mt-4: 4
+                                mt-5: 5        
+                        cta_border_radius:
+                            label: Bordo arrotondato
+                            type: balloon-selector
+                            default: 0
+                            options:
+                                0: No
+                                5px: Piccolo
+                                10px: Medio
+                                20px: Grande
+                                5rem: Tondo                                       
+                        cta_animate:
+                            label: Animazione
+                            type: switch
+                        cta_animate_direction:
+                            label: Direzione
+                            type: balloon-selector
+                            default: animateup
+                            options:
+                                "animateup": Dal basso
+                                "animatedown": Dall'alto
+                                "animateleft": Da destra
+                                "animateright": Da sinistra
+                            trigger:
+                                action: show
+                                field: cta_animate
+                                condition: checked 
+                           
+                        _section4:
+                            type: section
+                            label: Posizionamento dei contenuti
+                        horizontal_alignment:
+                            label: Orizzontale
+                            type: balloon-selector
+                            default: left
+                            options:
+                                left: Sinistra
+                                25: 25%
+                                center: Centro
+                                75: 75%
+                                right: Destra
+                        vertical_alignment:
+                            label: Verticale
+                            type: balloon-selector
+                            default: top
+                            options:
+                                top: Alto
+                                25: 25%
+                                center: Centro
+                                75: 75%
+                                bottom: Basso
+                        _section5:
+                            type: section
+                            label: Allineamento tra i contenuti
+                        text_alignment:
+                            label: Seleziona
+                            type: balloon-selector
+                            default: left
+                            options:
+                                left: Sinistra
+                                center: Centro
+                                right: Destra
+                            span: row
+                            spanClass: col-6
+            spacing-mixin:
+                type: mixin
+            background-mixin:
+                type: mixin

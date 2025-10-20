@@ -1,0 +1,55 @@
+name: Timeline verticale
+section: UI Elements
+handle: timeline_ver
+labelFrom: block_name
+icon: /themes/Puro/assets/images/timeline_ver.webp
+form:
+    tabs:
+        fields:
+            timeline_items:
+              label: Voci della Timeline
+              type: repeater
+              prompt: Aggiungi una voce
+              form:
+                fields:
+                  year:
+                    label: Anno / Label
+                    type: text
+                  title:
+                    label: Titolo
+                    type: text
+                    span: row
+                    spanClass: col-9
+                  titleStyle:
+                      label: Stile
+                      type: dropdown
+                      options:
+                        "h1": h1
+                        "h2": h2
+                        "h3": h3
+                        "h4": h4
+                        "p": p
+                      span: row
+                      spanClass: col-3
+                  text:
+                    label: Descrizione
+                    type: richeditor
+                    size: small
+            inverse:
+                label: Anteponi la timeline rispetto ai testi
+                type: switch
+                tab: Configurazioni
+            dotcolor:
+                label: Colore del pallino
+                type: colorpicker
+                default: #4CC9FF
+                tab: Configurazioni
+            linecolor:
+                label: Colore della linea
+                type: colorpicker
+                default: #4CC9FF
+                tab: Configurazioni
+            spacing-mixin:
+                type: mixin
+            background-mixin:
+                type: mixin

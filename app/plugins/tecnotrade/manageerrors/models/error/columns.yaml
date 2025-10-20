@@ -1,0 +1,25 @@
+columns:
+    id:
+        label: id
+        type: number
+    error_code:
+        label: error_code
+        type: number
+    error_message:
+        label: error_message
+        type: text
+    error_date:
+        label: error_date
+        type: text
+    page_url:
+        label: page_url
+        type: text
+    import_status:
+        label: import_status
+        type: number
+    error_line:
+        label: error_line
+        type: number
+    error_file:
+        label: error_file
+        type: text

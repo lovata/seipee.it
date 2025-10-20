@@ -1,0 +1,61 @@
+fields:
+    name:
+        label: 'inetis.downloadmanager::lang.category.name'
+        span: auto
+        type: text
+
+    parent:
+        label: 'inetis.downloadmanager::lang.category.parent'
+        tab: inetis.downloadmanager::lang.category.tab_details
+        span: right
+        nameFrom: name
+        descriptionFrom: description
+        type: relation
+        emptyOption: 'inetis.downloadmanager::lang.category.no_parent'
+
+tabs:
+    fields:
+        description:
+            label: 'inetis.downloadmanager::lang.category.description'
+            tab: inetis.downloadmanager::lang.category.tab_details
+            span: full
+            size: huge
+            type: richeditor
+
+        files:
+            label: 'inetis.downloadmanager::lang.category.files'
+            tab: inetis.downloadmanager::lang.category.tab_files
+            mode: file
+            useCaption: true
+            span: full
+            type: fileupload
+
+        access_rights:
+            label: inetis.downloadmanager::lang.category.access_rights
+            tab: inetis.downloadmanager::lang.category.tab_rights
+            type: dropdown
+            dependsOn: parent
+
+        userGroups:
+            label: inetis.downloadmanager::lang.category.user_groups_label
+            tab: inetis.downloadmanager::lang.category.tab_rights
+            type: relation
+            trigger:
+                action: show
+                field: access_rights
+                condition: value[2]
+
+        access_token:
+            label: inetis.downloadmanager::lang.category.access_token
+            tab: inetis.downloadmanager::lang.category.tab_rights
+            type: text
+            trigger:
+                action: show
+                field: access_rights
+                condition: value[3]
+
+        children:
+            label: inetis.downloadmanager::lang.category.subcategories
+            tab: inetis.downloadmanager::lang.category.tab_childs
+            type: partial
+            path: $/inetis/downloadmanager/models/category/_relation.htm

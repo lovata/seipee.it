@@ -1,0 +1,235 @@
+name: Banner con titoli
+section: Hero
+labelFrom: block_name
+handle: banner_full_screen_con_titolo
+icon: /themes/Puro/assets/images/banner_titolo.webp
+form:
+  tabs:
+    fields:
+        _section1:
+            type: section
+            label: Titolo principale
+            tab: Proprietà
+        title:
+            label: Titolo
+            type: text
+            tab: Proprietà
+            span: row
+            spanClass: col-9
+        title_size:
+            label: Stile
+            type: dropdown
+            tab: Proprietà
+            options:
+                "h1": h1
+                "h2": h2
+                "h3": h3
+                "h4": h4
+            span: row
+            spanClass: col-3
+        title_color:
+            label: Colore
+            type: colorpicker
+            tab: Proprietà
+        title_animate:
+            label: Animazione
+            type: switch
+            tab: Proprietà
+        title_animate_direction:
+            label: Direzione
+            type: balloon-selector
+            tab: Proprietà
+            default: animateup
+            options:
+                "animateup": Dal basso
+                "animatedown": Dall'alto
+                "animateleft": Da destra
+                "animateright": Da sinistra
+            trigger:
+                action: show
+                field: title_animate
+                condition: checked
+        _section2:
+            type: section
+            label: Sottotitolo
+            tab: Proprietà
+        subtitle:
+            label: Sottotitolo
+            type: text
+            tab: Proprietà
+            span: row
+            spanClass: col-9
+        subtitle_size:
+            label: Stile
+            type: dropdown
+            tab: Proprietà
+            options:
+                "h1": h1
+                "h2": h2
+                "h3": h3
+                "h4": h4
+            span: row
+            spanClass: col-3
+        subtitle_color:
+            label: Colore
+            type: colorpicker
+            tab: Proprietà
+        subtitle_animate:
+            label: Animazione
+            type: switch
+            tab: Proprietà
+        subtitle_animate_direction:
+            label: Direzione
+            type: balloon-selector
+            tab: Proprietà
+            default: animateup
+            options:
+                "animateup": Dal basso
+                "animatedown": Dall'alto
+                "animateleft": Da destra
+                "animateright": Da sinistra
+            trigger:
+                action: show
+                field: subtitle_animate
+                condition: checked
+        _section3:
+            type: section
+            label: Corpo del messaggio
+            tab: Proprietà
+        text:
+            label: Testo
+            type: richeditor
+            tab: Proprietà
+        _sectionCTA:
+            type: section
+            label: Call to action
+            tab: Proprietà
+        cta:
+            label: Inserire il testo
+            tab: Proprietà
+            type: text
+            span: row
+            spanClass: col-6
+        cta_link:
+            label: Link
+            type: text
+            tab: Proprietà
+            span: row
+            spanClass: col-6
+        cta_target:
+            label: Apri in una nuova finestra
+            type: switch   
+            tab: Proprietà
+            span: row
+            spanClass: col-6
+        cta_class:
+            label: Classe
+            type: dropdown  
+            tab: Proprietà
+            span: row
+            spanClass: col-6
+            default: button
+            options:
+                button: button
+                btn-primary: primary
+                btn-secondary: secondary
+                btn-success: success     
+                btn-danger: danger
+                btn-warning: warning
+                btn-info: info
+                btn-light: light
+                btn-dark: dark
+                btn-link: link                              
+        cta_spacing:
+            label: Margine superiore
+            type: balloon-selector
+            tab: Proprietà
+            default: mt-1
+            options:
+                mt-0: 0
+                mt-1: 1
+                mt-2: 2
+                mt-3: 3
+                mt-4: 4
+                mt-5: 5        
+        cta_border_radius:
+            label: Bordo arrotondato
+            type: balloon-selector
+            tab: Proprietà
+            default: 0
+            options:
+                0: No
+                5px: Piccolo
+                10px: Medio
+                20px: Grande
+                5rem: Tondo                                       
+        cta_animate:
+            label: Animazione
+            tab: Proprietà
+            type: switch
+        cta_animate_direction:
+            label: Direzione
+            type: balloon-selector
+            tab: Proprietà
+            default: animateup
+            options:
+                "animateup": Dal basso
+                "animatedown": Dall'alto
+                "animateleft": Da destra
+                "animateright": Da sinistra
+            trigger:
+                action: show
+                field: cta_animate
+                condition: checked
+        _section4:
+            type: section
+            label: Posizionamento dei contenuti
+            tab: Allineamenti
+        horizontal_alignment:
+            label: Orizzontale
+            type: balloon-selector
+            tab: Allineamenti
+            default: left
+            options:
+                left: Sinistra
+                25: 25%
+                center: Centro
+                75: 75%
+                right: Destra
+        vertical_alignment:
+            label: Verticale
+            type: balloon-selector
+            tab: Allineamenti
+            default: top
+            options:
+                top: Alto
+                25: 25%
+                center: Centro
+                75: 75%
+                bottom: Basso
+        _section5:
+            type: section
+            label: Allineamento tra i contenuti
+            tab: Allineamenti
+        text_alignment:
+            label: Seleziona
+            type: balloon-selector
+            tab: Allineamenti
+            default: left
+            options:
+                left: Sinistra
+                center: Centro
+                right: Destra
+            span: row
+            spanClass: col-6     
+        image_background_height:
+            label: Altezza del banner
+            comment: default 360px
+            type: number
+            tab: Opzioni
+            span: row
+            spanClass: col-6
+        spacing-mixin:
+            type: mixin
+        background-mixin:
+            type: mixin

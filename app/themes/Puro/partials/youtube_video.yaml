@@ -1,0 +1,127 @@
+name: Video
+section: Media
+handle: YoutubeVideo
+labelFrom: block_name
+icon: /themes/Puro/assets/images/youtube.webp
+order: 330
+form:
+    tabs:
+        fields:
+          video_file:
+            label: Selezione il video
+            tab: Configurazione
+            type: mediafinder
+            span: row
+            spanClass: col-6
+          video_id:
+            label: YouTube video
+            tab: Configurazione
+            comment: Copiare ed incollare il valore dopo https://www.youtube.com/watch?v=
+            type: text
+            span: row
+            spanClass: col-6
+          video_title:
+            label: Titolo
+            tab: Configurazione
+            type: text
+            span: row
+            spanClass: col-9
+          video_title_size:
+            label: Dimensione
+            tab: Configurazione
+            type: dropdown
+            options:
+              "h1": h1
+              "h2": h2
+              "h3": h3
+              "h4": h4
+            span: row
+            spanClass: col-3
+          video_subtitle:
+            label: Sottotitolo
+            tab: Configurazione
+            type: text
+            span: row
+            spanClass: col-9
+          video_subtitle_size:
+            label: Dimensione
+            tab: Configurazione
+            type: dropdown
+            options:
+              "h1": h1
+              "h2": h2
+              "h3": h3
+              "h4": h4
+            span: row
+            spanClass: col-3
+          video_description:
+            label: Descrizione
+            tab: Configurazione
+            type: text
+          allineamento:
+              label: Allineamento
+              type: balloon-selector
+              tab: Configurazione
+              default: center
+              options:
+                  left: Sinistra
+                  center: Centro
+                  right: Destra
+              span: row
+              spanClass: col-6
+          video_width:
+            label: Larghezza
+            tab: Configurazione
+            type: dropdown
+            options:
+              "100%": 100%
+              "90%": 90%
+              "80%": 80%
+              "70%": 70%
+              "60%": 60%
+              "50%": 50%
+              "40%": 40%
+              "30%": 30%
+              "20%": 20%
+              "10%": 10%
+            span: row
+            spanClass: col-6              
+          aspect_ratio:
+            label: Rapporto di aspetto
+            type: balloon-selector
+            comment: Valido solo per YouTube video
+            tab: Configurazione
+            options:
+              "1": 16:9 (orizzontale)
+              "2": 9:16 (verticale)
+              "3": 1:1 (quadrato)
+              "4": 3:4
+          autoplay:
+            label: Abilita autoplay
+            type: switch
+            tab: Configurazione
+            span: row
+            spanClass: col-6
+          controls:
+            label: Abilita controlli
+            type: switch
+            tab: Configurazione
+            span: row
+            spanClass: col-6
+          hide_related:
+            label: Nascondi video correlati
+            type: switch
+            tab: Configurazione
+            span: row
+            spanClass: col-6
+            default: true
+          loop:
+            label: Riproduzione in loop
+            type: switch
+            tab: Configurazione
+            span: row
+            spanClass: col-6
+          spacing-mixin:
+                type: mixin
+          background-mixin:
+                type: mixin

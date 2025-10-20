@@ -1,0 +1,13 @@
+{% if error %}
+    <div class="alert alert-danger">Sorry there was an error: {{ error }}</div>
+{% elseif isThrottled %}
+    <div class="alert alert-warning">Please wait a few minutes before making another subscription request</div>
+{% else %}
+    <div class="alert alert-success">
+        {% if requireConfirmation %}
+            We have sent you an email to confirm your subscription, please check it!
+        {% else %}
+            Great success! Now we can keep in touch, see you soon!
+        {% endif %}
+    </div>
+{% endif %}

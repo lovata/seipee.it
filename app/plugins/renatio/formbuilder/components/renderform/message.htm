@@ -1,0 +1,7 @@
+{% if __SELF__.message %}
+    <div class="alert alert-{{ __SELF__.messageType }} alert-dismissible fade show" role="alert">
+        {{ __SELF__.message }}
+
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+{% endif %}

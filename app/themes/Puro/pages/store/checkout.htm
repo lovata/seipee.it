@@ -1,0 +1,26 @@
+url = "/checkout/:step?"
+layout = "default"
+title = "Checkout"
+is_hidden = 0
+
+[viewBag]
+localeUrl[en] = "/checkout/:step?"
+seo_title = "Checkout"
+seo_description = "Checkout"
+robot_index = "index"
+robot_follow = "follow"
+
+[signUp]
+
+[quickCheckout]
+loginPage = "login"
+step = "{{ :step }}"
+==
+<div class="container py-4">
+    <div class="row">
+        <div class="col-12">
+            <h1>Checkout</h1>
+            {% component 'quickCheckout' %}
+        </div>
+    </div>
+</div>

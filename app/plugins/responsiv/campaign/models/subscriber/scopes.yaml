@@ -1,0 +1,17 @@
+# ===================================
+# Filter Scope Definitions
+# ===================================
+
+scopes:
+
+    created_at:
+        label: "Subscribed"
+        type: daterange
+        conditions: created_at >= ':after' AND created_at <= ':before'
+
+    is_confirmed:
+        label: "Confirmed"
+        type: switch
+        conditions:
+            - confirmed_at is null
+            - confirmed_at is not null

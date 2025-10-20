@@ -1,0 +1,27 @@
+[wishlists]
+
+[cart]
+showDiscountApplier = 1
+discountCodeLimit = 0
+showTaxes = 1
+showShipping = 1
+showProceedToCheckoutButton = 0
+==
+<div class="w-24">
+    <a href="/wishlists" class="text-grey flex flex-col items-center justify-center no-underline">
+        <i class="bi bi-heart-fill" style="color:{{ wishlists.hasItems ? '#f00' : '#9BABB4' }}"></i>
+        <div class="text-xs">
+            {{ 'offline.mall::frontend.wishlists' | trans }}
+        </div>
+    </a>
+</div>
+
+{% put scripts %}
+    <script>
+        $(function () {
+            $.subscribe('mall.wishlist.productAdded', function () {
+                $('.mall-wishlist-icon').css('color', 'hsl(1.7, 76.3%, 53.7%)')
+            });
+        });
+    </script>
+{% endput %}

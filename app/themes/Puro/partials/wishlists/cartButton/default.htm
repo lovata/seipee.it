@@ -1,0 +1,34 @@
+[cart]
+showDiscountApplier = 1
+discountCodeLimit = 0
+showTaxes = 1
+showShipping = 1
+showProceedToCheckoutButton = 0
+==
+{% set count = cart.cart.products.count %}
+
+<div class="w-24">
+    <a href="/cart" class="text-grey flex flex-col items-center justify-center no-underline">
+        <div class="mall-cart-count absolute bg-red text-white text-2xs rounded px-1 leading-normal ml-4 -mt-8 {{ count < 1 ? 'invisible' : '' }}">
+            {{ count }}
+        </div>
+        <i class="bi bi-bag"></i>
+        <div class="text-xs">
+            {{ 'offline.mall::frontend.cart' | trans }}
+        </div>
+    </a>
+</div>
+
+{% put scripts %}
+    <script>
+        $(function () {
+            var $count = $('.mall-cart-count');
+            $.subscribe('mall.cart.productAdded', function (e, data) {
+                $count.removeClass('invisible').text(data.new_items_count).show();
+            });
+            $.subscribe('mall.cart.productRemoved', function (e, data) {
+                $count.text(data.new_items_count);
+            });
+        });
+    </script>
+{% endput %}

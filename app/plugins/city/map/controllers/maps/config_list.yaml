@@ -1,0 +1,12 @@
+list: $/city/map/models/map/columns.yaml
+modelClass: City\Map\Models\Map
+title: 'city.map::lang.maps.menu_label'
+noRecordsMessage: 'backend::lang.list.no_records'
+showSetup: true
+showCheckboxes: true
+recordsPerPage: 20
+toolbar:
+    buttons: list_toolbar
+    search:
+        prompt: 'backend::lang.list.search_prompt'
+recordUrl: 'city/map/maps/update/:id'

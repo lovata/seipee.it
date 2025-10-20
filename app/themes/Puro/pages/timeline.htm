@@ -1,0 +1,273 @@
+title = "timeline"
+layout = "default"
+url = "/timeline"
+==
+<div class="vertical-timeline">
+  <div class="timeline-item left">
+    <div class="content-box">
+      <h4>YOUTUBE</h4>
+      <strong>Search Engine Optimizer</strong>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mollis vitae, iusto!</p>
+    </div>
+    <div class="year-circle">2000</div>
+  </div>
+
+  <div class="timeline-item right">
+    <div class="content-box">
+      <h4>BING</h4>
+      <strong>Junior Marketing Officer</strong>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mollis vitae, iusto!</p>
+    </div>
+    <div class="year-circle">2006</div>
+  </div>
+
+  <div class="timeline-item left">
+    <div class="content-box">
+      <h4>YAHOO INC</h4>
+      <strong>Senior Marketer</strong>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mollis vitae, iusto!</p>
+    </div>
+    <div class="year-circle">2008</div>
+  </div>
+
+  <div class="timeline-item right">
+    <div class="content-box">
+      <h4>GOOGLE INC</h4>
+      <strong>Digital Marketer</strong>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mollis vitae, iusto!</p>
+    </div>
+    <div class="year-circle">2012</div>
+  </div>
+</div>
+<style>
+.vertical-timeline {
+  position: relative;
+  margin: 50px auto;
+  padding: 20px 0;
+  max-width: 800px;
+}
+
+.vertical-timeline::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 4px;
+  background: #ccc;
+  transform: translateX(-50%);
+}
+
+.timeline-item {
+  position: relative;
+  width: 50%;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.timeline-item.left {
+  left: 0;
+  text-align: right;
+}
+
+.timeline-item.right {
+  left: 50%;
+  text-align: left;
+}
+
+.timeline-item .year-circle {
+  position: absolute;
+  top: 20px;
+  width: 50px;
+  height: 50px;
+  background: #00BCD4;
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 50px;
+  text-align: center;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.timeline-item.left .year-circle {
+  right: -45px;
+}
+
+.timeline-item.right .year-circle {
+  left: -45px;
+}
+
+.content-box {
+  background: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  position: relative;
+}
+
+.content-box h4 {
+  margin: 0;
+  font-size: 14px;
+  color: #888;
+}
+
+.content-box strong {
+  display: block;
+  margin: 5px 0;
+  font-size: 16px;
+}
+
+.content-box p {
+  font-size: 13px;
+  color: #666;
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+  .timeline-item,
+  .timeline-item.left,
+  .timeline-item.right {
+    width: 100%;
+    left: 0 !important;
+    text-align: left;
+    margin-bottom: 30px;
+  }
+
+  .timeline-item .year-circle {
+    left: calc(50% - 25px);
+    right: auto;
+  }
+}
+.vertical-timeline {
+  position: relative;
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 20px 0;
+}
+
+.vertical-timeline::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 4px;
+  background: #ccc;
+  transform: translateX(-50%);
+}
+
+.timeline-item {
+  position: relative;
+  width: 50%;
+  padding: 20px;
+  box-sizing: border-box;
+  opacity: 0;
+  transform: translateX(0);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.timeline-item.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.timeline-item.left {
+  left: 0;
+}
+.timeline-item.left.visible {
+  transform: translateX(-20px);
+}
+
+.timeline-item.right {
+  left: 50%;
+}
+.timeline-item.right.visible {
+  transform: translateX(20px);
+}
+
+.timeline-item .year-circle {
+  /* come prima */
+}
+
+.content-box {
+  background: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+@media screen and (max-width: 768px) {
+  .timeline-item,
+  .timeline-item.left,
+  .timeline-item.right {
+    width: 100%;
+    left: 0 !important;
+    text-align: left;
+  }
+  .timeline-item .year-circle {
+    left: calc(50% - 25px);
+  }
+}
+@media screen and (max-width: 768px) {
+  .timeline-item,
+  .timeline-item.left,
+  .timeline-item.right {
+    width: 100%;
+    left: 0 !important;
+    padding-left: 30px;
+    padding-right: 30px;
+    text-align: left;
+  }
+
+  .timeline-item .year-circle {
+    position: relative;
+    margin: 0 auto 15px auto;
+    left: 0 !important;
+    right: 0 !important;
+    display: block;
+  }
+
+  .vertical-timeline::before {
+    left: 50%; /* spostiamo la linea più a sinistra */
+    transform: none;
+  }
+
+  .timeline-item.right.visible,
+  .timeline-item.left.visible {
+    transform: translateY(20px);
+  }
+
+  .timeline-item.visible {
+    opacity: 1;
+  }
+}
+.timeline-item .year-circle {
+  width: 50px;
+  height: 50px;
+  font-size: 14px;
+  line-height: 50px;
+  text-align: center;
+  border-radius: 50%;
+  background: #00BCD4;
+  color: white;
+  font-weight: bold;
+  z-index: 2;
+}
+</style>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const items = document.querySelectorAll('.timeline-item');
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+
+  items.forEach(item => observer.observe(item));
+});
+</script>

@@ -1,0 +1,62 @@
+{% partial 'block_head' %}
+{% put styles %}
+<style>
+.scroll-downs {
+  margin: auto;  
+  width :34px;
+  height: {{ box.box_height }}px;
+}
+.mousey {
+  width: {{ box.mouse_width }}px;
+  height: {{ box.mouse_height }}px;
+  border: {% if box.border %}{{box.border_width}}px {{box.border_type}} {{box.border_color}}{% else %} 0px {% endif %};
+  border-radius: {{box.border_radius}}px;
+  box-sizing: content-box;
+}
+.scroller {
+  width: {% if box.item_type %}0px{% else %}{{box.wheel_width}}px{% endif %};
+  height: {% if box.item_type %}0px{% else %}{{box.wheel_height}}px{% endif %};
+  border-radius: 25%;
+  left: calc(50% -  {% if box.item_type %}0px{% else %}{{box.wheel_width / 2}}px{% endif %});
+  position: relative;
+  background-color: {{box.wheel_color}};
+  animation-name: scroll;
+  animation-duration: {{box.wheel_scroll_duration}}s;
+  animation-timing-function: cubic-bezier(.15,.41,.69,.94);
+  animation-iteration-count: infinite;
+  &::before {
+    content: "{{ box.item_type }}";
+    font-family: bootstrap-icons;
+    position: relative;
+        {% if box.arrow_size == 1 %}
+            font-size: 1rem;
+            left: -.4em;
+        {% elseif box.arrow_size == 2 %}
+            font-size: 2rem;
+            left: -.5em;
+        {% elseif box.arrow_size == 3 %}
+            font-size: 3rem;
+            left: -.6em;
+        {% endif %}
+    color: {{ box.arrow_color }}
+  }
+}
+{% if box.pull_up %}
+.scroll-downs {
+    margin-top: -{{ box.box_height }}px !important;
+}
+{% endif %}
+@keyframes scroll {
+  0% { opacity: 0; }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { transform: translateY(15px); opacity: 0;}
+}
+</style>
+{% endput %}
+<div class="scroll-downs">
+  <div class="mousey">
+    <div class="scroller"></div>
+  </div>
+</div>
+{% partial 'block_footer' %}

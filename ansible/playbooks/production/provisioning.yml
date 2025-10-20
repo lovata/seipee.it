@@ -1,0 +1,110 @@
+---
+- name: 'Init production host'
+  hosts: localhost
+  tasks:
+    # Gather facts
+    - name: 'Include global vars'
+      include_vars:
+        dir: ./../../vars/global
+    - name: 'Include environment vars'
+      include_vars:
+        dir: ./../../vars/{{ env }}
+    - add_host:
+        env: "production"
+        hostname: "production_app"
+        ansible_connection: "ssh"
+        ansible_host: "{{ SERVER_IP }}"
+        ansible_port: "{{ SERVER_PORT }}"
+        ansible_ssh_pass: "{{ ROOT_PASSWORD }}"
+        ansible_sudo_pass: "{{ ROOT_PASSWORD }}"
+        ansible_python_interpreter: "/usr/bin/python3"
+- name: 'Install packages on production machine'
+  hosts: "production_app"
+  remote_user: root
+  tasks:
+    # Gather facts
+    - name: 'Include global vars'
+      include_vars:
+        dir: ./../../vars/global
+    - name: 'Include environment vars'
+      include_vars:
+        dir: ./../../vars/{{ env }}
+    - name: "Install docker packages"
+      become: yes
+      apt:
+        name: "{{ packages }}"
+        state: present
+        update_cache: yes
+      vars:
+        packages:
+        - ansible
+        - apt-transport-https
+        - ca-certificates
+        - curl
+        - software-properties-common
+        - sshpass
+    - name: "Add Docker s official GPG key"
+      become: yes
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+    - name: "Verify that we have the key with the fingerprint"
+      apt_key:
+        id: 0EBFCD88
+        state: present
+    - name: "Set up the stable repository"
+      become: yes
+      apt_repository:
+        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable
+        state: present
+        update_cache: yes
+    - name: "Update apt packages"
+      become: yes
+      apt:
+        update_cache: yes
+    - name: "Install packages"
+      become: yes
+      apt:
+        name: "{{ packages }}"
+        update_cache: yes
+      vars:
+        packages:
+        - ansible
+        - docker-ce
+        - docker-compose
+        - make
+        - zip
+        - unzip
+        - mc
+
+    - name: "Create user app_user"
+      user:
+        name: app_user
+        uid: 1000
+        groups:
+          - docker
+          - sudo
+        state: present
+        shell: /bin/bash
+        system: no
+        password: "{{ USER_PASSWORD | password_hash }}"
+        createhome: yes
+        home: /home/app_user
+    - add_host:
+        env: "production"
+        hostname: "production_app"
+        ansible_connection: "ssh"
+        ansible_host: "{{ SERVER_IP }}"
+        ansible_port: "{{ SERVER_PORT }}"
+        ansible_ssh_pass: "{{ USER_PASSWORD }}"
+        ansible_sudo_pass: "{{ USER_PASSWORD }}"
+        ansible_python_interpreter: "/usr/bin/python3"
+- name: 'Configure server for app_user'
+  hosts: "production_app"
+  remote_user: "app_user"
+  tasks:
+    - name: 'Add cron job (reboot)'
+      cron:
+        name: 'Start project after reboot'
+        special_time: reboot
+        job: "( sleep 120; cd /home/app_user/project ; /usr/bin/docker-compose up -d)"

@@ -1,0 +1,36 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+# Record name
+name: "Subscriber"
+
+# Model Form Field configuration
+form: $/responsiv/campaign/models/subscriber/fields.yaml
+
+# Model Class name
+modelClass: Responsiv\Campaign\Models\Subscriber
+
+# Default redirect location
+defaultRedirect: responsiv/campaign/subscribers
+
+# Form Design
+design:
+    displayMode: basic
+    size: 950
+
+# Create page
+create:
+    title: "Create Subscriber"
+    redirect: responsiv/campaign/subscribers/update/:id
+    redirectClose: responsiv/campaign/subscribers
+
+# Update page
+update:
+    title: "Edit Subscriber"
+    redirect: responsiv/campaign/subscribers
+    redirectClose: responsiv/campaign/subscribers
+
+# Preview page
+preview:
+    title: "Preview Subscriber"

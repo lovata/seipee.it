@@ -1,0 +1,15 @@
+name: 'Map'
+handle: map
+section: Tools
+labelFrom: block_name
+icon: /themes/Puro/assets/images/map.webp
+components:
+    leafletMap:
+        properties:
+            mapId: 1
+            width: 100%
+            height: 500px
+    spacing-mixin:
+        type: mixin
+    background-mixin:
+        type: mixin

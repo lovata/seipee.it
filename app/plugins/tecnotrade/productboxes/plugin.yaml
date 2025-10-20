@@ -1,0 +1,6 @@
+plugin:
+    name: 'tecnotrade.productboxes::lang.plugin.name'
+    description: 'tecnotrade.productboxes::lang.plugin.description'
+    author: tecnotrade
+    icon: oc-icon-angellist
+    homepage: ''

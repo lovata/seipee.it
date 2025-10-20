@@ -1,0 +1,36 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+# Record name
+name: "List"
+
+# Model Form Field configuration
+form: $/responsiv/campaign/models/subscriberlist/fields.yaml
+
+# Model Class name
+modelClass: Responsiv\Campaign\Models\SubscriberList
+
+# Default redirect location
+defaultRedirect: responsiv/campaign/lists
+
+# Form Design
+design:
+    displayMode: basic
+    size: 950
+
+# Create page
+create:
+    title: "Create List"
+    redirect: responsiv/campaign/lists/update/:id
+    redirectClose: responsiv/campaign/lists
+
+# Update page
+update:
+    title: "Edit List"
+    redirect: responsiv/campaign/lists
+    redirectClose: responsiv/campaign/lists/preview/:id
+
+# Preview page
+preview:
+    title: "Preview List"

@@ -1,0 +1,35 @@
+# ===================================
+#  Import/Export Behavior Config
+# ===================================
+
+import:
+    # Page title
+    title: "Import Subscribers"
+
+    # Import List Column configuration
+    list: $/responsiv/campaign/models/subscriberimport/columns.yaml
+
+    # Import Form Field configuration
+    form: $/responsiv/campaign/models/subscriberimport/fields.yaml
+
+    # Import Model class
+    modelClass: Responsiv\Campaign\Models\SubscriberImport
+
+    # Redirect when finished
+    redirect: responsiv/campaign/subscribers
+
+export:
+    # Page title
+    title: "Export Subscribers"
+
+    # Output file name
+    fileName: subscribers.csv
+
+    # Export List Column configuration
+    list: $/responsiv/campaign/models/subscriberexport/columns.yaml
+
+    # Export Model class
+    modelClass: Responsiv\Campaign\Models\SubscriberExport
+
+    # Redirect when finished
+    redirect: responsiv/campaign/subscribers

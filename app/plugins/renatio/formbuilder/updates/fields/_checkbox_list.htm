@@ -1,0 +1,28 @@
+<div class="{{ wrapper_class }}">
+    {% if label %}
+        <label class="{{ label_class }} form-label">{{ label }}</label>
+    {% endif %}
+
+    {% for key, label in options %}
+        <div class="form-check">
+            <input
+                id="{{ key }}"
+                type="checkbox"
+                name="{{ name }}[]"
+                class="{{ class }} form-check-input"
+                value="{{ key }}"
+                {{ default == key ? 'checked' : '' }}
+                {{ custom_attributes|raw }}
+            >
+            <label for="{{ key }}" class="form-check-label">{{ label }}</label>
+
+            {% if loop.last %}
+                <div data-validate-for="{{ name }}" class="invalid-feedback"></div>
+            {% endif %}
+        </div>
+    {% endfor %}
+
+    {% if comment %}
+        <div class="form-text">{{ comment|raw }}</div>
+    {% endif %}
+</div>

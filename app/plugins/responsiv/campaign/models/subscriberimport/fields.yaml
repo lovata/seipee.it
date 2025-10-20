@@ -1,0 +1,21 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+fields:
+
+    auto_create_lists:
+        label: "Create subscriber lists specified in the import file"
+        comment: "You should match the Lists column to use this feature, otherwise select the default list(s) to use from the items below."
+        type: checkbox
+        default: true
+
+    subscriber_lists:
+        label: "Lists"
+        commentAbove: "Select the lists that imported subscribers will belong to (optional)."
+        type: checkboxlist
+        cssClass: field-indent
+        trigger:
+            action: hide
+            field: auto_create_lists
+            condition: checked

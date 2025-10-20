@@ -1,0 +1,27 @@
+
+{% if __SELF__.form %}
+
+    <div class="form-alert-{{ __SELF__.form.id }}"></div>
+
+    {{ form_open({
+            'id': __SELF__.form.code,
+            'class': __SELF__.form.css_class,
+            'data-form-id': __SELF__.form.id,
+            'data-request': __SELF__ ~ '::onSubmit',
+            'data-request-data': { form: __SELF__.form.code },
+            'data-request-success': 'resetForm(this)',
+            'data-request-validate': true,
+            'novalidate': true,
+            (__SELF__.hasFiles ? 'data-request-files': ''): true,
+        })
+    }}
+        {% component 'spamProtection' %}
+
+        {{ __SELF__.markup|raw }}
+
+    {{ form_close() }}
+{% else %}
+    <div class="alert alert-warning" role="alert">
+        Form with code "{{ formCode }}" does not exist! Did you select correct form in component settings?
+    </div>
+{% endif %}

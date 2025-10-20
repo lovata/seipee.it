@@ -1,0 +1,59 @@
+<div class="mall-products-item col-12 col-md-6 col-lg-4">
+
+    <a href="{{ productPage|page({slug: item.slug, variant: item.variantHashId}) }}"
+       data-mall-item-id="{{ item.prefixedId }}"
+    >
+        <div class="mall-products-item__image">
+            {% partial __SELF__ ~ '::image' image=item.image %}
+        </div>
+        <div class="mall-products-item__info">
+            <div class="mall-products-item__info-primary">
+                <div class="mall-products-item__name">
+                    {{ item.name }}
+                </div>
+                {% if global.show_item_price %}
+                    {% set price = item.price() %}
+                    <div class="mall-products-item__price
+                        {{ price.isCustomerSpecific ? 'mall-products-item__price--special' }}">
+                        {{ price.string | raw }}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="mall-products-item__info-secondary">
+                <div class="mall-products-item__short-description">
+                    {{ item.description_short | nl2br }}
+                </div>
+                {% if global.show_item_price %}
+                    <div class="mall-products-item__old-price">
+                        {% if price.official %}
+                            {{ price.official.string | raw }}
+                        {% else %}
+                            {{ item.oldPrice.count > 0 ? item.oldPrice().string | raw }}
+                        {% endif %}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="mall-products-item__info-teritary">
+                {% set rating = item.reviews_rating %}
+                {# To display the product's rating use: #}
+                {# set rating = item.product.reviews_rating #}
+                {% if rating > 0 %}
+                    <div class="mall-products-item__stars">
+                        {% partial __SELF__ ~ '::stars' rating=rating %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </a>
+    <div class="pt-3 right">
+        <a class="button mall-products-item__cart-button"
+           href="javascript:;"
+           data-request="{{ __SELF__ }}::onAddToCart"
+           data-request-success="data.added && $.publish('mall.cart.productAdded', data)" 
+           data-request-data="product: '{{ item.productHashId }}', variant: '{{ item.variantHashId }}'"
+           data-request-flash
+        >
+            <i class="bi bi-bag-plus pe-2" style="font-size: 1.3rem;""></i> Aggiungi al carrello
+        </a>
+    </div>
+</div>

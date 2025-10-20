@@ -1,0 +1,171 @@
+name: Immagini
+section: Media
+handle: Images
+labelFrom: block_name
+order: 310
+icon: /themes/Puro/assets/images/images.webp
+form:
+    tabs:
+        fields:
+            cards:
+                label: Immagine
+                tab: Proprietà
+                type: repeater
+                form:
+                    fields:
+                        _section10:
+                            type: section
+                            label: Desktop
+                        image:
+                            type: mediafinder
+                        image_class:
+                           label: Classe
+                           type: text
+                           span: row
+                           spanClass: col-6
+                        image_resize:
+                           label: Dimensione
+                           span: row
+                           spanClass: col-6
+                           default: img-fluid
+                           type: dropdown
+                           options:
+                                "100%" : 100%
+                                "90%" : 90%
+                                "80%" : 80%
+                                "70%" : 70%
+                                "60%" : 60%
+                                "50%" : 50%
+                                "40%" : 40%
+                                "30%" : 30%
+                                "20%" : 20%
+                                "10%" : 10%
+                        image_border:
+                            label: Bordo
+                            type: radio
+                            span: row
+                            spanClass: col-6
+                            options:
+                                "0rem": Quadrato
+                                "1rem": Arrotondato
+                                "50%": Rotondo
+                        allineamento:
+                            label: Allineamento
+                            span: row
+                            spanClass: col-6
+                            type: radio
+                            options:
+                                float-start: Sinistra
+                                mx-auto: Centro
+                                float-end: Destra
+                        cta_link:
+                            label: Link ad un documento
+                            type: mediafinder
+                            span: row
+                            spanClass: col-6
+                        cta_link_url:
+                            label: Link ad una pagina
+                            comment: Non inserire la barra iniziale
+                            type: text
+                            span: row
+                            spanClass: col-6
+                        cta_target:
+                            label: Apri in una nuova finestra
+                            type: switch
+                        _section11:
+                            type: section
+                            label: Mobile (opzionale)
+                            span: row
+                            spanClass: col-10
+                        mobile_active:
+                            label: Mostra
+                            type: switch
+                            span: row
+                            spanClass: col-2
+                        image_mobile:
+                           type: mediafinder
+                           trigger:
+                                action: show
+                                field: mobile_active
+                                condition: checked
+                        image_mobile_class:
+                           label: Classe
+                           type: text
+                           span: row
+                           spanClass: col-6
+                           trigger:
+                                action: show
+                                field: mobile_active
+                                condition: checked
+                        image_mobile_resize:
+                           label: Dimensione
+                           type: dropdown
+                           span: row
+                           spanClass: col-6
+                           trigger:
+                                action: show
+                                field: mobile_active
+                                condition: checked
+                           options:
+                                "100%" : 100%
+                                "90%" : 90%
+                                "80%" : 80%
+                                "70%" : 70%
+                                "60%" : 60%
+                                "50%" : 50%
+                                "40%" : 40%
+                                "30%" : 30%
+                                "20%" : 20%
+                                "10%" : 10%
+                        image_mobile_border:
+                            label: Bordo
+                            type: radio
+                            span: row
+                            spanClass: col-6
+                            trigger:
+                                action: show
+                                field: mobile_active
+                                condition: checked
+                            options:
+                                "0rem": Quadrato
+                                "1rem": Arrotondato
+                                "50%": Rotondo
+                        mobile_allineamento:
+                            label: Allineamento
+                            span: row
+                            spanClass: col-6
+                            trigger:
+                                action: show
+                                field: mobile_active
+                                condition: checked
+                            type: radio
+                            options:
+                                float-start: Sinistra
+                                mx-auto: Centro
+                                float-end: Destra
+                        distanza_da_desktop_image:
+                            label: Distanza verticale dall'immagine successiva
+                            comment: Da utilizzare solo nel caso in cui si inseriscano più immagini nello stesso blocco
+                            type: dropdown
+                            options:
+                                "1rem": 1rem
+                                "2rem": 2rem
+                                "3rem": 3rem
+                                "4rem": 4rem
+                                "5rem": 5rem
+                            trigger:
+                                action: show
+                                field: mobile_active
+                                condition: checked
+            vertical_align:
+                label: Allineamento verticale
+                type: balloon-selector
+                tab: Configurazioni
+                options:
+                    start: "Alto"
+                    center: "Centro"
+                    end: "Basso"
+            spacing-mixin:
+                type: mixin
+            background-mixin:
+                type: mixin

@@ -1,0 +1,11 @@
+{% partial 'block_head' %}
+<div class="row">
+	<div class="col-12 col-md-6 {% if box.invert_cols %}order-last{% endif %}">
+		<h1>{{ box.title }}</h1>
+		<p>{{ box.paragrafo | raw }}</p>
+	</div>
+	<div class="col-12 col-md-6">
+		<img src="{{ ( box.image_side | media ) | resize(image_width, 'auto') }}" alt="{{ box.title }}">
+	</div>
+</div>
+{% partial 'block_footer' %}

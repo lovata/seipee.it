@@ -1,0 +1,20 @@
+<div class="{{ wrapper_class }}">
+    {% if label %}
+        <label for="{{ name }}" class="{{ label_class }} form-label">{{ label }}</label>
+    {% endif %}
+
+    <input
+        id="{{ name }}"
+        type="file"
+        name="{{ name }}{{ has_multiple_files ? '[]' : ''}}"
+        class="{{ class }} form-control"
+        {% if has_multiple_files %} multiple {% endif %}
+        {{ custom_attributes|raw }}
+    >
+
+    <div data-validate-for="{{ name }}" class="invalid-feedback"></div>
+
+    {% if comment %}
+        <div class="form-text">{{ comment|raw }}</div>
+    {% endif %}
+</div>

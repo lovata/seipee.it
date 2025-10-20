@@ -1,0 +1,34 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+# Record name
+name: Campaign
+
+# Model Form Field configuration
+form: $/responsiv/campaign/models/message/fields.yaml
+
+# Model Class name
+modelClass: Responsiv\Campaign\Models\Message
+
+# Default redirect location
+defaultRedirect: responsiv/campaign/messages
+
+# Create page
+create:
+    title: "Create Message"
+    redirect: responsiv/campaign/messages/update/:id/setup
+    redirectClose: responsiv/campaign/messages
+    form: $/responsiv/campaign/models/message/fields_create.yaml
+
+# Update page
+update:
+    title: "Edit Message"
+    redirect: responsiv/campaign/messages
+    redirectClose: responsiv/campaign/messages/preview/:id
+
+# Preview page
+preview:
+    title: "Preview Message"
+    form: $/responsiv/campaign/models/message/fields_preview.yaml
+    redirect: responsiv/campaign/messages/preview/:id

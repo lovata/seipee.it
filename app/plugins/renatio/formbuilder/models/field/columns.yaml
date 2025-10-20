@@ -1,0 +1,31 @@
+# ===================================
+#  List Column Definitions
+# ===================================
+
+columns:
+
+    name:
+        label: renatio.formbuilder::lang.field.name
+        searchable: true
+
+    label:
+        label: renatio.formbuilder::lang.field.label
+        searchable: true
+
+    field_type_name:
+        label: renatio.formbuilder::lang.field.field_type
+        relation: field_type
+        select: name
+
+    default:
+        label: renatio.formbuilder::lang.field.default
+
+    validation:
+        label: renatio.formbuilder::lang.field.validation
+
+    is_visible:
+        label: renatio.formbuilder::lang.field.is_visible
+        type: partial
+        path: column_is_visible
+        sortable: false
+        clickable: false

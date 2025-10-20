@@ -1,0 +1,10 @@
+name: Galleries
+form: $/tecnotrade/tecnotradegallery/models/gallery/fields.yaml
+modelClass: Tecnotrade\Tecnotradegallery\Models\Gallery
+defaultRedirect: tecnotrade/tecnotradegallery/galleries
+create:
+    redirect: 'tecnotrade/tecnotradegallery/galleries/update/:id'
+    redirectClose: tecnotrade/tecnotradegallery/galleries
+update:
+    redirect: tecnotrade/tecnotradegallery/galleries
+    redirectClose: tecnotrade/tecnotradegallery/galleries

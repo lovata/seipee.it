@@ -1,0 +1,17 @@
+# ===================================
+#  Relation Behavior Config
+# ===================================
+
+fields:
+    label: renatio.formbuilder::lang.relation.field
+    view:
+        list: $/renatio/formbuilder/models/field/columns.yaml
+        toolbarButtons: create|delete
+        showSearch: true
+        showSorting: false
+        recordsPerPage: 10
+    manage:
+        form: $/renatio/formbuilder/models/field/fields.yaml
+    structure:
+        showReorder: true
+        showTree: false

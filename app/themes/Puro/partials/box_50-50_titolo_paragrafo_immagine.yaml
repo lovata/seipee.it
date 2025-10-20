@@ -1,0 +1,28 @@
+name: Box 50% / 50% titolo, paragrafo e immagine
+section: Base
+labelFrom: block_name
+handle: titolo_con_paragrafo_immagine
+icon: /themes/Puro/assets/images/box_50-50_titolo_paragrafo_immagine.webp
+form:
+    tabs:
+        fields:
+            title:
+                label: Titolo
+                type: text
+                tab: Proprietà
+            paragrafo:
+                label: Testo
+                type: richeditor
+                tab: Proprietà
+            image_side:
+                label: Immagine
+                type: mediafinder
+                tab: Proprietà
+            invert_cols:
+                label: Inverti colonne
+                type: switch
+                tab: Proprietà
+            spacing-mixin:
+                    type: mixin
+            background-mixin:
+                    type: mixin

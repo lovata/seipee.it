@@ -1,0 +1,215 @@
+name: Immagine con hotspots
+section: Media
+handle: ImagesHotspots
+labelFrom: block_name
+icon: /themes/Puro/assets/images/images_hotspots.webp
+order: 340
+form:
+    tabs:
+        fields:
+            immagine:
+               label: Immagine
+               tab: Proprietà
+               type: mediafinder
+               span: row
+               spanClass: col-8
+            image_resize:
+               label: Dimensione
+               span: row
+               spanClass: col-4
+               tab: Proprietà
+               type: dropdown
+               options:
+                    "100%" : 100%
+                    "90%" : 90%
+                    "80%" : 80%
+                    "70%" : 70%
+                    "60%" : 60%
+                    "50%" : 50%
+                    "40%" : 40%
+                    "30%" : 30%
+                    "20%" : 20%
+                    "10%" : 10%
+            hotspots:
+                label: Elenco Hotspots
+                tab: Proprietà
+                type: repeater
+                form:
+                    fields:
+                        title:
+                            label: Titolo
+                            type: text
+                        posX:
+                            label: Posizione X
+                            type: text
+                            comment: Distanza in % dal lato sinistro
+                            default: 50
+                            span: row
+                            spanClass: col-6
+                        posY:
+                            label: Posizione Y
+                            type: text
+                            comment: Distanza in % dal lato superiore
+                            default: 50
+                            span: row
+                            spanClass: col-6
+                        image:
+                            label: Immagine
+                            type: mediafinder
+                        testo:
+                            label: Testo
+                            type: richeditor
+            _section13:
+                label: Titolo
+                type: section
+                tab: Configurazioni
+            title_size:
+                label: Stile
+                type: dropdown
+                tab: Configurazioni
+                options:
+                  "h1": h1
+                  "h2": h2
+                  "h3": h3
+                  "h4": h4
+            title_align:
+                label: Allineamento
+                type: balloon-selector
+                tab: Configurazioni
+                options:
+                  "left": Sinistra
+                  "center": Centro
+                  "right": Destra
+            title_color:
+                label: Colore
+                type: colorpicker
+                tab: Configurazioni
+            _section11:
+                label: Pannello
+                type: section
+                tab: Configurazioni
+            label_width:
+                label: Dimensione
+                type: balloon-selector
+                tab: Configurazioni
+                options:
+                  "modal-sm": Piccolo
+                  "": Normale
+                  "modal-lg": Medio
+                  "modal-xl": Grande
+            title_color_background:
+                label: Background
+                type: colorpicker
+                tab: Configurazioni
+            _section12:
+                label: Hotspot
+                type: section
+                tab: Configurazioni
+            hotspot_number:
+                label: Mostra numeri progressivi
+                type: switch
+                tab: Configurazioni
+            hotspot_number_size:
+                label: Dimensione
+                type: dropdown
+                tab: Configurazioni
+                options:
+                    "12px": 12px
+                    "14px": 14px
+                    "16px": 16px
+                    "18px": 18px
+                    "20px": 20px
+                    "22px": 22px
+                    "24px": 24px
+                    "26px": 26px
+                    "28px": 28px
+                    "30px": 30px
+                    "32px": 32px
+                    "34px": 34px
+                span: row
+                spanClass: col-4
+                trigger:
+                    action: show
+                    field: hotspot_number
+                    condition: checked 
+            hotspot_number_border:
+                label: Dimensione
+                type: dropdown
+                tab: Configurazioni
+                options:
+                    "0rem": Quadrato
+                    "1rem": Arrotondato 1
+                    "2rem": Arrotondato 2
+                    "3rem": Arrotondato 3
+                span: row
+                spanClass: col-5
+                trigger:
+                    action: show
+                    field: hotspot_number
+                    condition: checked
+            hotspot_number_bold:
+                label: Grassetto
+                type: switch
+                tab: Configurazioni
+                span: row
+                spanClass: col-3
+                trigger:
+                    action: show
+                    field: hotspot_number
+                    condition: checked
+            hotspot_number_color:
+                label: Colore
+                type: colorpicker
+                tab: Configurazioni
+                trigger:
+                    action: show
+                    field: hotspot_number
+                    condition: checked 
+            hotspot_number_background:
+                label: Background
+                type: colorpicker
+                tab: Configurazioni
+                trigger:
+                    action: show
+                    field: hotspot_number
+                    condition: checked 
+            hotspot_size:
+                label: Dimensione
+                type: balloon-selector
+                tab: Configurazioni
+                span: row
+                spanClass: col-6
+                options:
+                  "12px": Piccolo
+                  "16px": Medio
+                  "22px": Grande
+                trigger:
+                    action: hide
+                    field: hotspot_number
+                    condition: checked 
+            hotspot_speed:
+                label: Velocità transizione
+                type: balloon-selector
+                tab: Configurazioni
+                span: row
+                spanClass: col-6
+                options:
+                  "2s": Veloce
+                  "4.5s": Medio
+                  "7s": Lento
+                trigger:
+                    action: hide
+                    field: hotspot_number
+                    condition: checked 
+            hotspot_color:
+                label: Colore
+                type: colorpicker
+                tab: Configurazioni
+                trigger:
+                    action: hide
+                    field: hotspot_number
+                    condition: checked 
+            spacing-mixin:
+                type: mixin
+            background-mixin:
+                type: mixin

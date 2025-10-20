@@ -1,0 +1,84 @@
+name: Photo Gallery
+section: Media
+handle: photogallery
+labelFrom: block_name
+icon: /themes/Puro/assets/images/photogallery.webp
+order: 320
+assets:
+    js:
+    -   name: https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.2/lightgallery.umd.min.js
+    css:
+    -   name: https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.2/css/lightgallery-bundle.min.css
+    -   name: /plugins/tecnotrade/blocks/assets/justifiedGallery/justifiedGallery.min.css
+form:
+    tabs:
+        fields:     
+            cards:
+                label: Elemento
+                tab: Proprietà
+                itemsExpanded: false
+                type: repeater
+                form:
+                    fields:
+                        image: 
+                            label: Immagine
+                            type: mediafinder
+                            mode: image
+                            maxItems: 999
+                        titolo: 
+                            label: Titolo (opzionale)
+                            type: text
+            preview_height:
+                label: Altezza delle anteprime (in px)
+                tab: Proprietà
+                type: text
+                default: 180
+                span: row
+                spanClass: col-6
+            margin_size:
+                label: Dimensione del margine
+                tab: Proprietà
+                type: text
+                default: 5
+                span: row
+                spanClass: col-6
+            _section0:
+                label: Plugins attivi
+                type: section
+                tab: Proprietà
+            show_fullscreen:
+                label: Fullscreen
+                type: switch
+                tab: Proprietà
+            show_download:
+                label: Download
+                type: switch
+                tab: Proprietà
+            show_zoom:
+                label: Zoom
+                type: switch
+                tab: Proprietà
+            show_rotate:
+                label: Rotazione
+                type: switch
+                tab: Proprietà
+            show_share:
+                label: Condivisione
+                type: switch
+                tab: Proprietà
+            show_autoplay:
+                label: Riproduzione automatica
+                type: switch
+                tab: Proprietà
+            show_thumbnail:
+                label: Anteprime
+                type: switch
+                tab: Proprietà
+            show_pager:
+                label: Paginatore
+                type: switch
+                tab: Proprietà
+            spacing-mixin:
+                type: mixin
+            background-mixin:
+                type: mixin

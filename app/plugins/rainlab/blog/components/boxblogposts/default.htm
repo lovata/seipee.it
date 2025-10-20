@@ -1,0 +1,33 @@
+{% set posts = __SELF__.posts %}
+{% set postPage = __SELF__.postPage%}
+{% set categoryPage = __SELF__.categoryPage %}
+{% set tagPage = __SELF__.tagPage %}
+<ul class="post-list">
+    {% for post in posts %}
+    
+        <li>
+           
+            <h3><a href="{{ postPage ~ post.slug }}">{{ post.title }}</a></h3>
+
+            <p class="info">
+                Posted
+                {% if post.categories|length %} in {% endif %}
+                {% for category in post.categories %}
+                    <a href="{{ categoryPage ~ category.slug }}">{{ category.name }}</a>{% if not loop.last %}, {% endif %}
+                {% endfor %}
+                <p>tag<br>
+                {% for tag in post.ratmd_bloghub_tags %}
+                <span class="tag-in-body" style="background:{{tag.color}}">
+                    <a href="{{ tagPage  ~ tag.slug}}">{{tag.title}}</a>
+                </span>
+                </p>
+                {% endfor %}
+                on {{ post.published_at|date('M d, Y') }}
+            </p>
+
+            <p class="excerpt">{{ post.summary|raw }}</p>
+        </li>
+    {% else %}
+        <li class="no-data">{{ __SELF__.noPostsMessage }}</li>
+    {% endfor %}
+</ul>

@@ -1,0 +1,17 @@
+{% partial 'block_head' %}
+<div class="row row-cols-1 row-cols-sm-1 row-cols-md-{{ box.cards|length }}"  >
+	{% set cards = box.cards %}
+	{% set children = box.getChildren() %}
+	{% for i, child in children %}
+		{% set card = cards[i] %}
+		<div class="{% if card.col_width_sm %}col-{{ card.col_width_sm }}{% else %}col-12{% endif %}
+					{% if card.col_width_md %}col-md-{{ card.col_width_md }}{% endif %}
+					{% if card.col_width %}col-lg-{{ card.col_width }}{% endif %}
+					{{ card.class }} {{ card.allineamento }} {{ card.allineamento_mobile }}{% if card.col_order_mobile %} order-{{ card.col_order_mobile }}{% endif %}{% if card.col_order %} order-lg-{{ card.col_order }}{% endif %}{% if card.col_order_tablet %} order-md-{{ card.col_order_tablet }}{% endif %}">
+			<div style="{% if box.col_border %}padding: 1rem; border:1px solid{% endif %}{% if box.col_color %} {{ box.col_color }}{% endif %}">
+				{{ child.render(context) | raw }}
+			</div>
+		</div>
+	{% endfor %}
+</div>
+{% partial 'block_footer' %}
