@@ -1,5 +1,0 @@
-title: inetis.downloadmanager::lang.category.reorder
-nameFrom: name
-modelClass: Inetis\DownloadManager\Models\Category
-toolbar:
-    buttons: reorder_toolbar

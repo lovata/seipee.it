@@ -1,8 +1,0 @@
-{
-    "name": "inetis/downloadmanager-plugin",
-    "type": "october-plugin",
-    "description": "OctoberCMS plugin to securely share files on the frontend",
-    "require": {
-        "composer/installers": "~1.0"
-    }
-}

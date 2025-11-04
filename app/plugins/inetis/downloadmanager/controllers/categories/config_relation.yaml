@@ -1,8 +1,0 @@
-children:
-    label: inetis.downloadmanager::lang.category.subcategories
-    manage:
-        form: $/inetis/downloadmanager/models/category/fields_children.yaml
-        list: $/inetis/downloadmanager/models/category/columns.yaml
-    view:
-        list: $/inetis/downloadmanager/models/category/columns.yaml
-        toolbarButtons: create|delete

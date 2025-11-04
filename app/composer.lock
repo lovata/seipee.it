@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "64ebac56919c415eed1606f5ac563d12",
+    "content-hash": "c8fb8d5c4e9deaf4be2d7572220cc36f",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -3717,26 +3717,6 @@
                 "source": "https://github.com/vinkla/hashids/tree/5.0.2"
             },
             "time": "2023-02-23T15:00:54+00:00"
-        },
-        {
-            "name": "inetis/downloadmanager-plugin",
-            "version": "1.0.8",
-            "dist": {
-                "type": "zip",
-                "url": "https://gateway.octobercms.com/composer/dist/inetis/downloadmanager-plugin/inetis-downloadmanager-plugin-e54fb95a5e4a1889d8c00c4d41bbfbd39ced9b43-zip-28798c.zip",
-                "reference": "e54fb95a5e4a1889d8c00c4d41bbfbd39ced9b43",
-                "shasum": "5233caa1b0a1dea54478427b07cc2dcd01c29588"
-            },
-            "require": {
-                "composer/installers": "~1.0"
-            },
-            "type": "october-plugin",
-            "description": "OctoberCMS plugin to securely share files on the frontend",
-            "support": {
-                "source": "https://github.com/inetis-ch/oc-DownloadManager-plugin/tree/1.0.8",
-                "issues": "https://github.com/inetis-ch/oc-DownloadManager-plugin/issues"
-            },
-            "time": "2023-07-24T13:23:42+00:00"
         },
         {
             "name": "jaybizzle/crawler-detect",
