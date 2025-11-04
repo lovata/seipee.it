@@ -9,6 +9,7 @@ Docker-compose file contains:
 ```php artisan horizon``` command.
 * local and staging environment contains **mailpit** docker container. mailpit uses to send email locally.
 
+TEST
 ## Prepare local environment
 
 * You should install **docker, ansible, make**.
