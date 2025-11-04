@@ -1,0 +1,12 @@
+uuid: e7ead132-6bdb-22d8-a6a0-89738141136e
+name: Brand list
+type: mixin
+handle: Blocks\BrandList
+
+fields:
+    brand:
+        label: 'lovata.shopaholic::lang.menu.brands'
+        type: recordfinder
+        modelClass: Lovata\Shopaholic\Models\Brand
+        list: $/lovata/shopaholic/models/brand/columns.yaml
+        nameFrom: name

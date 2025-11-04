@@ -1,0 +1,82 @@
+<div class="w-full md:w-1/2">
+    <h2 class="mb-4 text-gray-900 text-lg font-medium uppercase md:text-2xl lg:mb-3">{{ 'purchase_customer_data'|_ }}</h2>
+    <span class="text-sm font-light text-gray-600 md:text-base">* — {{ 'form_required_fields'|_ }}</span>
+    <div class="flex flex-col space-y-4 mt-4 mb-7 lg:mt-3">
+        {% partial 'form/input'
+            labelClasses = 'text-sm mb-1 text-gray-600'
+            labelText = 'form_user_name'|_
+            inputClasses = '_shopaholic-order-field'
+            type = 'text'
+            name = 'name'
+            required = 'required'
+            labelClasses = 'text-sm'
+            value = obUser ? obUser.name : ''
+            dataAtributes = 'data-field=user.name'
+        %}
+
+        {% set obUserAddress = obUser.address.first() %}
+        <div class="flex flex-col space-y-4" aria-hidden="true">
+            {% partial 'form/input'
+                labelClasses = 'text-sm mb-1 text-gray-600'
+                labelText='form_user_address_postal'|_
+                name = 'address'
+                value = obUserAddress ? obUserAddress.address1 : ''
+                labelClasses = 'text-sm'
+                inputClasses = '_shopaholic-order-field'
+                dataAtributes = 'data-field=shipping_address.address1'
+            %}
+            {% partial 'form/input'
+                labelClasses = 'text-sm mb-1 text-gray-600'
+                labelText='form_user_country'|_
+                type = 'text'
+                name = 'country'
+                labelClasses = 'text-sm'
+                value = obUserAddress ? obUserAddress.country : ''
+                inputClasses = '_shopaholic-order-field'
+                dataAtributes = 'data-field=shipping_address.country'
+            %}
+            {% partial 'form/input'
+                labelClasses = 'text-sm mb-1 text-gray-600'
+                labelText='form_user_city'|_
+                type = 'text'
+                name = 'city'
+                labelClasses = 'text-sm'
+                value = obUserAddress ? obUserAddress.city : ''
+                inputClasses = '_shopaholic-order-field'
+                dataAtributes = 'data-field=shipping_address.city'
+            %}
+            {% partial 'form/input'
+                labelClasses = 'text-sm mb-1 text-gray-600'
+                labelText = 'form_user_zip_code'|_
+                type = 'text'
+                inputmode="numeric"
+                name = 'postcode'
+                labelClasses = 'text-sm'
+                value = obUserAddress ? obUserAddress.postcode : ''
+                inputClasses = '_shopaholic-order-field'
+                dataAtributes = 'data-field=shipping_address.postcode'
+            %}
+        </div>
+        {% partial 'form/input'
+            labelClasses = 'text-sm mb-1 text-gray-600'
+            labelText = 'form_user_email'|_
+            type = 'email'
+            name = 'email'
+            labelClasses = 'text-sm'
+            value = obUser ? obUser.email : ''
+            required = 'required'
+            inputClasses = '_shopaholic-order-field'
+            dataAtributes = 'data-field=user.email'
+        %}
+        {% partial 'form/input'
+            labelClasses = 'text-sm mb-1 text-gray-600'
+            labelText = 'form_user_phone'|_
+            type = 'tel'
+            name = 'phone'
+            labelClasses = 'text-sm'
+            value = obUser ? obUser.phone : ''
+            inputClasses = '_shopaholic-order-field'
+            dataAtributes = 'data-field=user.phone'
+        %}
+    </div>
+</div>

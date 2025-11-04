@@ -1,0 +1,16 @@
+<style>
+  :root {
+    {% if this.theme.color_primary is not empty %}--primary: {{ this.theme.color_primary }};{% endif %}
+    {% if this.theme.color_primary_hover is not empty %}--primary-hover: {{this.theme.color_primary_hover}};{% endif %}
+    {% if this.theme.color_primary_focus is not empty %}--primary-focus: {{ this.theme.color_primary_focus }};{% endif %}
+    {% if this.theme.color_on_primary is not empty %}--on-primary: {{ this.theme.color_on_primary }};{% endif %}
+    {% if this.theme.color_on_primary_container is not empty %}--on-primary-container: {{ this.theme.color_on_primary_container }};{% endif %}
+    {% if this.theme.color_surface is not empty %}--surface: {{ this.theme.color_surface }};{% endif %}
+    {% if this.theme.color_surface_dim is not empty %}--surface-dim: {{ this.theme.color_surface_dim }};{% endif %}
+    {% if this.theme.color_surface_container is not empty %}--surface-container: {{ this.theme.color_surface_container }};{% endif %}
+    {% if this.theme.color_on_surface is not empty %}--on-surface: {{ this.theme.color_on_surface }};{% endif %}
+    {% if this.theme.color_on_surface_variant is not empty %}--on-surface-variant: {{ this.theme.color_on_surface_variant }};{% endif %}
+    {% if this.theme.color_outline is not empty %}--outline: {{ this.theme.color_outline }};{% endif %}
+    {% if this.theme.color_outline_variant is not empty %}--outline-variant: {{ this.theme.color_outline_variant }};{% endif %}
+  }
+</style>

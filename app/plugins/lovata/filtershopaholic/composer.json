@@ -1,0 +1,8 @@
+{
+    "name": "lovata/filtershopaholic-plugin",
+    "type": "october-plugin",
+    "description": "Filter of products",
+    "require": {
+        "composer/installers": "~1.0"
+    }
+}

@@ -1,0 +1,238 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+@import "./buttons.css";
+@import "./../node_modules/swiper/swiper.css";
+@import "./../node_modules/photoswipe/dist/photoswipe.css";
+@import "./../node_modules/choices.js/public/assets/styles/choices.min.css";
+@import "./../partials/common/tabs/tabs.css";
+@import "./swiper.css";
+@import "./conponents/choices.css";
+@import "./../../../modules/backend/formwidgets/richeditor/assets/css/base-styles.css";
+
+@layer base {
+  :where([dir="rtl"]) select {
+    background-position: left theme('spacing.2') center;
+    padding-left: theme('spacing.10');
+    padding-right: theme('spacing.3');
+  }
+}
+
+@layer utilities {
+  .snap::after {
+    content: '';
+    width: .5rem;
+    display: block;
+  }
+
+  .scrollbar-x-none::-webkit-scrollbar {
+    height: 0;
+  }
+
+  .scrollbar-x-none {
+    scrollbar-width: none;
+  }
+
+  .full-width {
+    @apply w-screen
+  }
+
+  html:not([dir="rtl"]) .full-width {
+    @apply
+    -translate-x-4
+    sm:-translate-x-[calc((100vw-608px)/2)]
+    md:-translate-x-[calc((100vw-736px)/2)]
+    ml:-translate-x-[calc((100vw-808px)/2)]
+    lg:-translate-x-[calc((100vw-992px)/2)]
+    xl:-translate-x-[calc((100vw-1248px)/2)]
+  }
+
+  [dir="rtl"] .full-width {
+    @apply
+    translate-x-4
+    sm:translate-x-[calc((100vw-608px)/2)]
+    md:translate-x-[calc((100vw-736px)/2)]
+    ml:translate-x-[calc((100vw-808px)/2)]
+    lg:translate-x-[calc((100vw-992px)/2)]
+    xl:translate-x-[calc((100vw-1248px)/2)]
+  }
+
+  .break-line {
+    line-break: anywhere;
+  }
+
+  /* TODO: Consider to move <summary> and <details> styles directly to the component */
+  summary::-webkit-details-marker {
+    display: none;
+    list-style: none;
+  }
+
+  summary {
+    list-style: none;
+    position: relative;
+  }
+
+  summary::after {
+    @apply end-3 inline-block absolute;
+  }
+
+  summary::after {
+    content: '';
+    width: 15px;
+    height: 10px;
+    background: url('/themes/lovata-atmosphere-shopaholic/assets/images/marker.svg') no-repeat;
+    position: absolute;
+    top: 50%;
+    transition: .2s;
+    transform: translateY(-50%);
+  }
+
+  details[open] > summary::after {
+    transform: translateY(-50%) rotate(180deg);
+  }
+
+  .alert {
+    @apply fixed top-20 right-14 mb-2 rounded-lg flex flex-row-reverse gap-5 p-4 max-w-sm items-start;
+  }
+
+  .alert-success {
+    @apply bg-green-100 text-green-800;
+  }
+
+  .alert-error {
+    @apply bg-red-100 text-red-900;
+  }
+
+  .alert-warning {
+    @apply bg-blue-200 text-blue-900;
+  }
+
+  .alert-info {
+    @apply bg-gray-200 text-gray-700;
+  }
+
+  .wishlist__empty {
+    background-image: url('/themes/lovata-atmosphere-shopaholic/assets/images/wishlist.svg');
+  }
+
+  .quantity_input::-webkit-inner-spin-button,
+  .quantity_input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  .quantity_input {
+    -moz-appearance: textfield;
+  }
+
+  .advanced-list-icon::after {
+    content: '';
+    width: inherit;
+    height: inherit;
+    display: block;
+    background: currentColor;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-mask: var(--advanced-list-icon-src) center / 100% no-repeat;
+  }
+
+  ._input-checkbox-color {
+    color: var(--input-checkbox-color);
+    background-color: var(--input-checkbox-color);
+  }
+
+  .progress_bar_evaluation {
+    width: var(--progress-bar-evaluation-width);
+  }
+
+  ._description-text {
+    max-height: var(--description-text-max-height);
+  }
+}
+
+.pswp__top-bar.pswp__hide-on-close {
+  @apply space-x-4 w-auto flex bg-gray-100 items-center end-0 inset-auto rounded-bl lg:space-x-6 rtl:space-x-reverse;
+}
+
+.pswp__top-bar.pswp__hide-on-close .pswp__counter {
+  text-shadow: initial;
+  @apply h-14 text-gray-600 flex ms-4 items-center opacity-100 mt-0 text-sm lg:text-2xl lg:ms-7;
+}
+
+.pswp__top-bar.pswp__hide-on-close .pswp__preloader {
+  @apply hidden -order-1;
+}
+
+.pswp__top-bar.pswp__hide-on-close .pswp__button.pswp__button--fullscreen-button {
+  @apply order-3;
+}
+
+.pswp__top-bar.pswp__hide-on-close .pswp__button.pswp__button--fullscreen-button .pswp__icn {
+  fill: black;
+}
+
+.pswp__top-bar.pswp__hide-on-close .pswp__button.pswp__button--zoom {
+  @apply order-2;
+}
+
+.pswp__top-bar.pswp__hide-on-close .pswp__button.pswp__button--close {
+  @apply me-4 order-4 lg:me-6;
+}
+
+.pswp__top-bar.pswp__hide-on-close .pswp__button {
+  @apply w-8 h-8 flex items-center justify-center lg:w-12 lg:h-14;
+}
+
+.pswp__top-bar.pswp__hide-on-close .pswp__button .pswp__icn {
+  @apply w-6 h-6 static lg:w-8 lg:h-8;
+}
+
+.pswp--has_mouse .pswp__button--arrow {
+  @apply w-11 h-11 bg-gray-100 rounded p-3 mt-0 lg:w-14 lg:h-14;
+}
+
+.pswp__button--arrow .pswp__icn {
+  @apply w-6 h-6 top-10 fill-black lg:w-8 lg:h-8;
+}
+
+.pswp__button--arrow--next {
+  @apply rtl:right-auto end-4;
+}
+
+.pswp__button--arrow--prev {
+  @apply start-4;
+}
+
+.pswp__button--arrow--prev .pswp__icn {
+  @apply rtl:rotate-180 translate-y-0.5 left-3.5 rtl:left-1.5;
+}
+
+.pswp__button--arrow--next .pswp__icn {
+  @apply rotate-180 -translate-x-0.5 translate-y-0.5 rtl:rotate-0 rtl:translate-x-1.5 rtl:translate-y-0.5;
+}
+
+.pswp--click-to-zoom.pswp--zoom-allowed .pswp__img {
+  @apply min-h-lvh;
+}
+
+.content-visibility {
+  @apply content-visibility-auto contain-intrinsic-size-[0_100px];
+}
+
+.validation-error__message {
+  @apply mt-0.5;
+}
+
+.container-star .validation-error__message {
+  @apply absolute left-0;
+}
+
+.fr-view img.fr-dii.fr-fil {
+  @apply pr-5
+}
+
+.fr-view img.fr-dii.fr-fir {
+  @apply pl-5
+}

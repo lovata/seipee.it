@@ -1,0 +1,22 @@
+{% set obCartPositionList = Cart.get() %}
+
+<div class="_checkout-list-wrapper">
+    {% set obCartPositionList = Cart.get() %}
+
+    <ul class="-mx-4 ps-4 lg:mx-0 lg:ps-0">
+        {% for obCartPosition in obCartPositionList %}
+            {% set obOffer = obCartPosition.offer %}
+            {% set obProduct = obOffer.product %}
+            <li class="_shopaholic-product-wrapper relative after:content-[''] after:absolute after:inset-0 after:border-b after:first:border-t after:border-gray-200 after:-start-4 after:-z-10 lg:after:start-0" data-position-id="{{ obCartPosition.id }}" data-product-id="{{ obProduct.id }}">
+                {% partial 'product/product-card-checkout/product-card-checkout'
+                    obCartPosition = obCartPosition
+                    obProduct = obProduct
+                    obOffer = obOffer
+                %}
+            </li>
+        {% endfor %}
+    </ul>
+    <div class="_checkout-list-total-price mt-4 flex flex-col lg:mt-6 lg:flex-row lg:justify-between lg:items-center">
+        {% partial 'checkout/checkout-list-total-price' %}
+    </div>
+</div>

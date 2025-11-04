@@ -1,0 +1,11 @@
+uuid: c3375537-69c6-4d18-901b-676da2c2f8bd
+name: WYSIWYG Content
+type: mixin
+handle: Blocks\WysiwygContent
+multisite: true
+
+fields:
+    content:
+        label: 'shopaholic.theme.field.content'
+        type: richeditor
+        span: full

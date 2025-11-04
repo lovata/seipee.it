@@ -1,0 +1,48 @@
+{#
+Params:
+- showIndex
+- iTake
+- obProduct
+- buttonName
+#}
+
+{% set obProductList = ProductList.make().active().site().viewed() %}
+{% set iProductID = input('product_id') %}
+{% set obProduct = iProductID ? ProductData.get(iProductID) : obProduct %}
+{% if obProduct is not empty %}
+    {% set obProductList = obProductList.exclude(obProduct.id) %}
+{% endif %}
+
+{% set iPage = input('page')|default(1) %}
+{% set iPage = iPage >= 1 ? iPage : 1 %}
+
+{% set iTake = iTake|default(input('take')) %}
+{% set iTake = iTake >= 1 ? iTake : 1 %}
+
+{% set arProductList = obProductList.page(iPage, iTake) %}
+{% set iMaxPage = (obProductList.count() / iTake)|round(0, 'ceil') %}
+{% set showButton = iMaxPage > 1 %}
+
+{% partial 'product/product-list-small/product-list-small-ajax'
+    arProductList = arProductList
+    showIndex = showIndex
+%}
+
+{% put nextButton %}
+    {% if buttonName is not empty and showButton %}
+        <div class="mt-4 md:mt-11 text-center _product-list-small-button">
+            {% partial 'form/button'
+                isGhost = true
+                text = buttonName
+                wrapperClasses = 'w-full md:w-auto font-medium _product-list-small-button-more'
+                dataAtribute = 'data-page=1 data-filter=' ~ {'take': iTake}|json_encode ~ ' data-max-page=' ~ iMaxPage ~ ' data-partial=product-list-viewed'
+            %}
+        </div>
+    {% endif %}
+{% endput %}
+
+{% put emptyState %}
+    {% if obProductList is empty or obProductList.isEmpty() %}
+        hidden
+    {% endif %}
+{% endput %}

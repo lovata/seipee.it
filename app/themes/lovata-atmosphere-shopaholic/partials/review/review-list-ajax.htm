@@ -1,0 +1,22 @@
+{#
+Params:
+- obProduct
+#}
+
+{% set iTake = ReviewPagination.getCountPerPage() %}
+{% set iPage = iPage|default(input('page')|default(1)) %}
+{% set iPage = iPage >= 1 ? iPage : 1 %}
+
+{% if obProduct is empty %}
+    {% set iProductID = input('product_id') %}
+    {% set obProduct = ProductData.get(iProductID) %}
+{% endif %}
+
+{% set obReviewList = obProduct.review.active().sort() %}
+{% set arReviewList = obReviewList.page(iPage, iTake)  %}
+
+{% for obReview in arReviewList %}
+    <li class="flex flex-col mb-5">
+        {% partial 'review/review-card' obReview = obReview %}
+    </li>
+{% endfor %}

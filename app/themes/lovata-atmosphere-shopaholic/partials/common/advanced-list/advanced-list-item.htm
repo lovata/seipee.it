@@ -1,0 +1,39 @@
+{#
+Params:
+- needLoad
+- name
+- href
+- imagePath
+- iTake
+- wrapperClasses
+#}
+
+{% if SiteContent.catalog_aspect_ratio == '34' %}
+    {% set classRatio = "aspect-3/4" %}
+{% elseif  SiteContent.catalog_aspect_ratio == '43' %}
+    {% set classRatio = "aspect-4/3" %}
+{% else %}
+    {% set classRatio = "aspect-square" %}
+{% endif %}
+{% if needLoad %}
+    {% set hiddenClasses = 'hidden' %}
+{% endif %}
+<li
+        class="{{ hiddenClasses }}"
+        {% if needLoad %}
+            aria-hidden="true"
+        {% endif %}
+>
+    <a class="group text-typography-basic overflow-hidden rounded-sm flex flex-row sm:flex-col text-sm xl:text-base font-medium h-full group cursor-pointer border border-l-0 sm:border-l sm:border-t-0 border-solid border-border rounded-ss-sm sm:rounded-es-sm rounded-se-sm sm:rounded-t-none sm:text-center group-active:underline {{wrapperClasses}}" href="{{ href }}">
+        {% if imageNotIcon and imagePath%}
+            <picture class="overflow-hidden relative h-12 sm:h-auto w-12 sm:w-auto bg-outline-variant flex items-center justify-center {{ classRatio }}">
+                <img class="object-contain w-full h-full sm:transition-all sm:group-hover:scale-110" src="{{ imagePath }}" alt="{{ name }}">
+            </picture>
+        {% else %}
+            <span class="relative h-12 sm:h-auto w-12 sm:w-auto bg-outline-variant group-hover:bg-primary group-focus:bg-primary-focus {{ classRatio }}">
+                <span class="advanced-list-icon h-6 sm:h-20 w-6 sm:w-20  sm:bg-auto after:bg-primary after:focus-visible:bg-white after:focus-within:bg-white after:group-focus:bg-white after:group-hover:bg-white transform scale-50" style="--advanced-list-icon-src: url({{ imagePath }})"></span>
+            </span>
+        {% endif %}
+        <span class="flex flex-1 items-center ps-4 pe-2 sm:py-4 sm:px-2 xl:p-4 sm:justify-center border border-l-0 sm:border-l sm:border-t-0 border-solid border-border rounded-ss-sm sm:rounded-es-sm rounded-se-sm sm:rounded-t-none sm:text-center group-active:underline">{{ name }}</span>
+    </a>
+</li>

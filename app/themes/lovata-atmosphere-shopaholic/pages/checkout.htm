@@ -1,0 +1,104 @@
+url = "/checkout"
+layout = "main"
+title = "Checkout"
+is_hidden = 0
+
+[Cart]
+
+[ShippingTypeList]
+
+[MakeOrder]
+mode = "ajax"
+flash_on = 1
+redirect_on = 1
+redirect_page = "checkout-success"
+
+[PaymentMethodList]
+
+[ProductList]
+sorting = "popularity|desc"
+==
+<?php
+function onInit()
+{
+    $this['path_page_js'] = 'js/pages/checkout.js';
+
+    $bHasCouponPlugin = \System\Classes\PluginManager::instance()->hasPlugin('lovata.couponsshopaholic')
+        && !\System\Classes\PluginManager::instance()->isDisabled('Lovata.CouponsShopaholic');
+
+    $obShippingTypeList =  $this->ShippingTypeList->make()->sort()->active()->site();
+    $obPaymentMethodList =  $this->PaymentMethodList->make()->sort()->active()->site();
+
+    $iActiveShippingTypeID = input('shipping_type_id');
+    $obActiveShippingType = $obShippingTypeList->find($iActiveShippingTypeID);
+
+    $iActivePaymentMethodID = input('payment_method_id');
+    $obActivePaymentMethod = $obPaymentMethodList->find($iActivePaymentMethodID);
+
+    if ($obActiveShippingType->isEmpty() || !$obActiveShippingType->isAvailable()) {
+        foreach ($obShippingTypeList as $obShippingType) {
+            if (!$obShippingType->isAvailable()) {
+                continue;
+            }
+
+            $obActiveShippingType = $obShippingType;
+
+            break;
+        }
+    }
+
+    if ($obActivePaymentMethod->isEmpty() || !$obActivePaymentMethod->isAvailable()) {
+        foreach ($obPaymentMethodList as $obPaymentMethod) {
+            if (!$obPaymentMethod->isAvailable()) {
+                continue;
+            }
+
+            $obActivePaymentMethod = $obPaymentMethod;
+
+            break;
+        }
+    }
+
+    $obCartPositionList = $this->Cart->get($obActiveShippingType, $obActivePaymentMethod);
+
+    $this['obShippingTypeList'] = $obShippingTypeList->available();
+    $this['obActiveShippingType'] = $obActiveShippingType;
+    $this['obPaymentMethodList'] = $obPaymentMethodList->available();
+    $this['obActivePaymentMethod'] = $obActivePaymentMethod;
+    $this['obCartPositionList'] = $obCartPositionList;
+    $this['bHasCouponPlugin'] = $bHasCouponPlugin;
+}
+?>
+==
+{% set arBreadcrumbs = [
+    {'name': 'purchase_checkout'|_, 'url': null}
+] %}
+
+{% partial 'common/breadcrumbs' arBreadcrumbs=arBreadcrumbs %}
+<section class="grid lg:grid-cols-2">
+    <form id="make-order" class="_required _shopaholic-order-form lg:col-span-1">
+        <h1 class="mb-6 text-gray-900 font-medium text-xl uppercase md:text-3xl">{{ 'purchase_checkout'|_ }}</h1>
+        {% partial 'checkout/checkout-list' %}
+        {% partial 'checkout/coupon/coupon' %}
+        <div class="_shipping_type_wrapper">
+            {% partial 'checkout/shipping-type-list' %}
+        </div>
+        {% partial 'checkout/user-form' %}
+        {% if obPaymentMethodList.isNotEmpty() and obActivePaymentMethod.isNotEmpty() %}
+            <fieldset class="_payment-method-wrapper">
+                {% partial 'checkout/payment-method-list' %}
+            </fieldset>
+        {% endif %}
+        <div class="_subtotal-container _cart-checkout-list w-full md:w-1/2 mt-7 mb-12">
+            <h2 class="mb-4 text-gray-900 font-medium text-lg uppercase md:text-2xl">{{ 'purchase_summary'|_ }}</h2>
+            <table class="w-full mb-8 _checkout-subtotal">
+                {% partial 'checkout/checkout-subtotal' %}
+            </table>
+            {% partial 'form/button'
+                wrapperClasses = 'w-full md:w-auto'
+                text = 'purchase_order'|_
+                type = 'submit'
+            %}
+        </div>
+    </form>
+</section>

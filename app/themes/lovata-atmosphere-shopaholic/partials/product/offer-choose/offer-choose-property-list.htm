@@ -1,0 +1,88 @@
+{#
+Params:
+- obProduct
+- obOfferList
+- obOffer
+- obPropertyList
+#}
+
+{% set obOfferList = obProduct.offer.site() %}
+{% set obOffer = obOfferList.first() %}
+
+{% set obPropertyList = obOffer.property %}
+{# Try to find properties from group with "main" code #}
+{% set obPropertyGroupList = obPropertyList.getGroupList() %}
+{% set obMainPropertyGroup = obPropertyGroupList.getByCode('main') %}
+{% if obMainPropertyGroup.isNotEmpty() %}
+    {% set obPropertyList = obPropertyList.group(obMainPropertyGroup.id) %}
+{% endif %}
+
+{% set activePropertyList = input('property') %}
+
+{% for obProperty in obPropertyList %}
+    {% set options = [] %}
+    {% set selectedValue = null %}
+    {% for obTempOffer in obOfferList %}
+        {% set obTempProperty = obTempOffer.property.find(obProperty.id) %}
+        {% set obTempPropertyValue = obTempProperty.property_value.first() %}
+
+        {# Fill selected value #}
+        {% if activePropertyList[obTempProperty.id] == obTempPropertyValue.slug %}
+            {% set selectedValue = obTempPropertyValue.slug %}
+        {% endif %}
+
+        {# Fill disabled flag #}
+        {% set disabledValue = false %}
+
+        {% for activePropertyID, activePropertyValue in activePropertyList %}
+            {% set obCheckProperty = obTempOffer.property.find(activePropertyID) %}
+            {% set obCheckPropertyValue = obCheckProperty.property_value.first() %}
+            {% if obTempProperty.id != obCheckProperty.id and obCheckPropertyValue.slug != activePropertyValue %}
+                {% set disabledValue = true %}
+            {% endif %}
+        {% endfor %}
+
+        {% if options[obTempPropertyValue.value] is not empty %}
+            {% set newOption = options[obTempPropertyValue.value] %}
+            {% if disabledValue == false %}
+                {% set newOption = newOption|merge({'disabled': disabledValue}) %}
+            {% endif %}
+
+        {% else %}
+            {% set newOption = {'value': obTempPropertyValue.slug, 'label': obTempPropertyValue.value ~ ' ' ~ obTempProperty.measure.name, 'disabled': disabledValue} %}
+        {% endif %}
+        {% set options = options|merge({(obTempPropertyValue.value): newOption}) %}
+    {% endfor %}
+    {% partial 'form/select'
+        id = 'property-' ~ obProperty.id
+        name = 'property-' ~ obProperty.id
+        labelText = obProperty.name
+        placeholder = 'filter_value_choose'|_
+        wrapperClasses = '_offer-choose-property'
+        inputClasses = '_offer-choose-property-input'
+        dataAtributes = 'data-property-id='~obProperty.id
+        selectedValue = selectedValue
+    %}
+{% endfor %}
+
+{% set iActiveOfferID = null %}
+{% if activePropertyList is not empty and activePropertyList|length == obPropertyList.count() %}
+    {% for obTempOffer in obOfferList %}
+        {% if iActiveOfferID is null %}
+            {% set iActiveOfferID = obTempOffer.id %}
+            {% for activePropertyID, activePropertyValue in activePropertyList %}
+                {% set obCheckProperty = obTempOffer.property.find(activePropertyID) %}
+                {% set obCheckPropertyValue = obCheckProperty.property_value.first() %}
+                {% if obCheckPropertyValue.slug != activePropertyValue %}
+                    {% set iActiveOfferID = null %}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
+{% if iActiveOfferID > 0 %}
+    <select class="hidden" id="offer_id" name="offer_id">
+        <option value="{{ iActiveOfferID }}" selected></option>
+    </select>
+{% endif %}

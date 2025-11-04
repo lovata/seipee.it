@@ -1,0 +1,68 @@
+{#
+Params:
+- id
+- type
+- name
+- placeholder
+- value
+- required
+- disabled
+- min
+- max
+- minLength
+- maxLength
+- pattern
+- dataAtributes
+- attribute
+- validationErrorSelector
+- customErrorMessage
+- wrapperClasses
+- labelText
+- labelClasses
+- inputClasses
+#}
+
+{% set id = id|default(name) %}
+<div class="{{ wrapperClasses }}">
+    {% if labelText %}
+    <label for="{{ id }}" class="text-gray-600 inline-block mb-1 {{ labelClasses }} ">{{ labelText }}{% if required %} *{% endif %}
+        </label>
+    {% endif %}
+    <textarea
+            class="w-full mt-4 rounded border-gray-400 resize-none placeholder:text-gray-400 placeholder:text-base lg:mt-2"
+            id="{{ id }}"
+              {% if name %}
+                  name="{{ name }}"
+              {% endif %}
+            {% if rows %}
+                rows="{{ rows }}"
+            {% endif %}
+            {% if cols %}
+                cols="{{ cols }}"
+            {% endif %}
+            {% if value is not same as(null) %}
+                value="{{ value }}"
+            {% endif %}
+            {% if required  %}
+                required
+            {% endif %}
+            {{dataAtributes}}
+
+            {% if validationErrorSelector is not same as(null) %}
+                data-bouncer-target=".{{ validationErrorSelector }}"
+            {% endif %}
+            {% if customErrorMessage is not same as(null) %}
+                data-bouncer-message="{{ customErrorMessage }}"
+            {% endif %}
+            {% if dataBouncerMatch is not same as(null) %}
+                data-bouncer-match="{{ dataBouncerMatch }}"
+            {% endif %}
+            {{ attribute|raw }}
+            placeholder="{{'reviews_share_experience_placeholder'|_}}"
+    ></textarea>
+    {% if validationErrorSelector is not same as(null) %}
+        <div class="{{ validationErrorSelector }} text-red-700 text-sm inline-block"></div>
+    {% endif %}
+</div>
+
+{# TODO: Make boolean attributes required and disabled consistent #}

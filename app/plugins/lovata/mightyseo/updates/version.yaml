@@ -1,0 +1,40 @@
+1.0.0:
+    - 'Initialize plugin.'
+    - table_create_seo_template.php
+    - table_create_seo_param.php
+1.1.0:
+    - 'Update license file'
+1.1.1:
+    - 'Fixed result of SeoToolbox::getPageDescription() method.'
+1.1.2:
+    - 'Added raw filter in default.htm template.'
+1.1.3:
+    - 'Fixed integration with models without TraitCached trait.'
+1.1.4:
+    - 'Fixed seo_param attribute that custom model integrated plugin.'
+1.1.5:
+    - 'Fixed query in SeoParamItem class.'
+1.2.0:
+    - 'Added composer.json to plugin'
+1.2.1:
+    - 'Change lists method to pluck method. Thanks for contribution Nick Khaetsky.'
+1.2.2:
+    - 'Fix errors for integration with v3. Thanks for contribution Nick Khaetsky.'
+1.2.3:
+    - 'Fix errors for integration with v3.'
+1.2.4:
+    - 'Fix logic in SeoParamItem::setElementObject method'
+1.3.0:
+    - 'Added logic for OpenGraph meta tags. Interface adaptation for OctoberCMS v3'
+    - table_update_seo_param_1.php
+1.3.1:
+    - 'Fix errors in SeoConfigHelper class, if "app.seo_models" config is empty'
+1.3.2:
+    - 'Added Shopaholic models to default config'
+1.3.3:
+    - 'Fixed error with relation between SEO params and Tailor entities'
+    - table_update_seo_param_2.php
+1.3.4:
+    - 'Added set method for "key" field in SeoTemplate model'
+1.3.5:
+    - 'Fixed generation external ID for blueprint models in SeoParam model'

@@ -1,0 +1,69 @@
+title = "Home"
+url = "/"
+layout = "main"
+is_hidden = 0
+
+[ArticleList]
+sorting = "publish|desc"
+
+[ProductList]
+sorting = "popularity|desc"
+
+[CategoryList]
+
+[BrandList]
+
+[global IndexPageContent]
+handle = "Site\IndexPage"
+
+[section IndexPage]
+handle = "Site\IndexPage"
+==
+<?php
+function onInit()
+{
+    $this['path_page_js'] = 'js/pages/index.js';
+}
+?>
+==
+
+{% for contentBlock in IndexPage.content_blocks %}
+    {% if contentBlock.type == 'image_carousel' and contentBlock.images is not empty %}
+        {% partial 'blocks/carousel-main' arCarouselList = contentBlock.images %}
+    {% endif %}
+    {% if contentBlock.type == 'news_list' %}
+        {% set arArticleList = ArticleList.make().sort('publish|desc').published().take(contentBlock.limit|default(4)) %}
+        {% if arArticleList is not empty %}
+            {% partial 'news/news-list-latest'
+                arArticleList = arArticleList
+                sectionHeadingLevel = 2
+            %}
+        {% endif %}
+    {% endif %}
+    {% if contentBlock.type == 'wysiwyg_content' %}
+        {% partial 'blocks/wysiwyg_content' contentBlock = contentBlock %}
+    {% endif %}
+    {% if contentBlock.type == 'category_list' %}
+        {% partial 'blocks/main-category-list' contentBlock = contentBlock %}
+    {% endif %}
+    {% if contentBlock.type == 'brand_list' %}
+        {% partial 'blocks/brand-list' contentBlock = contentBlock %}
+    {% endif %}
+    {% if contentBlock.type == 'product_list' %}
+        {% partial 'product/product-list-small/product-list-small'
+            sectionHeading = contentBlock.heading ? contentBlock.heading : 'catalog_products_popular'|_
+            sectionHeadingLevel = 2
+            body
+        %}
+            {% partial 'product/product-list-small/product-list-sorting'
+                sorting=contentBlock.sorting
+                category=contentBlock.category
+                brand=contentBlock.brand
+                iTake = 4
+                showIndex = 4
+                buttonName = 'catalog_products_show_more'|_
+            %}
+        {% endpartial %}
+    {% endif %}
+{% endfor %}
+

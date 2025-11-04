@@ -1,0 +1,12 @@
+uuid: e7ead132-6bdb-44d8-a6a0-89738141136e
+name: Category list
+type: mixin
+handle: Blocks\CategoryList
+
+fields:
+    category:
+        label: 'lovata.shopaholic::lang.menu.categories'
+        type: recordfinder
+        modelClass: Lovata\Shopaholic\Models\Category
+        list: $/lovata/shopaholic/models/category/columns.yaml
+        nameFrom: name

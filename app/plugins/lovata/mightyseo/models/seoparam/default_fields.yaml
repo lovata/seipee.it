@@ -1,0 +1,113 @@
+fields:
+    page_id:
+        label: 'lovata.mightyseo::lang.field.page_id'
+        span: left
+        type: dropdown
+    meta_tags_section:
+        type: section
+        label: 'lovata.mightyseo::lang.field.meta_tags'
+    seo_title:
+        label: 'lovata.mightyseo::lang.field.seo_title'
+        commentAbove: 'lovata.mightyseo::lang.field.seo_title_comment'
+        comment: 'lovata.mightyseo::lang.field.twig_comment'
+        commentHtml: true
+        span: left
+        type: codeeditor
+        size: small
+        language: twig
+    seo_keywords:
+        label: 'lovata.mightyseo::lang.field.seo_keywords'
+        commentAbove: 'lovata.mightyseo::lang.field.seo_keywords_comment'
+        comment: 'lovata.mightyseo::lang.field.twig_comment'
+        commentHtml: true
+        span: right
+        type: codeeditor
+        size: small
+        language: twig
+    seo_description:
+        label: 'lovata.mightyseo::lang.field.seo_description'
+        commentAbove: 'lovata.mightyseo::lang.field.seo_description_comment'
+        comment: 'lovata.mightyseo::lang.field.twig_comment'
+        commentHtml: true
+        span: left
+        type: codeeditor
+        size: small
+        language: twig
+    seo_content_section:
+        type: section
+        label: 'lovata.mightyseo::lang.field.seo_content'
+    page_h1:
+        label: 'lovata.mightyseo::lang.field.page_h1'
+        commentAbove: 'lovata.mightyseo::lang.field.page_h1_comment'
+        comment: 'lovata.mightyseo::lang.field.twig_comment'
+        commentHtml: true
+        span: left
+        type: codeeditor
+        size: small
+        language: twig
+    page_description:
+        label: 'lovata.mightyseo::lang.field.page_description'
+        commentAbove: 'lovata.mightyseo::lang.field.page_description_comment'
+        comment: 'lovata.mightyseo::lang.field.twig_comment'
+        commentHtml: true
+        span: right
+        size: small
+        type: richeditor
+    settings_section:
+        type: section
+        label: 'lovata.mightyseo::lang.tab.seo_settings'
+    robots_index:
+        label: 'lovata.mightyseo::lang.field.robots_index'
+        span: left
+        type: radio
+        options:
+            '': 'lovata.mightyseo::lang.field.none'
+            index: [index, 'lovata.mightyseo::lang.field.index_comment']
+            noindex: [noindex, 'lovata.mightyseo::lang.field.noindex_comment']
+    robots_follow:
+        label: 'lovata.mightyseo::lang.field.robots_follow'
+        span: right
+        type: radio
+        options:
+            '': 'lovata.mightyseo::lang.field.none'
+            follow: [follow, 'lovata.mightyseo::lang.field.follow_comment']
+            nofollow: [nofollow, 'lovata.mightyseo::lang.field.nofollow_comment']
+    robots_index_addition:
+        label: 'lovata.mightyseo::lang.field.robots_index_addition'
+        span: left
+        type: text
+    canonical_url:
+        label: 'lovata.mightyseo::lang.field.canonical_url'
+        span: right
+        type: text
+    og_section:
+        type: section
+        label: 'lovata.mightyseo::lang.tab.og'
+    og_type:
+        label: 'lovata.mightyseo::lang.field.og_type'
+        commentAbove: 'lovata.mightyseo::lang.field.og_type_comment'
+        span: left
+        type: text
+    og_title:
+        label: 'lovata.mightyseo::lang.field.og_title'
+        commentAbove: 'lovata.mightyseo::lang.field.og_title_comment'
+        comment: 'lovata.mightyseo::lang.field.twig_comment'
+        commentHtml: true
+        span: left
+        type: codeeditor
+        size: small
+        language: twig
+    og_description:
+        label: 'lovata.mightyseo::lang.field.og_description'
+        commentAbove: 'lovata.mightyseo::lang.field.og_title_description'
+        comment: 'lovata.mightyseo::lang.field.twig_comment'
+        commentHtml: true
+        span: right
+        type: codeeditor
+        size: small
+        language: twig
+    og_image:
+        label: 'lovata.mightyseo::lang.field.og_image'
+        span: full
+        type: mediafinder
+        mode: image

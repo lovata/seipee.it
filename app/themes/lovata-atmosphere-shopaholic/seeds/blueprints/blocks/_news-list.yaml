@@ -1,0 +1,13 @@
+uuid: 70394e1f-447c-4c6c-87cf-9cd5be6ead02
+name: News list
+type: mixin
+handle: Blocks\NewsList
+
+fields:
+    limit:
+        label: 'shopaholic.theme.field.limit'
+        comment: 'shopaholic.theme.field.news_list_limit'
+        type: number
+        span: left
+        step: 4
+        min: 4

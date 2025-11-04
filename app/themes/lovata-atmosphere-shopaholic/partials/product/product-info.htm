@@ -1,0 +1,55 @@
+{#
+Params:
+- wraperClasses
+- obProduct
+- obOfferList
+- obOffer
+#}
+
+{% set arSEOParams = {'category': obProduct.category, 'product': obProduct} %}
+{% set obSeoModel = obProduct %}
+
+{% set obReviewList = obProduct.review.active() %}
+{% set obReviewListWithComment = obReviewList.copy().withComment() %}
+{% set obReviewListWithRating = obReviewList.copy().withRating() %}
+
+<div class="{{ wraperClasses }}">
+    <h1 class="text-gray-900 text-xl md:text-2xl xl:text-3xl uppercase">
+        {{ SeoToolbox.getPageTitle(obSeoModel, arSEOParams)|default(obProduct.name) }}
+    </h1>
+    <span class="text-gray-900 text-sm md:text-base">{{'product_code'|_}}: {{ obProduct.code }}</span>
+    <div class="_evaluation flex flex-wrap flex-row mt-4 md:mt-3 text-gray-600 text-sm md:text-base md:items-center">
+        <div class="flex me-3 md:me-4">
+            <div aria-hidden="true" class="flex flex-row items-center space-x-1 rtl:space-x-reverse me-4 mb-2 md:mb-0">
+                {% partial 'common/rating-star' maxRating='5' rating=obProduct.rating prefix='product' %}
+            </div>
+            {% if obProduct.rating > 0 %}
+                <span aria-label="{{ 'reviews_customers_rating'|_({reviews_customers_rating_value: obProduct.rating, reviews_customers_rating_value_max: obReviewListWithRating.count(),}) }}">
+                    ({{ obProduct.rating }})
+                </span>
+            {% endif %}
+        </div>
+        {% if obReviewListWithRating.count() > 0 or obReviewListWithComment.count() > 0 %}
+            <div>
+                {% if obReviewListWithRating.count() > 0 %}
+                    <a href="#ratings" class="text-gray-600 link link-gray underline hover:no-underline cursor-pointer me-2 md:me-4">
+                        {{ obReviewListWithRating.count() }} {{ 'reviews_customers_votes_number'|__(obReviewListWithRating.count()) }}
+                    </a>
+                {% endif %}
+                {% if obReviewListWithComment.count() > 0 %}
+                    <a href="#reviews" class="text-gray-600 link link-gray underline hover:no-underline cursor-pointer">
+                        {{ obReviewListWithComment.count() }} {{'reviews_multi'|__(obReviewListWithComment.count()) }}
+                    </a>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="_offer-price-wrapper">
+        {% partial 'product/offer-choose/offer-price'
+            obProduct = obProduct
+            obOffer = obOffer
+        %}
+    </div>
+
+</div>

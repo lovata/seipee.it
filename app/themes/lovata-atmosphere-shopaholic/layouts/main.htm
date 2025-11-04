@@ -1,0 +1,72 @@
+[Cart]
+
+[SeoToolbox]
+
+[sitePicker]
+
+[UserData]
+
+[global SiteContent]
+handle = Site\SiteContent
+
+[cookiesBar]
+==
+<?php
+function onInit()
+{
+    $bHasUserPlugin = \System\Classes\PluginManager::instance()->hasPlugin('lovata.buddies')
+        && !\System\Classes\PluginManager::instance()->isDisabled('Lovata.Buddies')
+        && $this->theme->has_buddies;
+    $bHasWishListPlugin = \System\Classes\PluginManager::instance()->hasPlugin('lovata.wishlistshopaholic')
+        && !\System\Classes\PluginManager::instance()->isDisabled('Lovata.WishListShopaholic')
+        && $this->theme->has_wish_list;
+    $bHasPopularityPlugin = \System\Classes\PluginManager::instance()->hasPlugin('lovata.popularityshopaholic')
+        && !\System\Classes\PluginManager::instance()->isDisabled('Lovata.PopularityShopaholic')
+        && $this->theme->has_popularity;
+    $bHasLabelPlugin = \System\Classes\PluginManager::instance()->hasPlugin('lovata.labelsshopaholic')
+        && !\System\Classes\PluginManager::instance()->isDisabled('Lovata.LabelsShopaholic')
+        && $this->theme->has_labels;
+
+    $this['bHasUserPlugin'] = $bHasUserPlugin && !empty($this->UserData);
+    $this['bHasWishListPlugin'] = $bHasWishListPlugin;
+    $this['bHasPopularityPlugin'] = $bHasPopularityPlugin;
+    $this['bHasLabelPlugin'] = $bHasLabelPlugin;
+
+    if ($bHasUserPlugin && !empty($this->UserData)) {
+        $this['obUser'] = $this->UserData->get();
+    }
+}
+
+function onStart()
+{
+    $this['sTopInfoBlockHash'] = $this->SiteContent->top_info_block_active && !empty($this->SiteContent->top_info_block_content) ? md5($this->SiteContent->top_info_block_content) : '';
+}
+?>
+==
+
+<!DOCTYPE html>
+<html dir="auto" class="scroll-smooth" lang="{{ activeLocale ? activeLocale : 'en' }}">
+    <head>
+        {{ SeoToolbox.getHeadBegin()|raw }}
+        {% partial 'main/head' dir=dir %}
+        {% placeholder seo_tags default %}
+            {% component 'SeoToolbox' %}
+        {% endplaceholder %}
+        {{ SeoToolbox.getHeadEnd()|raw }}
+        {% partial 'main/color-palette' %}
+    </head>
+    <body class="bg-surface lg:overflow-x-hidden" itemscope itemtype="http://schema.org/WebPage">
+        {{ SeoToolbox.getBodyBegin()|raw }}
+        <div class="sm:container sm:mx-auto px-4 min-h-screen grid grid-cols-full grid-rows-auto-fr-auto">
+            {% partial 'main/header/header' %}
+            <main>
+                {% page %}
+            </main>
+            {% partial 'main/footer' %}
+            {% partial 'message/flash-message' %}
+        </div>
+        {% component 'cookiesBar' %}
+        {% partial 'main/scripts' %}
+        {{ SeoToolbox.getBodyEnd()|raw }}
+    </body>
+</html>

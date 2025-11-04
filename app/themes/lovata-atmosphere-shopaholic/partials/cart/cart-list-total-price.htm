@@ -1,0 +1,25 @@
+{% set obCartList = Cart.get() %}
+{% set iTotalQuantity = obCartList.getTotalQuantity() %}
+
+<div class="flex justify-between lg:justify-start text-gray-900">
+    <span class="flex text-gray-600 text-base font-medium">
+        {{ 'purchase_subtotal'|_ }}
+        (<span class="_item inline-flex space-x-1 rtl:space-x-reverse">
+            <span class="inline-block rtl:order-1">{{ iTotalQuantity }}</span>
+            <span>{{ 'purchase_items'|__(iTotalQuantity) }}</span>
+        </span>):</span>
+    <span class="font-medium text-base ps-[1ch]">{{ obCartList.currency }}
+        <span class="_shopaholic-cart" data-field="position_total_price.price">
+            {{ obCartList.getTotalPrice() }}
+        </span>
+    </span>
+</div>
+{% partial 'form/button'
+    wrapperClasses = '_checkout-button px-16 mt-28 text-center text-lg lg:text-base lg:mt-px'
+    url = obUser or bHasUserPlugin == false ? 'checkout'|page : 'sign-in-checkout'|page
+    body %}
+    <span class="inline-flex">
+        <span>{{ 'purchase_checkout'|_ }}</span>&nbsp;
+        <span>({{ iTotalQuantity }})</span>
+   </span>
+{% endpartial %}

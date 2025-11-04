@@ -1,0 +1,12 @@
+{#
+Params:
+- contentBlock
+#}
+
+<div class="content-visibility my-7 md:my-12 sm:flex rtl:space-x-reverse space-y-2 sm:space-y-0 sm:space-x-4">
+    {% if contentBlock.content is not empty %}
+        <div class="w-full prose max-w-none prose-p:text-on-surface-variant text-sm lg:text-xl fr-view">
+            {{ contentBlock.content|raw }}
+        </div>
+    {% endif %}
+</div>

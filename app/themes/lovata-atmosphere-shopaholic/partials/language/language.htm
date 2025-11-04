@@ -1,0 +1,40 @@
+{% set iActiveSiteGroupId = input('site_group_id', this.site.group_id) %}
+{% set obSiteGroupList = sitePicker.sites().groupBy('group_id') %}
+{% set arGroupOptionList = [] %}
+{% for obGroup in obSiteGroupList %}
+    {% set obFirstSite = obGroup|first %}
+    {% set arGroupOptionList = arGroupOptionList|merge({(loop.index): {id: obFirstSite.group_id, name: obFirstSite.group.name}}) %}
+{% endfor %}
+{% set arSiteOptionList = (obSiteGroupList|length > 1) ? obSiteGroupList[iActiveSiteGroupId] : sitePicker.sites %}
+
+<form class="js-language-submit">
+    <div class="space-y-6">
+        {% if arGroupOptionList|length > 1 %}
+            {% partial 'language/language-select'
+                inputClasses = 'js-language-input'
+                labelText = 'country'|_
+                sName = 'site_group_id'
+                sId = 'site_group_id'
+                arOptionList = arGroupOptionList
+                sKeyForValue = 'id'
+                sSelectedValue = iActiveSiteGroupId
+            %}
+        {% endif %}
+        {% partial 'form/select'
+            inputClasses = ''
+            labelText = 'language'|_
+            name = 'site-name'
+            id = 'site'
+            options = arSiteOptionList
+            keyForValue = 'url'
+            keyForLabel = 'name'
+            selectedValue = this.site.url
+            hideClearButton = true
+        %}
+    </div>
+    {% partial 'form/button'
+        type = 'submit'
+        text = 'submit'|_
+        wrapperClasses = 'w-full md:w-72 mt- p-2 mt-12'
+    %}
+</form>

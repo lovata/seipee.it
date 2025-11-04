@@ -1,0 +1,81 @@
+{#
+Params:
+- obProduct
+#}
+
+<div class="_write-review">
+    {% partial 'form/button'
+        text = 'reviews_review_write'|_
+        wrapperClasses = '_offCanvasOpen w-full md:w-72 mt-8 p-2'
+        isGhost = true
+        dataAtribute = 'data-for=review_add'
+    %}
+    {% partial 'common/off-canvas/off-canvas'
+        id = 'review_add'
+        position = 'right'
+        heading = 'reviews_review_add'|_
+        headerClasses = 'items-center mb-7'
+        canvasClasses = 'cursor-auto'
+        indentClasses = 'px-4 py-10 md:px-10'
+        backgroundClasses = 'bg-white'
+        body
+    %}
+        {% partial 'review/review-card-info'
+            obProduct = obProduct
+        %}
+        <form id="add-review-from" class="space-y-6">
+            <input type="hidden" name="product_id" value="{{ obProduct.id }}">
+            {% partial
+                'review/review-set-rating'
+                required = 'required'
+                labelClasses="font-medium"
+            %}
+{#            <fieldset class="mb-7 lg:mb-6">#}
+{#                #}{# TODO: Add the ability to send product recommendations #}
+{#                <legend class="text-gray-900 font-medium text-base mb-4 lg:mb-2">{{'reviews_would_recommend'|_}}</legend>#}
+{#                <div class="flex space-x-7 rtl:space-x-reverse">#}
+{#                    {% partial 'form/input-radio'#}
+{#                        name = 'recommended'#}
+{#                        id = 'recommended'#}
+{#                        text = 'form_yes'|_#}
+{#                        wrapperClasses = 'flex items-center'#}
+{#                    %}#}
+{#                    {% partial 'form/input-radio'#}
+{#                        name = 'recommended'#}
+{#                        id = 'non-recommended'#}
+{#                        text = 'form_no'|_#}
+{#                        wrapperClasses = 'flex items-center'#}
+{#                    %}#}
+{#                </div>#}
+{#            </fieldset>#}
+            {% partial 'form/input'
+                name = 'name'
+                labelClasses="font-medium"
+                labelText = 'form_user_name_your'|_
+                required = 'required'
+            %}
+            {% partial 'form/textarea'
+                id="review"
+                name="comment"
+                labelClasses="font-medium"
+                rows="5"
+                cols="50"
+                labelText = 'reviews_share_experience' |_
+                required = 'required'
+                placeholder='reviews_share_experience_placeholder'|_
+            %}
+            {% partial 'form/button'
+                type = 'submit'
+                text = 'reviews_review_submit'|_
+                labelClasses="font-medium"
+                wrapperClasses = '_send-review w-full md:w-72 mt-8 p-2'
+            %}
+        </form>
+        {% partial 'message/info-message'
+            wrapperClasses = '_add_review_success hidden'
+            message = 'reviews_create_successfully'|_
+            buttonText = 'form_close'|_
+            buttonClasses = 'mt-6 _close_add_review'
+        %}
+    {% endpartial %}
+</div>

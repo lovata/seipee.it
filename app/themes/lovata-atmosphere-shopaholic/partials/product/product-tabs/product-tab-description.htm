@@ -1,0 +1,12 @@
+{#
+Params:
+- obProduct
+#}
+
+{% if obProduct.description is not empty %}
+    <li data-title="{{ 'product_tab_description'|_ }}">
+        <article class="prose text-sm md:text-base prose-p:mt-0 prose-a:visited:text-purple-800 md:prose-lg fr-view">
+                {{ obProduct.description|raw }}
+        </article>
+    </li>
+{% endif %}

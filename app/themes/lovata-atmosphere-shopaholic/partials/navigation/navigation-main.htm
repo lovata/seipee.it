@@ -1,0 +1,34 @@
+[staticMenu MainMenu]
+code = "navigation-main"
+==
+{% set arMenuList = MainMenu.menuItems %}
+{% if arMenuList is not empty %}
+    <nav class="hidden js-nav lg:flex justify-start">
+        <ul class="js-nav-list h-[26px] flex flex-wrap -md:me-20">
+            {% for arItemMenu in arMenuList %}
+                {% if not arItemMenu.viewBag.isHidden %}
+                    <li class="js-nav-items md:me-20 md:last:me-0 whitespace-nowrap group-[.list]:py-1.5">
+                        {% set sCode = arItemMenu.code is not empty ? 'data-code='~arItemMenu.code %}
+                        {% if arItemMenu.url is not empty %}
+                            {% set sExternal = arItemMenu.viewBag.isExternal ? 'target=_blank' : '' %}
+                            <a href="{{ arItemMenu.url }}" {{ sExternal }} class="link link-dark text-base {{ arItemMenu.viewBag.cssClass }}" {{ sCode }}>{{ arItemMenu.title }}</a>
+                        {% else %}
+                            <span class="text-gray-900 text-base {{ arItemMenu.viewBag.cssClass }}" {{ sCode }}>{{ arItemMenu.title }}</span>
+                        {% endif %}
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </nav>
+{% endif %}
+
+<template id="nav-more">
+    <ul class="opacity-100 group list">
+        <li class="ms-20 ">
+            <button class="flex items-center after:ml-1 after:transition-all after:rotate-0 group-hover:after:rotate-180 after:content-[''] after:w-4 after:h-4 after:block after:bg-arrow-chevron ">
+                More
+            </button>
+            <ul class="js-more-dropdown group-hover:opacity-100 opacity-0 transition-all absolute z-10 bg-white rounded shadow-md py-1.5 px-3 border border-gray-200"></ul>
+        </li>
+    </ul>
+</template>

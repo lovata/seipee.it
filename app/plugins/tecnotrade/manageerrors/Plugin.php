@@ -47,9 +47,9 @@ class Plugin extends PluginBase
                 return;
             }
 
-            $global = GlobalRecord::findForGlobalUuid('tecnotrade'); 
+            $global = GlobalRecord::findForGlobalUuid('tecnotrade');
             $adminEmail = $global?->app_debug_mail ?? 'default@mail.com';
-            
+
             Log::info('EMAIL PRESA DAL GLOBAL');
             Log::info($adminEmail);
 
@@ -61,9 +61,9 @@ class Plugin extends PluginBase
 
             // Ottieni lo slug della pagina
             $currentUrl = Request::url(); // URL completo della pagina
-            $slug = Request::path();  
+            $slug = Request::path();
             $siteName = Config::get('app.name', 'Nome del sito predefinito');
-    
+
             // Scrive l'errore nei log di sistema
             Log::error($exception);
             Log::info('Sono entrato in APP ERROR');
@@ -87,29 +87,33 @@ class Plugin extends PluginBase
                 'error_date' => now(), // Imposta la data e ora attuale come timestamp
             ]);
 
-            Mail::send('tecnotrade.manageerrors::mail.error_notification', [
-                'site_name' => $siteName,
-                'page_url' => $currentUrl,
-                'error_code' => $errorCode,
-                'error_file' => $fileError,
-                'error_line' => $lineError,
-                'error_message' => $errorMessage,
-                'error_date' => now(),
-                'session_data'  => print_r(Session::all(), true),
-                'cookies'       => $cookies,
+            try {
+                Mail::send('tecnotrade.manageerrors::mail.error_notification', [
+                    'site_name' => $siteName,
+                    'page_url' => $currentUrl,
+                    'error_code' => $errorCode,
+                    'error_file' => $fileError,
+                    'error_line' => $lineError,
+                    'error_message' => $errorMessage,
+                    'error_date' => now(),
+                    'session_data'  => print_r(Session::all(), true),
+                    'cookies'       => $cookies,
 
-            ], function ($message) use ($adminEmail) {
-                $message->to($adminEmail);
-                $message->subject('Notifica di Errore');
-            });
-    
+                ], function ($message) use ($adminEmail) {
+                    $message->to($adminEmail);
+                    $message->subject('Notifica di Errore');
+                });
+            } catch (\Exception $error) {
+
+            }
+
             // Se la richiesta è AJAX, usa AjaxException per restituire un errore "smart"
             if (Request::ajax()) {
                 throw new AjaxException([
                     '#flashMessages' => '<p class="error">Si è verificato un errore. Riprova più tardi.</p>'
                 ]);
             }
-    
+
             // Se non è AJAX, reindirizza alla pagina di errore personalizzata
             return Redirect::to('/error');
         });

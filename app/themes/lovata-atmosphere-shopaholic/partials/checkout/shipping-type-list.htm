@@ -1,0 +1,37 @@
+{% if obShippingTypeList.isNotEmpty() and obActiveShippingType.isNotEmpty() %}
+    <h2 class="text-gray-900 text-lg font-medium uppercase md:text-2xl">{{ 'purchase_delivery_method'|_ }}</h2>
+    <fieldset class="_switch-radio mt-4">
+        <legend class="sr-only">{{ 'purchase_delivery_method_choose'|_ }}</legend>
+        <div class="flex flex-col space-y-4 w-full md:w-1/2">
+            {% for obShippingType in obShippingTypeList %}
+                {% partial 'form/input-radio'
+                    id = 'shipping_type_' ~ obShippingType.id
+                    name = 'shipping_type_id'
+                    checked = obActiveShippingType.id == obShippingType.id
+                    value = obShippingType.id
+                    wrapperClasses = 'flex items-center'
+                    inputClasses = '_shopaholic-order-field peer'
+                    labelClasses = 'peer-checked:text-gray-900 w-full ps-2 flex justify-between'
+                    dataAtributes = 'data-field=order.shipping_type_id'
+                    body
+                %}
+                    <span>{{ obShippingType.name}}&nbsp;</span>
+                    {% if obShippingType.price == 0 %}
+                        <span>{{ 'purchase_for_free'|_ }}</span>
+                    {% else %}
+                        <span>{{ obShippingType.currency }}{{ obShippingType.price }}</span>
+                    {% endif %}
+                {% endpartial %}
+            {% endfor %}
+        </div>
+    </fieldset>
+    {% if obActiveShippingType.preview_text is not empty %}
+        <div class="mt-5 mb-7">
+            {% partial 'common/expandable-text/expandable-text'
+                numberVisibleRows=0
+                description=obActiveShippingType.preview_text
+                showButtonText='purchase_delivery_terms'|_
+            %}
+        </div>
+    {% endif %}
+{% endif %}

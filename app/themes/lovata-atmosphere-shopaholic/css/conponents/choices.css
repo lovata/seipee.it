@@ -1,0 +1,26 @@
+.js-choice__dropdown[aria-expanded]{
+  @apply bg-white border-0 w-full rounded-md shadow-lg mt-1 z-50 break-normal overflow-x-hidden whitespace-nowrap;
+}
+.choices[data-type*=select-one]::after{
+  @apply end-0;
+}
+
+.choices[data-type*=select-one]::after{
+  width:13px!important;
+  height:9px!important;
+  right: inherit;
+  border-width: 0!important;
+  margin-bottom: 2px;
+  inset-inline-end: 0;
+  background-image: url('/themes/lovata-atmosphere-shopaholic/assets/images/arrow.svg');
+  background-repeat: no-repeat;
+}
+.choices[data-type*=select-one].is-open::after{
+  margin-bottom: 0;
+  margin-top: -3px;
+  transform: rotate(180deg);
+}
+
+.choices[data-type*=select-one]::after {
+  border: 0!important;
+}

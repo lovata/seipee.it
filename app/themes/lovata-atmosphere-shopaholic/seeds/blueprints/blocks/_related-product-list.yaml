@@ -1,0 +1,12 @@
+uuid: f535558f-be39-4e35-98ea-c922fd85d3e6
+name: Related Product list
+type: mixin
+handle: Blocks\RelatedProductList
+multisite: true
+
+fields:
+    heading:
+        label: 'lovata.toolbox::lang.field.title'
+        multisite: true
+        type: text
+        span: left

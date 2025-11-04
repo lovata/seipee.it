@@ -1,0 +1,65 @@
+[staticPage]
+useContent = 1
+default = 0
+
+[Cart]
+
+[SeoToolbox]
+
+[sitePicker]
+
+[UserData]
+
+[global SiteContent]
+handle = "Site\SiteContent"
+
+[cookiesBar]
+==
+<?php
+function onInit()
+{
+    $bHasUserPlugin = \System\Classes\PluginManager::instance()->hasPlugin('lovata.buddies')
+        && !\System\Classes\PluginManager::instance()->isDisabled('Lovata.Buddies')
+        && $this->theme->has_buddies;
+    $bHasWishListPlugin = \System\Classes\PluginManager::instance()->hasPlugin('lovata.wishlistshopaholic')
+        && !\System\Classes\PluginManager::instance()->isDisabled('Lovata.WishListShopaholic')
+        && $this->theme->has_wish_list;
+    $bHasLabelPlugin = \System\Classes\PluginManager::instance()->hasPlugin('lovata.labelsshopaholic')
+        && !\System\Classes\PluginManager::instance()->isDisabled('Lovata.LabelsShopaholic')
+        && $this->theme->has_labels;
+
+    $this['bHasUserPlugin'] = $bHasUserPlugin && !empty($this->UserData);
+    $this['bHasWishListPlugin'] = $bHasWishListPlugin;
+    $this['bHasWishListPlugin'] = $bHasWishListPlugin;
+
+    if ($bHasUserPlugin && !empty($this->UserData)) {
+        $this['obUser'] = $this->UserData->get();
+    }
+}
+
+function onStart()
+{
+    $this['sTopInfoBlockHash'] = $this->SiteContent->top_info_block_active && !empty($this->SiteContent->top_info_block_content) ? md5($this->SiteContent->top_info_block_content) : '';
+}
+?>
+==
+<!DOCTYPE html>
+<html dir="auto" lang="{{ activeLocale ? activeLocale : 'en' }}">
+    <head>
+        {{ SeoToolbox.getHeadBegin()|raw }}
+        {% partial 'main/head' %}
+        {% placeholder seo_tags default %}
+            {% component 'SeoToolbox' %}
+        {% endplaceholder %}
+        {{ SeoToolbox.getHeadEnd()|raw }}
+        {% partial 'main/color-palette' %}
+    </head>
+    <body class="bg-gray-50" itemscope itemtype="http://schema.org/WebPage">
+        {{ SeoToolbox.getBodyBegin()|raw }}
+        {% page %}
+        {% partial 'message/flash-message' %}
+        {% component 'cookiesBar' %}
+        {% partial 'main/scripts' %}
+        {{ SeoToolbox.getBodyEnd()|raw }}
+    </body>
+</html>

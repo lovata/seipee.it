@@ -1,0 +1,27 @@
+{% set obCartList = Cart.get() %}
+{% set obTotalPriceData = Cart.getTotalPriceData() %}
+
+<tbody>
+    <tr>
+        <th colspan="2" class="font-normal pb-4 text-start text-gray-900 text-sm md:text-base">{{ 'purchase_subtotal'|_ }}&nbsp;
+            <span class="_item">({{ obCartList.getTotalQuantity() }} {{ 'purchase_items'|__(obCartList.getTotalQuantity()) }})</span>
+        </th>
+        <td class="font-normal text-end text-gray-900 pb-4 text-sm md:text-base">
+            <span class="font-medium text-base ps-4">{{ obCartList.currency }}<span>{{ obCartList.getTotalPrice() }}</span></span>
+        </td>
+    </tr>
+    <tr>
+        <th colspan="2" class="font-normal pb-4 text-gray-900 text-sm text-start md:text-base">{{ 'purchase_delivery'|_ }}</th>
+        <td class="font-normal text-end text-gray-900 pb-4 text-sm md:text-base">
+            {% if obActiveShippingType.price == 0 %}
+                {{ 'purchase_for_free'|_ }}
+            {% else %}
+                {{ obActiveShippingType.currency }}{{ obActiveShippingType.price }}
+            {% endif %}
+        </td>
+    </tr>
+    <tr>
+        <th colspan="2" class="text-gray-900 text-base text-start md:text-lg">{{ 'purchase_total'|_ }}</th>
+        <td class="text-gray-900 text-end text-base md:text-lg font-semibold">{{ Cart.getCurrency() }}<span class="cart__result-price-value">{{ obTotalPriceData.price }}</span></td>
+    </tr>
+</tbody>

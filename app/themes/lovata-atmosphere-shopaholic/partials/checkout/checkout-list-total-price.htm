@@ -1,0 +1,18 @@
+{##}
+{% set obCartPositionList = Cart.get() %}
+<div class="flex justify-between lg:justify-start">
+    <span class="flex text-gray-600 text-base font-medium">
+        <span class="font-medium text-gray-900">{{ 'purchase_subtotal'|_ }}&nbsp;</span>
+        (<span class="_item inline-flex space-x-1 rtl:space-x-reverse">
+            <span class="inline-block rtl:order-1">{{ obCartPositionList.getTotalQuantity() }}</span>
+            <span>{{ 'purchase_items'|__ }}</span>
+        </span>):</span>
+    <span class="font-medium text-base ps-[1ch]">{{ obCartPositionList.getCurrency() }}
+        <span class="_shopaholic-cart" data-field="position_total_price.price">{{ obCartPositionList.getTotalPrice() }}</span>
+    </span>
+    <span class="_shopaholic-old-price break-line line-through text-gray-600 font-medium ps-[1ch] {{ obCartPositionList.getDiscountTotalPriceValue() > 0 ? '' : 'hidden' }}">{{ obCartPositionList.getCurrency() }}
+        <span class="_shopaholic-cart" data-field="position_total_price.old_price">
+            {{ obCartPositionList.getOldTotalPrice() }}
+        </span>
+    </span>
+</div>

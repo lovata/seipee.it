@@ -1,0 +1,9 @@
+{% set sLat = ContactPage.map_lat %}
+{% set sLng = ContactPage.map_lng %}
+<div class="map {{wrapperClasses }}"
+    data-api-key="{{ sApiKey ? sApiKey : 'null' }}"
+    data-lat="{{ sLat }}"
+    data-lng="{{ sLng }}"
+    data-marker-path="{{ 'assets/images/ballon.svg'|theme }}">
+    {% partial 'common/map/popup' %}
+</div>

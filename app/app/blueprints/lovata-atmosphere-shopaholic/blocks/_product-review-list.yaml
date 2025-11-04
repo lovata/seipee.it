@@ -1,0 +1,12 @@
+uuid: 7ba79db6-3c95-47e4-b825-9568b89c4fdc
+name: Product review list
+type: mixin
+handle: Blocks\ProductReviewList
+multisite: true
+
+fields:
+    heading:
+        label: 'lovata.toolbox::lang.field.title'
+        multisite: true
+        type: text
+        span: left

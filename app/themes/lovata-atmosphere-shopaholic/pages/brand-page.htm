@@ -1,0 +1,131 @@
+url = "/brands/:slug"
+layout = "main"
+title = "Brand page"
+
+[BrandPage]
+slug = "{{ :slug }}"
+slug_required = 1
+smart_url_check = 0
+skip_error = 0
+
+[ProductList]
+sorting = "popularity|desc"
+
+[Pagination]
+count_per_page = 15
+pagination_limit = 5
+active_class = "pagination__link_current"
+button_list = "first,first-more,main,last-more,last"
+first_button_name = "First"
+first_button_limit = 3
+first_button_number = 1
+first-more_button_name = "..."
+first-more_button_limit = 4
+prev_button_name = "Prev"
+prev_button_limit = 1
+prev-more_button_name = "..."
+prev-more_button_limit = 1
+next-more_button_name = "..."
+next-more_button_limit = 1
+next_button_name = "Next"
+next_button_limit = 1
+last-more_button_name = "..."
+last-more_button_limit = 4
+last_button_name = "Last"
+last_button_limit = 3
+last_button_number = 1
+==
+<?php
+function onInit() {
+    $this['path_page_js'] = 'js/pages/brand-page.js';
+
+    $obBrandItem = $this->BrandPage->get();
+
+    $bHasFilterPlugin = \System\Classes\PluginManager::instance()->hasPlugin('lovata.filtershopaholic')
+        && !\System\Classes\PluginManager::instance()->isDisabled('Lovata.FilterShopaholic');
+
+    $sActiveSorting = $this->ProductList->getSorting();
+    $iPage = $this->Pagination->getPageFromRequest();
+
+    //Get product list
+    $obProductList = $this->ProductList->make()->active()->site()->sort($sActiveSorting)->brand($obBrandItem->id);
+
+    //Get filters
+    if ($bHasFilterPlugin) {
+        //Get price filter
+        $arPriceFilterValue = explode('|', input('price'));
+        $fMinPriceFilterValue = Arr::get($arPriceFilterValue, 0);
+        $fMaxPriceFilterValue = Arr::get($arPriceFilterValue, 1);
+
+        $obProductList->filterByPrice($fMinPriceFilterValue, $fMaxPriceFilterValue);
+
+        $bSaleFilter = (bool) input('sale');
+
+        if ($bSaleFilter) {
+            $obProductList->filterByDiscount();
+        }
+
+        $this['fMinPriceFilterValue'] = $fMinPriceFilterValue;
+        $this['fMaxPriceFilterValue'] = $fMaxPriceFilterValue;
+        $this['bSaleFilter'] = $bSaleFilter;
+    }
+
+    $arProductList = $obProductList->page($iPage, $this->Pagination->getCountPerPage());
+    $iMaxPage = $this->Pagination->getMaxPage($obProductList->count());
+    $iCount = $obProductList->count();
+    $this['sActiveSorting'] = $sActiveSorting;
+    $this['iPage'] = $iPage;
+    $this['iCount'] = $iCount;
+    $this['iMaxPage'] = $iMaxPage;
+
+    $this['arProductList'] = $arProductList;
+    $this['obProductList'] = $obProductList;
+
+    $this['bHasFilterPlugin'] = $bHasFilterPlugin;
+}
+==
+{% set obBrand = BrandPage.get() %}
+{% set arBreadcrumbs = [
+    {'name': 'catalog_product_brands'|_, 'url': 'brand-list'|page},
+    {'name': obBrand.name, 'url': null},
+] %}
+{% set arSEOParams = {'brand': obBrand} %}
+{% set isPositionFilter = false %}
+
+{% partial 'common/breadcrumbs' arBreadcrumbs=arBreadcrumbs %}
+
+<div class="grid md:grid-cols-4 mb-14 mt-6 md:mt-10 gap-6 xl:gap-12">
+    <section class="md:col-span-1{% if isPositionFilter %} order-1{% endif %}">
+        {% if bHasFilterPlugin %}
+            <div class="_filter"></div>
+        {% endif %}
+    </section>
+    <div class="_sorting-container w-full md:col-span-3">
+        <h1 class="text-gray-900 text-xl md:text-2xl xl:text-3xl uppercase">{{ SeoToolbox.getPageTitle(obBrand, arSEOParams)|default(obBrand.name) }}</h1>
+        {% if obBrand.preview_text is not empty %}
+            <div class="w-full flex flex-col mt-4">
+                {% partial 'common/expandable-text/expandable-text'
+                    description=obBrand.preview_text
+                    numberVisibleRows=3
+                    showButtonText='product_description_show'|_
+                    hideButtonText='product_description_hide'|_
+                %}
+            </div>
+        {% endif %}
+        <div class="_sorting">
+            {% partial 'product/product-list/product-list-wrapper' %}
+        </div>
+
+        {% set description = SeoToolbox.getPageDescription(obBrand, arSEOParams)|default(obBrand.description) %}
+        {% if description %}
+            <div class="mt-6 md:mt-10 mb-14">
+                {% partial 'common/expandable-text/expandable-text'
+                    description=description
+                    showButtonText='product_description_show'|_
+                    hideButtonText='product_description_hide'|_
+                %}
+            </div>
+        {% endif %}
+
+    </div>
+</div>

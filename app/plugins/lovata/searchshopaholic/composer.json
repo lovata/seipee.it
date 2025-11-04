@@ -1,0 +1,8 @@
+{
+    "name": "lovata/searchshopaholic-plugin",
+    "type": "october-plugin",
+    "description": "Simple search products, categories, brands, tags",
+    "require": {
+        "composer/installers": "~1.0"
+    }
+}

@@ -1,0 +1,9 @@
+{
+    "name": "lovata/ordersshopaholic-plugin",
+    "type": "october-plugin",
+    "description": "Orders for Shopaholic plugin for October CMS",
+    "require": {
+        "composer/installers": "~1.0",
+        "lovata/shopaholic-plugin": "^1.32.1"
+    }
+}

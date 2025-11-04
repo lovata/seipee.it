@@ -1,0 +1,89 @@
+{#
+Params:
+- wraperClasses
+- listClasses
+- showReviewsCount
+- showSortingPanel
+- activeSorting
+- obProduct
+#}
+
+{% set obReviewList = obProduct.review.active().sort() %}
+{% set iMaxPage = ReviewPagination.getMaxPage(obReviewList.count()) %}
+
+{# TODO:Add svg reusability for whole project #}
+<section class="_review-list-container w-full {{ wraperClasses }}">
+    {% if showReviewsCount == true or showSortingPanel == true %}
+        <div class="flex justify-between mb-5 items-baseline">
+            {% if showReviewsCount == true %}
+                <span class="text-gray-600 text-base">{{ obReviewList.count() }} {{ 'reviews_multi'|__(obReviewList.count()) }}</span>
+            {% endif %}
+            {% if showSortingPanel == true %}
+                <div class="_sorting-reviews flex items-center mb-4 md:justify-end" data-pagination-page="{{ iPage }}" data-pagination-max="{{ iMaxPage }}" data-active-text="{{ 'reviews_sort_by'|_ }}">
+                    <select class="_sorting-choice bg-transparent w-full border-0 outline-none focus:outline-none focus:border-0 md:w-auto" id="sort-select" name="sort">
+                        <option value="new" {{ (activeSorting == 'new' or activeSorting is empty) ? 'selected' : '' }} class="text-gray-600">{{'reviews_sorting_newest_first'|_}}</option>
+                    </select>
+                </div>
+            {% endif %}
+        </div>
+    {% endif %}
+    <ul>
+        {% partial 'review/review-list-ajax' obProduct = obProduct %}
+    </ul>
+    {% if iMaxPage > 1 %}
+        <div>
+            <button
+                class="_offCanvasOpen flex flex-row items-center link-blue link"
+                data-max-page="{{ iMaxPage }}"
+                data-page="1"
+                type="button"
+                data-for="review_info"
+            >
+                <span class="me-2 text-sm md:text-base">{{ 'reviews_read_more'|_ }}</span>
+                <svg class="rtl:rotate-180" width="8" height="12">
+                    <use href="{{ 'assets/images/sprite.svg#arrow-right'|theme }}"></use>
+                </svg>
+            </button>
+        </div>
+        {% partial 'common/off-canvas/off-canvas'
+            id = 'review_info'
+            position = 'right'
+            heading = 'reviews_customer_reviews_ratings'|_
+            headerClasses = 'items-center mb-7'
+            canvasClasses = 'cursor-auto'
+            indentClasses = 'px-4 py-10 md:px-10'
+            backgroundClasses = 'bg-white'
+            body
+        %}
+            {% partial 'review/review-card-info'
+                obProduct = obProduct
+            %}
+            {% partial 'product/product-rating'
+                obProduct=obProduct
+                wraperClasses = 'mt-7'
+                isHeaderHidden = true
+            %}
+{#            {% partial 'form/button'#}
+{#                text = 'reviews_review_write'|_#}
+{#                wrapperClasses = '_write-review w-full md:w-72 mt-10 p-2'#}
+{#                isGhost = true#}
+{#            %}#}
+            <div class="mt-6 md:mt-10">
+                <ul class="_review-list">
+                    {% partial 'review/review-list-ajax'
+                        wraperClasses = 'mt-10'
+                        showReviewsCount = true
+                        showSortingPanel = true
+                        listClasses = '_review-list'
+                    %}
+                </ul>
+            </div>
+            {% partial 'form/button'
+                text = 'reviews_read_mode'|_
+                wrapperClasses = '_show-more-reviews w-full md:w-72 mt-3 p-2'
+                isGhost = true
+                dataAtribute = 'data-max-page=' ~ iMaxPage ~ ' data-page=1'
+            %}
+        {% endpartial %}
+    {% endif %}
+</section>

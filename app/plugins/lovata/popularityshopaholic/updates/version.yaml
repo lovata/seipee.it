@@ -1,0 +1,19 @@
+1.0.0:
+    - 'Initialize plugin.'
+    - update_table_product.php
+1.0.1:
+    - 'Replace code of product sorting by popularity from Shopaholic to extension plugins.'
+1.0.2:
+    - 'Added check for isNested flag when expanding forms'
+1.1.0:
+    - 'Refactoring *Event classes. Requires Toolbox plugin version 1.10.0 and later and "Order for Shopaholic" plugin version 1.6.0 and later.'
+1.1.1:
+    - 'Fix work with *Store classes in *Handler classes'
+1.2.0:
+    - 'Update license file'
+1.2.1:
+    - 'Fixed checking the extension of form fields in backend.'
+1.3.0:
+    - 'Added composer.json to plugin'
+1.3.1:
+    - 'Change lists method to pluck method. Thanks for contribution Nick Khaetsky.'

@@ -1,0 +1,24 @@
+name: 'Atmosphere E-Commerce Theme for Shopaholic'
+description: 'Atmosphere is a free multipurpose theme for Shopaholic designed especially to use as a basis for your next custom e-commerce project.'
+author: LOVATA
+homepage: 'https://lovata.com'
+authorCode: ''
+code: atmosphere-shopaholic
+parent: ''
+database: '0'
+form: config/fields.yaml
+require:
+    - RainLab.Pages
+    - RainLab.Translate
+    - VojtaSvoboda.TwigExtensions
+    - Lovata.Toolbox
+    - Lovata.Shopaholic
+    - Lovata.OrdersShopaholic
+    - Lovata.PropertiesShopaholic
+    - Lovata.FilterShopaholic
+translate:
+    en: lang/en/lang.yaml
+    pl: lang/pl/lang.yaml
+    ru: lang/ru/lang.yaml
+    de: lang/de/lang.yaml
+    ar: lang/ar/lang.yaml

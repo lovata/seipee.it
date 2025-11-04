@@ -1,0 +1,67 @@
+title = "Account"
+url = "/account"
+layout = "main"
+is_hidden = 0
+
+[UserPage]
+slug = ""
+slug_required = 0
+mode = "ajax"
+flash_on = 0
+redirect_on = 0
+redirect_page = "account"
+login_page = "sign-in"
+==
+<?php
+function onInit()
+{
+    $bHasUserPlugin = $this['bHasUserPlugin'];
+
+    if (!$bHasUserPlugin) {
+        return $this->controller->run('404');
+    }
+}
+?>
+==
+{% set arBreadcrumbs = [
+    {'name': 'account_my_account'|_, 'url': null},
+] %}
+{% set arList = [
+    {
+        title: 'account_order_history'|_,
+        url: "account-orders",
+        icon:  'assets/images/icon-orders.svg'|theme,
+    },
+    {
+        title: 'account_personal_data'|_,
+        url: 'account-details',
+        icon:  'assets/images/icon-details.svg'|theme,
+    },
+    {
+        title: 'account_password_change'|_,
+        url: "account-change-password",
+        icon:  'assets/images/icon-password.svg'|theme,
+    },
+    {
+        title: 'account_log_out'|_,
+        url: "log-out",
+        icon:  'assets/images/exit.svg'|theme,
+    }
+]%}
+
+{% partial 'common/breadcrumbs' arBreadcrumbs=arBreadcrumbs %}
+
+<div class="flex flex-col mb-10">
+    <h1 class="font-medium uppercase text-xl md:text-3xl mb-4">{{ 'account_my_account'|_ }}</h1>
+    {% partial 'common/advanced-list/advanced-list' body %}
+        {% for obItem in arList %}
+            {% partial 'common/advanced-list/advanced-list-item'
+                name = obItem.title
+                href = obItem.url|page
+                imagePath = obItem.icon
+                imageNotIcon = false
+                wrapperClasses = obItem.viewBag.cssClass
+            %}
+        {% endfor %}
+    {% endpartial %}
+</div>

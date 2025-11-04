@@ -1,0 +1,6 @@
+plugin:
+    name: 'lovata.popularityshopaholic::lang.plugin.name'
+    description: 'lovata.popularityshopaholic::lang.plugin.description'
+    author: Lovata
+    icon: oc-icon-thumbs-up
+    homepage: ''

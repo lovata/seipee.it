@@ -1,0 +1,27 @@
+uuid: 7da589a5-b32b-4480-bc95-5b76f2972919
+name: Product list
+type: mixin
+handle: Blocks\ProductList
+multisite: true
+
+fields:
+    sorting:
+        label: 'lovata.toolbox::lang.field.sort_order'
+        multisite: false
+        type: dropdown
+        span: left
+        options:
+            popularity|desc: 'lovata.shopaholic::lang.component.sorting_popularity_desc'
+            new: 'lovata.shopaholic::lang.component.sorting_new'
+    category:
+        label: 'lovata.shopaholic::lang.menu.categories'
+        type: recordfinder
+        modelClass: Lovata\Shopaholic\Models\Category
+        list: $/lovata/shopaholic/models/category/columns.yaml
+        nameFrom: name
+#    brand:
+#        label: 'lovata.shopaholic::lang.menu.brands'
+#        type: recordfinder
+#        modelClass: Lovata\Shopaholic\Models\Brand
+#        list: $/lovata/shopaholic/models/brand/columns.yaml
+#        nameFrom: name

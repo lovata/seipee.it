@@ -1,0 +1,12 @@
+uuid: e99d5f4e-417c-47a5-90f7-5c443c039670
+name: Product list (Accessories)
+type: mixin
+handle: Blocks\AccessoryProductList
+multisite: true
+
+fields:
+    heading:
+        label: 'lovata.toolbox::lang.field.title'
+        multisite: true
+        type: text
+        span: left

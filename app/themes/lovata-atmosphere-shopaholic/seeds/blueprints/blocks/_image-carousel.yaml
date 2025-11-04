@@ -1,0 +1,34 @@
+uuid: da93c392-a490-447d-a520-cf758a1693ba
+name: Image carousel
+type: mixin
+handle: Blocks\ImageCarousel
+multisite: true
+
+fields:
+    images:
+        type: repeater
+        span: full
+        style: collapsed
+        titleFrom: title
+        form:
+            fields:
+                image:
+                    label: 'lovata.toolbox::lang.field.image'
+                    type: mediafinder
+                    span: left
+                    mode: image
+                    comment: 'shopaholic.theme.block.image_carousel.image_comment'
+                alt:
+                    label: 'shopaholic.theme.field.image_alt'
+                    type: text
+                    span: right
+                    comment: 'shopaholic.theme.field.image_alt_comment'
+                title:
+                    label: 'shopaholic.theme.field.image_title'
+                    type: text
+                    span: right
+                    comment: 'shopaholic.theme.field.image_title_comment'
+                url:
+                    label: 'lovata.toolbox::lang.field.slug'
+                    type: text
+                    span: right

@@ -1,0 +1,27 @@
+{#
+Params:
+- obActiveCategory
+- obChildrenCategoryList
+#}
+
+<h2 class="text-xl font-medium text-gray-900 mb-3">{{ 'catalog_categories'|_ }}</h2>
+<ul class="pe-6 lg:pe-12 hidden md:block space-y-2">
+    {% for obItem in obChildrenCategoryList -%}
+    <li class="overflow-hidden rounded-sm flex flex-row font-medium p-0.5">
+        {% if obItem.icon %}
+        <span class="shrink-0 h-6 w-6 relative me-3.5 {% if obItem.id != obActiveCategory.id %} text-blue-800{% else %} text-gray-600{% endif %}">
+            <span class="advanced-list-icon w-full h-full transform scale-50" style="--advanced-list-icon-src: url({{ obItem.icon.path }})"></span>
+        </span>
+        {% endif %}
+        {% if obItem.id != obActiveCategory.id %}
+        <a class="link link-blue hover:underline cursor-pointer first-letter:uppercase" href="{{ obItem.getPageUrl('catalog', ['slug']) }}">
+            {{ obItem.name }}
+        </a>
+        {% else %}
+        <span class="first-letter:uppercase">
+            {{ obItem.name }}
+        </span>
+        {% endif %}
+    </li>
+    {% endfor %}
+</ul>

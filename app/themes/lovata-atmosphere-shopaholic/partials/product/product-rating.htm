@@ -1,0 +1,56 @@
+{#
+Params:
+- wraperClasses
+- isHeaderHidden
+#}
+
+<section id="ratings" class="{{ wraperClasses }}">
+    {% set iReviewCount = obProduct.review.active().count() %}
+    {% if isHeaderHidden != true %}
+        <h2 class="text-gray-900 text-lg md:text-2xl font-medium uppercase">{{ 'reviews_customer_ratings'|_ }}</h2>
+    {% endif %}
+    <div class="flex flex-row items-center space-x-4 rtl:space-x-reverse mt-4 md:mt-5" aria-label="{{ 'reviews_customers_rating'|_({
+        reviews_customers_rating_value: obProduct.rating,
+        reviews_customers_rating_value_max: iReviewCount,
+    })}}">
+        {% if obProduct.rating %}
+        <span aria-hidden="true" class="text-gray-900 font-medium text-base md:text-lg">
+            {{ obProduct.rating }}
+        </span>
+        {% endif %}
+        <div aria-hidden="true" class="flex flex-row items-center space-x-1 rtl:space-x-reverse">
+            {% partial 'common/rating-star' maxRating='5' rating=obProduct.rating prefix='product' %}
+        </div>
+        <span aria-hidden="true" class="text-gray-600 text-sm md:text-base">
+            ({{ iReviewCount }} {{ 'reviews_customers_votes_number'|__(iReviewCount) }})
+        </span>
+    </div>
+    <ul class="flex flex-col md:space-y-2 md:space-y mt-4">
+        {% for counter in 5..1 %}
+            {% set iCount = obProduct.getRatingCount(counter) %}
+            {% set votedTotal = obProduct.getRatingPercent(counter) %}
+
+            <li class="flex items-center space-x-4 rtl:space-x-reverse" aria-label="{{ 'reviews_customers_rating_all'|_({
+                reviews_customers_rating_stars_number: counter,
+                reviews_customers_rating_share: votedTotal | round ~ '%',
+                reviews_customers_rating_votes_number: iCount
+            })}}">
+                <div class="flex flex-row space-x-1 rtl:space-x-reverse ">
+                    {% partial 'common/rating-star' maxRating='5' rating=counter prefix='total-rating-'~counter %}
+                </div>
+                <svg aria-hidden="true" class="w-44 h-1" viewBox="0 0 182 4" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect class="w-44 h-1" rx="2" fill="#D1D5DB"/>
+                    <rect
+                        class="progress_bar_evaluation h-1"
+                        style="--progress-bar-evaluation-width:{{ votedTotal | round }}%"
+                        rx="2"
+                        fill="#1E40AF"
+                    />
+                </svg>
+                <span aria-hidden="true" class="text-gray-900 text-sm md:text-base">
+                    {{ iCount }}
+                </span>
+            </li>
+        {% endfor %}
+    </ul>
+</section>

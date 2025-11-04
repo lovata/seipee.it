@@ -1,0 +1,77 @@
+uuid: 7159eee2-43ad-4938-99d7-4d3e88035e12
+handle: Site\ProductPage
+type: single
+name: Product page
+
+customMessages:
+    titleUpdateForm: 'shopaholic.theme.product_page.title_update'
+
+navigation:
+    label: 'shopaholic.theme.product_page.title'
+    parent: Site\SiteContent
+    icon: icon-book
+    order: 300
+
+fields:
+    content_tabs:
+        tab: 'shopaholic.theme.tab.general'
+        label: 'lovata.toolbox::lang.field.type'
+        type: repeater
+        span: full
+        form:
+            fields:
+                title:
+                    label: 'lovata.toolbox::lang.field.title'
+                    type: text
+                    span: left
+                content:
+                    label: 'shopaholic.theme.field.content'
+                    type: richeditor
+                    span: right
+                    trigger:
+                        action: show
+                        field: dropdown
+                        condition: value[richeditor]
+                dropdown:
+                    label: 'lovata.toolbox::lang.field.type'
+                    type: dropdown
+                    span: left
+                    showSearch: false
+                    default: product_detail
+                    options:
+                        richeditor: 'shopaholic.theme.product_page.type_richeditor'
+    content_blocks:
+        label: 'shopaholic.theme.block.name'
+        tab: 'shopaholic.theme.field.content'
+        type: repeater
+        displayMode: builder
+        span: adaptive
+        groups:
+            review_list:
+                name: 'shopaholic.theme.block.product_review_list'
+                icon: ph ph-chat-circle-text
+                fields:
+                    _mixin:
+                        type: mixin
+                        source: Blocks\ProductReviewList
+            accessory_product_list:
+                name: 'shopaholic.theme.block.accessory_product_list'
+                icon: ph ph-sketch-logo
+                fields:
+                    _mixin:
+                        type: mixin
+                        source: Blocks\ProductReviewList
+            related_product_list:
+                name: 'shopaholic.theme.block.related_product_list'
+                icon: icon-link
+                fields:
+                    _mixin:
+                        type: mixin
+                        source: Blocks\RelatedProductList
+            viewed_product_list:
+                name: 'shopaholic.theme.block.viewed_product_list'
+                icon: icon-preview
+                fields:
+                    _mixin:
+                        type: mixin
+                        source: Blocks\ViewedProductList

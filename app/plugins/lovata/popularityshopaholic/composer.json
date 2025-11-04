@@ -1,0 +1,8 @@
+{
+    "name": "lovata/popularityshopaholic-plugin",
+    "type": "october-plugin",
+    "description": "Product popularity counter",
+    "require": {
+        "composer/installers": "~1.0"
+    }
+}

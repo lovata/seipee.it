@@ -1,0 +1,16 @@
+{#
+Params:
+- arProductList
+- showIndex
+#}
+
+{% for obProduct in arProductList %}
+    <li class="h-full">
+        {% partial 'product/product-card'
+            obProduct=obProduct
+            wrapperClasses = 'h-full'
+            loopIndex = loop.index
+            showIndex = showIndex
+        %}
+    </li>
+{% endfor %}

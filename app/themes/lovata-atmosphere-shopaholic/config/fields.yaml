@@ -1,0 +1,164 @@
+tabs:
+    fields:
+        color_section_primary:
+            label: 'theme.lovata-atmosphere-shopaholic::lang.field.color_primary'
+            type: section
+            span: full
+            tab: 'theme.lovata-atmosphere-shopaholic::lang.tab.colors'
+        color_primary:
+            label: 'theme.lovata-atmosphere-shopaholic::lang.field.color_primary'
+            type: colorpicker
+            span: full
+            tab: 'theme.lovata-atmosphere-shopaholic::lang.tab.colors'
+        color_primary_hover:
+            label: 'theme.lovata-atmosphere-shopaholic::lang.field.color_primary_hover'
+            type: colorpicker
+            span: full
+            tab: 'theme.lovata-atmosphere-shopaholic::lang.tab.colors'
+        color_primary_focus:
+            label: 'theme.lovata-atmosphere-shopaholic::lang.field.color_primary_focus'
+            type: colorpicker
+            span: full
+            tab: 'theme.lovata-atmosphere-shopaholic::lang.tab.colors'
+
+        color_section_on_primary:
+            label: 'theme.lovata-atmosphere-shopaholic::lang.field.color_section_on_primary'
+            type: section
+            span: full
+            tab: 'theme.lovata-atmosphere-shopaholic::lang.tab.colors'
+        color_on_primary:
+            label: 'theme.lovata-atmosphere-shopaholic::lang.field.color_on_primary'
+            type: colorpicker
+            tab: 'theme.lovata-atmosphere-shopaholic::lang.tab.colors'
+        color_on_primary_container:
+            label: 'theme.lovata-atmosphere-shopaholic::lang.field.color_primary_container'
+            type: colorpicker
+            span: full
+            tab: 'theme.lovata-atmosphere-shopaholic::lang.tab.colors'
+        color_section_surface:
+            label: 'theme.lovata-atmosphere-shopaholic::lang.field.color_surface'
+            type: section
+            span: full
+            tab: 'theme.lovata-atmosphere-shopaholic::lang.tab.colors'
+        color_surface:
+            label: 'theme.lovata-atmosphere-shopaholic::lang.field.color_surface'
+            type: colorpicker
+            tab: 'theme.lovata-atmosphere-shopaholic::lang.tab.colors'
+        color_surface_dim:
+            label: 'theme.lovata-atmosphere-shopaholic::lang.field.color_surface_dim'
+            type: colorpicker
+            tab: 'theme.lovata-atmosphere-shopaholic::lang.tab.colors'
+        color_surface_container:
+            label: 'theme.lovata-atmosphere-shopaholic::lang.field.color_surface_container'
+            type: colorpicker
+            span: full
+            tab: 'theme.lovata-atmosphere-shopaholic::lang.tab.colors'
+        color_section_on_surface:
+            label: 'theme.lovata-atmosphere-shopaholic::lang.field.color_section_on_surface'
+            type: section
+            span: full
+            tab: 'theme.lovata-atmosphere-shopaholic::lang.tab.colors'
+        color_on_surface:
+            label: 'theme.lovata-atmosphere-shopaholic::lang.field.color_surface_on'
+            type: colorpicker
+            span: full
+            tab: 'theme.lovata-atmosphere-shopaholic::lang.tab.colors'
+        color_on_surface_variant:
+            label: 'theme.lovata-atmosphere-shopaholic::lang.field.color_surface_variant'
+            type: colorpicker
+            span: full
+            tab: 'theme.lovata-atmosphere-shopaholic::lang.tab.colors'
+        color_section_outline:
+            label: 'theme.lovata-atmosphere-shopaholic::lang.field.color_outline'
+            type: section
+            span: full
+            tab: 'theme.lovata-atmosphere-shopaholic::lang.tab.colors'
+        color_outline:
+            label: 'theme.lovata-atmosphere-shopaholic::lang.field.color_outline'
+            type: colorpicker
+            span: full
+            tab: 'theme.lovata-atmosphere-shopaholic::lang.tab.colors'
+        color_outline_variant:
+            label: 'theme.lovata-atmosphere-shopaholic::lang.field.color_outline_variant'
+            type: colorpicker
+            span: full
+            tab: 'theme.lovata-atmosphere-shopaholic::lang.tab.colors'
+        shopaholic_bar_active:
+            label: 'theme.lovata-atmosphere-shopaholic::lang.field.shopaholic_bar_section'
+            type: switch
+            span: full
+            tab: 'theme.lovata-atmosphere-shopaholic::lang.tab.functionality'
+        image_aspect:
+            label: 'theme.lovata-atmosphere-shopaholic::lang.field.image_aspect'
+            type: dropdown
+            span: left
+            options:
+                aspect-square: 'square'
+                aspect-4/3: '4/3'
+                aspect-3/4: '3/4'
+            tab: 'theme.lovata-atmosphere-shopaholic::lang.tab.functionality'
+        filter_position:
+            label: 'theme.lovata-atmosphere-shopaholic::lang.field.filter_position'
+            type: dropdown
+            span: left
+            options:
+                left: 'theme.lovata-atmosphere-shopaholic::lang.field.left'
+                right: 'theme.lovata-atmosphere-shopaholic::lang.field.right'
+            tab: 'theme.lovata-atmosphere-shopaholic::lang.tab.functionality'
+        has_wish_list:
+            label: 'theme.lovata-atmosphere-shopaholic::lang.field.plugin_wish_list_for_shopaholic'
+            type: switch
+            span: full
+            tab: 'theme.lovata-atmosphere-shopaholic::lang.tab.plugins'
+            comment: 'theme.lovata-atmosphere-shopaholic::lang.comment.plugin_wish_list_for_shopaholic'
+            commentHtml: true
+        has_labels:
+            label: 'theme.lovata-atmosphere-shopaholic::lang.field.plugin_labels_shopaholic'
+            type: switch
+            span: full
+            tab: 'theme.lovata-atmosphere-shopaholic::lang.tab.plugins'
+            comment: 'theme.lovata-atmosphere-shopaholic::lang.comment.plugin_labels_shopaholic'
+            commentHtml: true
+        has_popularity:
+            label: 'theme.lovata-atmosphere-shopaholic::lang.field.plugin_popularity_shopaholic'
+            type: switch
+            span: full
+            tab: 'theme.lovata-atmosphere-shopaholic::lang.tab.plugins'
+            comment: 'theme.lovata-atmosphere-shopaholic::lang.comment.plugin_popularity_shopaholic'
+            commentHtml: true
+        has_viewed_products:
+            label: 'theme.lovata-atmosphere-shopaholic::lang.field.plugin_viewed_products_shopaholic'
+            type: switch
+            span: full
+            tab: 'theme.lovata-atmosphere-shopaholic::lang.tab.plugins'
+            comment: 'theme.lovata-atmosphere-shopaholic::lang.comment.plugin_viewed_products_shopaholic'
+            commentHtml: true
+        has_related_products:
+            label: 'theme.lovata-atmosphere-shopaholic::lang.field.plugin_related_products_shopaholic'
+            type: switch
+            span: full
+            tab: 'theme.lovata-atmosphere-shopaholic::lang.tab.plugins'
+            comment: 'theme.lovata-atmosphere-shopaholic::lang.comment.plugin_related_products_shopaholic'
+            commentHtml: true
+        has_accessories:
+            label: 'theme.lovata-atmosphere-shopaholic::lang.field.plugin_accessories_shopaholic'
+            type: switch
+            span: full
+            tab: 'theme.lovata-atmosphere-shopaholic::lang.tab.plugins'
+            comment: 'theme.lovata-atmosphere-shopaholic::lang.comment.plugin_accessories_shopaholic'
+            commentHtml: true
+        has_buddies:
+            label: 'theme.lovata-atmosphere-shopaholic::lang.field.plugin_buddies'
+            type: switch
+            span: full
+            tab: 'theme.lovata-atmosphere-shopaholic::lang.tab.plugins'
+            comment: 'theme.lovata-atmosphere-shopaholic::lang.comment.plugin_buddies'
+            commentHtml: true
+        has_faq:
+            label: 'theme.lovata-atmosphere-shopaholic::lang.field.plugin_faq'
+            type: switch
+            span: full
+            tab: 'theme.lovata-atmosphere-shopaholic::lang.tab.plugins'
+            comment: 'theme.lovata-atmosphere-shopaholic::lang.comment.plugin_faq'
+            commentHtml: true
+

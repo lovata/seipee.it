@@ -1,0 +1,15 @@
+{#
+Params:
+- obProduct
+- obOffer
+#}
+
+{% set obOfferList = obProduct.offer.site() %}
+{% set iOfferID = input('offer_id') %}
+{% if iOfferID is not empty %}
+    {% set obOffer = obOfferList.find(iOfferID) %}
+{% endif %}
+
+{% set arOfferImageList = obOffer.images %}
+
+{% partial 'product/product-gallery/product-gallery' wraperClasses=' -mx-4 lg:mx-0' arImages = arOfferImageList is not empty ? arOfferImageList : obProduct.images %}

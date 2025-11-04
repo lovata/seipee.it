@@ -1,0 +1,38 @@
+{% component 'contactForm' form_description = 'My other description' send_btn_label = 'Stay in touch' %}
+
+<form id="feedback-form">
+    {{ form_token() }}
+
+    {% partial 'form/input'
+        id = 'name'
+        labelText = 'form_user_name'|_
+        name = 'name'
+        required = 'required'
+        type = 'text'
+        wrapperClasses = 'mb-6 relative'
+        labelClasses = 'text-sm'
+    %}
+    {% partial 'form/input'
+        id = 'form-email'
+        labelText = 'form_user_email'|_
+        name = 'email'
+        required = 'required'
+        type = 'email'
+        wrapperClasses = 'mb-6 relative'
+        labelClasses = 'text-sm'
+    %}
+    {% partial 'form/textarea'
+        id = 'message'
+        labelText = 'form_user_message'|_
+        name = 'message'
+        wrapperClasses = 'relative'
+        rows = '3'
+        required = 'required'
+        labelClasses = 'text-sm'
+    %}
+    {% partial 'form/button'
+        text = 'form_send'|_
+        type = 'submit'
+        wrapperClasses = 'w-full md:w-auto mt-12 md:mt-8'
+    %}
+</form>

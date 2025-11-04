@@ -1,0 +1,30 @@
+{#
+Params:
+- obOrderList
+#}
+
+{% set iPage = Pagination.getPageFromRequest() %}
+{% set iMaxPage = Pagination.getMaxPage(obOrderList.count()) %}
+
+<div class="hidden lg:grid-flow-col lg:grid-cols-6 lg:bg-gray-200 lg:grid">
+    <div class="py-2 px-3 text-base font-medium">{{ 'account_order_number'|_ }}</div>
+    <div class="py-2 px-3 text-base font-medium">{{ 'account_order_date'|_ }}</div>
+    <div class="py-2 px-3 text-base font-medium">{{ 'account_order_status'|_ }}</div>
+    <div class="col-span-2 py-2 px-3 text-base font-medium">{{ 'account_order_items'|_ }}</div>
+    <div class="py-2 px-3 text-base font-medium">{{ 'account_order_price_total'|_ }}</div>
+</div>
+<ul class="_orders-list flex flex-col space-y-2 lg:space-y-0 lg:block">
+    {% partial 'account/order-list/order-list-ajax'
+        obOrderList = obOrderList
+    %}
+</ul>
+{% if iMaxPage > iPage %}
+    <div class="flex justify-center">
+        {% partial 'form/button'
+            isGhost = true
+            text = 'account_order_more'|_
+            dataAtribute = 'data-max-page=' ~ iMaxPage ~ ' data-page=1'
+            wrapperClasses = '_show-more-orders mt-8 lg:mt-10'
+        %}
+    </div>
+{% endif %}

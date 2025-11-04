@@ -1,0 +1,26 @@
+{% if bHasCouponPlugin %}
+    {% set obActiveCoupon = Cart.getAppliedCouponList()|first %}
+    <div class="flex mb-7 flex-col mt-7 items-start md:items-end md:flex-row">
+        {% partial 'form/input'
+            labelText = 'purchase_coupon_have'|_
+            placeholder = 'purchase_coupon_code'|_
+            name = 'coupon'
+            value = obActiveCoupon.code
+            attribute = 'data-coupon'
+            wrapperClasses = 'flex flex-col w-full mb-2 md:w-80 md:mb-0'
+            labelClasses = 'font-medium text-gray-900 mb-2 text-sm md'
+            disabled = obActiveCoupon is not empty
+        %}
+        {% partial 'form/button'
+            text = 'purchase_coupon_remove'|_
+            wrapperClasses = '_shopaholic-coupon-remove w-full ms-0 md:w-80 md:ms-2 ' ~ (obActiveCoupon is not empty ? '' : 'hidden')
+            isGhost= 'true'
+        %}
+        {% partial 'form/button'
+            text = 'purchase_coupon_apply'|_
+            wrapperClasses = '_shopaholic-coupon-add js-shopaholic-coupon w-full ms-0 md:w-80 md:ms-2 ' ~ (obActiveCoupon is not empty ? 'hidden' : '')
+            isGhost = true
+            disabled = true
+        %}
+    </div>
+{% endif %}

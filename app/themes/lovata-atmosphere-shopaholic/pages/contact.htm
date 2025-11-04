@@ -1,0 +1,86 @@
+title = "Contact"
+url = "/contact"
+layout = "main"
+is_hidden = 0
+
+[genericForm]
+rules[name] = "required"
+rules[email] = "required"
+messages_success = "Your form was successfully submitted"
+messages_errors = "There were errors with your submission"
+reset_form = 1
+inline_errors = "disabled"
+allowed_fields[] = "name"
+allowed_fields[] = "email"
+allowed_fields[] = "message"
+sanitize_data = "disabled"
+anonymize_ip = "disabled"
+recaptcha_theme = "light"
+recaptcha_type = "image"
+recaptcha_size = "normal"
+emails_date_format = "Y-m-d"
+
+[global ContactPage]
+handle = "Site\ContactPage"
+==
+<?php
+function onInit()
+{
+    $this['path_page_js'] = 'js/pages/contact.js';
+}
+?>
+==
+{% set arBreadcrumbs = [
+    {'name': 'contact_contact_us'|_, 'url': null}
+] %}
+
+{% partial 'common/breadcrumbs' arBreadcrumbs=arBreadcrumbs %}
+<h1 class="text-lg md:text-3xl text-gray-900 font-medium uppercase mb-4 md:mb-6">{{ 'contact_contact_us'|_ }}</h1>
+
+<div class="md:grid md:grid-cols-3 md:gap-x-7 md:gap-y-10 lg:bg-feedback md:bg-no-repeat lg:bg-[calc(50%-387px)_78%] xl:bg-[calc(50%-487px)_78%] pb-12">
+    <div>
+        <div>
+            {% if SiteContent.business_card_address is not empty %}
+                <span class="text-gray-600 text-sm md:text-base font-normal mb-2 md:mb-1 inline-block">{{ 'contact_address'|_ }}</span>
+                <div class="mb-5 md:mb-6 text-sm md:text-base text-gray-900">{{ SiteContent.business_card_address }}</div>
+            {% endif %}
+            {% if SiteContent.business_card_phone is not empty %}
+                <span class="text-gray-600 text-sm md:text-base font-normal mb-2 md:mb-1 inline-block">{{ 'contact_phone'|_ }}</span>
+                <div class="mb-5 md:mb-6 text-sm md:text-base">
+                    <a class="link link-blue underline hover:no-underline" href="tel:{{ SiteContent.business_card_phone|replace({'-': '', '(': '', ')': '', ' ': ''}) }}">{{ SiteContent.business_card_phone }}</a>
+                </div>
+            {% endif %}
+            {% if SiteContent.business_card_email is not empty %}
+                <span class="text-gray-600 text-sm md:text-base font-normal mb-2 md:mb-1 inline-block">{{ 'contact_email'|_ }}</span>
+                <div class="text-sm md:text-base">
+                    <a class="underline hover:no-underline link link-blue" href="mailto:{{ SiteContent.business_card_email }}">{{ SiteContent.business_card_email }}</a>
+                </div>
+            {% endif %}
+        </div>
+        {% if SiteContent.pickup_points_active %}
+            {% set arPickupPointsList = SiteContent.pickup_points_list %}
+            <div>
+                <span class="text-gray-600 text-sm md:text-base font-normal mb-2 inline-block">{{ 'text_pickup_points'|_ }}</span> {# TODO: Add settings to the theme #}
+                <ul class="list-disc list-inside pl-2.5">
+                    {% for obItem in arPickupPointsList %}
+                        <li>{{ obItem.point }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    </div>
+    {% if ContactPage.map_section_active and ContactPage.map_api_key is not empty %}
+        <div class="md:col-span-2 mt-7 -mx-4 md:m-0">
+               {% partial 'common/map/map'
+                   sApiKey = ContactPage.map_api_key
+                   wrapperClasses='w-full h-[420px] md:h-full min-h-[380px]'
+               %}
+        </div>
+    {% endif %}
+    <div class="col-span-3 lg:col-span-2 lg:col-start-2">
+        <div class="lg:ml-auto w-full lg:max-w-screen-sm xl:max-w-[850px] mt-7 md:mt-0">
+            <h2 class="text-lg md:text-2xl text-gray-900 font-medium mb-4 md:mb-5 uppercase">{{ 'contact_waiting_for_message'|_ }}</h2>
+            {% partial 'feedback-form/feedback-form' %}
+        </div>
+    </div>
+</div>

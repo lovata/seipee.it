@@ -1,0 +1,47 @@
+{% set arSEOParams = {'category': obActiveCategory} %}
+{% set obSeoModel = obActiveCategory %}
+
+<div class="grid md:grid-cols-4 mb-14 mt-6 md:mt-10 gap-6 xl:gap-12">
+    <section class="md:col-span-1{% if this.theme.filter_position == 'right' %} order-1{% endif %}">
+        {% set obChildrenCategoryList = obActiveCategory.children().site() %}
+        {% set obChildrenCategoryList = obChildrenCategoryList.isNotEmpty() ? obChildrenCategoryList : obActiveCategory.parent.children().site() %}
+        {% if obChildrenCategoryList.isNotEmpty() %}
+            <div class="mb-4">
+                {% partial 'catalog/subcategory/subcategory'
+                    obChildrenCategoryList = obChildrenCategoryList
+                    obActiveCategory = obActiveCategory
+                %}
+            </div>
+        {% endif %}
+        {% if bHasFilterPlugin %}
+            <div class="_filter"></div>
+        {% endif %}
+    </section>
+    <div class="_sorting-container w-full md:col-span-3">
+        <h1 class="uppercase font-medium text-xl md:text-3xl">
+            {{ SeoToolbox.getPageTitle(obSeoModel, arSEOParams)|default(obActiveCategory.name) }}
+        </h1>
+        {% if obActiveCategory.preview_text is not empty %}
+            <div class="w-full flex flex-col my-4 md:mb-0">
+                {% partial 'common/expandable-text/expandable-text'
+                    description=obActiveCategory.preview_text
+                    numberVisibleRows=3
+                    showButtonText='product_description_show'|_
+                    hideButtonText='product_description_hide'|_
+                %}
+            </div>
+        {% endif %}
+        <div class="_sorting">
+            {% partial 'product/product-list/product-list-wrapper' %}
+        </div>
+        {% set description = SeoToolbox.getPageDescription(obSeoModel, arSEOParams)|default(obActiveCategory.description) %}
+        {% if description %}
+            <div class="mt-6 md:mt-10 mb-14">
+                <div class="content-visibility overflow-x-hidden prose max-w-none text-sm md:text-base fr-view">
+                    {{ description|raw }}
+                </div>
+            </div>
+        {% endif %}
+
+    </div>
+</div>

@@ -1,0 +1,72 @@
+/*There are many classes in the selector because there are problems with the specificity of tailwindcss*/
+button.button-primary,
+[type='button'].button-primary,
+[type='reset'].button-primary,
+[type='submit'].button-primary,
+.button-primary {
+  @apply bg-primary text-center hover:bg-primary-hover hover:border-primary-hover rounded text-white py-3 px-8 text-lg md:text-base;
+}
+
+button.button-outline,
+[type='button'].button-outline,
+[type='reset'].button-outline,
+[type='submit'].button-outline,
+.button-outline {
+  @apply rounded text-center font-medium text-primary border border-primary border-solid py-3 px-8 text-lg md:text-base hover:bg-primary-hover hover:border-primary-hover hover:text-white;
+}
+
+button.button-state,
+[type='button'].button-state,
+[type='reset'].button-state,
+[type='submit'].button-state,
+.button-state {
+  @apply
+  focus:outline focus:outline-offset-1 focus:outline-primary-hover focus:outline-1 focus:bg-primary focus:text-white
+  focus-visible:outline focus-visible:outline-offset-1 focus-visible:outline-primary-hover focus-visible:outline-1 focus-visible:bg-primary focus-visible:text-white
+  focus-within:outline focus-within:outline-offset-1 focus-within:outline-primary-hover focus-within:outline-1 focus-within:bg-primary focus-within:text-white
+  disabled:bg-surface-dim disabled:text-on-surface disabled:border-0 disabled:outline-outline;
+}
+
+button.button-state:active:not([disabled]),
+[type='button']:active:not([disabled]),
+[type='reset'].button-state:active:not([disabled]),
+[type='submit'].button-state:active:not([disabled]),
+.button-state:active:not([disabled]) {
+  @apply bg-on-primary-container text-white;
+}
+
+button.button-state[disabled]:active,
+[type='button'].button-state[disabled]:active,
+[type='reset'].button-state[disabled]:active,
+[type='submit'].button-state[disabled]:active,
+.button-state[disabled]:active {
+  @apply bg-surface-dim text-on-surface border-0 outline-outline;
+}
+
+button.link[disabled]:active,
+[type='button'].link[disabled]:active,
+[type='reset'].link[disabled]:active,
+[type='submit'].link[disabled]:active,
+.link {
+  @apply outline-current
+  focus:outline-dotted focus:outline-1
+  focus-visible:outline-dotted focus-visible:outline-1
+  focus-within:outline-dotted focus-within:outline-1
+  active:!text-on-primary-container active:!bg-transparent;
+}
+
+.link-blue {
+  @apply  text-primary hover:text-primary-hover [&:not(.underline)]:hover:underline;
+}
+
+.link-gray {
+  @apply text-on-surface-variant hover:text-primary-hover [&:not(.underline)]:hover:underline;
+}
+
+.link-dark {
+  @apply text-on-surface hover:text-primary-hover [&:not(.underline)]:hover:underline;
+}
+
+.button-icon {
+  @apply inline-flex items-center justify-center;
+}

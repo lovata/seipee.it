@@ -1,0 +1,13 @@
+fields:
+    key:
+        label: 'lovata.toolbox::lang.field.key'
+        span: full
+        required: true
+        type: text
+    value:
+        label: 'lovata.toolbox::lang.field.value'
+        span: full
+        required: true
+        type: codeeditor
+        size: large
+        language: twig

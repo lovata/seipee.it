@@ -1,0 +1,12 @@
+uuid: 1dbbe313-4751-4ecf-a72f-74d54db24ced
+name: Product list (viewed)
+type: mixin
+handle: Blocks\ViewedProductList
+multisite: true
+
+fields:
+    heading:
+        label: 'lovata.toolbox::lang.field.title'
+        multisite: true
+        type: text
+        span: left

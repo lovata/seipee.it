@@ -1,0 +1,29 @@
+<title>{{ __SELF__.getMetaTitle()|raw }}</title>
+<meta name="description" content="{{ __SELF__.getMetaDescription()|raw }}">
+<meta name="keywords" content="{{ __SELF__.get('seo_keywords')|raw }}">
+{% set sRobotsTag = __SELF__.getRobotsMeta() %}
+{% if sRobotsTag is not empty %}
+    <meta name="robots" content="{{ sRobotsTag }}">
+{% endif %}
+{% set sCanonicalURL = __SELF__.get('canonical_url') %}
+{% if sCanonicalURL is not empty %}
+    <link rel="canonical" href="{{ sCanonicalURL }}">
+{% endif %}
+
+{% set sTitleOG = __SELF__.getOGTitle() %}
+{% if sTitleOG %}
+    <meta property="og:title" content="{{ sTitleOG }}" />
+{% endif %}
+
+{% set sTypeOG = __SELF__.get('og_type') %}
+<meta property="og:type" content="{{ sTypeOG | default('website') }}" />
+
+{% set sDescriptionOG = __SELF__.getOGDescription() %}
+{% if sDescriptionOG %}
+    <meta property="og:description" content="{{ sDescriptionOG }}" />
+{% endif %}
+
+{% set sImagePath = __SELF__.get('og_image') %}
+{% if sImagePath is not empty %}
+    <meta property="og:image" content="{{ sImagePath | media }}"/>
+{% endif %}

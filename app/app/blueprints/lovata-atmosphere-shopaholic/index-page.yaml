@@ -1,0 +1,65 @@
+uuid: 7159eee2-43ad-4938-99d7-4d3e88035e57
+handle: Site\IndexPage
+type: single
+name: Index page
+multisite: true
+drafts: false
+
+navigation:
+    label: 'shopaholic.theme.index_page.title'
+    parent: Site\SiteContent
+    icon: icon-file-text
+    order: 200
+
+fields:
+    content_blocks:
+        label: 'shopaholic.theme.block.name'
+        tab: 'shopaholic.theme.field.content'
+        type: repeater
+        displayMode: builder
+        span: adaptive
+        groups:
+            image_carousel:
+                multisite: true
+                name: 'shopaholic.theme.block.image_carousel.name'
+                icon: icon-image
+                fields:
+                    _mixin:
+                        type: mixin
+                        source: Blocks\ImageCarousel
+            news_list:
+                name: 'shopaholic.theme.block.latest_news_list'
+                icon: icon-newspaper
+                fields:
+                    _mixin:
+                        type: mixin
+                        source: Blocks\NewsList
+            wysiwyg_content:
+                multisite: true
+                name: 'shopaholic.theme.block.wysiwyg_content.name'
+                icon: icon-dedent
+                fields:
+                    _mixin:
+                        type: mixin
+                        source: Blocks\WysiwygContent
+            category_list:
+                name: 'lovata.shopaholic::lang.category.list_title'
+                icon: icon-sitemap
+                fields:
+                    _mixin:
+                        type: mixin
+                        source: Blocks\CategoryList
+            brand_list:
+                name: 'lovata.shopaholic::lang.brand.list_title'
+                icon: icon-bolt
+                fields:
+                    _mixin:
+                        type: mixin
+                        source: Blocks\BrandList
+            product_list:
+                name: 'lovata.shopaholic::lang.product.list_title'
+                icon: icon-beer
+                fields:
+                    _mixin:
+                        type: mixin
+                        source: Blocks\ProductList
