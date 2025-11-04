@@ -32,11 +32,14 @@
     "glob": "^10.3.12"
   },
   "dependencies": {
+    "bootstrap": "^5.3.8",
+    "bootstrap-icons": "^1.13.1",
     "choices.js": "^10.1.0",
     "cross-env": "^7.0.3",
     "dialog-polyfill": "^0.5.6",
     "focus-trap": "^6.7.2",
     "formbouncerjs": "^1.4.6",
+    "jquery": "^3.7.1",
     "lazysizes": "^5.3.2",
     "load-google-maps-api": "^2.0.2",
     "photoswipe": "^5.3.2",
