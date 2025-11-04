@@ -10,7 +10,6 @@
         "laravel/framework": "^9.0",
         "october/all": "^3.6",
         "responsiv/campaign-plugin": "^3.0",
-        "inetis/downloadmanager-plugin": "^1.0",
         "gotech/webp-plugin": "^1.6",
         "offline/oc-boxes-plugin": "^3.6",
         "pikanji/agent-plugin": "^1.0",
