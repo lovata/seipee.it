@@ -772,10 +772,12 @@ header .container-fluid {
     visibility: hidden;
     left: -110%;
     transition: all 1s;
-    position: relative;
+    position: fixed;
     top: 0;
+    width: 100%;
     height: 100vh;
     font-family: "Mulish", sans-serif;
+    z-index: -1;
   }
 
   .inside-mobile-menu-container .contatti {
