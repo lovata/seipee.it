@@ -1,6 +1,6 @@
 // Header JavaScript functionality from Puro theme
 
-addEventListener('render', function() {
+document.addEventListener('DOMContentLoaded', function() {
     // AGGIUNTA CLASSE STICKY ALL'HEADER DOPO LO SCROLL
     window.onload = function(){
         $(window).on("scroll", function() {
