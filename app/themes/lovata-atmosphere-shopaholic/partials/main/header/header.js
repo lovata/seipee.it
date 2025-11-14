@@ -26,6 +26,10 @@ export default new class Header {
   }
 
   adjustMenu () {
+    if (!this.navList) {
+      return;
+    }
+
     const scrollHeight = this.navList.scrollHeight;
 
     if (scrollHeight > this.navHeight) {

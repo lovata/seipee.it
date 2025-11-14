@@ -3,11 +3,24 @@ items:
         title: 'Nuova voce di menu'
         nesting: 1
         type: offline-boxes-all-pages
+        url: null
         code: ''
+        reference: null
+        cmsPage: null
         replace: 1
         viewBag:
             isHidden: '0'
             cssClass: ''
             isExternal: '0'
+    -
+        title: Catalog
+        nesting: 0
+        type: shop-catalog
+        code: ''
+        cmsPage: catalog
+        replace: 0
+        viewBag:
+            isHidden: '0'
+            cssClass: ''
+            isExternal: '0'
 name: main
-
