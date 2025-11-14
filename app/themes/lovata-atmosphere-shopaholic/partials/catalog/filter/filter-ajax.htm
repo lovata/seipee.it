@@ -31,49 +31,49 @@
                     wrapperButtonClasses = 'text-end mb-4'
                 %}
                 <div>
-                    <details class="border-t border-b border-gray-300 js-details" id="price-filter">
-                        <summary class="text-base font-medium text-blue-800 cursor-pointer pb-4 pt-4 ps-4 pe-5 after:right-5 after:text-blue-800 focus-visible:text-blue-800 focus-visible:outline-2 focus-visible:outline-dotted focus-visible:outline-blue-800">
-                            {{ 'filter_price'|_ }}
-                        </summary>
-                        <div class="js-accordion-content px-4 pb-4">
-                            <div class="flex  md:space-x-0 rtl:space-x-reverse space-x-3">
-                                <fieldset class="w-full">
-                                    <legend class="sr-only">{{ 'filter_price'|_ }}&nbsp;{{ 'filter_min'|_ }}</legend>
-                                    {% partial 'form/input'
-                                        labelText = 'filter_min'|_
-                                        inputClasses = '_shopaholic-price-filter appearance-none quantity_input'
-                                        type = 'number'
-                                        name = 'filter-min-price'
-                                        value = fMinPriceFilterValue
-                                        id = 'min-price'
-                                    %}
-                                </fieldset>
-                                <fieldset class="w-full">
-                                    <legend class="sr-only">{{ 'filter_price'|_ }}&nbsp;{{ 'filter_max'|_ }}</legend>
-                                    {% partial 'form/input'
-                                        labelText = 'filter_max'|_
-                                        inputClasses = '_shopaholic-price-filter appearance-none quantity_input'
-                                        type= 'number'
-                                        name= 'filter-max-price'
-                                        value = fMaxPriceFilterValue
-                                        id = 'max-price'
-                                    %}
-                                </fieldset>
-                            </div>
-                            <div class="_shopaholic-sale-filter-wrapper pt-4" data-filter-type="checkbox">
-                                {% partial 'form/input-checkbox'
-                                    labelText = 'product_filter_discounted_only'|_
-                                    wrapperClasses = 'flex items-start'
-                                    sInputClass = 'rounded-sm mt-1'
-                                    checked = bSaleFilter
-                                    id = 'sale'
-                                    name = 'sale'
-                                    value = 1
-                                %}
-                            </div>
-                        </div>
+{#                    <details class="border-t border-b border-gray-300 js-details" id="price-filter">#}
+{#                        <summary class="text-base font-medium text-blue-800 cursor-pointer pb-4 pt-4 ps-4 pe-5 after:right-5 after:text-blue-800 focus-visible:text-blue-800 focus-visible:outline-2 focus-visible:outline-dotted focus-visible:outline-blue-800">#}
+{#                            {{ 'filter_price'|_ }}#}
+{#                        </summary>#}
+{#                        <div class="js-accordion-content px-4 pb-4">#}
+{#                            <div class="flex  md:space-x-0 rtl:space-x-reverse space-x-3">#}
+{#                                <fieldset class="w-full">#}
+{#                                    <legend class="sr-only">{{ 'filter_price'|_ }}&nbsp;{{ 'filter_min'|_ }}</legend>#}
+{#                                    {% partial 'form/input'#}
+{#                                        labelText = 'filter_min'|_#}
+{#                                        inputClasses = '_shopaholic-price-filter appearance-none quantity_input'#}
+{#                                        type = 'number'#}
+{#                                        name = 'filter-min-price'#}
+{#                                        value = fMinPriceFilterValue#}
+{#                                        id = 'min-price'#}
+{#                                    %}#}
+{#                                </fieldset>#}
+{#                                <fieldset class="w-full">#}
+{#                                    <legend class="sr-only">{{ 'filter_price'|_ }}&nbsp;{{ 'filter_max'|_ }}</legend>#}
+{#                                    {% partial 'form/input'#}
+{#                                        labelText = 'filter_max'|_#}
+{#                                        inputClasses = '_shopaholic-price-filter appearance-none quantity_input'#}
+{#                                        type= 'number'#}
+{#                                        name= 'filter-max-price'#}
+{#                                        value = fMaxPriceFilterValue#}
+{#                                        id = 'max-price'#}
+{#                                    %}#}
+{#                                </fieldset>#}
+{#                            </div>#}
+{#                            <div class="_shopaholic-sale-filter-wrapper pt-4" data-filter-type="checkbox">#}
+{#                                {% partial 'form/input-checkbox'#}
+{#                                    labelText = 'product_filter_discounted_only'|_#}
+{#                                    wrapperClasses = 'flex items-start'#}
+{#                                    sInputClass = 'rounded-sm mt-1'#}
+{#                                    checked = bSaleFilter#}
+{#                                    id = 'sale'#}
+{#                                    name = 'sale'#}
+{#                                    value = 1#}
+{#                                %}#}
+{#                            </div>#}
+{#                        </div>#}
 
-                    </details>
+{#                    </details>#}
                     <div class="_filters-mobile">
                         {% partial 'catalog/filter/filters-mobile-ajax' %}
                     </div>
@@ -104,54 +104,54 @@
 <template class="_filterTemplate">
     <div class="hidden md:block">
         <h2 class="text-gray-900 text-lg font-medium mb-3">{{ 'filter_filters'|_ }}</h2>
-        <details
-            id="price-filter"
-            data-translate-to={{ 'filter_to'|_ }}
-            data-translate-from={{ 'filter_from'|_ }}
-            open
-            class="js-details"
-        >
-            <summary class="js-accordion-summary link link-blue w-full text-base font-medium cursor-pointer after:text-blue-800">
-                {{ 'filter_price'|_ }}
-            </summary>
-            <div class="js-accordion-content">
-                <div class="flex">
-                    <fieldset class="me-3 last:me-0">
-                        <legend class="sr-only">{{ 'filter_price'|_ }}&nbsp;{{ 'filter_min'|_ }}</legend>
-                        {% partial 'form/input'
-                            labelText = 'filter_min'|_
-                            inputClasses = '_shopaholic-price-filter appearance-none quantity_input'
-                            type = 'number'
-                            name = 'filter-min-price'
-                            value = fMinPriceFilterValue
-                            id = 'min-price'
-                        %}
-                    </fieldset>
-                    <fieldset class="me-3 last:me-0">
-                        <legend class="sr-only">{{ 'filter_price'|_ }}&nbsp;{{ 'filter_max'|_ }}</legend>
-                        {% partial 'form/input'
-                            labelText = 'filter_max'|_
-                            inputClasses = '_shopaholic-price-filter appearance-none quantity_input'
-                            type = 'number'
-                            name = 'filter-max-price'
-                            value = fMaxPriceFilterValue
-                            id = 'max-price'
-                        %}
-                    </fieldset>
-                </div>
-                <div class="_shopaholic-sale-filter-wrapper mt-4" data-filter-type="checkbox">
-                    {% partial 'form/input-checkbox'
-                        labelText = 'product_filter_discounted_only'|_
-                        wrapperClasses = 'flex items-start'
-                        sInputClass = 'rounded-sm mt-1'
-                        checked = bSaleFilter
-                        id = 'sale'
-                        name = 'sale'
-                        value = 1
-                    %}
-                </div>
-            </div>
-        </details>
+{#        <details#}
+{#            id="price-filter"#}
+{#            data-translate-to={{ 'filter_to'|_ }}#}
+{#            data-translate-from={{ 'filter_from'|_ }}#}
+{#            open#}
+{#            class="js-details"#}
+{#        >#}
+{#            <summary class="js-accordion-summary link link-blue w-full text-base font-medium cursor-pointer after:text-blue-800">#}
+{#                {{ 'filter_price'|_ }}#}
+{#            </summary>#}
+{#            <div class="js-accordion-content">#}
+{#                <div class="flex">#}
+{#                    <fieldset class="me-3 last:me-0">#}
+{#                        <legend class="sr-only">{{ 'filter_price'|_ }}&nbsp;{{ 'filter_min'|_ }}</legend>#}
+{#                        {% partial 'form/input'#}
+{#                            labelText = 'filter_min'|_#}
+{#                            inputClasses = '_shopaholic-price-filter appearance-none quantity_input'#}
+{#                            type = 'number'#}
+{#                            name = 'filter-min-price'#}
+{#                            value = fMinPriceFilterValue#}
+{#                            id = 'min-price'#}
+{#                        %}#}
+{#                    </fieldset>#}
+{#                    <fieldset class="me-3 last:me-0">#}
+{#                        <legend class="sr-only">{{ 'filter_price'|_ }}&nbsp;{{ 'filter_max'|_ }}</legend>#}
+{#                        {% partial 'form/input'#}
+{#                            labelText = 'filter_max'|_#}
+{#                            inputClasses = '_shopaholic-price-filter appearance-none quantity_input'#}
+{#                            type = 'number'#}
+{#                            name = 'filter-max-price'#}
+{#                            value = fMaxPriceFilterValue#}
+{#                            id = 'max-price'#}
+{#                        %}#}
+{#                    </fieldset>#}
+{#                </div>#}
+{#                <div class="_shopaholic-sale-filter-wrapper mt-4" data-filter-type="checkbox">#}
+{#                    {% partial 'form/input-checkbox'#}
+{#                        labelText = 'product_filter_discounted_only'|_#}
+{#                        wrapperClasses = 'flex items-start'#}
+{#                        sInputClass = 'rounded-sm mt-1'#}
+{#                        checked = bSaleFilter#}
+{#                        id = 'sale'#}
+{#                        name = 'sale'#}
+{#                        value = 1#}
+{#                    %}#}
+{#                </div>#}
+{#            </div>#}
+{#        </details>#}
         <div class="_filters-desktop space-y-6 mt-6">
             {% partial 'catalog/filter/filters-desktop-ajax' %}
         </div>
