@@ -1,5 +1,12 @@
 import './../../../../modules/system/assets/js/framework.js';
 
+// jQuery
+import $ from 'jquery';
+window.$ = window.jQuery = $;
+
+// Bootstrap JS
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+
 import '/partials/main/top-info-block/top-info-block';
 import '/partials/navigation/navigation-main-mobile';
 import '/partials/common/off-canvas/off-canvas';
@@ -14,3 +21,5 @@ import '/partials/message/flash-message';
 import '/partials/common/expandable-text/expandable-text';
 import '/partials/main/header/header';
 import '/js/vendor/fullscreen/photoswipe-fullscreen.esm';
+import '/js/vendor/footer';
+import '/js/vendor/header';

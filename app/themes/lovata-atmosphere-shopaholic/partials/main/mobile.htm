@@ -1,0 +1,71 @@
+[staticMenu mobileMenu]
+code = "main"
+
+[sitePicker sitePickerMobile]
+==
+<div id="mobile_header" class="row">
+    <div class="col-4 d-flex align-items-center">
+        <a class="navbar-brand" href="/">
+            <img src="{{ 'logo_nero.webp'|media }}" class="logo-mobile" />
+        </a>
+    </div>
+    <div class="col-4 d-flex justify-content-center align-items-center">
+        <div class="flags">
+            <div class="{{ this.site.locale }} language-select">
+                {% set availableSites = sitePickerMobile.sites %}
+                <select class="language-switcher" onchange="window.location.href=this.value">
+                    {% for site in availableSites %}
+                        <option
+                            value="{{ site.url }}"
+                            data-flag="{{ site.locale | media }}.webp"
+                            {% if site.locale == this.site.locale %}selected{% endif %}
+                        >
+                            {{ site.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-4 d-flex justify-content-end align-items-center">
+        <div class="hamburger-menu-container">
+            <a class="open-menu-button">
+                <svg width="35" height="35" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="butt" stroke-linejoin="arcs"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="inside-mobile-menu-container">
+    <div class="menu-heading">
+        <div class="close-button-container">
+        <a class="menu-close-button">
+            <svg width="35" height="35" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="butt" stroke-linejoin="arcs">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </a>
+        </div>
+        <a class="navbar-brand" href="/">
+            <img src="{{ 'logo.webp'|media }}" class="logo-mobile" />
+        </a>
+    </div>
+    <div class="menu-content">
+        <div class="menu-mobile-container">
+            {% component 'mobileMenu' %}
+        </div>
+    </div>
+    <div class="contatti">
+        <a href="mailto:{{ global.email }}" class="button"><i class="bi bi-envelope"></i> Scrivi</a>
+        <a href="tel:{{ global.telefono }}" class="button"><i class="bi bi-telephone"></i> Chiama</a>
+    </div>
+    <div class="address">
+        <p>{{ global.company_name }}</p>
+        <p>{{ global.address }}<br>
+        {{ global.cap }} {{ global.town }} ({{ global.province }})
+    </div>
+    <div class="social py-2">
+        {% partial 'main/social' %}
+    </div>
+</div>
+

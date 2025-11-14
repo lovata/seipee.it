@@ -1,71 +1,43 @@
-<footer class="full-width bg-surface-container {{ wrapperClasses }}">
-    <div class="container mx-auto px-4 py-7 lg:pt-10 lg:pb-8 flex flex-col md:flex-row">
-        <div class="mb-6 md:mb-0 pb-6 md:pb-0 border-b md:border-b-0 border-gray-300 flex flex-col">
-            {% partial 'navigation/navigation-columns' %}
-            {% if SiteContent.payment_methods_list_active %}
-                {% partial 'common/icon-list'
-                    sectionHeader = "theme_payment_methods"|_
-                    wrapperClasses = "lg:mt-8"
-                    listClasses = "gap-x-2"
-                    arItemList = SiteContent.payment_methods_list
-                    itemClasses = "w-14"
-                    notFoundMessage = "theme_payment_methods_not_added"|_
-                %}
-            {% endif %}
-        </div>
-
-        {% if SiteContent.business_card_image is not empty
-           or SiteContent.business_card_description is not empty
-           or SiteContent.business_card_phone is not empty
-           or SiteContent.business_card_email is not empty
-           or SiteContent.business_card_address is not empty
-        %}endpartial
-            <div class="lg:ps-8 lg:me-auto max-w-xs">
-                {% if SiteContent.business_card_image is not empty %}
-                    <img loading="lazy" class="block max-h-14" src="{{ SiteContent.business_card_image|media }}" alt="{{ SiteContent.business_card_image_alt }}" title="{{ SiteContent.business_card_image_title }}">
-                {% endif %}
-                {% if SiteContent.business_card_description is not empty %}
-                    <p class="mt-4 text-sm text-on-surface-variant">{{ SiteContent.business_card_description }}</p>
-                {% endif %}
-                {% if (SiteContent.business_card_phone or SiteContent.business_card_email or SiteContent.business_card_address) is not empty %}
-                    <ul class="mt-4">
-                        {% if SiteContent.business_card_phone is not empty %}
-                            <li>
-                                <a class="link link-blue underline hover:no-underline" href="tel:{{ SiteContent.business_card_phone|replace({'-': '', '(': '', ')': '', ' ': ''}) }}">{{ SiteContent.business_card_phone }}</a>
-                            </li>
-                        {% endif %}
-                        {% if SiteContent.business_card_email is not empty %}
-                            <li class="mt-4 lg:mt-2">
-                                <a class="link link-blue underline hover:no-underline" href="mailto:{{ SiteContent.business_card_email }}">{{ SiteContent.business_card_email }}</a>
-                            </li>
-                        {% endif %}
-                        {% if SiteContent.business_card_address is not empty %}
-                            <li class="mt-5 lg:mt-2 text-on-surface-variant">{{ SiteContent.business_card_address }}</li>
-                        {% endif %}
-                    </ul>
-                {% endif %}
-                {% if SiteContent.social_media_list_active %}
-                    {% partial 'common/icon-list'
-                        sectionHeader = "theme_social_media_list"|_
-                        wrapperClasses = "lg:mt-5"
-                        arItemList = SiteContent.social_media_list
-                        itemClasses = "w-10"
-                        notFoundMessage = "theme_social_media_list_not_added"|_
-                    %}
-                {% endif %}
+<footer>
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-12 col-lg-6 pt-3 address">
+                <h4>{{ global.company_name }}</h4>
+                <p>Sede Legale:<br>Viottolo Croce 1<br>41011 Campogalliano (MO)<br><br>Sede Operativa:<br>Via S. Ferrari 4<br>41011 Campogalliano (MO) <br>
+                <br>
+                <a href="mailto:+39 059 850108"><i class="bi bi-telephone-fill"></i> +39 059 850108</a><br>            <a href="mailto:info@seipee.it"><i class="bi bi-envelope-fill"></i> info@seipee.it</a><br>            </p>
+                <div class="mt-5 social">
+                    {% partial 'main/social' %}
+                </div>
             </div>
-        {% endif %}
-    </div>
-    {% if SiteContent.business_card_copyright is not empty %}
-        <div class="bg-outline-variant text-on-surface-variant text-center p-2.5 text-xs md:text-sm">{{ SiteContent.business_card_copyright }}</div>
-    {% endif %}
-    {% if this.theme.shopaholic_bar_active %}
-        <div class="text-center text-gray-600 p-2.5 text-xs md:text">
-            {% set sPoweredByPluginUrl = 'https://shopaholic.one' %}
-            {% set sPoweredByThemeUrl = 'https://octobercms.com/theme/lovata-atmosphere-shopaholic' %}
-            {% set themePoweredByPlugin = '<a class="underline hover:no-underline link link-blue" href="'~ sPoweredByPluginUrl ~'" target="_blank" rel="noopener noreferrer">'~('theme_powered_by_plugin'|_)~'</a>' %}
-            {% set themePoweredByTheme = '<a class="underline hover:no-underline link link-blue" href="'~ sPoweredByThemeUrl ~'" target="_blank" rel="noopener noreferrer">'~('theme_powered_by_theme'|_)~'</a>' %}
-            {{ 'theme_powered_by' |transRaw({theme_powered_by_plugin: themePoweredByPlugin, theme_powered_by_theme: themePoweredByTheme} ) }}
+            <div class="col-12 col-lg-3 pt-3">
+                <h4>Legal</h4>
+                <p>P.I. e C.F. 00185010360<br>
+                Cap. Soc. € 120.000,00 i.v.<br>
+                Iscr.Reg.Imp.Mo - R.E.A. n°152011<br>
+                &copy; {{ "now"|date("Y") }} {{ global.company_name }}<br><br>
+                <a href="{% if global.privacypolicylink %}{{ global.privacypolicylink }}{% else %}/privacy-policy{% endif %}" target="_blank">Privacy Policy</a><br>
+                <a href="{% if global.cookiepolicylink %}{{ global.cookiepolicylink }}{% else %}/cookie-policy{% endif %}" target="_blank">Cookie Policy</a><br><br></p>
+            </div>
+            <div class="col-12 col-lg-3 pt-3">
+
+                <img src="https://seipee.tecnotrade.dev/storage/app/media/rating-legalita-seipee.svg" style="width:140px"><br>
+                <a href="https://mail.seipee.it/seipeedata/(S(lvfzx2wc0zhcqnmju4hbr35q))/dataanalyzer/default.aspx" target="_blank">Area Agenti</a><br>
+                <a href="/condizioni-generali-di-vendita">Condizioni Generali di Vendita</a><br>
+                <a href="https://segnalazioni.seipee.it:8443/" target="_blank">Segnalazioni Dlgs 231</a><br>
+                <a href="/accessibilita-wcag">Dichiarazione di conformità WCAG</a>
+                </div>
+
         </div>
-    {% endif %}
+    </div>
+    <div class="container pt-2 pb-5">
+        <div class="row">
+            <div class="col-12 center credits">
+                <a href="https://tecnotrade.com" title="Sviluppo web e siti" alt="sviluppo web bologna">made with <i class="bi bi-suit-heart-fill"></i> by tecnotrade</a>
+            </div>
+        </div>
+    </div>
+
+    <button type="button" id="btn-back-to-top"></button>
 </footer>
+
