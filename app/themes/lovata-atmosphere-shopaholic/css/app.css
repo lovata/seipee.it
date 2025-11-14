@@ -1,7 +1,12 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+/* Bootstrap imports */
+@import "bootstrap/dist/css/bootstrap.css";
+@import "bootstrap-icons/font/bootstrap-icons.css";
 @import "./buttons.css";
+@import "./footer.css";
+@import "./header.css";
 @import "./../node_modules/swiper/swiper.css";
 @import "./../node_modules/photoswipe/dist/photoswipe.css";
 @import "./../node_modules/choices.js/public/assets/styles/choices.min.css";
@@ -150,6 +155,10 @@
   ._description-text {
     max-height: var(--description-text-max-height);
   }
+}
+
+html, body {
+  overflow-x: hidden;
 }
 
 .pswp__top-bar.pswp__hide-on-close {
