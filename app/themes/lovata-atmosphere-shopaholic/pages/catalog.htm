@@ -152,6 +152,7 @@ function onInit() {
             $arPriceFilterValue = explode('|', input('price'));
             $fMinPriceFilterValue = Arr::get($arPriceFilterValue, 0);
             $fMaxPriceFilterValue = Arr::get($arPriceFilterValue, 1);
+            $fQuantityValue = input('quantity');
 
             $obProductPropertyList = $obActiveCategoryItem->product_filter_property;
             $obOfferPropertyList = $obActiveCategoryItem->offer_filter_property;
@@ -177,6 +178,7 @@ function onInit() {
 
             $this['fMinPriceFilterValue'] = $fMinPriceFilterValue;
             $this['fMaxPriceFilterValue'] = $fMaxPriceFilterValue;
+            $this['fQuantityValue'] = $fQuantityValue;
             $this['bSaleFilter'] = $bSaleFilter;
 
             $this['arFilterValue'] = $arFilterValue;

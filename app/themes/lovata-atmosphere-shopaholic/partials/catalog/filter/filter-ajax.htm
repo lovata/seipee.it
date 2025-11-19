@@ -76,6 +76,32 @@
 {#                    </details>#}
                     <div class="_filters-mobile">
                         {% partial 'catalog/filter/filters-mobile-ajax' %}
+                        <div class="_filter-details border-b border-gray-300">
+                            <div class="text-base font-medium text-blue-800 cursor-pointer pb-4 pt-4 ps-4 pe-5 after:end-5 focus-visible:text-blue-800 focus-visible:outline-2 focus-visible:outline-dotted focus-visible:outline-blue-800">{{ 'filter_quantity_required'|_ }}</div>
+                            <div class="relative w-full js-accordion-content px-4 pb-4">
+                                {% partial 'form/input'
+                                    wrapperClasses = 'w-full'
+                                    inputClasses = 'appearance-none _shopaholic-qty-filter'
+                                    type = 'number'
+                                    name = 'filter-quantity'
+                                    value = fQuantityValue
+                                    id = 'filter-quantity'
+                                %}
+                            </div>
+                        </div>
+                        <div class="_filter-details border-b border-gray-300">
+                            <div class="text-base font-medium text-blue-800 cursor-pointer pb-4 pt-4 ps-4 pe-5 after:end-5 focus-visible:text-blue-800 focus-visible:outline-2 focus-visible:outline-dotted focus-visible:outline-blue-800">{{ 'filter_search'|_ }}</div>
+                            <div class="relative w-full js-accordion-content px-4 pb-4">
+                                {% partial 'form/input'
+                                    wrapperClasses = 'w-full'
+                                    inputClasses = 'appearance-none search_input'
+                                    type = 'number'
+                                    name = 'search'
+                                    value = search
+                                    id = 'search'
+                                %}
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="ms-4 me-5">
@@ -154,6 +180,34 @@
 {#        </details>#}
         <div class="_filters-desktop space-y-6 mt-6">
             {% partial 'catalog/filter/filters-desktop-ajax' %}
+            <div class="_filter-details block">
+                <div class="hover:!no-underline text-base font-medium w-full">{{ 'filter_quantity_required'|_ }}</div>
+                <div class="flex pt-4">
+                    <legend class="sr-only">{{ 'filter_quantity_required'|_ }}</legend>
+                    {% partial 'form/input'
+                        wrapperClasses = 'w-full'
+                        inputClasses = 'appearance-none _shopaholic-qty-filter'
+                        type = 'number'
+                        name = 'filter-quantity'
+                        value = fQuantityValue
+                        id = 'filter-quantity'
+                    %}
+                </div>
+            </div>
+            <div class="_filter-details block">
+                <div class="hover:!no-underline text-base font-medium w-full">{{ 'filter_search'|_ }}</div>
+                <div class="flex _shopaholic-filter-wrapper pt-4">
+                    <legend class="sr-only">{{ 'filter_search'|_ }}</legend>
+                    {% partial 'form/input'
+                        wrapperClasses = 'w-full'
+                        inputClasses = 'appearance-none search_input'
+                        type = 'number'
+                        name = 'search'
+                        value = search
+                        id = 'search'
+                    %}
+                </div>
+            </div>
         </div>
     </div>
 </template>
