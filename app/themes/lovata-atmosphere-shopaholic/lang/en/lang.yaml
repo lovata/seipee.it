@@ -169,6 +169,7 @@ product_tab_description: 'Description'
 product_tab_details: 'Details'
 product_weight: 'Weight'
 product_width: 'Width'
+product_tab_documents: 'Documents'
 
 # Purchase
 purchase_cart_add_success: 'Product added to cart.'
