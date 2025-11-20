@@ -18,13 +18,13 @@ Params:
                         <span class="font-medium text-gray-800">{{ file.title }}</span>
                         <span class="text-sm text-gray-500">{{ file.size }}</span>
                     </div>
-
-                    <a  href="{{ file.url }}"
-                        class="inline-flex items-center px-3 py-1.5 rounded-lg border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white transition text-sm font-medium no-underline hover:no-underline"
-                        target="_blank"
-                        download>
-                        Download
-                    </a>
+                    {% partial 'form/button'
+                    text = 'form_download'|_
+                    url = file.url
+                    type = 'download'
+                    isBlank = true
+                    wrapperClasses = 'inline-flex items-center no-underline hover:text-white'
+                    %}
                 </li>
                 {% endfor %}
             </ul>

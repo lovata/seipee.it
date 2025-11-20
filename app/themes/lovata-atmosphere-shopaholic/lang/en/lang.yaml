@@ -129,6 +129,7 @@ form_user_password: 'Password'
 form_user_phone: 'Phone'
 form_user_zip_code: 'ZIP code'
 form_yes: 'Yes'
+form_download: 'Download'
 
 # Maintenance page
 maintenance_page_description: 'Our site is undergoing scheduled maintenance. Sorry for the inconvenience.'
