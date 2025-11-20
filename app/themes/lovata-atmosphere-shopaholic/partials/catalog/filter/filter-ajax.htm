@@ -97,7 +97,7 @@
                                     inputClasses = 'appearance-none search_input'
                                     type = 'number'
                                     name = 'search'
-                                    value = search
+                                    value = fSearchValue
                                     id = 'search'
                                 %}
                             </div>
@@ -196,14 +196,14 @@
             </div>
             <div class="_filter-details block">
                 <div class="hover:!no-underline text-base font-medium w-full">{{ 'filter_search'|_ }}</div>
-                <div class="flex _shopaholic-filter-wrapper pt-4">
+                <div class="flex pt-4">
                     <legend class="sr-only">{{ 'filter_search'|_ }}</legend>
                     {% partial 'form/input'
-                        wrapperClasses = 'w-full'
-                        inputClasses = 'appearance-none search_input'
-                        type = 'number'
+                        wrapperClasses = 'w-full _shopaholic-search-filter-wrapper'
+                        inputClasses = 'appearance-none _shopaholic-search-filter'
+                        type = 'text'
                         name = 'search'
-                        value = search
+                        value = fSearchValue
                         id = 'search'
                     %}
                 </div>

@@ -3,7 +3,7 @@ import {ProductList} from '/partials/product/product-list/product-list';
 import UrlGeneration from '@oc-shopaholic/url-generation';
 import ShopaholicFilterPrice from '@oc-shopaholic/shopaholic-filter-panel/shopaholic-filter-price';
 import ShopaholicFilterPanel from '@oc-shopaholic/shopaholic-filter-panel/shopaholic-filter-panel';
-import ShopaholicFilterQuantity from './ShopaholicFilterQuantity';
+import ShopaholicFilterInput from './ShopaholicFilterInput';
 
 export default class Filter {
   constructor() {
@@ -39,10 +39,23 @@ export default class Filter {
       .setFieldName('sale')
       .init();
 
-    const obFilterQuantity = new ShopaholicFilterQuantity(this.obListHelper);
-    obFilterQuantity.setInputSelector('._shopaholic-qty-filter')
-      .setInputName('filter-quantity')
-      .init();
+    const obQtyFilter = new ShopaholicFilterInput({
+      fieldName: 'quantity',
+      inputSelector: '._shopaholic-qty-filter',
+      obProductListHelper: this.obListHelper,
+      inputName: 'filter-quantity',
+      numericOnly: true
+    });
+    obQtyFilter.init();
+
+    const obSearchFilter = new ShopaholicFilterInput({
+      fieldName: 'search',
+      inputSelector: '._shopaholic-search-filter',
+      obProductListHelper: this.obListHelper,
+      inputName: 'search',
+      numericOnly: false
+    });
+    obSearchFilter.init();
   }
 
   /**
