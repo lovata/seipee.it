@@ -1,0 +1,9 @@
+{
+    "name": "lovata/buddies-plugin",
+    "type": "october-plugin",
+    "description": "October CMS user system",
+    "require": {
+        "lovata/toolbox-plugin": "^2.0",
+        "composer/installers": "~1.0"
+    }
+}
