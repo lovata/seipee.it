@@ -64,6 +64,7 @@ function onStart() {
                 labelClasses = 'text-sm'
                 dataBouncerMatch = '#form-password'
             %}
+            {% partial 'account/company-details' %}
             {% set accountPrivacyTermsConditions = '<a class="text-blue-800 hover:text-blue-700 active:text-blue-900 focus-visible:outline-blue underline hover:no-underline text-sm md:text-base" href="'~ this.theme.sign_up_terms_link|link ~'">'~('account_privacy_terms_conditions'|_)|raw ~'</a>' %}
             {% set accountPrivacyCookiePolicy = '<a class="text-blue-800 hover:text-blue-700 active:text-blue-900 focus-visible:outline-blue underline hover:no-underline text-sm md:text-base" href="'~ this.theme.sign_up_policy_link|link ~'">'~('account_privacy_cookie_policy'|_)~'</a>' %}
             {% partial 'form/input-checkbox'
