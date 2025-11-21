@@ -1,0 +1,33 @@
+{#
+Params:
+- obProduct
+#}
+{# Todo поправить условие, после реализации ERP-файлов #}
+{% if obProduct.files is not empty or 1 == 1 %}
+    <li data-title="{{ 'product_tab_documents'|_ }}">
+        <article class="prose text-sm md:text-base prose-p:mt-0 prose-a:visited:text-purple-800 md:prose-lg fr-view w-full">
+            {% set files = [
+                { 'title': 'User Manual.pdf', 'url': '/storage/instruction.pdf', 'size': '1.2 MB' },
+                { 'title': 'Warranty Card.pdf', 'url': '/storage/warranty.pdf', 'size': '650 KB' },
+                { 'title': 'Certificate.jpg', 'url': '/storage/certificate.jpg', 'size': '480 KB' }
+            ] %}
+            <ul class="!pl-0">
+                {% for file in files %}
+                <li class="flex items-center justify-between hover:bg-gray-50 transition">
+                    <div class="flex flex-col">
+                        <span class="font-medium text-gray-800">{{ file.title }}</span>
+                        <span class="text-sm text-gray-500">{{ file.size }}</span>
+                    </div>
+                    {% partial 'form/button'
+                    text = 'form_download'|_
+                    url = file.url
+                    type = 'download'
+                    isBlank = true
+                    wrapperClasses = 'inline-flex items-center no-underline hover:text-white'
+                    %}
+                </li>
+                {% endfor %}
+            </ul>
+        </article>
+    </li>
+{% endif %}
