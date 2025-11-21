@@ -1,0 +1,340 @@
+{% partial 'form/input'
+    labelText = 'company_name'|_
+    type = 'text'
+    id = 'company_name'
+    name = 'property[company_name]'
+    value = obUser.property.company_name
+    labelClasses = 'text-sm'
+    wrapperClasses = 'mt-4'
+%}
+<hr class="my-6">
+<h4>{{ 'company_address'|_ }}</h4>
+{% partial 'form/input'
+    labelText = 'building_number'|_
+    type = 'text'
+    id = 'building_number'
+    name = 'property[building_number]'
+    value = obUser.property.building_number
+    labelClasses = 'text-sm'
+    wrapperClasses = 'mt-4'
+%}
+{% partial 'form/input'
+    labelText = 'postal_code'|_
+    type = 'text'
+    id = 'postal_code'
+    name = 'property[postal_code]'
+    value = obUser.property.postal_code
+    labelClasses = 'text-sm'
+    wrapperClasses = 'mt-4'
+%}
+{% partial 'form/input'
+    labelText = 'province'|_
+    type = 'text'
+    id = 'province'
+    name = 'property[province]'
+    value = obUser.property.province
+    labelClasses = 'text-sm'
+    wrapperClasses = 'mt-4'
+%}
+{% partial 'form/input'
+    labelText = 'city'|_
+    type = 'text'
+    id = 'city'
+    name = 'property[city]'
+    value = obUser.property.city
+    labelClasses = 'text-sm'
+    wrapperClasses = 'mt-4'
+%}
+<hr class="my-6">
+
+{% partial 'form/input'
+    labelText = 'company_phone_number'|_
+    type = 'text'
+    id = 'company_phone_number'
+    name = 'property[company_phone_number]'
+    value = obUser.property.company_phone_number
+    labelClasses = 'text-sm'
+    wrapperClasses = 'mt-4'
+%}
+{% partial 'form/input'
+    labelText = 'company_fax_number'|_
+    type = 'text'
+    id = 'company_fax_number'
+    name = 'property[company_fax_number]'
+    value = obUser.property.company_fax_number
+    labelClasses = 'text-sm'
+    wrapperClasses = 'mt-4'
+%}
+{% partial 'form/input'
+    labelText = 'company_email_address'|_
+    type = 'email'
+    id = 'company_email_address'
+    name = 'property[company_email_address]'
+    value = obUser.property.company_email_address
+    labelClasses = 'text-sm'
+    wrapperClasses = 'mt-4'
+%}
+{% partial 'form/input'
+    labelText = 'tax_code'|_
+    type = 'text'
+    id = 'tax_code'
+    name = 'property[tax_code]'
+    value = obUser.property.tax_code
+    labelClasses = 'text-sm'
+    wrapperClasses = 'mt-4'
+%}
+{% partial 'form/input'
+    labelText = 'vat_number'|_
+    type = 'text'
+    id = 'vat_number'
+    name = 'property[vat_number]'
+    value = obUser.property.vat_number
+    labelClasses = 'text-sm'
+    wrapperClasses = 'mt-4'
+%}
+<hr class="my-6">
+<h4>{{  'bank_credentials'|_ }}</h4>
+
+{% partial 'form/input'
+    labelText = 'bank_name'|_
+    type = 'text'
+    id = 'bank_name'
+    name = 'property[bank_name]'
+    value = obUser.property.bank_name
+    labelClasses = 'text-sm'
+    wrapperClasses = 'mt-4'
+%}
+{% partial 'form/input'
+    labelText = 'bank_branch'|_
+    type = 'text'
+    id = 'bank_branch'
+    name = 'property[bank_branch]'
+    value = obUser.property.bank_branch
+    labelClasses = 'text-sm'
+    wrapperClasses = 'mt-4'
+%}
+{% partial 'form/input'
+    labelText = 'iban_code'|_
+    type = 'text'
+    id = 'iban_code'
+    name = 'property[iban_code]'
+    value = obUser.property.iban_code
+    labelClasses = 'text-sm'
+    wrapperClasses = 'mt-4'
+%}
+<hr class="my-6">
+{% partial 'form/input'
+    labelText = 'sdi_code'|_
+    type = 'text'
+    id = 'sdi_code'
+    name = 'property[sdi_code]'
+    value = obUser.property.sdi_code
+    labelClasses = 'text-sm'
+    wrapperClasses = 'mt-4'
+%}
+{% partial 'form/input'
+    labelText = 'pec_email'|_
+    type = 'email'
+    id = 'pec_email'
+    name = 'property[pec_email]'
+    value = obUser.property.pec_email
+    labelClasses = 'text-sm'
+    wrapperClasses = 'mt-4'
+%}
+<hr class="my-6">
+<h4>{{ 'commercial_сontact'|_ }}</h4>
+{% partial 'form/input'
+    labelText = 'commercial_contact_name'|_
+    type = 'text'
+    id = 'commercial_contact_name'
+    name = 'property[commercial_contact_name]'
+    value = obUser.property.commercial_contact_name
+    labelClasses = 'text-sm'
+    wrapperClasses = 'mt-4'
+%}
+{% partial 'form/input'
+    labelText = 'commercial_contact_phone'|_
+    type = 'text'
+    id = 'commercial_contact_phone'
+    name = 'property[commercial_contact_phone]'
+    value = obUser.property.commercial_contact_phone
+    labelClasses = 'text-sm'
+    wrapperClasses = 'mt-4'
+%}
+{% partial 'form/input'
+    labelText = 'commercial_contact_fax'|_
+    type = 'text'
+    id = 'commercial_contact_fax'
+    name = 'property[commercial_contact_fax]'
+    value = obUser.property.commercial_contact_fax
+    labelClasses = 'text-sm'
+    wrapperClasses = 'mt-4'
+%}
+{% partial 'form/input'
+    labelText = 'commercial_contact_email'|_
+    type = 'email'
+    id = 'commercial_contact_email'
+    name = 'property[commercial_contact_email]'
+    value = obUser.property.commercial_contact_email
+    labelClasses = 'text-sm'
+    wrapperClasses = 'mt-4'
+%}
+<hr class="my-6">
+<h4>{{ 'administration_сontact'|_ }}</h4>
+{% partial 'form/input'
+    labelText = 'administration_contact_name'|_
+    type = 'text'
+    id = 'administration_contact_name'
+    name = 'property[administration_contact_name]'
+    value = obUser.property.administration_contact_name
+    labelClasses = 'text-sm'
+    wrapperClasses = 'mt-4'
+%}
+{% partial 'form/input'
+    labelText = 'administration_contact_phone'|_
+    type = 'text'
+    id = 'administration_contact_phone'
+    name = 'property[administration_contact_phone]'
+    value = obUser.property.administration_contact_phone
+    labelClasses = 'text-sm'
+    wrapperClasses = 'mt-4'
+%}
+{% partial 'form/input'
+    labelText = 'administration_contact_fax'|_
+    type = 'text'
+    id = 'administration_contact_fax'
+    name = 'property[administration_contact_fax]'
+    value = obUser.property.administration_contact_fax
+    labelClasses = 'text-sm'
+    wrapperClasses = 'mt-4'
+%}
+{% partial 'form/input'
+    labelText = 'administration_contact_email'|_
+    type = 'email'
+    id = 'administration_contact_email'
+    name = 'property[administration_contact_email]'
+    value = obUser.property.administration_contact_email
+    labelClasses = 'text-sm'
+    wrapperClasses = 'mt-4'
+%}
+<hr class="my-6">
+
+{% partial 'form/input'
+    labelText = 'delivery_note_email'|_
+    type = 'email'
+    id = 'delivery_note_email'
+    name = 'property[delivery_note_email]'
+    value = obUser.property.delivery_note_email
+    labelClasses = 'text-sm'
+    wrapperClasses = 'mt-4'
+%}
+{% partial 'form/input'
+    labelText = 'invoice_sending_email'|_
+    type = 'email'
+    id = 'invoice_sending_email'
+    name = 'property[invoice_sending_email]'
+    value = obUser.property.invoice_sending_email
+    labelClasses = 'text-sm'
+    wrapperClasses = 'mt-4'
+%}
+{% partial 'form/input'
+    labelText = 'order_confirmation_sending_email'|_
+    type = 'email'
+    id = 'order_confirmation_sending_email'
+    name = 'property[order_confirmation_sending_email]'
+    value = obUser.property.order_confirmation_sending_email
+    labelClasses = 'text-sm'
+    wrapperClasses = 'mt-4'
+%}
+{% partial 'form/input'
+    labelText = 'offers_sending_email'|_
+    type = 'email'
+    id = 'offers_sending_email'
+    name = 'property[offers_sending_email]'
+    value = obUser.property.offers_sending_email
+    labelClasses = 'text-sm'
+    wrapperClasses = 'mt-4'
+%}
+{% partial 'form/input'
+    labelText = 'business_sector'|_
+    type = 'text'
+    id = 'business_sector'
+    name = 'property[business_sector]'
+    value = obUser.property.business_sector
+    labelClasses = 'text-sm'
+    wrapperClasses = 'mt-4'
+%}
+{% partial 'form/input'
+    labelText = 'website'|_
+    type = 'text'
+    id = 'website'
+    name = 'property[website]'
+    value = obUser.property.website
+    labelClasses = 'text-sm'
+    wrapperClasses = 'mt-4'
+%}
+{% partial 'form/input'
+    labelText = 'goods_destination'|_
+    type = 'text'
+    id = 'goods_destination'
+    name = 'property[goods_destination]'
+    value = obUser.property.goods_destination
+    labelClasses = 'text-sm'
+    wrapperClasses = 'mt-4'
+%}
+{% partial 'form/input'
+    labelText = 'transport_company'|_
+    type = 'text'
+    id = 'transport_company'
+    name = 'property[transport_company]'
+    value = obUser.property.transport_company
+    labelClasses = 'text-sm'
+    wrapperClasses = 'mt-4'
+%}
+{% partial 'form/input'
+    labelText = 'carrier_phone_number'|_
+    type = 'text'
+    id = 'carrier_phone_number'
+    name = 'property[carrier_phone_number]'
+    value = obUser.property.carrier_phone_number
+    labelClasses = 'text-sm'
+    wrapperClasses = 'mt-4'
+%}
+{% partial 'form/textarea'
+    labelText = 'notes'|_
+    type = 'text'
+    id = 'notes'
+    name = 'property[notes]'
+    value = obUser.property.notes
+    labelClasses = 'text-sm'
+    wrapperClasses = 'mt-4'
+%}
+<hr class="my-6">
+<h4>{{ 'profiling_data'|_ }}</h4>
+{% partial 'form/textarea'
+    labelText = 'reason_for_access_request'|_
+    type = 'text'
+    id = 'reason_for_access_request'
+    name = 'property[reason_for_access_request]'
+    value = obUser.property.reason_for_access_request
+    labelClasses = 'text-sm'
+    wrapperClasses = 'mt-4'
+%}
+{% partial 'form/input'
+    labelText = 'annual_turnover'|_
+    type = 'text'
+    id = 'annual_turnover'
+    name = 'property[annual_turnover]'
+    value = obUser.property.annual_turnover
+    labelClasses = 'text-sm'
+    wrapperClasses = 'mt-4'
+%}
+{% partial 'form/input'
+    labelText = 'estimated_purchase_forecast'|_
+    type = 'text'
+    id = 'estimated_purchase_forecast'
+    name = 'property[estimated_purchase_forecast]'
+    value = obUser.property.estimated_purchase_forecast
+    labelClasses = 'text-sm'
+    wrapperClasses = 'mt-4'
+%}

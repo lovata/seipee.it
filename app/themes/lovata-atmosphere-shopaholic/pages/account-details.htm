@@ -56,55 +56,57 @@ function onInit()
             labelClasses = 'text-sm'
             wrapperClasses = 'mt-4'
         %}
-        {% partial 'form/input'
-            labelText = 'form_user_phone'|_
-            type = 'text'
-            id = 'phone'
-            name = 'phone'
-            value = obUser.phone
-            wrapperClasses = 'mt-4'
-            labelClasses = 'text-sm'
-        %}
+        {% partial 'account/company-details' %}
 
-        {% set obUserAddress = obUser.address.first() %}
-        <input type="hidden" name="address_id" value="{{ obUserAddress.id }}"/>
-        {# TODO: Add inline ajax validation for Phone number format #}
-        {% partial 'form/input'
-            labelText = 'form_user_country'|_
-            type = 'text'
-            id = 'country'
-            name = 'country'
-            labelClasses = 'text-sm'
-            value = obUserAddress ? obUserAddress.country : ''
-            wrapperClasses = 'mt-4'
-        %}
-        {% partial 'form/input'
-            labelText = 'form_user_city'|_
-            type = 'text'
-            id = 'city'
-            name = 'city'
-            labelClasses = 'text-sm'
-            value = obUserAddress ? obUserAddress.city : ''
-            wrapperClasses = 'mt-4'
-        %}
-        {% partial 'form/input'
-            labelText = 'form_user_zip_code'|_
-            type = 'text'
-            id = 'postcode'
-            name = 'postcode'
-            labelClasses = 'text-sm'
-            value = obUserAddress ? obUserAddress.postcode : ''
-            wrapperClasses = 'mt-4'
-        %}
-        {% partial 'form/input'
-            labelText = 'form_user_address_postal'|_
-            type = 'text'
-            id = 'address'
-            name = 'address'
-            labelClasses = 'text-sm'
-            value = obUserAddress ? obUserAddress.address1 : ''
-            wrapperClasses = 'mt-4'
-        %}
+{#        {% partial 'form/input'#}
+{#            labelText = 'form_user_phone'|_#}
+{#            type = 'text'#}
+{#            id = 'phone'#}
+{#            name = 'phone'#}
+{#            value = obUser.phone#}
+{#            wrapperClasses = 'mt-4'#}
+{#            labelClasses = 'text-sm'#}
+{#        %}#}
+
+{#        {% set obUserAddress = obUser.address.first() %}#}
+{#        <input type="hidden" name="address_id" value="{{ obUserAddress.id }}"/>#}
+{#        #}{# TODO: Add inline ajax validation for Phone number format #}
+{#        {% partial 'form/input'#}
+{#            labelText = 'form_user_country'|_#}
+{#            type = 'text'#}
+{#            id = 'country'#}
+{#            name = 'country'#}
+{#            labelClasses = 'text-sm'#}
+{#            value = obUserAddress ? obUserAddress.country : ''#}
+{#            wrapperClasses = 'mt-4'#}
+{#        %}#}
+{#        {% partial 'form/input'#}
+{#            labelText = 'form_user_city'|_#}
+{#            type = 'text'#}
+{#            id = 'city'#}
+{#            name = 'city'#}
+{#            labelClasses = 'text-sm'#}
+{#            value = obUserAddress ? obUserAddress.city : ''#}
+{#            wrapperClasses = 'mt-4'#}
+{#        %}#}
+{#        {% partial 'form/input'#}
+{#            labelText = 'form_user_zip_code'|_#}
+{#            type = 'text'#}
+{#            id = 'postcode'#}
+{#            name = 'postcode'#}
+{#            labelClasses = 'text-sm'#}
+{#            value = obUserAddress ? obUserAddress.postcode : ''#}
+{#            wrapperClasses = 'mt-4'#}
+{#        %}#}
+{#        {% partial 'form/input'#}
+{#            labelText = 'form_user_address_postal'|_#}
+{#            type = 'text'#}
+{#            id = 'address'#}
+{#            name = 'address'#}
+{#            labelClasses = 'text-sm'#}
+{#            value = obUserAddress ? obUserAddress.address1 : ''#}
+{#            wrapperClasses = 'mt-4'#}
+{#        %}#}
         {% partial 'form/button'
             text = 'form_save'|_
             type = 'submit'
