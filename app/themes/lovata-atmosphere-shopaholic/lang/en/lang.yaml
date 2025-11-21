@@ -100,6 +100,8 @@ filter_result_no: 'No results match these filter criteria. Remove all filters or
 filter_see_all: 'See all'
 filter_to: 'to'
 filter_value_choose: 'Choose value'
+filter_quantity_required: "Quantity Required"
+filter_search: "Search"
 
 # Forms
 form_cancel: 'Cancel'

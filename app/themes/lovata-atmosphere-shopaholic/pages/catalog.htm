@@ -152,6 +152,8 @@ function onInit() {
             $arPriceFilterValue = explode('|', input('price'));
             $fMinPriceFilterValue = Arr::get($arPriceFilterValue, 0);
             $fMaxPriceFilterValue = Arr::get($arPriceFilterValue, 1);
+            $fQuantityValue = input('quantity');
+            $fSearchValue = input('search');
 
             $obProductPropertyList = $obActiveCategoryItem->product_filter_property;
             $obOfferPropertyList = $obActiveCategoryItem->offer_filter_property;
@@ -177,6 +179,8 @@ function onInit() {
 
             $this['fMinPriceFilterValue'] = $fMinPriceFilterValue;
             $this['fMaxPriceFilterValue'] = $fMaxPriceFilterValue;
+            $this['fQuantityValue'] = $fQuantityValue;
+            $this['fSearchValue'] = $fSearchValue;
             $this['bSaleFilter'] = $bSaleFilter;
 
             $this['arFilterValue'] = $arFilterValue;
@@ -185,6 +189,12 @@ function onInit() {
         }
 
         $arProductList = $obProductList->page($iPage, $this->Pagination->getCountPerPage());
+
+        $sSearchString = input('search');
+        if (!empty($sSearchString)) {
+            $obProductList = $obProductList->search($sSearchString);
+        }
+
         $iMaxPage = $this->Pagination->getMaxPage($obProductList->count());
         $iCount = $obProductList->count();
         $this['sActiveSorting'] = $sActiveSorting;
