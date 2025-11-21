@@ -58,8 +58,8 @@ Params:
                 data-bouncer-match="{{ dataBouncerMatch }}"
             {% endif %}
             {{ attribute|raw }}
-            placeholder="{{'reviews_share_experience_placeholder'|_}}"
-    ></textarea>
+            placeholder=""
+    >{{ value }}</textarea>
     {% if validationErrorSelector is not same as(null) %}
         <div class="{{ validationErrorSelector }} text-red-700 text-sm inline-block"></div>
     {% endif %}
