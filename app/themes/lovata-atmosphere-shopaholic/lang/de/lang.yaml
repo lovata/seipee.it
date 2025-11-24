@@ -92,14 +92,16 @@ filter_clear_all: 'Alle Filter löschen'
 filter_filter: 'Filter'
 filter_filters: 'Filter'
 filter_from: 'von'
+filter_item_code: "Artikelcode"
 filter_max: 'Max'
 filter_min: 'Min'
 filter_price: 'Preis'
+filter_quantity_required: ""
 filter_reset_all: 'Alles zurücksetzen'
 filter_result_no: 'Keine Ergebnisse, die den Filterkriterien entsprechen. Entfernen Sie alle Filter oder löschen Sie alle Filter, um Ergebnisse anzuzeigen.' #TODO: Möglicherweise schlechte Übersetzung
-filter_see_all: 'Alle ansehen'
 filter_to: 'bis'
 filter_value_choose: 'Wert auswählen'
+ilter_see_all: 'Alle ansehen'
 
 # Forms
 form_cancel: 'Abbrechen'
