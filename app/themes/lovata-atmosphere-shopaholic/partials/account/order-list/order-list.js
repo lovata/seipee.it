@@ -54,7 +54,7 @@ class OrderList {
     oc.ajax('Cart::onSync', {
       data: {cart: dataPositionRequest},
       complete: () => {
-
+        buttonNode.removeAttribute('disabled');
       },
     });
   }
