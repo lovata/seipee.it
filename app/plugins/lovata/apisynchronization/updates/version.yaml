@@ -1,0 +1,5 @@
+1.0.0:
+    - Initial plugin scaffolding
+1.1.0:
+    - Add external_id to property values table
+    - add_external_id_to_property_values.php
