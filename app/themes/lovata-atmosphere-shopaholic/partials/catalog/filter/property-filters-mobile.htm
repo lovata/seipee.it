@@ -61,6 +61,7 @@
                 </fieldset>
             </div>
         {% elseif obProperty.filter_type == 'select' %}
+        <div class="flex _shopaholic-filter-wrapper" data-filter-type="{{ obProperty.filter_type }}" data-property-id="{{ obProperty.id }}">
             {% set obPropertyValueList = obProperty.property_value.sort() %}
             {% set selectOptions = [] %}
             {% for obPropertyValue in obPropertyValueList %}
@@ -74,7 +75,9 @@
                 placeholder='filter_value_choose'|_
                 options = selectOptions
                 selectedValue = arFilterValue[obProperty.id]
+                hideClearButton = true
             %}
+        </div>
         {% elseif obProperty.filter_type == 'radio' %}
             <fieldset class="flex flex-wrap">
                 {% set obPropertyValueList = obProperty.property_value.sort() %}

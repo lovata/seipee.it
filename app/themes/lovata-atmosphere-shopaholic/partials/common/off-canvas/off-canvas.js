@@ -113,7 +113,14 @@ class OffCanvas {
   }
 
   initFocus() {
-    this.obFocusTrap = focusTrap.createFocusTrap(this.dialogNode);
+    if (this.obFocusTrap) {
+      this.obFocusTrap.deactivate();
+    }
+
+    this.obFocusTrap = focusTrap.createFocusTrap(this.dialogNode, {
+      escapeDeactivates: true,
+      clickOutsideDeactivates: true,
+    });
     this.obFocusTrap.activate();
   }
 
