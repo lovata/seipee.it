@@ -94,7 +94,7 @@ class ProductModelHandler extends ModelHandler
         }
 
         /** @var array $arProductIDList */
-        $arProductIDList = Product::orderBy('popularity', 'desc')->pluck('id')->all();
+        $arProductIDList = Product::orderBy('popularity', 'desc')->toBase()->pluck('id')->all();
 
         return $arProductIDList;
     }

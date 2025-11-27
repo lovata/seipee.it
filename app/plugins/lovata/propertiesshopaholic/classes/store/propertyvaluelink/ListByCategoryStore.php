@@ -69,10 +69,12 @@ class ListByCategoryStore extends AbstractStoreWithTwoParam
 
         if (empty($arPropertyIDList)) {
             //Get property value link list
-            $arPropertyIDList = (array) PropertyValueLink::getByElementType(Product::class)
+            $arPropertyIDList = PropertyValueLink::getByElementType(Product::class)
                 ->getByElementID($obProduct->id)
+                ->toBase()
                 ->groupBy('property_id')
-                ->pluck('property_id')->all();
+                ->pluck('property_id')
+                ->all();
         }
 
         $this->clearByCategoryAndPropertyList($arCategoryIDList, $arPropertyIDList);
@@ -100,10 +102,12 @@ class ListByCategoryStore extends AbstractStoreWithTwoParam
 
         if (empty($arPropertyIDList)) {
             //Get property value link list
-            $arPropertyIDList = (array) PropertyValueLink::getByElementType(Offer::class)
+            $arPropertyIDList = PropertyValueLink::getByElementType(Offer::class)
                 ->getByElementID($obOffer->id)
+                ->toBase()
                 ->groupBy('property_id')
-                ->pluck('property_id')->all();
+                ->pluck('property_id')
+                ->all();
         }
 
         $this->clearByCategoryAndPropertyList($arCategoryIDList, $arPropertyIDList);
@@ -116,7 +120,7 @@ class ListByCategoryStore extends AbstractStoreWithTwoParam
     public function clearByCategoryID($iCategoryID)
     {
         //Get property ID list
-        $arPropertyIDList = (array) Property::pluck('id')->all();
+        $arPropertyIDList = Property::pluck('id')->toBase()->all();
         if (empty($arPropertyIDList) || empty($iCategoryID)) {
             return;
         }

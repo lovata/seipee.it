@@ -19,7 +19,10 @@ class SortingListStore extends AbstractStoreWithoutParam
      */
     protected function getIDListFromDB() : array
     {
-        $arElementIDList = (array) Group::orderBy('sort_order', 'asc')->pluck('id')->all();
+        $arElementIDList = Group::orderBy('sort_order', 'asc')
+            ->toBase()
+            ->pluck('id')
+            ->all();
 
         return $arElementIDList;
     }

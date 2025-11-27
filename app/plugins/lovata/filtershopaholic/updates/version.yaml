@@ -24,3 +24,5 @@
     - 'Added composer.json to plugin'
 1.8.1:
     - 'Change lists method to pluck method. Thanks for contribution Nick Khaetsky.'
+1.9.0:
+    - 'Improve performance.'

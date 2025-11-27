@@ -19,7 +19,10 @@ class GlobalListStore extends AbstractStoreWithoutParam
      */
     protected function getIDListFromDB() : array
     {
-        $arElementIDList = (array) PropertySet::isGlobal()->pluck('id')->all();
+        $arElementIDList = PropertySet::isGlobal()
+            ->toBase()
+            ->pluck('id')
+            ->all();
 
         return $arElementIDList;
     }

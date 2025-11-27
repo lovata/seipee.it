@@ -155,7 +155,7 @@ class ListByPropertyStore extends AbstractStoreWithParam
      */
     protected function getIDListFromDB() : array
     {
-        $obElementList = PropertyValueLink::getByProperty($this->sValue)->get();
+        $obElementList = PropertyValueLink::getByProperty($this->sValue)->toBase()->get();
         if ($obElementList->isEmpty()) {
             return [];
         }

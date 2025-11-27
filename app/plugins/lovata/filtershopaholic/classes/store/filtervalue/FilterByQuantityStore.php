@@ -18,10 +18,12 @@ class FilterByQuantityStore extends AbstractStoreWithoutParam
      */
     protected function getIDListFromDB() : array
     {
-        $arProductIDList = (array) Offer::active()
+        $arProductIDList = Offer::active()
             ->getByQuantity(0, '>')
             ->groupBy('product_id')
-            ->pluck('product_id')->all();
+            ->toBase()
+            ->pluck('product_id')
+            ->all();
 
         return $arProductIDList;
     }

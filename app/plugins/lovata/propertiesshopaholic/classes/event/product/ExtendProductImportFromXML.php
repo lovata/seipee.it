@@ -161,7 +161,7 @@ class ExtendProductImportFromXML
      */
     protected function getPropertyListFields() : array
     {
-        $arPropertyList = (array) Property::active()->pluck('name', 'id')->all();
+        $arPropertyList = (array) Property::active()->toBase()->pluck('name', 'id')->all();
         if (empty($arPropertyList)) {
             return [];
         }

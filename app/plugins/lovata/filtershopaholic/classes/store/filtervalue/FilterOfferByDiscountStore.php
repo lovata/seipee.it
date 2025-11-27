@@ -27,7 +27,8 @@ class FilterOfferByDiscountStore extends AbstractStoreWithoutParam
             ->whereNull('lovata_shopaholic_offers.deleted_at')
             ->where('lovata_shopaholic_prices.item_type', Offer::class)
             ->join('lovata_shopaholic_offers', 'lovata_shopaholic_offers.id', '=', 'lovata_shopaholic_prices.item_id')
-            ->pluck('id')->all();
+            ->pluck('id')
+            ->all();
 
         return $arProductIDList;
     }

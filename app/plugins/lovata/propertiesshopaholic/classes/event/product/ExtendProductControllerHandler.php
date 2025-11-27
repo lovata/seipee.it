@@ -44,7 +44,7 @@ class ExtendProductControllerHandler
             return [];
         }
 
-        $arPropertyList = (array) Property::whereIn('id', $arPropertyIDList)->active()->pluck('name', 'id')->all();
+        $arPropertyList = (array) Property::whereIn('id', $arPropertyIDList)->active()->toBase()->pluck('name', 'id')->all();
         if (empty($arPropertyList)) {
             return [];
         }

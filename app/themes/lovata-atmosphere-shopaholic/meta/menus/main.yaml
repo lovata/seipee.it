@@ -14,11 +14,9 @@ items:
             isExternal: '0'
     -
         title: Catalog
-        nesting: 0
-        type: shop-catalog
+        type: cms-page
         code: ''
-        cmsPage: catalog
-        replace: 0
+        reference: catalog
         viewBag:
             isHidden: '0'
             cssClass: ''

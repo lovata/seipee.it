@@ -170,7 +170,7 @@ class SearchHelper
                 ->pluck('model_id')->all();
         } else {
             $sModelName = $this->sModel;
-            $arElementIDList = $sModelName::where($sFieldName, 'like', '%'.$sSearch.'%')->pluck('id')->all();
+            $arElementIDList = $sModelName::where($sFieldName, 'like', '%'.$sSearch.'%')->toBase()->pluck('id')->all();
         }
         if (empty($arElementIDList)) {
             return;

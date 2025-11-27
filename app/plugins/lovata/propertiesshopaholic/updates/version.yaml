@@ -100,3 +100,5 @@
     - 'Fixed October v4 compatibility'
 2.2.9:
     - 'Fix save logic for property values.'
+2.3.0:
+    - 'Improve performance.'

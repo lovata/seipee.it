@@ -158,7 +158,7 @@ class OfferModelHandler extends ModelHandler
         }
 
         //Get property ID list
-        $arPropertyIDList = (array) PropertyValueLink::getByElementType(Offer::class)->getByElementID($this->obElement->id)->pluck('property_id')->all();
+        $arPropertyIDList = (array) PropertyValueLink::getByElementType(Offer::class)->getByElementID($this->obElement->id)->toBase()->pluck('property_id')->all();
         if (empty($arPropertyIDList)) {
             return;
         }
