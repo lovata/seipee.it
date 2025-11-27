@@ -2,31 +2,149 @@ url = "/catalog"
 layout = "main"
 title = "Category list"
 
-[CategoryList]
+[ProductList]
+sorting = "popularity|desc"
+
+[Pagination]
+count_per_page = 15
+pagination_limit = 5
+active_class = "pagination__link_current"
+button_list = "first,first-more,main,last-more,last"
+first_button_name = "First"
+first_button_limit = 3
+first_button_number = 1
+first-more_button_name = "..."
+first-more_button_limit = 4
+prev_button_name = "Prev"
+prev_button_limit = 1
+prev-more_button_name = "..."
+prev-more_button_limit = 1
+next-more_button_name = "..."
+next-more_button_limit = 1
+next_button_name = "Next"
+next_button_limit = 1
+last-more_button_name = "..."
+last-more_button_limit = 4
+last_button_name = "Last"
+last_button_limit = 3
+last_button_number = 1
+==
+<?php
+use Lovata\Shopaholic\Classes\Collection\CategoryCollection;
+
+function onInit() {
+
+$bHasFilterPlugin = \System\Classes\PluginManager::instance()->hasPlugin('lovata.filtershopaholic')
+&& !\System\Classes\PluginManager::instance()->isDisabled('Lovata.FilterShopaholic');
+
+$bHasViewedPlugin = \System\Classes\PluginManager::instance()->hasPlugin('lovata.viewedproductsshopaholic')
+&& !\System\Classes\PluginManager::instance()->isDisabled('Lovata.ViewedProductsShopaholic')
+&& $this->theme->has_viewed_products;
+
+$bHasRelatedPlugin = \System\Classes\PluginManager::instance()->hasPlugin('lovata.relatedproductsshopaholic')
+&& !\System\Classes\PluginManager::instance()->isDisabled('Lovata.RelatedProductsShopaholic')
+&& $this->theme->has_related_products;
+
+$bHasAccessoriesPlugin = \System\Classes\PluginManager::instance()->hasPlugin('lovata.accessoriesshopaholic')
+&& !\System\Classes\PluginManager::instance()->isDisabled('Lovata.AccessoriesShopaholic')
+&& $this->theme->has_accessories;
+
+$sActiveSorting = $this->ProductList->getSorting();
+$iPage = $this->Pagination->getPageFromRequest();
+
+//Get product list
+$obProductList = $this->ProductList->make()->active()->site()->sort($sActiveSorting);
+
+//Get filters
+if ($bHasFilterPlugin) {
+//Get price filter
+$arPriceFilterValue = explode('|', input('price'));
+$fMinPriceFilterValue = Arr::get($arPriceFilterValue, 0);
+$fMaxPriceFilterValue = Arr::get($arPriceFilterValue, 1);
+$fQuantityValue = input('quantity');
+$fSearchValue = input('search');
+
+$obCategoryCollection = CategoryCollection::make()->active()->site();
+$obActiveCategoryItem = $obCategoryCollection->find(3);
+$obProductPropertyList = $obActiveCategoryItem->product_filter_property;
+$obOfferPropertyList = $obActiveCategoryItem->offer_filter_property;
+
+//Get filter by properties
+$arFilterValue = (array) input('property');
+if (!empty($arFilterValue)) {
+foreach($arFilterValue as $sKey => $sValue) {
+$arValueList = explode('|', $sValue);
+$arFilterValue[$sKey] = count($arValueList) === 1 ? array_shift($arValueList) : $arValueList;
+}
+}
+
+$obProductList->filterByProperty($arFilterValue, $obProductPropertyList)
+->filterByProperty($arFilterValue, $obOfferPropertyList)
+->filterByPrice($fMinPriceFilterValue, $fMaxPriceFilterValue);
+
+$bSaleFilter = (bool) input('sale');
+
+if ($bSaleFilter) {
+$obProductList->filterByDiscount();
+}
+
+$this['fMinPriceFilterValue'] = $fMinPriceFilterValue;
+$this['fMaxPriceFilterValue'] = $fMaxPriceFilterValue;
+$this['fQuantityValue'] = $fQuantityValue;
+$this['fSearchValue'] = $fSearchValue;
+$this['bSaleFilter'] = $bSaleFilter;
+
+$this['arFilterValue'] = $arFilterValue;
+$this['obProductPropertyList'] = $obProductPropertyList;
+$this['obOfferPropertyList'] = $obOfferPropertyList;
+}
+
+$arProductList = $obProductList->page($iPage, $this->Pagination->getCountPerPage());
+
+$sSearchString = input('search');
+if (!empty($sSearchString)) {
+$obProductList = $obProductList->search($sSearchString);
+}
+
+$iMaxPage = $this->Pagination->getMaxPage($obProductList->count());
+$iCount = $obProductList->count();
+$this['sActiveSorting'] = $sActiveSorting;
+$this['iPage'] = $iPage;
+$this['iCount'] = $iCount;
+$this['iMaxPage'] = $iMaxPage;
+
+$this['arProductList'] = $arProductList;
+$this['obProductList'] = $obProductList;
+
+$this['obActiveCategory'] = $obActiveCategoryItem;
+
+$this['path_page_js'] = 'js/pages/catalog.js';
+
+$this['bHasFilterPlugin'] = $bHasFilterPlugin;
+$this['bHasViewedPlugin'] = $bHasViewedPlugin;
+$this['bHasRelatedPlugin'] = $bHasRelatedPlugin;
+$this['bHasAccessoriesPlugin'] = $bHasAccessoriesPlugin;
+}
+
+function onStart()
+{
+}
+?>
 ==
 {% set arBreadcrumbs = [
-    {'name': 'catalog_product_categories'|_, 'url': null}
+{'name': 'breadcrumbs_catalog'|_, 'url': 'category-list'|page}
 ] %}
 
-{% set obCategoryList = CategoryList.make().active().tree().site() %}
+
+
 {% partial 'common/breadcrumbs' arBreadcrumbs=arBreadcrumbs %}
 
 <h1 class="text-gray-900 text-xl md:text-2xl xl:text-3xl uppercase">{{ SeoToolbox.getPageTitle()|default('catalog_product_categories'|_) }}</h1>
-{% if obCategoryList.isNotEmpty() %}
-    <div class="flex flex-col my-10">
-        {% partial 'common/advanced-list/advanced-list' body %}
-            {% for obCategory in obCategoryList %}
-                {% if obCategory.product_count > 0 %}
-                    {% partial 'common/advanced-list/advanced-list-item'
-                        name = obCategory.name
-                        href = obCategory.getPageUrl('catalog')
-                        imagePath = obCategory.icon.path
-                        imageNotIcon = SiteContent.image_settings_bitmap
-                    %}
-                {% endif %}
-            {% endfor %}
-        {% endpartial %}
-    </div>
+
+{% if arProductList is not empty %}
+{% partial 'catalog/catalog-page' %}
+{% else %}
+<p>{{ 'catalog_no_products'|_ }}</p>
 {% endif %}
 
 <div class="mt-6 fr-view">
