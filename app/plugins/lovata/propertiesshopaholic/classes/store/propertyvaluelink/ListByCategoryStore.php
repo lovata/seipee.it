@@ -152,7 +152,7 @@ class ListByCategoryStore extends AbstractStoreWithTwoParam
         //Get product collection by category ID
         $obProductList = ProductCollection::make()->category($this->sAdditionParam);
 
-        $arProductIDList = $obProductList->getIDList();
+        $arProductIDList = $obProductList->getKeyList();
 
         //Get array from cache
         $arCacheData = ListByPropertyStore::instance()->get($this->sValue);
@@ -186,12 +186,13 @@ class ListByCategoryStore extends AbstractStoreWithTwoParam
                 continue;
             }
 
-            $arCommonIDList = array_intersect($arProductIDList, $arElementIDList);
-            if (empty($arCommonIDList)) {
-                continue;
-            }
+            foreach ($arElementIDList as $iElementID) {
+                if (isset($arProductIDList[$iElementID])) {
+                    $arResult[] = $iValueID;
 
-            $arResult[] = $iValueID;
+                    break;
+                }
+            }
         }
 
         $arResult = array_unique($arResult);

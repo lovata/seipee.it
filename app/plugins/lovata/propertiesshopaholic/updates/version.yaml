@@ -102,3 +102,5 @@
     - 'Fix save logic for property values.'
 2.3.0:
     - 'Improve performance.'
+2.4.0:
+    - 'Improve performance. Requires Toolbox plugin version 2.3.0 and later.'

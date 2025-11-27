@@ -24,6 +24,8 @@ use Lovata\PropertiesShopaholic\Models\PropertyValueLink;
 class ListByPropertyStore extends AbstractStoreWithParam
 {
     protected static $instance;
+    protected static ?array $arProductFlipIDList = null;
+    protected static ?array $arOfferFlipIDList = null;
 
     /**
      * Get product id list by property ID and value ID
@@ -155,7 +157,7 @@ class ListByPropertyStore extends AbstractStoreWithParam
      */
     protected function getIDListFromDB() : array
     {
-        $obElementList = PropertyValueLink::getByProperty($this->sValue)->toBase()->get();
+        $obElementList = PropertyValueLink::select(['value_id', 'element_type', 'element_id', 'product_id'])->getByProperty($this->sValue)->toBase()->get();
         if ($obElementList->isEmpty()) {
             return [];
         }
@@ -166,8 +168,10 @@ class ListByPropertyStore extends AbstractStoreWithParam
             'product_offer' => [],
         ];
 
-        $obProductActiveList = ProductCollection::make()->active();
-        $obOfferActiveList = OfferCollection::make()->active();
+        if (self::$arProductFlipIDList === null) {
+            self::$arProductFlipIDList = ProductCollection::make()->active()->getKeyList();
+            self::$arOfferFlipIDList = OfferCollection::make()->active()->getKeyList();
+        }
 
         //Prepare result array
         /** @var PropertyValueLink $obPropertyValueLink */
@@ -178,13 +182,13 @@ class ListByPropertyStore extends AbstractStoreWithParam
                 $arResult['product_offer'][$obPropertyValueLink->value_id] = [];
             }
 
-            if ($obPropertyValueLink->element_type == Offer::class && $obOfferActiveList->has($obPropertyValueLink->element_id)) {
+            if ($obPropertyValueLink->element_type == Offer::class && isset(self::$arOfferFlipIDList[$obPropertyValueLink->element_id])) {
                 $arResult['offer'][$obPropertyValueLink->value_id][] = $obPropertyValueLink->element_id;
 
-                if ($obProductActiveList->has($obPropertyValueLink->product_id)) {
+                if (isset(self::$arProductFlipIDList[$obPropertyValueLink->product_id])) {
                     $arResult['product_offer'][$obPropertyValueLink->value_id][] = $obPropertyValueLink->product_id;
                 }
-            } elseif ($obProductActiveList->has($obPropertyValueLink->element_id)) {
+            } elseif (isset(self::$arProductFlipIDList[$obPropertyValueLink->element_id])) {
                 $arResult['product'][$obPropertyValueLink->value_id][] = $obPropertyValueLink->product_id;
             }
         }
