@@ -16,7 +16,7 @@ Params:
 
 {% for obOrder in arOrderList %}
     {% set obTotalPriceData = obOrder.total_price_data %}
-    <li class="-mx-4 px-4 md:mx-0 md:px-0 odd:bg-white border-y border-outline-variant lg:even:bg-gray-100 lg:border-y-0 lg:border-none lg:grid lg:grid-flow-col lg:grid-cols-6">
+    <li class="-mx-4 px-4 md:mx-0 md:px-0 odd:bg-white border-y border-outline-variant lg:even:bg-gray-100 lg:border-y-0 lg:border-none lg:grid lg:grid-flow-col lg:grid-cols-6 _order_item">
         <div class="py-4 grid gap-y-2 lg:gap-y-0 lg:py-0 lg:col-span-3 lg:grid-cols-3">
             <div class="grid grid-cols-2 lg:px-3 lg:py-2 lg:block">
                 <span class="text-sm font-medium lg:hidden">{{ 'account_order_number'|_ }}:&nbsp;</span>
@@ -41,12 +41,12 @@ Params:
                 hideText = 'account_order_items_hide'|_ ~ ' (' ~ obOrderPositionList.count() ~ ')'
                 body
             %}
-                <ul class="_toggle-list flex flex-col space-y-2 mt-2">
+                <ul class="_toggle-list flex flex-col space-y-2 mt-2 _order_position_list">
                     {% for obOrderPosition in obOrderPositionList %}
                         {% set obOffer = obOrderPosition.offer %}
                         {% set obProduct = obOffer.product %}
                         {% if obOffer.isNotEmpty() and obProduct.isNotEmpty() %}
-                            <li class="flex flex-row space-x-2 rtl:space-x-reverse ">
+                            <li class="flex flex-row space-x-2 rtl:space-x-reverse " data-offer-id="{{ obOffer.id }}" data-quantity="{{ obOrderPosition.quantity }}">
                                 <div class="relative flex items-center">
                                     {% if obProduct.preview_image is not empty %}
                                         <picture class="object-fill w-20 h-20">
@@ -97,6 +97,9 @@ Params:
         <div class="py-4 grid grid-cols-2 border-t border-outline-variant lg:border-t-0 lg:border-none lg:py-2 lg:border-0 lg:px-3 lg:block">
             <span class="text-sm font-medium lg:hidden">{{'account_order_price_total'|_}}&nbsp;</span>
             <span class="text-sm text-end font-medium lg:font-normal lg:text-start lg:text-base">{{ obOrder.currency_symbol }}{{ obTotalPriceData.price }}</span>
+        </div>
+        <div class="py-4">
+            {% partial 'form/button' text='order_again'|_ isGhost=true wrapperClasses='_order_again_button' %}
         </div>
     </li>
 {% endfor %}

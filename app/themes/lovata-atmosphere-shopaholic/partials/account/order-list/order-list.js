@@ -4,11 +4,14 @@ class OrderList {
     document.addEventListener('click', (event) => {
       const eventNode = event.target;
       const buttonNode = eventNode.closest('._show-more-orders');
-      if (!buttonNode) {
-        return;
+      if (buttonNode) {
+        obThis.sendAjax(buttonNode);
       }
 
-      obThis.sendAjax(buttonNode);
+      const orderAgainNode = eventNode.closest('._order_again_button');
+      if (orderAgainNode) {
+        this.sendOrderAgainRequest(orderAgainNode);
+      }
     });
   }
 
@@ -28,6 +31,30 @@ class OrderList {
           buttonNode.dataset.page = nextPage.toString();
           buttonNode.removeAttribute('disabled');
         }
+      },
+    });
+  }
+
+  sendOrderAgainRequest(buttonNode) {
+    const orderItemNode = buttonNode.closest('._order_item');
+    const orderPositionNodes = orderItemNode ? orderItemNode.querySelectorAll('._order_position_list li') : [];
+    if (!orderPositionNodes || orderPositionNodes.length === 0) {
+      return;
+    }
+
+    buttonNode.setAttribute('disabled', 'disabled');
+    const dataPositionRequest = [];
+    orderPositionNodes.forEach(orderPositionNode => {
+      dataPositionRequest.push({
+        offer_id: parseInt(orderPositionNode.dataset.offerId),
+        quantity: parseInt(orderPositionNode.dataset.quantity),
+      });
+    });
+
+    oc.ajax('Cart::onSync', {
+      data: {cart: dataPositionRequest},
+      complete: () => {
+        buttonNode.removeAttribute('disabled');
       },
     });
   }
