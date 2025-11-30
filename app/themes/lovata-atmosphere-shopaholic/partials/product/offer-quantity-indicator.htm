@@ -1,0 +1,22 @@
+{#
+Params:
+- fQuantityValue
+- obOffer
+- id
+#}
+<div>
+    <div class="inline-block w-3 h-3 rounded-full
+        {% if fQuantityValue is empty %}
+            bg-gray-400
+        {% elseif fQuantityValue > obOffer.quantity %}
+            bg-orange-500
+        {% elseif obOffer.quantity >= fQuantityValue %}
+            bg-green-500
+        {% endif %}
+    "
+     {% if id is defined %}
+         id="{{ id }}"
+         data-quantity="{{ obOffer.quantity ?? 0 }}"
+     {% endif %}
+    ></div>
+</div>
