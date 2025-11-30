@@ -139,7 +139,9 @@ function onStart()
 
 {% partial 'common/breadcrumbs' arBreadcrumbs=arBreadcrumbs %}
 
-<h1 class="text-gray-900 text-xl md:text-2xl xl:text-3xl uppercase">{{ SeoToolbox.getPageTitle()|default('catalog_product_categories'|_) }}</h1>
+{#
+#<h1 class="text-gray-900 text-xl md:text-2xl xl:text-3xl uppercase">{{ SeoToolbox.getPageTitle()|default('catalog_product_categories'|_) }}</h1>
+#}
 
 {% if arProductList is not empty %}
 {% partial 'catalog/catalog-page' %}
