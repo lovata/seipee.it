@@ -1,19 +1,12 @@
-url = "/catalog/:category*/:slug?"
+url = "/:slug"
 layout = "main"
 title = "Catalog"
 
 [CategoryPage MainCategoryPage]
-slug = "{{ :category }}"
-slug_required = 1
-smart_url_check = 1
-has_wildcard = 1
-skip_error = 0
+
+skip_error = 1
 
 [CategoryPage]
-slug = "{{ :slug }}"
-slug_required = 0
-smart_url_check = 1
-has_wildcard = 0
 skip_error = 1
 
 [ProductPage]
@@ -223,15 +216,16 @@ function onInit() {
 
     $obCurrentCategory = !empty($obProductItem) ? $obProductItem->category : $obActiveCategoryItem;
 
-    while (!empty($obCurrentCategory) && $obCurrentCategory->isNotEmpty()) {
-        $arBreadcrumbs[] = [
-            'name'   => $obCurrentCategory->name,
-            'url'    => $obCurrentCategory->getPageUrl('catalog', ['slug']),
-            'active' => empty($obProductItem) && $obCurrentCategory->id == $obActiveCategoryItem->id,
-        ];
-
-        $obCurrentCategory = $obCurrentCategory->parent;
-    }
+{#
+#while (!empty($obCurrentCategory) && $obCurrentCategory->isNotEmpty()) {
+#        $arBreadcrumbs[] = [
+#            'name'   => $obCurrentCategory->name,
+#            'url'    => $obCurrentCategory->getPageUrl('catalog', ['slug']),
+#            'active' => empty($obProductItem) && $obCurrentCategory->id == $obActiveCategoryItem->id,
+#        ];
+#
+#        $obCurrentCategory = $obCurrentCategory->parent;
+    } #}
 
     $this['arBreadcrumbs'] = array_reverse($arBreadcrumbs);
     $this['bHasFilterPlugin'] = $bHasFilterPlugin;
