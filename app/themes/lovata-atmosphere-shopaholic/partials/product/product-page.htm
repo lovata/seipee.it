@@ -50,9 +50,8 @@
                             obOfferList = obOfferList
                             obOffer = obOffer
                         %}
-                    <div class="flex flex-row items-center">
+                    <div class="_default-product flex flex-row items-center">
                         {% partial 'product/offer-quantity/offer-quantity'
-                            max = obOffer.quantity
                             value = 1
                             id = obOffer.id
                             widthClasses = "w-9 h-9"
@@ -60,11 +59,11 @@
                             wrapperClasses = 'mt-6'
                         %}
                     </div>
-                    <div class="flex flex-row items-center space-x-2 rtl:space-x-reverse  mt-8 md:mt-10">
+                    <div class="_default-product flex flex-row items-center space-x-2 rtl:space-x-reverse  mt-8 md:mt-10">
                         {# TODO: Turn two buttons into one #}
                         {% partial 'form/button'
                             text = 'product_add_to_cart'|_
-                            wrapperClasses = '_shopaholic-cart-add font-bold w-full md:min-w-60 !py-2 md:!py-3'
+                            wrapperClasses = '_shopaholic-cart-add font-bold w-full md:w-auto md:min-w-60 !py-2 md:!py-3'
                         %}
                         {% if bHasWishListPlugin %}
                             {% if obProduct.inWishList() %}
@@ -79,6 +78,24 @@
                                 %}
                             {% endif %}
                         {% endif %}
+                    </div>
+                    <div class="_custom-product hidden flex flex-row items-center space-x-2 rtl:space-x-reverse">
+                        {% partial 'form/button'
+                            text = 'product_custom'|_
+                            wrapperClasses = '_shopaholic-cart-add font-bold w-full md:w-auto md:min-w-60 !py-2 md:!py-3 no-underline hover:text-white'
+                            url = '#'
+                        %}
+                    </div>
+                    <div class="_custom-product flex flex-row items-center space-x-2 rtl:space-x-reverse mt-4">
+                        {% partial 'form/button'
+                        text = 'catalog_new_search'|_
+                        wrapperClasses = 'font-bold w-full md:w-auto md:min-w-60 !py-2 md:!py-3 no-underline hover:text-white !bg-orange-500 hover:!bg-orange-600'
+                        url = '/catalog'
+                        %}
+                    </div>
+                    <div class="mx-auto mt-10 space-y-10 max-w-full sm:max-w-4xl w-full">
+                        {% partial 'product/product-variants/product-variants-list'%}
+                        {% partial 'product/product-variants/product-variants-checkbox'%}
                     </div>
                 </div>
             </div>

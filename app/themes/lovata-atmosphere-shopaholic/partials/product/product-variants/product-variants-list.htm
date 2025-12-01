@@ -1,0 +1,25 @@
+{% set options = [
+    { 'id': 1, 'name': 'Variant 1', 'description': 'Description Variant 1' },
+    { 'id': 2, 'name': 'Variant 2', 'description': 'Description Variant 2' },
+    { 'id': 3, 'name': 'Variant 3', 'description': 'Description Variant 3' },
+] %}
+
+
+<div class="max-w-4xl mx-auto space-y-4">
+
+    {# Todo поменять заголовки на перевод #}
+    <h2 class="text-xl font-semibold text-gray-800">Native product variants:</h2>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
+        {% for option in options %}
+        <label class="border rounded-lg p-4 flex items-start transition relative group">
+            <div>
+                <h3 class="font-semibold text-lg">{{ option.name }}</h3>
+                <p class="text-gray-600 mt-1">{{ option.description }}</p>
+            </div>
+            <span class="absolute inset-0 rounded-lg border-2 border-transparent pointer-events-none"></span>
+        </label>
+        {% endfor %}
+    </div>
+
+</div>

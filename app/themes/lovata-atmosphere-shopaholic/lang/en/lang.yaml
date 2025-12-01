@@ -69,6 +69,7 @@ catalog_products_also_like: 'You might also like'
 catalog_products_popular: 'Popular products'
 catalog_products_show_more: 'More products'
 catalog_products_viewed: 'Recently viewed'
+catalog_new_search: 'New search'
 
 # Contact
 contact_address: 'Address'
