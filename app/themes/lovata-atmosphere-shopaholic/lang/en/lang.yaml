@@ -133,6 +133,9 @@ form_user_password: 'Password'
 form_user_phone: 'Phone'
 form_user_zip_code: 'ZIP code'
 form_yes: 'Yes'
+form_download: 'Download'
+form_quotation_notes: 'Label of the quotation'
+form_quotation_title: 'Additional notes'
 
 # Maintenance page
 maintenance_page_description: 'Our site is undergoing scheduled maintenance. Sorry for the inconvenience.'
@@ -301,3 +304,5 @@ wishlist_remove_label: 'Remove from wish list'
 wishlist_remove_success: 'Product was removed from wish list.'
 wishlist_start_shopping: 'Start shopping'
 wishlist_title: 'Wish list' #TODO: Unify headings  translation keys
+
+page_request_quotation: 'Request quotation'

@@ -133,6 +133,9 @@ form_user_password: 'Password'
 form_user_phone: 'Telefono'
 form_user_zip_code: 'CAP'
 form_yes: 'Sì'
+form_download: 'Scarica'
+form_quotation_notes: 'Etichetta del preventivo'
+form_quotation_title: 'Note aggiuntive'
 
 # Maintenance page
 maintenance_page_description: 'Il nostro sito è in manutenzione programmata. Ci scusiamo per il disagio.'
@@ -301,3 +304,5 @@ wishlist_remove_label: 'Rimuovi dalla lista dei desideri'
 wishlist_remove_success: 'Il prodotto è stato rimosso dalla lista dei desideri.'
 wishlist_start_shopping: 'Inizia a fare acquisti'
 wishlist_title: 'Lista dei desideri'
+
+page_request_quotation: 'Richiedi un preventivo'

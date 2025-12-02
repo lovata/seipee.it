@@ -133,6 +133,8 @@ form_user_password: 'Passwort'
 form_user_phone: 'Telefonnummer'
 form_user_zip_code: 'Postleitzahl'
 form_yes: 'Ja'
+form_quotation_notes: 'Bezeichnung des Angebots'
+form_quotation_title: 'Zusätzliche Notizen'
 
 # Maintenance page
 maintenance_page_description: 'Unsere Website befindet sich in der planmäßigen Wartung. Wir entschuldigen uns für die Unannehmlichkeiten.'
@@ -301,3 +303,5 @@ wishlist_remove_label: 'Aus Favoriten entfernen'
 wishlist_remove_success: 'Artikel wurde aus den Favoriten entfernt.'
 wishlist_start_shopping: 'Mit dem Einkaufen beginnen'
 wishlist_title: 'Favoriten'
+
+page_request_quotation: 'Angebot anfordern'
