@@ -1,0 +1,104 @@
+title = "Request Quotation"
+url = "/request-quotation"
+layout = "main"
+is_hidden = 0
+
+[genericForm]
+rules[name] = "required"
+rules[email] = "required"
+messages_success = "Your form was successfully submitted"
+messages_errors = "There were errors with your submission"
+reset_form = 1
+inline_errors = "disabled"
+allowed_fields[] = "name"
+allowed_fields[] = "email"
+allowed_fields[] = "message"
+sanitize_data = "disabled"
+anonymize_ip = "disabled"
+recaptcha_theme = "light"
+recaptcha_type = "image"
+recaptcha_size = "normal"
+emails_date_format = "Y-m-d"
+
+[global RequestQuotationPage]
+handle = "Site\RequestQuotationPage"
+==
+<?php
+function onInit()
+{
+    $this['path_page_js'] = 'js/pages/request-quotation.js';
+}
+?>
+==
+{% set arBreadcrumbs = [
+    {'name': 'page_request_quotation'|_, 'url': null}
+] %}
+
+{% partial 'common/breadcrumbs' arBreadcrumbs=arBreadcrumbs %}
+
+{% set product = {
+    'title': '1ph 2 Poli AXM 56b Kw 0,09 B3 VOLT.230 HZ.50',
+    'alias': '01002056B003C000001',
+    'code': '01002056B003C000001',
+    'description': 'A convenient and high-quality product for everyday use.',
+    'image': '/themes/lovata-atmosphere-shopaholic/assets/images/no-photo.svg'
+} %}
+
+<h1 class="text-lg md:text-3xl text-gray-900 font-medium uppercase mb-4 md:mb-6">{{ 'page_request_quotation'|_ }}</h1>
+
+<div class="flex flex-col md:flex-row md:gap-10 pb-12">
+    <div class="max-w-sm mx-auto bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300">
+        <div class="p-4">
+            <img
+                class="w-full h-48 sm:h-64 object-cover rounded-lg"
+                src="{{ product.image }}"
+                alt="{{ product.title }}"
+            />
+        </div>
+        <div class="p-4">
+            <h2 class="text-lg font-semibold text-gray-800">
+                {{ product.title }}
+            </h2>
+            <p class="text-sm text-gray-500 mt-1">
+                Product code: <span class="font-medium text-gray-700">{{ product.code }}</span>
+            </p>
+            <p class="text-sm text-gray-500">
+                Alias code: <span class="font-medium text-gray-700">{{ product.alias }}</span>
+            </p>
+            <p class="text-sm text-gray-500">
+                {{ product.description }}
+            </p>
+        </div>
+    </div>
+    <div class="w-full xl:max-w-[850px] mt-7 md:mt-0">
+        <form id="request-quotation-form">
+            {{ form_token() }}
+
+            {% partial 'form/input'
+                id = 'quotation_title'
+                labelText = 'form_quotation_title'|_
+                name = 'quotation_title'
+                required = 'required'
+                type = 'text'
+                wrapperClasses = 'mb-6 relative'
+                labelClasses = 'text-sm'
+            %}
+
+            {% partial 'form/textarea'
+                id="form_quotation_notes"
+                name="form_quotation_notes"
+                labelClasses="text-gray-600 inline-block mb-1 text-sm"
+                rows="5"
+                cols="50"
+                labelText = 'form_quotation_notes' |_
+                required = 'required'
+            %}
+
+            {% partial 'form/button'
+                text = 'form_send'|_
+                type = 'submit'
+                wrapperClasses = 'w-full md:w-auto mt-12 md:mt-8'
+            %}
+        </form>
+    </div>
+</div>

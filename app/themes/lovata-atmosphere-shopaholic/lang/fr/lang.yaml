@@ -132,6 +132,8 @@ form_user_phone: 'Téléphone'
 form_user_zip_code: 'Code postal'
 form_yes: 'Oui'
 form_download: 'Télécharger'
+form_quotation_notes: 'Étiquette du devis'
+form_quotation_title: 'Notes supplémentaires'
 
 # Maintenance page
 maintenance_page_description: 'Notre site est en maintenance programmée. Nous sommes désolés pour la gêne occasionnée.'
@@ -297,3 +299,5 @@ wishlist_remove_label: 'Retirer de la liste d’envies'
 wishlist_remove_success: 'Le produit a été retiré de la liste d’envies.'
 wishlist_start_shopping: 'Commencer vos achats'
 wishlist_title: 'Liste d’envies'
+
+page_request_quotation: 'Demander un devis'

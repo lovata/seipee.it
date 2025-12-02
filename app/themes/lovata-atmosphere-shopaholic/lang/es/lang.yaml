@@ -132,6 +132,8 @@ form_user_phone: 'Teléfono'
 form_user_zip_code: 'Código postal'
 form_yes: 'Sí'
 form_download: 'Descargar'
+form_quotation_notes: 'Etiqueta del presupuesto'
+form_quotation_title: 'Notas adicionales'
 
 # Maintenance page
 maintenance_page_description: 'Nuestro sitio está en mantenimiento programado. Lamentamos las molestias.'
@@ -297,3 +299,5 @@ wishlist_remove_label: 'Eliminar de la lista de deseos'
 wishlist_remove_success: 'Producto eliminado de la lista de deseos.'
 wishlist_start_shopping: 'Comenzar a comprar'
 wishlist_title: 'Lista de deseos'
+
+page_request_quotation: 'Solicitar un presupuesto'
