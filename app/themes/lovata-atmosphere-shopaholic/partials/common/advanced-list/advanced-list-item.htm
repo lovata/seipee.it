@@ -24,7 +24,7 @@ Params:
             aria-hidden="true"
         {% endif %}
 >
-    <a class="group text-typography-basic overflow-hidden rounded-sm flex flex-row sm:flex-col text-sm xl:text-base font-medium h-full group cursor-pointer border border-l-0 sm:border-l sm:border-t-0 border-solid border-border rounded-ss-sm sm:rounded-es-sm rounded-se-sm sm:rounded-t-none sm:text-center group-active:underline {{wrapperClasses}}" href="{{ href }}">
+    <a class="group text-typography-basic overflow-hidden rounded-sm flex sm:flex-col text-sm xl:text-base font-medium h-full group cursor-pointer border border-l-0 sm:border-l sm:border-t-0 border-solid border-border rounded-ss-sm sm:rounded-es-sm rounded-se-sm sm:rounded-t-none sm:text-center group-active:underline {{wrapperClasses}}" href="{{ href }}">
         {% if imageNotIcon and imagePath%}
             <picture class="overflow-hidden relative h-12 sm:h-auto w-12 sm:w-auto bg-outline-variant flex items-center justify-center {{ classRatio }}">
                 <img class="object-contain w-full h-full sm:transition-all sm:group-hover:scale-110" src="{{ imagePath }}" alt="{{ name }}">
