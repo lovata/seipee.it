@@ -48,8 +48,8 @@ class ProductPropertiesSyncService
                     $value = PropertyValue::where('external_id', $valueCode)->first();
                     $product = Product::where('external_id', $productExt)->first();
 
-                    if (!$product) { $missing++; $processed++; print_r('1'); print_r($row); continue; }
-                    if (!$value)   { $missing++; $processed++; print_r('2'); print_r($row); continue; }
+                    if (!$product) { $missing++; $processed++; continue; }
+                    if (!$value)   { $missing++; $processed++; continue; }
 
                     // Check if link exists
                     $exists = PropertyValueLink::where([
