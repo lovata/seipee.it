@@ -154,6 +154,58 @@ class ApiClientService
     }
 
     /**
+     * Generic POST to the Post endpoint with provided parameters.
+     *
+     * @param string $table
+     * @param string $where
+     * @param array  $jsonRow
+     * @param int    $orderRow
+     * @param int    $operationPost
+     * @return array Decoded JSON response
+     * @throws \RuntimeException
+     */
+    public function post(string $table, string $where, array $jsonRow, int $orderRow = 0, int $operationPost = 0): array
+    {
+        if (!$this->token) {
+            throw new \RuntimeException('Not authenticated: call authenticate() first.');
+        }
+
+        $payload = [
+            'table'         => $table,
+            'where'         => $where,
+            'jsonRow'       => $jsonRow,
+            'orderRow'      => $orderRow,
+            'operationPost' => $operationPost,
+        ];
+
+        try {
+            $response = $this->http->post('/apiV2/Post', [
+                'headers' => [
+                    'Accept'        => 'application/json',
+                    'Content-Type'  => 'application/json',
+                    'Authorization' => 'Bearer '.$this->token,
+                ],
+                'json'    => $payload,
+            ]);
+        } catch (GuzzleException $e) {
+            throw new \RuntimeException('POST request failed: '.$e->getMessage(), 0, $e);
+        }
+
+        $status = $response->getStatusCode();
+        $body = (string) $response->getBody();
+        if ($status >= 400) {
+            throw new \RuntimeException('POST failed with status '.$status.': '.$body);
+        }
+
+        $data = json_decode($body, true);
+        if ($data === null) {
+            return ['raw' => $body];
+        }
+
+        return $data;
+    }
+
+    /**
      * Iterate pages and return a generator yielding each page's decoded array.
      * Stops after totRows covered or maxPages reached.
      *
