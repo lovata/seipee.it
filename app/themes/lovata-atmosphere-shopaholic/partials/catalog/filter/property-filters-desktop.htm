@@ -65,7 +65,7 @@
                     {% set bChecked = arFilterValue[obProperty.id] is not empty and obValue.slug in arFilterValue[obProperty.id] %}
                     {% set bDisabled = false %}
 
-                    {% if bChecked == false and arFilterValueWithoutProperty[obProperty.id] is not empty %}
+                    {% if bChecked == false %}
                         {% set obProductListTemp = obProductList.copy()
                                                     .filterByProperty(arFilterValueWithoutProperty[obProperty.id], obProductPropertyList)
                                                     .filterByProperty(arFilterValueWithoutProperty[obProperty.id], obOfferPropertyList) %}
@@ -80,7 +80,7 @@
                     {% endif %}
                 {% endfor %}
 
-                {% set selectDisabled = selectOptions is empty %}
+            {% set selectDisabled = selectOptions is empty %}
 
                 {% partial 'form/select'
                     id = 'property-' ~ obProperty.id
