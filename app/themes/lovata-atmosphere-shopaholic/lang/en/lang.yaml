@@ -105,6 +105,8 @@ filter_to: 'to'
 filter_value_choose: 'Choose value'
 
 # Forms
+form_alias_add: 'Alias add'
+form_alias_label: 'Alias'
 form_cancel: 'Cancel'
 form_close: 'Close'
 form_download: 'Download'
@@ -153,6 +155,7 @@ pagination_pagination: 'Pagination'
 # Product
 product_accessories: 'Accessories'
 product_add_to_cart: 'Add to cart'
+product_aliases: 'Alias'
 product_code: 'Model number'
 product_custom: 'Request quotation'
 product_custom_variants: 'Choose custom variants'

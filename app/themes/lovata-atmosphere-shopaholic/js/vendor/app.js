@@ -17,6 +17,7 @@ import '/partials/main/site-picker/site-picker';
 import '/partials/product/button-wish-list/button-wish-list';
 import '/partials/product/product-card-checkout/product-card-checkout';
 import '/partials/product/offer-quantity/offer-quantity';
+import '/partials/product/product-alias/product-alias';
 import '/partials/message/flash-message';
 import '/partials/common/expandable-text/expandable-text';
 import '/partials/main/header/header';
