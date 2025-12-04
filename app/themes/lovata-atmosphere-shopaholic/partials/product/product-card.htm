@@ -62,11 +62,17 @@ Params:
         {% endif %}
     </a>
 
-    <div class="mt-2 md:mt-0 md:ml-4 flex-1 flex flex-col justify-between">
+    <div class="mt-2 md:mt-0 md:ml-4 flex-1 flex flex-col justify-between relative pr-9">
         <a class="link link-gray text-xs sm:text-base md:text-lg font-bold line-clamp-3"
            href="{{ obProduct.getPageUrl('catalog') }}">
             {{ obProduct.name }}
         </a>
+        <div class="absolute top-0 right-3">
+            {% partial 'product/offer-quantity-indicator'
+                fQuantityValue = fQuantityValue
+                obOffer = obOffer
+            %}
+        </div>
         {% if 1 == 2 %}
             <div class="mt-2 flex flex-wrap">
                 <span class="break-line text-xs sm:text-base md:text-lg text-on-surface font-medium me-2">{{ obOffer.currency }}{{ obOffer.price }}</span>
@@ -75,13 +81,10 @@ Params:
                 {% endif %}
             </div>
         {% endif %}
+        <span class="text-gray-900 text-sm md:text-base">{{'product_code'|_}}: {{ obProduct.code }}</span>
         {% if obProduct.preview_text %}
             <div class="mt-2">{{ obProduct.preview_text|raw }}</div>
         {% endif %}
-        {% partial 'product/offer-quantity-indicator'
-            fQuantityValue = fQuantityValue
-            obOffer = obOffer
-        %}
         {% partial 'product/product-labels'
             obProduct = obProduct
             wrapperClasses = 'top-0 start-0'
