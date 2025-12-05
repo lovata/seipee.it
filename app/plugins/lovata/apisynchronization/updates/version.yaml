@@ -1,0 +1,8 @@
+1.0.0:
+    - Initial plugin scaffolding
+1.1.0:
+    - Add external_id to property values table
+    - add_external_id_to_property_values.php
+1.2.0:
+    - Add seipee_order_id to orders table for tracking Seipee API order IDs
+    - add_seipee_order_id_to_orders.php

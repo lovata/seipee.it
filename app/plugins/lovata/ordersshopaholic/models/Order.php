@@ -49,6 +49,7 @@ use Lovata\OrdersShopaholic\Classes\PromoMechanism\OrderPromoMechanismProcessor;
  * @property \Lovata\OrdersShopaholic\Classes\PromoMechanism\ItemPriceContainer          $shipping_price_data
  * @property \Lovata\OrdersShopaholic\Classes\PromoMechanism\TotalPriceContainer         $total_price_data
  * @property array                                                                       $property
+ * @property string                                                                      $seipee_order_id
  *
  * @property \Carbon\Carbon                                                              $created_at
  * @property \Carbon\Carbon                                                              $updated_at
@@ -143,6 +144,7 @@ class Order extends Model
         'manager_id',
         'payment_data',
         'site_id',
+        'seipee_order_id',
     ];
 
     public $cached = [
@@ -158,6 +160,7 @@ class Order extends Model
         'property',
         'created_at',
         'updated_at',
+        'seipee_order_id',
     ];
 
     public $hasMany = [
