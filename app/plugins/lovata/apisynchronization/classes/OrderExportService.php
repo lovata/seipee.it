@@ -3,6 +3,8 @@
 use Lovata\OrdersShopaholic\Models\Order;
 use Lovata\OrdersShopaholic\Models\OrderPosition;
 use Log;
+use Lang;
+use Arr;
 
 /**
  * Service for exporting orders to Seipee API
@@ -44,12 +46,11 @@ class OrderExportService
                 return false;
             }
 
-            // Step 2: Create order lines
-            $this->createOrderLines($headerId);
+            $this->order->seipee_order_id = $headerId;
+            $this->order->save();
 
-            // Step 3: Save Seipee order ID to database
-            $order->seipee_order_id = $headerId;
-            $order->save();
+            // Step 2: Create order lines
+            $this->createOrderLines();
 
             Log::info('Seipee Order Export: Order exported successfully', [
                 'order_id' => $order->id,
@@ -77,12 +78,9 @@ class OrderExportService
     protected function createOrderHeader(): ?int
     {
         $order = $this->order;
-
-        // Get customer code from order properties
         $customerCode = $this->getCustomerCode();
-
-        if (!$customerCode) {
-            throw new \RuntimeException('Customer code (Cd_CF) not found in order properties');
+        if (empty($customerCode)) {
+            throw new \RuntimeException(Lang::get('lovata.apisynchronization::lang.error.customer_not_found'));
         }
 
         // Prepare header data
@@ -91,37 +89,22 @@ class OrderExportService
             'DataDoc' => $order->created_at->format('Y-m-d\TH:i:s'),
         ];
 
+        $additionFields = [
+            'Cd_CFDest',
+            'DataConsegna',
+            'DataConsegna',
+            'Cd_DoVettore_1',
+            'Cd_DoVettore_2',
+            'Cd_DOPorto',
+            'Cd_Agente',
+            'Cd_Agente_2',
+            'Cd_PG',
+        ];
         // Add optional fields if present in order properties
-        if ($destination = $this->getOrderProperty('Cd_CFDest')) {
-            $jsonRow['Cd_CFDest'] = $destination;
-        }
-
-        if ($deliveryDate = $this->getOrderProperty('DataConsegna')) {
-            $jsonRow['DataConsegna'] = $deliveryDate;
-        }
-
-        if ($carrier1 = $this->getOrderProperty('Cd_DoVettore_1')) {
-            $jsonRow['Cd_DoVettore_1'] = $carrier1;
-        }
-
-        if ($carrier2 = $this->getOrderProperty('Cd_DoVettore_2')) {
-            $jsonRow['Cd_DoVettore_2'] = $carrier2;
-        }
-
-        if ($port = $this->getOrderProperty('Cd_DOPorto')) {
-            $jsonRow['Cd_DOPorto'] = $port;
-        }
-
-        if ($agent = $this->getOrderProperty('Cd_Agente')) {
-            $jsonRow['Cd_Agente'] = $agent;
-        }
-
-        if ($agent2 = $this->getOrderProperty('Cd_Agente_2')) {
-            $jsonRow['Cd_Agente_2'] = $agent2;
-        }
-
-        if ($plan = $this->getOrderProperty('Cd_PG')) {
-            $jsonRow['Cd_PG'] = $plan;
+        foreach ($additionFields as $field) {
+            if ($value = $this->getOrderProperty($field)) {
+                $jsonRow[$field] = $value;
+            }
         }
 
         // Create header
@@ -133,37 +116,28 @@ class OrderExportService
             0
         );
 
-        // Extract header ID from response
-        if (isset($response['result'][0]['Id_xbt_seipee_b2b_DOTes'])) {
-            return (int) $response['result'][0]['Id_xbt_seipee_b2b_DOTes'];
-        }
-
-        return null;
+        return Arr::get($response, 'Id_xbt_seipee_b2b_DOTes');
     }
 
     /**
      * Create order lines for the header
      *
-     * @param int $headerId
      * @throws \RuntimeException
      */
-    protected function createOrderLines(int $headerId): void
+    protected function createOrderLines(): void
     {
-        $order = $this->order;
-
-        foreach ($order->order_position as $position) {
-            $this->createOrderLine($headerId, $position);
+        foreach ($this->order->order_position as $position) {
+            $this->createOrderLine($position);
         }
     }
 
     /**
      * Create single order line
      *
-     * @param int $headerId
      * @param OrderPosition $position
      * @throws \RuntimeException
      */
-    protected function createOrderLine(int $headerId, OrderPosition $position): void
+    protected function createOrderLine(OrderPosition $position): void
     {
         // Get product code from offer
         $productCode = $this->getProductCode($position);
@@ -178,26 +152,11 @@ class OrderExportService
 
         // Prepare line data
         $jsonRow = [
-            'Id_xbt_seipee_b2b_DOTes' => $headerId,
+            'Id_xbt_seipee_b2b_DOTes' => $this->order->seipee_order_id,
             'Cd_AR' => $productCode,
-            'Qta' => (float) $position->quantity,
-            'PrezzoUnitarioV' => (float) $position->price_value,
+            'Qta' => $position->quantity,
+            'PrezzoUnitarioV' => $position->price_value,
         ];
-
-        // Add optional fields
-        if ($position->product && $position->product->name) {
-            $jsonRow['Descrizione'] = mb_substr($position->product->name, 0, 80);
-        }
-
-        // Add delivery date if present
-        if ($deliveryDate = $this->getPositionProperty($position, 'DataConsegna')) {
-            $jsonRow['DataConsegna'] = $deliveryDate;
-        }
-
-        // Add line notes if present
-        if ($position->property && isset($position->property['NoteRiga'])) {
-            $jsonRow['NoteRiga'] = mb_substr($position->property['NoteRiga'], 0, 240);
-        }
 
         // Create line
         $response = $this->apiClient->post(
@@ -207,6 +166,9 @@ class OrderExportService
             0,
             0
         );
+
+        $position->external_id = Arr::get($response, 'Id_xbt_seipee_b2b_DORig');
+        $position->save();
 
         Log::debug('Seipee Order Export: Order line created', [
             'order_id' => $this->order->id,
@@ -222,19 +184,8 @@ class OrderExportService
      */
     protected function getCustomerCode(): ?string
     {
-        $order = $this->order;
-
-        // Try to get from order properties
-        if ($code = $this->getOrderProperty('Cd_CF')) {
-            return $code;
-        }
-
         // Try to get from user properties if available
-        if ($order->user && isset($order->user->property['Cd_CF'])) {
-            return $order->user->property['Cd_CF'];
-        }
-
-        return null;
+        return $this->order->user?->external_id;
     }
 
     /**
@@ -245,26 +196,7 @@ class OrderExportService
      */
     protected function getProductCode(OrderPosition $position): ?string
     {
-        // Try to get from offer properties
-        if ($position->offer && isset($position->offer->property['seipee_code'])) {
-            return $position->offer->property['seipee_code'];
-        }
-
-        // Try to get from product properties
-        if ($position->product && isset($position->product->property['seipee_code'])) {
-            return $position->product->property['seipee_code'];
-        }
-
-        // Fallback to offer code or product code
-        if ($position->offer && $position->offer->code) {
-            return $position->offer->code;
-        }
-
-        if ($position->product && $position->product->code) {
-            return $position->product->code;
-        }
-
-        return null;
+        return $position->offer?->product->code;
     }
 
     /**
