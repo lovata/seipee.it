@@ -99,6 +99,11 @@ class User extends UserModel
         'phone',
         'phone_list',
         'avatar',
+        'erp_user_code',
+        'external_id',
+        'alternate_destination_code',
+        'payment',
+        'shipping',
         'property',
     ];
 
@@ -111,6 +116,8 @@ class User extends UserModel
         'phone',
         'phone_list',
         'avatar',
+        'erp_user_code',
+        'external_id',
         'property',
     ];
 

@@ -4,7 +4,6 @@ use Illuminate\Support\Arr;
 use Lovata\Shopaholic\Models\Offer;
 use Lovata\Shopaholic\Models\Product;
 use Lovata\Shopaholic\Models\Category;
-use Lovata\PropertiesShopaholic\Models\PropertyValueLink;
 
 /**
  * ProductItemsSyncService
@@ -16,9 +15,6 @@ class ProductItemsSyncService
 {
     protected ApiClientService $api;
     protected static ?int $defaultCategoryId = null;
-
-    // Base properties that are part of the product core, not used for offer generation
-    const BASE_PROPERTIES = ['S0001', 'S0002', 'S0003', 'S0004', 'S0006', 'S0007', 'V0000'];
 
     public function __construct(ApiClientService $api)
     {
@@ -54,7 +50,7 @@ class ProductItemsSyncService
      * @param int $rows
      * @return array
      */
-    public function sync(?string $where = null, int $rows = 20): array
+    public function sync(?string $where = null, int $rows = 200): array
     {
         $createdProducts = 0; $updatedProducts = 0; $skippedProducts = 0;
         $createdOffers = 0; $updatedOffers = 0; $skippedOffers = 0; $errors = 0; $processed = 0;
@@ -107,35 +103,48 @@ class ProductItemsSyncService
                         $skippedProducts++;
                     }
 
-                    // Generate offers based on variant properties
-                    $variantProperties = $this->getVariantProperties($product->id);
+                    // Creating a default offer
+                    /** @var Offer|null $offer */
+                    $offer = Offer::getByProduct($product->id)->first();
+                    $isNewOffer = !$offer;
+                    if ($isNewOffer) {
+                        $offer = new Offer();
+                        $offer->product_id = $product->id;
+                        $offer->active = true;
+                        $offer->external_id = $extId;
+                        $offer->code = $extId;
+                    }
 
-                    if (empty($variantProperties)) {
-                        // No variant properties - create single default offer
-                        $offerStats = $this->createOrUpdateOffer($product, $extId, $name, null, $price, $width, $length, $height, $weight, $inventory);
-                        $createdOffers += $offerStats['created'];
-                        $updatedOffers += $offerStats['updated'];
-                        $skippedOffers += $offerStats['skipped'];
+                    $offerNeedsSave = false;
+                    if ($offer->name !== $name) { $offer->name = $name; $offerNeedsSave = true; }
+
+                    $currentPrice = $offer->main_price ? (float)$offer->main_price->price_value : null;
+                    if ($price !== null && (string)$currentPrice !== (string)$price) {
+                        $offer->price = $price;
+                        $offerNeedsSave = true;
+                    }
+
+                    // Dimensions/weight
+                    if ($width !== null && (string)$offer->width !== (string)$width) { $offer->width = $width; $offerNeedsSave = true; }
+                    if ($length !== null && (string)$offer->length !== (string)$length) { $offer->length = $length; $offerNeedsSave = true; }
+                    if ($height !== null && (string)$offer->height !== (string)$height) { $offer->height = $height; $offerNeedsSave = true; }
+                    if ($weight !== null && (string)$offer->weight !== (string)$weight) { $offer->weight = $weight; $offerNeedsSave = true; }
+
+                    // Update quantity from inventory data
+                    $quantityInStock = isset($inventory[$extId]) ? (int)$inventory[$extId] : 0;
+                    if ((int)$offer->quantity !== $quantityInStock) {
+                        $offer->quantity = $quantityInStock;
+                        $offerNeedsSave = true;
+                    }
+
+                    if ($isNewOffer) {
+                        $offer->save();
+                        $createdOffers++;
+                    } elseif ($offerNeedsSave) {
+                        $offer->save();
+                        $updatedOffers++;
                     } else {
-                        // Generate offers for each individual variant property
-                        foreach ($variantProperties as $propData) {
-                            $offerStats = $this->createOrUpdateOffer($product, $extId, $name, [$propData], $price, $width, $length, $height, $weight, $inventory);
-                            $createdOffers += $offerStats['created'];
-                            $updatedOffers += $offerStats['updated'];
-                            $skippedOffers += $offerStats['skipped'];
-                        }
-
-                        // Generate combined offers for pairs of variant properties
-                        if (count($variantProperties) >= 2) {
-                            for ($i = 0; $i < count($variantProperties); $i++) {
-                                for ($j = $i + 1; $j < count($variantProperties); $j++) {
-                                    $offerStats = $this->createOrUpdateOffer($product, $extId, $name, [$variantProperties[$i], $variantProperties[$j]], $price, $width, $length, $height, $weight, $inventory);
-                                    $createdOffers += $offerStats['created'];
-                                    $updatedOffers += $offerStats['updated'];
-                                    $skippedOffers += $offerStats['skipped'];
-                                }
-                            }
-                        }
+                        $skippedOffers++;
                     }
 
                     $processed++;
@@ -165,124 +174,6 @@ class ProductItemsSyncService
         if (is_array($value) || is_object($value)) { return ''; }
         $s = (string)$value;
         return trim($s);
-    }
-
-    /**
-     * Get variant (non-base) properties for a product
-     * Returns array of property data: [['property_code' => 'S0005', 'value_code' => 'VAL1', 'value_name' => 'Value 1'], ...]
-     *
-     * @param int $productId
-     * @return array
-     */
-    protected function getVariantProperties(int $productId): array
-    {
-        $links = PropertyValueLink::where('product_id', $productId)
-            ->where('element_type', Product::class)
-            ->where('element_id', $productId)
-            ->with(['property', 'value'])
-            ->get();
-
-        $variantProperties = [];
-        foreach ($links as $link) {
-            if (!$link->property || !$link->value) {
-                continue;
-            }
-
-            $propertyCode = $link->property->external_id ?? $link->property->code ?? null;
-            if (!$propertyCode || in_array($propertyCode, self::BASE_PROPERTIES)) {
-                continue;
-            }
-
-            $variantProperties[] = [
-                'property_code' => $propertyCode,
-                'property_name' => $link->property->name ?? $propertyCode,
-                'value_code' => $link->value->external_id ?? $link->value->slug ?? null,
-                'value_name' => $link->value->value ?? $link->value->label ?? 'Unknown',
-            ];
-        }
-
-        return $variantProperties;
-    }
-
-    /**
-     * Create or update an offer for a product with optional property combination
-     *
-     * @param Product $product
-     * @param string $productExtId
-     * @param string $baseName
-     * @param array|null $propertyCombo Array of property data or null for default offer
-     * @param float|null $price
-     * @param float|null $width
-     * @param float|null $length
-     * @param float|null $height
-     * @param float|null $weight
-     * @param array $inventory
-     * @return array ['created' => int, 'updated' => int, 'skipped' => int]
-     */
-    protected function createOrUpdateOffer(Product $product, string $productExtId, string $baseName, ?array $propertyCombo, ?float $price, ?float $width, ?float $length, ?float $height, ?float $weight, array $inventory): array
-    {
-        // Generate offer identifiers and name based on property combination
-        if ($propertyCombo === null) {
-            // Default offer
-            $offerExternalId = $productExtId . '-default';
-            $offerCode = $productExtId;
-            $offerName = $baseName;
-        } else {
-            // Property-based offer
-            $propertyCodes = array_column($propertyCombo, 'property_code');
-            $valueNames = array_column($propertyCombo, 'value_name');
-
-            sort($propertyCodes); // Ensure consistent ordering
-            $offerExternalId = $productExtId . '-' . implode('-', $propertyCodes);
-            $offerCode = $productExtId . '-' . implode('-', $propertyCodes);
-            $offerName = $baseName . ' (' . implode(' + ', $valueNames) . ')';
-        }
-
-        // Find or create offer
-        $offer = Offer::where('external_id', $offerExternalId)->first();
-        $isNewOffer = !$offer;
-
-        if ($isNewOffer) {
-            $offer = new Offer();
-            $offer->product_id = $product->id;
-            $offer->active = true;
-            $offer->external_id = $offerExternalId;
-            $offer->code = $offerCode;
-        }
-
-        // Detect changes
-        $offerNeedsSave = false;
-        if ($offer->name !== $offerName) { $offer->name = $offerName; $offerNeedsSave = true; }
-
-        $currentPrice = $offer->main_price ? (float)$offer->main_price->price_value : null;
-        if ($price !== null && (string)$currentPrice !== (string)$price) {
-            $offer->price = $price;
-            $offerNeedsSave = true;
-        }
-
-        // Dimensions/weight
-        if ($width !== null && (string)$offer->width !== (string)$width) { $offer->width = $width; $offerNeedsSave = true; }
-        if ($length !== null && (string)$offer->length !== (string)$length) { $offer->length = $length; $offerNeedsSave = true; }
-        if ($height !== null && (string)$offer->height !== (string)$height) { $offer->height = $height; $offerNeedsSave = true; }
-        if ($weight !== null && (string)$offer->weight !== (string)$weight) { $offer->weight = $weight; $offerNeedsSave = true; }
-
-        // Update quantity from inventory data
-        $quantityInStock = isset($inventory[$productExtId]) ? (int)$inventory[$productExtId] : 0;
-
-        if ((int)$offer->quantity !== $quantityInStock) {
-            $offer->quantity = $quantityInStock;
-            $offerNeedsSave = true;
-        }
-
-        if ($isNewOffer) {
-            $offer->save();
-            return ['created' => 1, 'updated' => 0, 'skipped' => 0];
-        } elseif ($offerNeedsSave) {
-            $offer->save();
-            return ['created' => 0, 'updated' => 1, 'skipped' => 0];
-        } else {
-            return ['created' => 0, 'updated' => 0, 'skipped' => 1];
-        }
     }
 
     //for future, not usable rn

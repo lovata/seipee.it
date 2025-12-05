@@ -31,6 +31,31 @@ tabs:
             span: left
             type: text
             tab: 'lovata.buddies::lang.tab.data'
+        erp_user_code:
+            label: 'ERP User Code'
+            span: left
+            type: text
+            tab: 'lovata.buddies::lang.tab.data'
+        external_id:
+            label: 'ARCA Customer Code'
+            span: left
+            type: text
+            tab: 'lovata.buddies::lang.tab.data'
+        alternate_destination_code:
+            label: 'Alternate Destination Code'
+            span: left
+            type: text
+            tab: 'lovata.buddies::lang.tab.data'
+        payment:
+            label: 'Payment'
+            span: left
+            type: text
+            tab: 'lovata.buddies::lang.tab.data'
+        shipping:
+            label: 'Shipping'
+            span: left
+            type: text
+            tab: 'lovata.buddies::lang.tab.data'
         password_change:
             label: 'lovata.buddies::lang.field.password_change'
             span: left
