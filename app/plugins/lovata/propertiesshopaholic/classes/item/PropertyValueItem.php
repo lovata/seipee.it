@@ -49,24 +49,32 @@ class PropertyValueItem extends ElementItem
 
     /**
      * Check, value is disabled
-     * @param \Lovata\Shopaholic\Classes\Collection\ProductCollection $obProductList
-     * @param \Lovata\Shopaholic\Classes\Collection\OfferCollection   $obOfferList
+     * @param \Lovata\Shopaholic\Classes\Collection\ProductCollection|array $obProductList
+     * @param \Lovata\Shopaholic\Classes\Collection\OfferCollection         $obOfferList
      * @return bool
      */
     public function isDisabled($obProductList, $obOfferList = null)
     {
-        if (empty($obProductList) || !$obProductList instanceof ProductCollection || $obProductList->isEmpty()) {
-            return true;
-        }
+        $arProductIDKeys = !empty($obProductList) && $obProductList instanceof ProductCollection ? $obProductList->getKeyList() : $obProductList;
+        if (empty($arProductIDKeys)) {
+        return true;
+    }
 
         if (empty($this->sModelName) || empty($this->iPropertyID)) {
             return true;
         }
 
         $arFilterProductIDList = PropertyValueLinkListStore::instance()->property->getProductListByValueID($this->iPropertyID, $this->id, $this->sModelName, $obOfferList);
+        if (empty($arFilterProductIDList)) {
+            return true;
+        }
 
-        $bResult = empty($arFilterProductIDList) || empty(array_intersect($arFilterProductIDList, $obProductList->getIDList()));
+        foreach ($arFilterProductIDList as $iProductID) {
+            if (isset($arProductIDKeys[$iProductID])) {
+                return false;
+            }
+        }
 
-        return $bResult;
+        return true;
     }
 }

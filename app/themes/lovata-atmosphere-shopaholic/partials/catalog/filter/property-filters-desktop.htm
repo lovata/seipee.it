@@ -60,17 +60,11 @@
             {% elseif obProperty.filter_type == 'select' %}
                 {% set obPropertyValueList = obProperty.property_value.sort() %}
                 {% set selectOptions = [] %}
+                {% set productIDKeys = obProductList.getKeyList() %}
 
                 {% for obValue in obPropertyValueList %}
                     {% set bChecked = arFilterValue[obProperty.id] is not empty and obValue.slug in arFilterValue[obProperty.id] %}
-                    {% set bDisabled = false %}
-
-                    {% if bChecked == false %}
-                        {% set obProductListTemp = obProductList.copy()
-                                                    .filterByProperty(arFilterValueWithoutProperty[obProperty.id], obProductPropertyList)
-                                                    .filterByProperty(arFilterValueWithoutProperty[obProperty.id], obOfferPropertyList) %}
-                        {% set bDisabled = obValue.isDisabled(obProductListTemp) %}
-                    {% endif %}
+                    {% set bDisabled = bChecked == true or arFilterValue is empty ? false : obValue.isDisabled(productIDKeys) %}
 
                     {% if obValue.value is not empty and bDisabled == false %}
                         {% set selectOptions = selectOptions|merge([{
@@ -90,7 +84,7 @@
                     placeholder='filter_value_choose'|_
                     options = selectOptions
                     selectedValue = arFilterValue[obProperty.id]
-                    hideClearButton = true
+                    hideClearButton = false
                     disabled = selectDisabled
                 %}
             {% elseif obProperty.filter_type == 'radio' %}
