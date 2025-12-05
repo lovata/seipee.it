@@ -41,3 +41,6 @@
     - 'Added new lang files, fixed lang files. Thanks for contribution Vadimlj.'
 1.10.1:
     - 'Updated composer.json file.'
+1.10.2:
+    - 'Add customer fields to lovata_buddies_users table'
+    - upgrade_customer_fields.php
