@@ -1,5 +1,6 @@
 <?php namespace Lovata\ApiSynchronization\classes;
 
+use Arr;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 
@@ -171,21 +172,23 @@ class ApiClientService
         }
 
         $payload = [
-            'table'         => $table,
-            'where'         => $where,
-            'jsonRow'       => $jsonRow,
-            'orderRow'      => $orderRow,
-            'operationPost' => $operationPost,
+            [
+                'table'         => $table,
+                'where'         => $where,
+                'jsonRow'       => json_encode($jsonRow),
+                'orderRow'      => $orderRow,
+                'operationPost' => $operationPost,
+            ]
         ];
 
         try {
-            $response = $this->http->post('/apiV2/Post', [
+            $response = $this->http->post('/api/v2/Post', [
                 'headers' => [
                     'Accept'        => 'application/json',
                     'Content-Type'  => 'application/json',
                     'Authorization' => 'Bearer '.$this->token,
                 ],
-                'json'    => $payload,
+                'json'    => ['data' => $payload],
             ]);
         } catch (GuzzleException $e) {
             throw new \RuntimeException('POST request failed: '.$e->getMessage(), 0, $e);
@@ -193,16 +196,14 @@ class ApiClientService
 
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
-        if ($status >= 400) {
+        if ($status >= 400 || empty($body)) {
             throw new \RuntimeException('POST failed with status '.$status.': '.$body);
         }
 
-        $data = json_decode($body, true);
-        if ($data === null) {
-            return ['raw' => $body];
-        }
+        $fullResponse = json_decode($body, true);
+        $data = Arr::get($fullResponse, 'data.0.jsonRow');
 
-        return $data;
+        return json_decode($data, true);
     }
 
     /**

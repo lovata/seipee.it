@@ -30,18 +30,8 @@ class Plugin extends PluginBase
     public function boot()
     {
         Event::listen(OrderProcessor::EVENT_ORDER_CREATED, function ($order) {
-            if (!$order) {
-                return;
-            }
-
-            try {
-                $exportService = new OrderExportService();
-                $exportService->exportOrder($order);
-            } catch (\Exception $e) {
-                \Log::error('Failed to export order to Seipee: ' . $e->getMessage(), [
-                    'order_id' => $order->id,
-                ]);
-            }
+            $exportService = new OrderExportService();
+            $exportService->exportOrder($order);
         });
     }
 
