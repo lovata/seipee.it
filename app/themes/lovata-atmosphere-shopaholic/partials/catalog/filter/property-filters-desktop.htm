@@ -60,9 +60,22 @@
             {% elseif obProperty.filter_type == 'select' %}
                 {% set obPropertyValueList = obProperty.property_value.sort() %}
                 {% set selectOptions = [] %}
-                {% for obPropertyValue in obPropertyValueList %}
-                    {% set selectOptions = selectOptions|merge([{value: obPropertyValue.slug, label: obPropertyValue.value}]) %}
+                {% set productIDKeys = obProductList.getKeyList() %}
+
+                {% for obValue in obPropertyValueList %}
+                    {% set bChecked = arFilterValue[obProperty.id] is not empty and obValue.slug in arFilterValue[obProperty.id] %}
+                    {% set bDisabled = bChecked == true or arFilterValue is empty ? false : obValue.isDisabled(productIDKeys) %}
+
+                    {% if obValue.value is not empty and bDisabled == false %}
+                        {% set selectOptions = selectOptions|merge([{
+                            value: obValue.slug,
+                            label: obValue.value
+                        }]) %}
+                    {% endif %}
                 {% endfor %}
+
+            {% set selectDisabled = selectOptions is empty %}
+
                 {% partial 'form/select'
                     id = 'property-' ~ obProperty.id
                     name = 'property-' ~ obProperty.id
@@ -71,6 +84,8 @@
                     placeholder='filter_value_choose'|_
                     options = selectOptions
                     selectedValue = arFilterValue[obProperty.id]
+                    hideClearButton = false
+                    disabled = selectDisabled
                 %}
             {% elseif obProperty.filter_type == 'radio' %}
                 <fieldset class="space-y-2">
