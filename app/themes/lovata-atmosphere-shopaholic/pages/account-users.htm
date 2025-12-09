@@ -1,0 +1,108 @@
+title = "Account Users"
+url = "/account/users"
+layout = "main"
+is_hidden = 0
+
+[UserPage]
+slug = ""
+slug_required = 0
+mode = "ajax"
+flash_on = 0
+redirect_on = 0
+redirect_page = "account"
+login_page = "sign-in"
+
+[UserChildrenPage]
+slug = ""
+slug_required = 0
+mode = "ajax"
+==
+<?php
+function onInit()
+{
+    $this['path_page_js'] = 'js/pages/account-users.js';
+
+    $bHasUserPlugin = $this['bHasUserPlugin'];
+
+    if (!$bHasUserPlugin) {
+        return $this->controller->run('404');
+    }
+}
+?>
+==
+{% set arBreadcrumbs = [
+    { 'name': 'account_my_account'|_, 'url': 'account'|page },
+    { 'name': 'account_users'|_ }
+] %}
+
+{% partial 'common/breadcrumbs' arBreadcrumbs=arBreadcrumbs %}
+
+<div class="mb-8 mt-1 lg:mb-16">
+    <h1 class="uppercase text-xl mb-4 font-medium lg:text-3xl">{{'account_users'|_}}</h1>
+    <section class="mb-12">
+        <h2 class="text-lg font-medium mb-4">{{ 'account_add_new_user'|_ }}</h2>
+         <form id="create-user-form" class="_required grid grid-cols-1 md:grid-cols-2 gap-4">
+             <input type="hidden" name="parent_id" value="{{ obUser.id }}">
+            {% partial 'form/input'
+                labelText = 'profile_first_name'|_
+                type = 'text'
+                id = 'name'
+                name = 'name'
+                value = ''
+                required = 'required'
+                labelClasses = 'text-sm'
+            %}
+
+            {% partial 'form/input'
+                labelText = 'profile_last_name'|_
+                type = 'text'
+                id = 'last_name'
+                name = 'last_name'
+                value = ''
+                required = 'required'
+                labelClasses = 'text-sm'
+            %}
+
+            {% partial 'form/select'
+                labelText = 'profile_role_department'|_
+                id = 'property[role_department]'
+                name = 'property[role_department]'
+                options = departmentOptions
+                required = 'required'
+                labelClasses = 'text-sm'
+                wrapperClasses = 'mt-4'
+                hideClearButton = true
+            %}
+
+            {% partial 'form/input'
+                labelText = 'profile_email'|_
+                type = 'email'
+                id = 'email'
+                name = 'email'
+                value = ''
+                required = 'required'
+                labelClasses = 'text-sm'
+                wrapperClasses = 'mt-4'
+            %}
+
+            {% partial 'form/input-checkbox'
+                wrapperClasses = 'mt-4'
+                id = 'b2b_permission'
+                name = 'b2b_permission'
+                labelText = 'profile_b2b_permission'|_
+            %}
+
+            {% partial 'form/button'
+                text = 'form_save'|_
+                type = 'submit'
+                wrapperClasses = 'w-full md:w-auto mt-6'
+            %}
+        </form>
+    </section>
+    <section>
+        <h2 class="text-lg font-medium mb-4">{{ 'account_current_users_list'|_ }}</h2>
+        <div id="usersListContainer">
+            {% partial 'account/user-list' obUsersList=obUsersList departmentOptions=departmentOptions %}
+        </div>
+    </section>
+</div>

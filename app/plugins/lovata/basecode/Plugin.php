@@ -1,5 +1,7 @@
 <?php namespace Lovata\BaseCode;
 
+use Event;
+use Lovata\Basecode\Classes\Event\User\UserModelHandler;
 use System\Classes\PluginBase;
 //Console commands
 use Lovata\BaseCode\Classes\Console\ResetAdminPassword;
@@ -19,7 +21,9 @@ class Plugin extends PluginBase
      */
     public function registerComponents()
     {
-        return [];
+        return [
+            '\Lovata\BaseCode\Components\UserChildrenPage' => 'UserChildrenPage',
+        ];
     }
 
     /**
@@ -48,6 +52,6 @@ class Plugin extends PluginBase
      */
     protected function addEventListener()
     {
-        ///
+        Event::subscribe(UserModelHandler::class);
     }
 }
