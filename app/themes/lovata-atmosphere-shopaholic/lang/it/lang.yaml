@@ -1,8 +1,10 @@
 # Account
+account_add_new_user: 'Aggiungi nuovo utente'
 account_checkout_guest_heading: 'Continua senza effettuare l’accesso'
 account_checkout_guest_message: 'Per utilizzare un codice promozionale, accedi o :account_create prima.'
 account_checkout_guest: 'Vai al checkout'
 account_create: 'crea un account'
+account_current_users_list: 'Utenti attuali'
 account_email_confirmation_message: 'La tua email è stata confermata. Ora puoi effettuare l’accesso.'
 account_has_account_sign_in: 'Hai un account? :account_sign_in.'
 account_my_account: 'Il mio account'
@@ -42,6 +44,8 @@ account_sign_up: 'Registrati'
 account_signing_in: 'Accesso in corso'
 account_signing_up: 'Registrazione in corso'
 account_start_shopping: 'Inizia a fare acquisti'
+account_user_edit: 'Modifica utente'
+account_users: 'Utenti'
 
 # Blog
 blog_image_no: 'Immagine non disponibile.'
@@ -78,6 +82,13 @@ contact_email: 'Email'
 contact_phone: 'Telefono'
 contact_pickup_points: 'Punti di ritiro'
 contact_waiting_for_message: 'In attesa del tuo feedback'
+
+# Department
+department_procurement: "Acquisti"
+department_technical: "Tecnico"
+department_administration: "Amministrazione"
+department_sales: "Commerciale"
+department_warehouse: "Magazzino"
 
 # Error pages
 error_page_404_description: 'La pagina che stai cercando non esiste.'
@@ -137,6 +148,14 @@ form_download: 'Scarica'
 form_quotation_notes: 'Etichetta del preventivo'
 form_quotation_title: 'Note aggiuntive'
 
+# Messages
+messages_generic_error: 'Si è verificato un errore'
+messages_user_delete_confirm: 'Sei sicuro di voler eliminare questo utente?'
+messages_user_delete_error: 'Errore durante l\'eliminazione dell\'utente'
+messages_user_deleted: 'Utente eliminato con successo'
+messages_user_not_found: 'Utente non trovato'
+messages_user_update: 'Utente aggiornato con successo'
+
 # Maintenance page
 maintenance_page_description: 'Il nostro sito è in manutenzione programmata. Ci scusiamo per il disagio.'
 maintenance_page_mode: 'Modalità manutenzione'
@@ -152,6 +171,13 @@ multisite_settings: 'Impostazioni di paese e lingua'
 pagination_page_next: 'Vai alla pagina successiva'
 pagination_page_previous: 'Vai alla pagina precedente'
 pagination_pagination: 'Paginazione'
+
+#Profile
+profile_first_name: 'Nome'
+profile_last_name: 'Cognome'
+profile_role_department: 'Reparto'
+profile_email: 'Email'
+profile_b2b_permission: 'Permesso B2B'
 
 # Product
 product_accessories: 'Accessori'
