@@ -141,7 +141,7 @@ class UserChildrenPage extends \Lovata\Buddies\Components\Buddies
         $obUser->b2b_permission = isset($arUserData['b2b_permission']);
 
         if (!$obUser->exists) {
-            $obUser->password = $obUser->password_confirmation = Str::random(12);
+            $obUser->password = $obUser->password_confirmation = '12345678'; //Str::random(12)
             $isNewUser = true;
         }
 

@@ -47,6 +47,7 @@
         {% if obOfferList.isNotEmpty() %}
             <div class="flex flex-col xl:mt-0 xl:flex-row">
                 <div class="flex flex-col mb-12">
+                    {% if obUser.can_order %}
                         {% partial 'product/offer-choose/offer-choose'
                             obProduct = obProduct
                             obOfferList = obOfferList
@@ -88,6 +89,7 @@
                             url = '/request-quotation'
                         %}
                     </div>
+                    {% endif %}
                     <div class="_custom-product flex flex-row items-center space-x-2 rtl:space-x-reverse mt-4">
                         {% partial 'form/button'
                         text = 'catalog_new_search'|_
@@ -95,9 +97,11 @@
                         url = '/catalog'
                         %}
                     </div>
-                    <div class="mx-auto mt-10 space-y-10 max-w-full sm:max-w-4xl w-full">
-                        {% partial 'product/product-variants/product-variants-checkbox'%}
-                    </div>
+                    {% if obUser.can_order %}
+                        <div class="mx-auto mt-10 space-y-10 max-w-full sm:max-w-4xl w-full">
+                            {% partial 'product/product-variants/product-variants-checkbox'%}
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         {% endif %}
