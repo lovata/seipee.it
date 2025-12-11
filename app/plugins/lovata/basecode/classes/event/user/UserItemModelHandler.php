@@ -1,6 +1,7 @@
 <?php namespace Lovata\Basecode\Classes\Event\User;
 
 use Lovata\Buddies\Classes\Item\UserItem;
+use Lovata\Buddies\Models\User;
 
 /**
  * Class UserItemModelHandler
@@ -24,6 +25,15 @@ class UserItemModelHandler
             $obItem->addDynamicMethod('getIsCompanyAdminAttribute', function () use ($obItem) {
                 $user = $obItem->getObject();
                 return empty($user->parent_id);
+            });
+            $obItem->addDynamicMethod('getParentAttribute', function () use ($obItem) {
+                $user = $obItem->getObject();
+
+                if (empty($user->parent)) {
+                    return null;
+                }
+
+                return UserItem::make($user->parent->id);
             });
         });
     }

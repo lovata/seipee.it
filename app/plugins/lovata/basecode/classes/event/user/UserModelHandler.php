@@ -9,8 +9,6 @@ use Lovata\Buddies\Models\User;
  */
 class UserModelHandler
 {
-    CONST B2B_PERMISSION_ALLOWED = 1;
-
     /**
      * Add listeners
      */
@@ -18,6 +16,17 @@ class UserModelHandler
     {
         User::extend(function (User $obUser) {
             $obUser->addFillable(['parent_id', 'b2b_permission']);
+
+            $obUser->belongsTo['parent'] = [
+                User::class,
+                'key'   => 'parent_id',
+                'otherKey' => 'id'
+            ];
+
+            $obUser->hasMany['children'] = [
+                User::class,
+                'key' => 'parent_id'
+            ];
         });
     }
 }
