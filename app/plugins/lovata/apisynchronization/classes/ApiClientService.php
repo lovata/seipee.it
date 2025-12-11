@@ -207,6 +207,45 @@ class ApiClientService
     }
 
     /**
+     * @param string $table
+     * @param string $param
+     * @return array
+     */
+    public function getStored(string $table, string $param): array
+    {
+        if (!$this->token) {
+            $this->authenticate();
+        }
+
+        try {
+            $response = $this->http->get('/api/v2/GetStored', [
+                'timeout' => 5,
+                'headers' => [
+                    'Accept'        => 'application/json',
+                    'Authorization' => 'Bearer '.$this->token,
+                ],
+                'query'   => [
+                    'table' => $table,
+                    'param' => $param,
+                ],
+            ]);
+        } catch (GuzzleException $e) {
+            throw new \RuntimeException('Fetch request failed: '.$e->getMessage(), 0, $e);
+        }
+
+        $status = $response->getStatusCode();
+        $body = (string) $response->getBody();
+        if ($status >= 400) {
+            throw new \RuntimeException('Fetch failed with status '.$status.': '.$body);
+        }
+
+        $fullResponse = json_decode($body, true);
+        $data = Arr::get($fullResponse, 'result.0');
+
+        return $data;
+    }
+
+    /**
      * Iterate pages and return a generator yielding each page's decoded array.
      * Stops after totRows covered or maxPages reached.
      *
