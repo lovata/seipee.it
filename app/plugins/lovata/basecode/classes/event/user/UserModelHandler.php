@@ -3,7 +3,7 @@
 use Lovata\Buddies\Models\User;
 
 /**
- * Class UserModelHandler
+ * Class TaxModelHandler
  * @package Lovata\Basecode\Classes\Event\User
  * @author Andrey Kharanenka, a.khoronenko@lovata.com, LOVATA Group
  */

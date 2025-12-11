@@ -55,5 +55,7 @@ class Plugin extends PluginBase
     protected function addEventListener()
     {
         Event::subscribe(UserModelHandler::class);
+        Event::subscribe(OfferModelHandler::class);
+        Event::subscribe(OrderModelHandler::class);
     }
 }
