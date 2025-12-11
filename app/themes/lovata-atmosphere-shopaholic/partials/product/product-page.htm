@@ -65,6 +65,7 @@
                         {# TODO: Turn two buttons into one #}
                         {% partial 'form/button'
                             text = 'product_add_to_cart'|_
+                            disabled = true
                             wrapperClasses = '_shopaholic-cart-add font-bold w-full md:w-auto md:min-w-60 !py-2 md:!py-3'
                         %}
                         {% if bHasWishListPlugin %}
@@ -84,6 +85,7 @@
                     <div class="_custom-product hidden flex flex-row items-center space-x-2 rtl:space-x-reverse">
                         {% partial 'form/button'
                             text = 'product_custom'|_
+                            disabled = true
                             wrapperClasses = '_shopaholic-cart-add font-bold w-full md:w-auto md:min-w-60 !py-2 md:!py-3 no-underline hover:text-white'
                             url = '/request-quotation'
                         %}

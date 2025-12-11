@@ -1,6 +1,8 @@
 <?php namespace Lovata\BaseCode;
 
 use Event;
+use Lovata\Basecode\Classes\Event\Offer\OfferModelHandler;
+use Lovata\Basecode\Classes\Event\order\OrderModelHandler;
 use Lovata\Basecode\Classes\Event\User\UserModelHandler;
 use System\Classes\PluginBase;
 //Console commands
@@ -53,5 +55,7 @@ class Plugin extends PluginBase
     protected function addEventListener()
     {
         Event::subscribe(UserModelHandler::class);
+        Event::subscribe(OfferModelHandler::class);
+        Event::subscribe(OrderModelHandler::class);
     }
 }

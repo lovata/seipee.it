@@ -98,9 +98,11 @@ class PropertyItem extends ElementItem
      * Property has not empty value, checking
      * @return bool
      */
-    public function hasValue()
+    public function hasValue(): bool
     {
-        return $this->property_value->isNotEmpty();
+        $obPropertyValues = $this->property_value;
+
+        return !empty($obPropertyValues) && $obPropertyValues->isNotEmpty();
     }
 
     /**

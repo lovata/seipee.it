@@ -2,6 +2,26 @@ import ShopaholicCartAdd from '@oc-shopaholic/shopaholic-cart/shopaholic-cart-ad
 import {FlashMessage} from "/partials/message/flash-message";
 
 class OfferChoose {
+  loadPrice() {
+    const offerInput = document.querySelector('[name="offer_id"]');
+    if (!offerInput) {
+      return;
+    }
+
+    const obThis = this;
+    oc.ajax('onAjax', {
+      data: {
+        load_price: true,
+        offer_id: offerInput.value,
+      },
+      update: {
+        'product/offer-choose/offer-price': '._offer-price-wrapper',
+      },
+      complete: () => {
+        obThis.updateDisabledState();
+      }
+    });
+  }
   initOfferSelectHandler() {
     document.addEventListener('change', (event) => {
       const eventNode = event.target;
@@ -81,11 +101,12 @@ class OfferChoose {
   updateDisabledState() {
     const offerSelect = document.querySelector('#offer_id');
     const addButtonNode = document.querySelector('._shopaholic-cart-add');
+    const priceNode = document.querySelector('._product_price_loaded');
     if (!addButtonNode) {
       return;
     }
 
-    if (offerSelect) {
+    if (offerSelect && priceNode) {
       addButtonNode.removeAttribute('disabled');
     } else {
       addButtonNode.setAttribute('disabled', 'disabled');
@@ -116,4 +137,5 @@ document.addEventListener('DOMContentLoaded', () => {
   obOfferChoose.initPropertySelectHandler();
   obOfferChoose.updateDisabledState();
   obOfferChoose.initAddToCartHandler();
+  obOfferChoose.loadPrice();
 });

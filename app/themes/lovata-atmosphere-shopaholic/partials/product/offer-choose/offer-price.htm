@@ -4,26 +4,42 @@ Params:
 - obOffer
 #}
 
-{% set obOfferList = obProduct.offer.site() %}
-{% set iOfferID = input('offer_id') %}
-{% if iOfferID is not empty %}
-    {% set obOffer = obOfferList.find(iOfferID) %}
-{% endif %}
+{% set loadPrice = input('load_price')|default(loadPrice) %}
 
-{% if obOffer.isNotEmpty() %}
-    <div class="_default-product flex flex-row items-center space-x-2 md:space-x-4 rtl:space-x-reverse mt-4 md:mt-7">
-        <span class="text-xl text-gray-900 font-medium md:text-3xl">{{ obOffer.currency }}{{ obOffer.price }}</span>
-        {% if obOffer.old_price_value > obOffer.price_value %}
-            <span class="text-gray-600 text-base font-medium line-through md:text-3xl">{{ obOffer.currency }}{{ obOffer.old_price }}</span>
-        {% endif %}
-        {% partial 'product/offer-quantity-indicator'
-            id="available-quantity"
-            obOffer=obOffer
-            fQuantityValue=1
-        %}
+{% if loadPrice == false %}
+    <div class="_preloader mt-10 ml-10 cursor-auto start-4 text-gray-500 flex">
+        <svg class="animate-spin h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1"></circle>
+            <path class="opacity-75" fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        <span class="ml-2">
+            {{ 'catalog_loading_price'|_ }}
+        </span>
     </div>
 {% else %}
-    <div class="mb-7 mt-4 md:my-7">
-        <span class="font-medium text-sm md:text-lg">{{'product_not_available'|_}}</span>
-    </div>
+    {% set obOfferList = obProduct.offer.site() %}
+    {% set iOfferID = input('offer_id') %}
+    {% if iOfferID is not empty %}
+        {% set obOffer = obOfferList.find(iOfferID) %}
+    {% endif %}
+
+    {% if obOffer.isNotEmpty() and obOffer.price_value > 0 %}
+        <div class="_default-product flex flex-row items-center space-x-2 md:space-x-4 rtl:space-x-reverse mt-4 md:mt-7 _product_price_loaded">
+            <span class="text-xl text-gray-900 font-medium md:text-3xl">{{ obOffer.currency }}{{ obOffer.price }}</span>
+            {% if obOffer.old_price_value > obOffer.price_value %}
+                <span
+                    class="text-gray-600 text-base font-medium line-through md:text-3xl">{{ obOffer.currency }}{{ obOffer.old_price }}</span>
+            {% endif %}
+            {% partial 'product/offer-quantity-indicator'
+                id="available-quantity"
+                obOffer=obOffer
+                fQuantityValue=1 %}
+        </div>
+    {% else %}
+        <div class="mb-7 mt-4 md:my-7">
+            <span class="font-medium text-sm md:text-lg">{{ 'product_not_available'|_ }}</span>
+        </div>
+    {% endif %}
 {% endif %}
+

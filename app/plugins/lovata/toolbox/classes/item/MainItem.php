@@ -37,7 +37,9 @@ abstract class MainItem implements CallsAnyMethod
 
         $sMethodName = 'get'.studly_case($sName).'Attribute';
         if (method_exists(static::class, $sMethodName) || $this->methodExists($sMethodName)) {
-            return $this->$sMethodName($this);
+            $obClassMethod = $this->getClassMethodAsReflector($sMethodName);
+
+            return $obClassMethod->invoke($this, $this);
         }
 
         $sAttachOneField = 'attachOne|'.$sName;
