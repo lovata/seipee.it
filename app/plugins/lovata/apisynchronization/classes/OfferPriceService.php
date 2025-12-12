@@ -34,6 +34,10 @@ class OfferPriceService
             return null;
         }
 
+        if (!empty($obUser->parent)) {
+            $obUser = $obUser->parent;
+        }
+
         $sClientCode = $obUser->external_id;
         $sProductCode = $offer->product?->code;
         if (empty($sClientCode) || empty($sProductCode)) {

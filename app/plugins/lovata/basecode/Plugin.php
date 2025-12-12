@@ -31,6 +31,7 @@ class Plugin extends PluginBase
     {
         return [
             '\Lovata\BaseCode\Components\UserChildrenPage' => 'UserChildrenPage',
+            '\Lovata\BaseCode\Components\OrderPageCustom' => 'OrderPageCustom',
         ];
     }
 

@@ -37,6 +37,12 @@ class UserModelHandler
             ];
         });
 
+        User::extend(function (User $obItem) {
+            $obItem->addDynamicMethod('getCanOrderAttribute', function () use ($obItem) {
+                return empty($obItem->parent_id) || $obItem->b2b_permission == self::B2B_PERMISSION_ALLOWED;
+            });
+        });
+
         UserItem::extend(function (UserItem $obItem) {
             $obItem->addDynamicMethod('getCanOrderAttribute', function () use ($obItem) {
                 $user = $obItem->getObject();
