@@ -9,7 +9,7 @@ use Lovata\Toolbox\Traits\Helpers\TraitComponentNotFoundResponse;
 use Str;
 
 /**
- * Class UserPage
+ * Class UserChildrenPage
  * @package Lovata\Buddies\Components
  * @author Andrey Kharanenka, a.khoronenko@lovata.com, LOVATA Group
  */
