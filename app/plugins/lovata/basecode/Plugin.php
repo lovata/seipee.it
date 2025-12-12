@@ -2,7 +2,7 @@
 
 use Event;
 use Lovata\Basecode\Classes\Event\Offer\OfferModelHandler;
-use Lovata\Basecode\Classes\Event\order\OrderModelHandler;
+use Lovata\Basecode\Classes\Event\Order\OrderModelHandler;
 use Lovata\Basecode\Classes\Event\User\UserModelHandler;
 use System\Classes\PluginBase;
 //Console commands
@@ -16,6 +16,12 @@ use Lovata\BaseCode\Classes\Console\ResetAdminPassword;
  */
 class Plugin extends PluginBase
 {
+
+    public $require = [
+        'Lovata.Buddies',
+        'Lovata.OrdersShopaholic',
+    ];
+
     /**
      * Register plugin components
      *

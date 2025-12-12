@@ -1,6 +1,7 @@
 <?php namespace Lovata\Basecode\Classes\Event\User;
 
 use Lovata\Buddies\Classes\Item\UserItem;
+use Lovata\Buddies\Models\User;
 
 /**
  * Class UserItemModelHandler

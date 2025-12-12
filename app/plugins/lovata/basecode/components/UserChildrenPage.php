@@ -4,6 +4,7 @@ use Flash;
 use Input;
 use Lang;
 use Log;
+use Lovata\Buddies\Components\RestorePassword;
 use Lovata\Buddies\Models\User;
 use Lovata\Toolbox\Traits\Helpers\TraitComponentNotFoundResponse;
 use Str;
@@ -141,7 +142,8 @@ class UserChildrenPage extends \Lovata\Buddies\Components\Buddies
         $obUser->b2b_permission = isset($arUserData['b2b_permission']);
 
         if (!$obUser->exists) {
-            $obUser->password = $obUser->password_confirmation = '12345678'; //Str::random(12)
+            $obUser->generatePassword();
+            $obUser->activate();
             $isNewUser = true;
         }
 
@@ -242,6 +244,10 @@ class UserChildrenPage extends \Lovata\Buddies\Components\Buddies
         if (empty($obUser)) {
             return;
         }
+
+        $service = new RestorePassword();
+
+        $service->sendRestoreMail(['email' => $obUser->email]);
 
         /*Todo логика отправки письма */
         if ($obUser->property['role_department'] === 'sales') {

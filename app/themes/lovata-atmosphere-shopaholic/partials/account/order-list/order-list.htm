@@ -14,7 +14,7 @@ Params:
     <div class="py-2 px-3 text-base font-medium">{{ 'account_order_price_total'|_ }}</div>
     <div class="py-2 px-3 text-base font-medium">{{ 'order_again'|_ }}</div>
 </div>
-<ul class="_orders-list flex flex-col space-y-2 lg:space-y-0 lg:block">
+<ul class="_orders-list flex flex-col space-y-2 lg:space-y-0 lg:block pl-0">
     {% partial 'account/order-list/order-list-ajax'
         obOrderList = obOrderList
     %}
