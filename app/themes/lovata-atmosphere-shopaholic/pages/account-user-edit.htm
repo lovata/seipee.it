@@ -3,6 +3,14 @@ url = "/account/users/:slug"
 layout = "main"
 is_hidden = 0
 
+[UserPage]
+slug = ""
+slug_required = 0
+redirect_on = 0
+mode = "show"
+flash_on = 0
+login_page = "sign-in"
+
 [UserChildrenPage]
 slug = "{{ :slug }}"
 slug_required = 1
