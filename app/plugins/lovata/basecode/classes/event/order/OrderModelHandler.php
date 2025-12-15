@@ -38,7 +38,6 @@ class OrderModelHandler
             $obUser = $obOrder->user;
 
             if (!$obUser->can_order) {
-                dd($obUser->can_order);
                 Result::setFalse()->setMessage(Lang::get('lovata.basecode::lang.error.no_order_access'));
 
                 return;
