@@ -9,6 +9,6 @@
     'field'      => [],
     'permission' => [],
     'error' => [
-        'no_order_access' => 'You do not have permission to place an order',
+        'no_order_access' => "Non hai il permesso di effettuare un ordine",
     ],
 ];

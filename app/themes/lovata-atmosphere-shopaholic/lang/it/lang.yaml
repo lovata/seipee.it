@@ -46,6 +46,7 @@ account_signing_up: 'Registrazione in corso'
 account_start_shopping: 'Inizia a fare acquisti'
 account_user_edit: 'Modifica utente'
 account_users: 'Utenti'
+account_users_empty: 'Nessun utente disponibile'
 
 # Blog
 blog_image_no: 'Immagine non disponibile.'

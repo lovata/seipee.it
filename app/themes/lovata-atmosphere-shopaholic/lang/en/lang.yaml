@@ -46,6 +46,7 @@ account_signing_up: 'Signing up'
 account_start_shopping: 'Start shopping'
 account_user_edit: 'Edit_user'
 account_users: 'Users'
+account_users_empty: 'No users available'
 
 # Blog
 blog_image_no: 'Image isn’t available.'

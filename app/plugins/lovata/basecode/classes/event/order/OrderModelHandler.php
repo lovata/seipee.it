@@ -33,5 +33,29 @@ class OrderModelHandler
                 $obOrderPosition->save();
             }
         });
+
+        $obEvent->listen(OrderProcessor::EVENT_UPDATE_ORDER_AFTER_CREATE, function(Order $obOrder) {
+            $obUser = $obOrder->user;
+
+            if (!$obUser->can_order) {
+                Result::setFalse()->setMessage(Lang::get('lovata.basecode::lang.error.no_order_access'));
+
+                return;
+            }
+
+            if (!empty($obUser->parent)) {
+                $obUser = $obUser->parent;
+
+                $obOrder->user_id = $obUser->id;
+
+                $arOrderDataProperty['email'] = $obUser->email ?? '';
+                $arOrderDataProperty['name'] = $obUser->name ?? '';
+                $arOrderDataProperty['last_name'] = $obUser->last_name ?? '';
+                $arOrderDataProperty['middle_name'] = $obUser->middle_name ?? '';
+                $arOrderDataProperty['phone'] = $obUser->phone ?? '';
+
+                $obOrder->property = $arOrderDataProperty;
+            }
+        });
     }
 }

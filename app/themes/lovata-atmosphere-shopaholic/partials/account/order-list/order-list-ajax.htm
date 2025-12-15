@@ -99,7 +99,9 @@ Params:
             <span class="text-sm text-end font-medium lg:font-normal lg:text-start lg:text-base">{{ obOrder.currency_symbol }}{{ obTotalPriceData.price }}</span>
         </div>
         <div class="py-4">
-            {% partial 'form/button' text='order_again'|_ isGhost=true wrapperClasses='_order_again_button' %}
+            {% if obUser.can_order %}
+                {% partial 'form/button' text='order_again'|_ isGhost=true wrapperClasses='_order_again_button' %}
+            {% endif %}
         </div>
     </li>
 {% endfor %}

@@ -73,6 +73,14 @@ handle = "Site\ProductPage"
 [MakeReview]
 mode = "ajax"
 flash_on = 1
+
+[UserPage]
+slug = ""
+slug_required = 0
+redirect_on = 0
+mode = "show"
+flash_on = 0
+login_page = "sign-in"
 ==
 <?php
 function onInit() {
@@ -84,6 +92,7 @@ function onInit() {
     $obProductItem = $this->ProductPage->get();
     $obActiveCategoryItem = $this->CategoryPage->get();
     $obMainCategoryItem = $this->MainCategoryPage->get();
+    $obUser = $this['obUser'];
 
     if (!empty($this->param('slug')) && (empty($obProductItem)) && empty($obActiveCategoryItem)) {
         return $this->ProductPage->getErrorResponse();

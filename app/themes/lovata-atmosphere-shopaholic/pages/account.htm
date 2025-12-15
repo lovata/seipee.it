@@ -41,18 +41,22 @@ function onInit()
         title: 'account_password_change'|_,
         url: "account-change-password",
         icon:  'assets/images/icon-password.svg'|theme,
-    },
-    {
-        title: 'account_users'|_,
-        url: "account-users",
-        icon:  'assets/images/icon-details.svg'|theme,
-    },
-    {
-        title: 'account_log_out'|_,
-        url: "log-out",
-        icon:  'assets/images/exit.svg'|theme,
     }
 ]%}
+
+{% if obUser.is_company_admin %}
+    {% set arList = arList|merge([{
+        title: 'account_users'|_,
+        url: "account-users",
+        icon:  'assets/images/icon-details.svg'|theme
+    }]) %}
+{% endif %}
+
+{% set arList = arList|merge([{
+    title: 'account_log_out'|_,
+    url: "log-out",
+    icon:  'assets/images/exit.svg'|theme
+}]) %}
 
 {% partial 'common/breadcrumbs' arBreadcrumbs=arBreadcrumbs %}
 
