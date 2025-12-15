@@ -31,6 +31,10 @@ function onInit()
 {
     $this['path_page_js'] = 'js/pages/checkout.js';
 
+    if (!$this->obUser->can_order) {
+        return $this->controller->run('404');
+    }
+
     $bHasCouponPlugin = \System\Classes\PluginManager::instance()->hasPlugin('lovata.couponsshopaholic')
         && !\System\Classes\PluginManager::instance()->isDisabled('Lovata.CouponsShopaholic');
 

@@ -92,6 +92,7 @@ function onInit() {
     $obProductItem = $this->ProductPage->get();
     $obActiveCategoryItem = $this->CategoryPage->get();
     $obMainCategoryItem = $this->MainCategoryPage->get();
+    $obUser = $this['obUser'];
 
     if (!empty($this->param('slug')) && (empty($obProductItem)) && empty($obActiveCategoryItem)) {
         return $this->ProductPage->getErrorResponse();

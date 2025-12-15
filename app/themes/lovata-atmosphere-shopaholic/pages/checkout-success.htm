@@ -3,14 +3,14 @@ layout = "main"
 title = "Checkout Success"
 is_hidden = 0
 
-[OrderPage]
+[OrderPageCustom]
 slug = "{{ :slug }}"
 slug_required = 1
 ==
 <?php
 function onInit()
 {
-    $this['obOrder'] = $this->OrderPage->get();
+    $this['obOrder'] = $this->OrderPageCustom->get();
 }
 ?>
 ==
