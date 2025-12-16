@@ -19,7 +19,7 @@ mode = "ajax"
 <?php
 function onInit()
 {
-    $this['path_page_js'] = 'js/pages/account-users.js';
+    $this['path_page_js'] = 'js/pages/account-user-edit.js';
 
     $bHasUserPlugin = $this['bHasUserPlugin'];
 
@@ -40,7 +40,7 @@ function onInit()
 <div class="mb-8 mt-1 lg:mb-16">
     <h1 class="uppercase text-xl mb-4 font-medium lg:text-3xl">{{'account_user_edit'|_}}</h1>
     <section class="mb-12">
-         <form id="edit-user-form" class="_required grid grid-cols-1 md:grid-cols-2 gap-4" data-request="onUpdateUser">
+         <form id="edit-user-form" class="_required grid grid-cols-1 md:grid-cols-2 gap-4">
             <input type="hidden" name="parent_id" value="{{ obUserEdit.parent_id }}">
             <input type="hidden" name="id" value="{{ obUserEdit.id }}">
             {% partial 'form/input'
