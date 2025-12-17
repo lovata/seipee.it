@@ -45,6 +45,7 @@ function onInit()
             value = obUser.name
             required = 'required'
             labelClasses = 'text-sm'
+            disabled = true
         %}
         {% partial 'form/input'
             labelText = 'form_user_email'|_
@@ -55,8 +56,9 @@ function onInit()
             required = 'required'
             labelClasses = 'text-sm'
             wrapperClasses = 'mt-4'
+            disabled = true
         %}
-        {% partial 'account/company-details' %}
+        {% partial 'account/company-details' isEditCompany=false %}
 
 {#        {% partial 'form/input'#}
 {#            labelText = 'form_user_phone'|_#}
@@ -107,10 +109,12 @@ function onInit()
 {#            value = obUserAddress ? obUserAddress.address1 : ''#}
 {#            wrapperClasses = 'mt-4'#}
 {#        %}#}
-        {% partial 'form/button'
-            text = 'form_save'|_
-            type = 'submit'
-            wrapperClasses = 'w-full md:w-auto mt-8'
-        %}
+        {% if 1 == 2 %}
+            {% partial 'form/button'
+                text = 'form_save'|_
+                type = 'submit'
+                wrapperClasses = 'w-full md:w-auto mt-8'
+            %}
+        {% endif %}
     </form>
 </div>
