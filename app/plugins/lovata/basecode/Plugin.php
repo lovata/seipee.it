@@ -3,6 +3,7 @@
 use Event;
 use Lovata\Basecode\Classes\Event\Offer\OfferModelHandler;
 use Lovata\Basecode\Classes\Event\Order\OrderModelHandler;
+use Lovata\Basecode\Classes\Event\Product\ProductModelHandler;
 use Lovata\Basecode\Classes\Event\User\UserModelHandler;
 use System\Classes\PluginBase;
 //Console commands
@@ -64,5 +65,6 @@ class Plugin extends PluginBase
         Event::subscribe(UserModelHandler::class);
         Event::subscribe(OfferModelHandler::class);
         Event::subscribe(OrderModelHandler::class);
+        Event::subscribe(ProductModelHandler::class);
     }
 }
