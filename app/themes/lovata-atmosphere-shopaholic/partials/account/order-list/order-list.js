@@ -55,8 +55,15 @@ class OrderList {
       data: {cart: dataPositionRequest},
       complete: () => {
         buttonNode.removeAttribute('disabled');
+        oc.flashMsg({
+          message: window.messages.purchase_cart_add_success,
+          type: 'success',
+          interval: 1
+        });
       },
     });
+
+
   }
 }
 
