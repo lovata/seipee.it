@@ -1,0 +1,25 @@
+New order {{ order_number }} was created.
+
+Date: {{ order.created_at|date('d.m.Y H:i') }}
+
+{% set parent_name = order.property.parent_name ?? '' %}
+{% set parent_last_name = order.property.parent_last_name ?? '' %}
+
+{% if parent_name or parent_last_name %}
+Parent: {{ parent_name }} {{ parent_last_name }}
+{% endif %}
+
+{% set name = order.property.name ?? '' %}
+{% set last_name = order.property.last_name ?? '' %}
+
+{% if name or last_name %}
+User: {{ name }} {{ last_name }}
+{% endif %}
+
+<ul>
+    {% for position in order.order_position %}
+    <li>{{ position.offer.product.name }}, quantity {{position.quantity}} pcs, price {{position.price_value_discount}}.</li>
+    {% endfor %}
+</ul>
+
+Total: {{order.total_price_value_discount}}
