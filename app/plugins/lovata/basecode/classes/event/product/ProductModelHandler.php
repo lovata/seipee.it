@@ -2,6 +2,8 @@
 
 use Log;
 use Lovata\Shopaholic\Classes\Item\ProductItem;
+use Media\Classes\MediaLibrary;
+use System\Models\File;
 
 /**
  * Class ProductModelHandler
@@ -11,7 +13,7 @@ use Lovata\Shopaholic\Classes\Item\ProductItem;
 class ProductModelHandler
 {
     CONST SERIES_PROPERTY_ID = 16;
-    CONST PATH_IMAGE_SERIES = '';
+    CONST PATH_IMAGE_SERIES = 'images/series/';
 
     /**
      * Add listeners
@@ -21,8 +23,11 @@ class ProductModelHandler
         ProductItem::extend(function (ProductItem $product) {
             $product->addDynamicMethod('getImageAttribute', function () use ($product) {
                 $model = $product->getObject();
-                $clearValue = $value = mb_substr($model->property[self::SERIES_PROPERTY_ID], 1) ?? '';
-                return ;
+
+                $value = mb_substr($model->property[self::SERIES_PROPERTY_ID], 1) ?? '';
+                $filePath = self::PATH_IMAGE_SERIES . $value . '.webp';
+
+                return MediaLibrary::url($filePath);
             });
         });
     }

@@ -13,7 +13,11 @@
     %}
     <div class="row-span-4 mt-7 lg:mt-0">
         <div class="product-gallery-wrapper">
-            {% partial 'product/product-gallery/product-gallery-ajax' obProduct = obProduct obOffer = obOffer %}
+            <img
+                class="rounded object-cover"
+                src="{{ obProduct.image }}"
+                alt="{{ obProduct.name }}"
+            >
         </div>
         {% if obProduct.preview_text is not empty %}
             <div class="w-full flex flex-col mt-7 md:mt-11">
