@@ -3,6 +3,8 @@
 use Illuminate\Support\Arr;
 use Lovata\PropertiesShopaholic\Models\Property;
 use Lovata\PropertiesShopaholic\Models\PropertyValue;
+use Lovata\PropertiesShopaholic\Models\PropertyValueLink;
+use Lovata\Shopaholic\Models\Product;
 
 class PropertiesSyncService
 {
@@ -134,6 +136,98 @@ class PropertiesSyncService
             }
         }
         return compact('created', 'updated', 'linked', 'skipped');
+    }
+
+    /**
+     * Sync property values to products from VarCf endpoint
+     * @param int      $rows
+     * @param int|null $maxPages
+     * @param int|null $maxItems
+     * @return array [linked=>int, skipped=>int]
+     */
+    public function syncProductProperties(int $rows = 200, ?int $maxPages = null, ?int $maxItems = null): array
+    {
+        $linked = 0;
+        $skipped = 0;
+        $processed = 0;
+
+        $where = 'CodiceCliente is null';
+
+        foreach ($this->api->paginate('xbtvw_B2B_VarCf', $rows, $where, $maxPages, $maxItems) as $pageData) {
+            $list = Arr::get($pageData, 'result', []);
+            foreach ($list as $row) {
+                if ($maxItems !== null && $processed >= $maxItems) {
+                    break 2;
+                }
+
+                $valueCode = trim((string)($row['CodiceCaratteristica'] ?? ''));
+                $productExternalId = trim((string)($row['CodiceMotoreBase'] ?? ''));
+
+                if ($valueCode === '' || $productExternalId === '') {
+                    $skipped++;
+                    $processed++;
+                    continue;
+                }
+
+                $propertyValue = PropertyValue::where('external_id', $valueCode)->first();
+                if (!$propertyValue) {
+                    $skipped++;
+                    $processed++;
+                    continue;
+                }
+
+                // Get the first property linked to this value
+                $property = $propertyValue->property()->first();
+                if (!$property || !isset($property->id)) {
+                    $skipped++;
+                    $processed++;
+                    continue;
+                }
+
+                $product = Product::where('external_id', $productExternalId)->first();
+                if (!$product || !isset($product->id)) {
+                    $skipped++;
+                    $processed++;
+                    continue;
+                }
+
+                // Check if link already exists
+                $alreadyLinked = PropertyValueLink::where([
+                    'product_id' => $product->id,
+                    'property_id' => $property->id,
+                    'value_id' => $propertyValue->id,
+                    'element_id' => $product->id,
+                    'element_type' => Product::class,
+                ])->exists();
+
+                if (!$alreadyLinked) {
+                    try {
+                        PropertyValueLink::create([
+                            'product_id' => $product->id,
+                            'property_id' => $property->id,
+                            'value_id' => $propertyValue->id,
+                            'element_id' => $product->id,
+                            'element_type' => Product::class,
+                        ]);
+                        $linked++;
+                    } catch (\Exception $e) {
+                        // Log error and skip
+                        \Log::error('Failed to create PropertyValueLink: ' . $e->getMessage(), [
+                            'product_id' => $product->id ?? 'null',
+                            'property_id' => $property->id ?? 'null',
+                            'value_id' => $propertyValue->id ?? 'null',
+                        ]);
+                        $skipped++;
+                    }
+                } else {
+                    $skipped++;
+                }
+
+                $processed++;
+            }
+        }
+
+        return compact('linked', 'skipped');
     }
 
     protected function extractLabel(array $row): string

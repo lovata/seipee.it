@@ -9,6 +9,7 @@ use Kharanenka\Scope\ExternalIDField;
 use Kharanenka\Scope\NameField;
 use Kharanenka\Scope\SlugField;
 
+use Lovata\ApiSynchronization\Models\ProductAlias;
 use October\Rain\Database\Traits\Sluggable;
 use October\Rain\Database\Traits\SoftDelete;
 use October\Rain\Database\Traits\Validation;
@@ -130,6 +131,10 @@ use Lovata\Shopaholic\Classes\Import\ImportProductModelFromCSV;
  *
  * Downloadable file for Shopaholic
  * @property bool                                                                                      $is_file_access
+ *
+ * Product Aliases (Seipee API Sync)
+ * @property \October\Rain\Database\Collection|\Lovata\ApiSynchronization\Models\ProductAlias[]        $product_aliases
+ * @method static \October\Rain\Database\Relations\HasMany|\Lovata\ApiSynchronization\Models\ProductAlias product_aliases()
  */
 class Product extends ImportModel
 {
@@ -173,7 +178,10 @@ class Product extends ImportModel
         'import_file'   => [\System\Models\File::class, 'public' => false],
     ];
     public $attachMany = ['images' => 'System\Models\File'];
-    public $hasMany = ['offer' => [Offer::class]];
+    public $hasMany = [
+        'offer' => [Offer::class],
+        'product_aliases' => [ProductAlias::class],
+    ];
     public $belongsTo = [
         'category' => [Category::class],
         'brand'    => [Brand::class],

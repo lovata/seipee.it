@@ -8,6 +8,7 @@ use Lovata\ApiSynchronization\console\SyncOrdersFromSeipee;
 use Lovata\ApiSynchronization\console\SyncProduct;
 use Lovata\ApiSynchronization\console\SyncProductProperties;
 use Lovata\ApiSynchronization\console\SyncProperties;
+use Lovata\ApiSynchronization\console\SyncProductAliases;
 use Lovata\OrdersShopaholic\Classes\Processor\OrderProcessor;
 use \Lovata\ApiSynchronization\console\SyncCustomers;
 
@@ -42,6 +43,7 @@ class Plugin extends PluginBase
         $this->registerConsoleCommand('seipee:sync.product-properties', SyncProductProperties::class);
         $this->registerConsoleCommand('seipee:sync.products', SyncProduct::class);
         $this->registerConsoleCommand('seipee:sync.customers', SyncCustomers::class);
+        $this->registerConsoleCommand('seipee:sync.product-aliases', SyncProductAliases::class);
 //        $this->registerConsoleCommand('seipee:sync.orders', SyncOrdersFromSeipee::class);
         $this->registerConsoleCommand('seipee:properties.purge', PurgeProperties::class);
     }

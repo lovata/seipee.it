@@ -34,6 +34,10 @@ class SyncProperties extends Command
         $resValues = $sync->syncValues($rows);
         $this->line('Values: created='.$resValues['created'].' updated='.$resValues['updated'].' linked='.$resValues['linked'].' skipped='.$resValues['skipped']);
 
+        $this->info('Syncing product properties (xbtvw_B2B_VarCf) ...');
+        $resProductProps = $sync->syncProductProperties($rows);
+        $this->line('Product Properties: linked='.$resProductProps['linked'].' skipped='.$resProductProps['skipped']);
+
         $this->info('Done.');
         return 0;
     }
