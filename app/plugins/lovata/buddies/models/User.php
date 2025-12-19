@@ -1,6 +1,7 @@
 <?php namespace Lovata\Buddies\Models;
 
 use Event;
+use Lovata\ApiSynchronization\Models\ProductAlias;
 use October\Rain\Database\Traits\SoftDelete;
 
 use Kharanenka\Scope\NameField;
@@ -61,6 +62,10 @@ use Lovata\Toolbox\Traits\Models\SetPropertyAttributeTrait;
  * @property \Lovata\OrdersShopaholic\Models\UserAddress[]|\October\Rain\Database\Collection                                           $address
  * @method static \October\Rain\Database\Relations\HasMany|\Lovata\OrdersShopaholic\Models\UserAddress address()
  * @property \Lovata\OrdersShopaholic\Classes\Collection\UserAddressCollection|\Lovata\OrdersShopaholic\Classes\Item\UserAddressItem[] $address_list
+ *
+ * Product Aliases (Seipee API Sync)
+ * @property \Lovata\ApiSynchronization\Models\ProductAlias[]|\October\Rain\Database\Collection                                        $product_aliases
+ * @method static \October\Rain\Database\Relations\HasMany|\Lovata\ApiSynchronization\Models\ProductAlias product_aliases()
  */
 class User extends UserModel
 {
@@ -134,6 +139,7 @@ class User extends UserModel
 
     public $hasMany = [
         'socialite_token' => [SocialiteToken::class],
+        'product_aliases' => [ProductAlias::class],
     ];
 
     /**
