@@ -1,6 +1,7 @@
 <?php namespace Lovata\BaseCode;
 
 use Event;
+use Lang;
 use Lovata\Basecode\Classes\Event\Offer\OfferModelHandler;
 use Lovata\Basecode\Classes\Event\Order\OrderModelHandler;
 use Lovata\Basecode\Classes\Event\Product\ProductModelHandler;
@@ -54,7 +55,10 @@ class Plugin extends PluginBase
      */
     public function registerMailTemplates()
     {
-        return [];
+        return [
+            'lovata.basecode::mail.create_order_manager' => Lang::get('lovata.basecode::mail.create_order_manager'),
+            'lovata.basecode::mail.create_order_user'    => Lang::get('lovata.basecode::mail.create_order_manager'),
+        ];
     }
 
     /**

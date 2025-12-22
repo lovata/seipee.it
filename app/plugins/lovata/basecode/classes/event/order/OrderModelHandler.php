@@ -44,6 +44,10 @@ class OrderModelHandler
             }
 
             if (!empty($obUser->parent)) {
+
+                $arOrderDataProperty['parent_name'] = $obUser->name ?? '';
+                $arOrderDataProperty['parent_last_name'] = $obUser->last_name ?? '';
+
                 $obUser = $obUser->parent;
 
                 $obOrder->user_id = $obUser->id;
@@ -53,6 +57,7 @@ class OrderModelHandler
                 $arOrderDataProperty['last_name'] = $obUser->last_name ?? '';
                 $arOrderDataProperty['middle_name'] = $obUser->middle_name ?? '';
                 $arOrderDataProperty['phone'] = $obUser->phone ?? '';
+
 
                 $obOrder->property = $arOrderDataProperty;
             }
