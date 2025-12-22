@@ -157,7 +157,7 @@ class UserChildrenPage extends \Lovata\Buddies\Components\Buddies
         $this->page['departmentOptions'] = $this->getDepartmentOptions();
 
         if ($iUserID) {
-            $sMessage = Lang::get('lovata.buddies::lang.message.email_is_busy');
+            $sMessage = Lang::get('messages_user_update');
             Flash::success($sMessage);
             return false;
         } else {
@@ -198,6 +198,7 @@ class UserChildrenPage extends \Lovata\Buddies\Components\Buddies
 
         if (!$obUser) {
             $sMessage = Lang::get('messages_user_not_found');
+            Flash::error($sMessage);
             return;
         }
 

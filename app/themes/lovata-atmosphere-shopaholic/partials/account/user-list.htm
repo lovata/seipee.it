@@ -46,10 +46,7 @@
                     >
                         <span>✏️</span>
                     </a>
-                    <button class="text-sm text-red-600 underline"
-                            data-request="onDeleteUser"
-                            data-request-confirm="{{ 'messages_user_delete_confirm'|_ }}"
-                            data-request-data="user_id: {{ user.id }}">
+                    <button class="text-sm text-red-600 underline js-delete-user" data-confirm="{{ 'messages_user_delete_confirm'|_ }}" data-user-id="{{ user.id }}">
                         <span>🗑️</span>
                     </button>
                 </div>
