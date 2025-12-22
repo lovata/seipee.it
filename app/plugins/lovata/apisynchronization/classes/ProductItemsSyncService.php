@@ -15,10 +15,12 @@ class ProductItemsSyncService
 {
     protected ApiClientService $api;
     protected static ?int $defaultCategoryId = null;
+    protected ?CountryOriginPropertySyncService $countryOriginService = null;
 
     public function __construct(ApiClientService $api)
     {
         $this->api = $api;
+        $this->countryOriginService = new CountryOriginPropertySyncService();
     }
 
     protected function getDefaultCategoryId(): int
@@ -77,6 +79,8 @@ class ProductItemsSyncService
                 $packaging = self::safeString($row['Tipo_imballo'] ?? null);
                 $vatCode   = self::safeString($row['CodiceIva'] ?? null);
 
+                // Country origin field
+                $countryOrigin = self::safeString($row['Nazione_Origine_merce'] ?? null);
                 try {
                     /** @var Product|null $product */
                     $product = Product::where('external_id', $extId)->first();
@@ -101,6 +105,10 @@ class ProductItemsSyncService
                         $updatedProducts++;
                     } else {
                         $skippedProducts++;
+                    }
+
+                    if (!empty($countryOrigin)) {
+                        $this->countryOriginService->syncProductCountryOrigin($product, $countryOrigin);
                     }
 
                     // Creating a default offer
@@ -150,6 +158,7 @@ class ProductItemsSyncService
                     $processed++;
                 } catch (\Throwable $e) {
                     $errors++;
+                    Log::error($e);
                 }
             }
             print_r('Batch processed');
