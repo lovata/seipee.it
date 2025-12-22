@@ -31,6 +31,10 @@ function onInit()
 {
     $this['path_page_js'] = 'js/pages/checkout.js';
 
+    if (!$this->obUser) {
+        return Redirect::to('sign-in');
+    }
+
     if (!$this->obUser->can_order) {
         return $this->controller->run('404');
     }
