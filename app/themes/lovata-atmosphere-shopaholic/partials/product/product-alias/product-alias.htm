@@ -1,31 +1,18 @@
-{% set mockAliases = [
-    { id: 1, alias: 'smart-watch-pro' },
-    { id: 2, alias: 'smartwatch-2025' },
-    { id: 3, alias: 'wearable-pro-series' }
-] %}
-
-
 <div class="text-gray-900 font-semibold mb-2 mt-6">{{'product_aliases'|_ }}:</div>
-
+<input id="edit-alias-product-id" type="hidden" value="{{ obProduct.id }}" />
 <div class="flex flex-wrap gap-2">
 
-    {% for item in mockAliases %}
-    <div class="_alias-item flex items-center gap-2 bg-gray-200 px-3 py-2 rounded-md text-sm" data-id-alias="{{ item.id }}" data-alias="{{ item.alias }}">
+    {% if arAliases is not empty %}
+        {% for item in arAliases %}
+            <div class="_alias-item flex items-center gap-2 bg-gray-200 px-3 py-2 rounded-md text-sm">
 
-        <span>{{ item.alias }}</span>
+                <span>{{ item }}</span>
 
-        <button
-            class="text-blue-600 hover:text-blue-800 edit-alias-btn">
-            ✏️
-        </button>
-
-        <button
-            class="text-red-600 hover:text-red-800 delete-alias">
-            ❌
-        </button>
-    </div>
-    {% endfor %}
-
+                <button class="text-blue-600 hover:text-blue-800 edit-alias-btn">✏️</button>
+                <button class="text-red-600 hover:text-red-800 delete-alias">❌</button>
+            </div>
+        {% endfor %}
+    {% endif %}
     <button
         class="flex items-center gap-2 bg-gray-200 px-3 py-2 rounded-md bg-green-600 text-white hover:bg-green-700 _offCanvasOpen"
         data-for="add_alias"
@@ -44,10 +31,17 @@
 body %}
 
 <div class="p-4">
-
-    <label class="block text-sm font-medium mb-2" for="edit-alias-input">{{'form_alias_label'|_ }}</label>
-    <input id="edit-alias-input" type="text" class="w-full border p-2 rounded mb-4">
-    <button id="edit-alias-save">{{'form_save'|_ }}</button>
+    <form id="edit-alias-form">
+        <label class="block text-sm font-medium mb-2" for="edit-alias-input">
+            {{ 'form_alias_label'|_ }}
+        </label>
+        <input id="edit-alias-input" name="alias" type="text" class="w-full border p-2 rounded mb-4" required>
+        <input type="hidden" name="alias_old" id="edit-alias-old">
+        {% partial 'form/button'
+            text = 'form_save'|_
+            id = 'edit-alias-save'
+            type = 'submit'
+        %}
+    </form>
 </div>
-
 {% endpartial %}

@@ -1,0 +1,9 @@
+Name: {{ name }}
+Email: {{ email }}
+Product name: {{ product_name }}
+Product number: {{ product_code }}
+Alias: {{ alias }}
+{% if alias_old is defined and alias_old|trim != '' %}
+    Old alias: {{ alias_old }}
+{% endif %}
+Request type: {{ type }}

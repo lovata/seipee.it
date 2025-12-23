@@ -34,6 +34,7 @@ class Plugin extends PluginBase
         return [
             '\Lovata\BaseCode\Components\UserChildrenPage' => 'UserChildrenPage',
             '\Lovata\BaseCode\Components\OrderPageCustom' => 'OrderPageCustom',
+            '\Lovata\BaseCode\Components\ProductAliasesManager' => 'ProductAliasesManager',
         ];
     }
 
@@ -58,6 +59,7 @@ class Plugin extends PluginBase
         return [
             'lovata.basecode::mail.create_order_manager' => Lang::get('lovata.basecode::mail.create_order_manager'),
             'lovata.basecode::mail.create_order_user'    => Lang::get('lovata.basecode::mail.create_order_manager'),
+            'lovata.basecode::mail.edit_aliases'         => Lang::get('lovata.basecode::mail.edit_aliases'),
         ];
     }
 
