@@ -536,7 +536,7 @@ abstract class ElementItem extends MainItem
                 $sField = array_shift($sField);
             }
 
-            if (!isset($this->arModelData[$sField]) || array_key_exists($sField, (array) $this->obElement->attachOne) || array_key_exists($sField, (array) $this->obElement->attachMany)) {
+            if (!array_key_exists($sField, $this->arModelData) || array_key_exists($sField, (array) $this->obElement->attachOne) || array_key_exists($sField, (array) $this->obElement->attachMany)) {
                 continue;
             }
 

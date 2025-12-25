@@ -20,7 +20,7 @@ Params:
             {% for arPagination in arPaginationList %}
                 <li class="me-5 last:me-0">
                     {% if arPagination.value != iPage %}
-                        <a class="link w-6 md:w-10 h-6 md:h-10 inline-flex justify-center items-center bg-transparent text-gray-500 {{sLinkClass}}" data-page="{{ arPagination.value }}" href="{{ url_current() ~ '?page=' ~ arPagination.value }}">{{ arPagination.name }}</a>
+                        <a class="link w-6 md:w-10 h-6 md:h-10 inline-flex justify-center items-center bg-transparent text-gray-500 {{sLinkClass}} _shopaholic-pagination" data-page="{{ arPagination.value }}" href="{{ url_current() ~ '?page=' ~ arPagination.value }}">{{ arPagination.name }}</a>
                     {% else %}
                         <span class="inline-flex items-center justify-center w-6 md:w-10 h-6 md:h-10 rounded-sm bg-blue-800 text-white" aria-current="true">{{ arPagination.name }}</span>
                     {% endif %}

@@ -72,7 +72,7 @@
                 {% if obValue.value is not empty and bDisabled == false %}
                     {% set selectOptions = selectOptions|merge([{
                         value: obValue.slug,
-                        label: obValue.value
+                        label: obValue.label | default(obValue.value)
                     }]) %}
                 {% endif %}
             {% endfor %}

@@ -46,6 +46,7 @@ Params:
             {% if required  %}
                 required
             {% endif %}
+            {% if disabled %}disabled{% endif %}
             {{dataAtributes}}
 
             {% if validationErrorSelector is not same as(null) %}

@@ -1,4 +1,5 @@
 import './../../../../modules/system/assets/js/framework.js';
+import './../../../../modules/system/assets/js/framework-extras.min';
 
 // jQuery
 import $ from 'jquery';
