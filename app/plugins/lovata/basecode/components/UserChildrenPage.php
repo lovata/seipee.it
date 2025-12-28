@@ -6,6 +6,8 @@ use Lang;
 use Log;
 use Lovata\Buddies\Components\RestorePassword;
 use Lovata\Buddies\Models\User;
+use Lovata\Shopaholic\Models\Settings;
+use Lovata\Toolbox\Classes\Helper\SendMailHelper;
 use Lovata\Toolbox\Traits\Helpers\TraitComponentNotFoundResponse;
 use Str;
 
@@ -250,9 +252,35 @@ class UserChildrenPage extends \Lovata\Buddies\Components\Buddies
 
         $service->sendRestoreMail(['email' => $obUser->email]);
 
-        /*Todo логика отправки письма */
         if ($obUser->property['role_department'] === 'sales') {
-            Log::info("Send email");
+            $this->sendNotifyEmail($obUser);
         }
+    }
+
+    private function sendNotifyEmail($obUser)
+    {
+
+        $sEmailList = Settings::getValue('creating_order_manager_email_list');
+        if (empty($sEmailList)) {
+            return;
+        }
+
+        $arMailData = [
+            'first_name' => $obUser->name,
+            'last_name' => $obUser->last_name,
+            'role_department' => $obUser->property['role_department'],
+            'email' => $obUser->email,
+            'b2b_permission' => $obUser->b2b_permission ? 'true' : 'false',
+            'company_name' => $obUser->parent->name,
+            'company_email' => $obUser->parent->email,
+        ];
+
+        $obSendMailHelper = SendMailHelper::instance();
+        $obSendMailHelper->send(
+            'lovata.basecode::mail.create_user_child',
+            $sEmailList,
+            $arMailData,
+            '',
+            true);
     }
 }

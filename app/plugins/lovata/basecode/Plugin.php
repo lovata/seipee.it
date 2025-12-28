@@ -58,6 +58,7 @@ class Plugin extends PluginBase
         return [
             'lovata.basecode::mail.create_order_manager' => Lang::get('lovata.basecode::mail.create_order_manager'),
             'lovata.basecode::mail.create_order_user'    => Lang::get('lovata.basecode::mail.create_order_manager'),
+            'lovata.basecode::mail.create_user_child'    => Lang::get('lovata.basecode::mail.create_user_child'),
         ];
     }
 
