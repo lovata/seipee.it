@@ -18,8 +18,8 @@ Date: {{ order.created_at|date('d.m.Y H:i') }}
 
 <ul>
     {% for position in order.order_position %}
-        <li>{{ position.offer.product.name }}, quantity {{position.quantity}} pcs, price {{position.price_value_discount}}.</li>
+    <li>{{ position.offer.product.name }} ({{ position.offer.product.code }}), quantity {{position.quantity}} pcs, price {{position.price}}.</li>
     {% endfor %}
 </ul>
 
-Total: {{order.total_price_value_discount}}
+Total: {{order.total_price_value}}
