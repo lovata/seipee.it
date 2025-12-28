@@ -110,10 +110,17 @@ function onInit()
             <table class="w-full mb-8 _checkout-subtotal">
                 {% partial 'checkout/checkout-subtotal' %}
             </table>
+            {% partial 'form/input-checkbox'
+                wrapperClasses = 'mt-4 md:mt-3 mb-8'
+                id = 'checkout_rules'
+                name = 'checkout_rules'
+                labelText = 'form_checkout_rules'|_
+            %}
             {% partial 'form/button'
-                wrapperClasses = 'w-full md:w-auto'
+                wrapperClasses = 'w-full md:w-auto _checkout-btn'
                 text = 'purchase_order'|_
                 type = 'submit'
+                disabled = true
             %}
         </div>
     </form>

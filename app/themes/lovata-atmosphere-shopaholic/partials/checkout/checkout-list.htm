@@ -16,7 +16,9 @@
             </li>
         {% endfor %}
     </ul>
-    <div class="_checkout-list-total-price mt-4 flex flex-col lg:mt-6 lg:flex-row lg:justify-between lg:items-center">
-        {% partial 'checkout/checkout-list-total-price' %}
-    </div>
+    {% if 1 == 2 %}
+        <div class="_checkout-list-total-price mt-4 flex flex-col lg:mt-6 lg:flex-row lg:justify-between lg:items-center">
+            {% partial 'checkout/checkout-list-total-price' %}
+        </div>
+    {% endif %}
 </div>

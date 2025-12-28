@@ -66,9 +66,16 @@ Params:
                     <tbody class="flex flex-col space-y-2">
                         {% for obProperty in obGroupPropertyList %}
                             {% if obProperty.hasValue() %}
+                                {% set obPropertyValueList = obProperty.property_value.sort() %}
                                 <tr>
                                     <th class="text-start min-w-18 font-normal text-gray-600">{{ obProperty.name }}</th>
-                                    <td class="ps-1.5">{{ obProperty.property_value.getValueString() }} {{ obProperty.measure.name }}</td>
+                                    <td class="ps-1.5">
+                                        {% set allValues = [] %}
+                                        {% for obValue in obPropertyValueList %}
+                                         {% set allValues = allValues|merge([obValue.label | default(obValue.value)]) %}
+                                        {% endfor %}
+                                        {{ allValues|join(', ') }} {{ obProperty.measure.name }}
+                                    </td>
                                 </tr>
                             {% endif %}
                         {% endfor %}

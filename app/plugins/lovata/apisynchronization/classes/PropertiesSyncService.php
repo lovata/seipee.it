@@ -33,7 +33,8 @@ class PropertiesSyncService
                     break 2;
                 }
                 $externalId = trim((string) ($row['Codice'] ?? ''));
-                if ($externalId === '') {
+                //Avoiding SIGLA FORNITORE property
+                if ($externalId === '' || $externalId === 'S0005') {
                     continue;
                 }
                 $name = (string) ($row['Descrizione'] ?? $externalId);
