@@ -12,6 +12,8 @@ export default class Filter {
 
     const obProductList = new ProductList();
     this.obListHelper = obProductList.getListHelper();
+
+    this.inputs = [];
   }
 
   init() {
@@ -39,23 +41,36 @@ export default class Filter {
       .setFieldName('sale')
       .init();
 
-    const obQtyFilter = new ShopaholicFilterInput({
-      fieldName: 'quantity',
-      inputSelector: '._shopaholic-qty-filter',
-      obProductListHelper: this.obListHelper,
-      inputName: 'filter-quantity',
-      numericOnly: true
-    });
-    obQtyFilter.init();
+    this.inputs = [
+      new ShopaholicFilterInput({
+        fieldName: 'quantity',
+        inputSelector: '._shopaholic-qty-filter',
+        inputName: 'filter-quantity',
+        numericOnly: true
+      }),
+      new ShopaholicFilterInput({
+        fieldName: 'search',
+        inputSelector: '._shopaholic-search-filter',
+        inputName: 'search',
+        numericOnly: false
+      })
+    ];
+  }
 
-    const obSearchFilter = new ShopaholicFilterInput({
-      fieldName: 'search',
-      inputSelector: '._shopaholic-search-filter',
-      obProductListHelper: this.obListHelper,
-      inputName: 'search',
-      numericOnly: false
+  initApplyButton() {
+    document.addEventListener('click', (event) => {
+      const buttonNode = event.target.closest('._filter-apply');
+      if (!buttonNode) return;
+
+      UrlGeneration.init();
+
+      this.inputs.forEach(input => input.apply());
+
+      UrlGeneration.remove('page');
+      UrlGeneration.update();
+
+      this.obListHelper.send();
     });
-    obSearchFilter.init();
   }
 
   /**
@@ -178,6 +193,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const obFilter = new Filter();
   obFilter.initSummaryEvents();
   obFilter.initClearButton();
+
+  obFilter.initHandlers();
+  obFilter.initApplyButton();
 
   oc.ajax('onInit', {
     update: {'catalog/filter/filter-ajax': '._filter'},
