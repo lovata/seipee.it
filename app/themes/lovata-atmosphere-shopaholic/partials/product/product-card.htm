@@ -60,6 +60,22 @@ Params:
             roundedClassesFirst = 'rounded-ss rounded-ee'
             roundedClassesNext = 'rounded-b'
         %}
+        {% if bOnlyParentProductFilter %}
+            <div class="mt-2 flex flex-wrap gap-2">
+                <span class="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-700 border">
+                    56B
+                </span>
+                <span class="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-700 border">
+                    B3
+                </span>
+                <span class="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-700 border">
+                    0 rpm
+                </span>
+                <span class="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-700 border">
+                    SENZA AVVOLGIMENTO
+                </span>
+            </div>
+        {% endif %}
         {% if bHasWishListPlugin %}
             {% if obProduct.inWishList() %}
                 {# TODO: Add buttons a11y #}

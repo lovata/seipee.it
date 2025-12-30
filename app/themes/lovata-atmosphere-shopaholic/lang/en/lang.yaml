@@ -109,8 +109,10 @@ filter_from: 'from'
 filter_item_code: "Item Code"
 filter_max: 'Max'
 filter_min: 'Min'
+filter_only_parent: 'Show only parent'
 filter_price: 'Price'
 filter_quantity_required: "Quantity Required"
+filter_quantity_required_checkbox: 'Show me only available ones'
 filter_reset_all: 'Reset all'
 filter_result_no: 'No results match these filter criteria. Remove all filters or clear all filters to show results.'
 filter_see_all: 'See all'

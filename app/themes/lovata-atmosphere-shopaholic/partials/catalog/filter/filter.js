@@ -14,6 +14,7 @@ export default class Filter {
     this.obListHelper = obProductList.getListHelper();
 
     this.inputs = [];
+    this.checkboxes = [];
   }
 
   init() {
@@ -55,6 +56,17 @@ export default class Filter {
         numericOnly: false
       })
     ];
+
+    this.checkboxes = [
+      {
+        fieldName: 'required_quantity',
+        selector: '#required_quantity'
+      },
+      {
+        fieldName: 'only_parent',
+        selector: '#only_parent'
+      }
+    ];
   }
 
   initApplyButton() {
@@ -65,12 +77,31 @@ export default class Filter {
       UrlGeneration.init();
 
       this.inputs.forEach(input => input.apply());
+      this.applyCheckboxes();
 
       UrlGeneration.remove('page');
       UrlGeneration.update();
 
       this.obListHelper.send();
     });
+
+    document.addEventListener('input', (event) => {
+      const input = event.target.closest('._shopaholic-qty-filter');
+      if (!input) return;
+
+      const wrapper = document.querySelector('._shopaholic-required-check-quantity');
+      const checkbox = wrapper.querySelector('input[type="checkbox"]');
+
+      const value = Number(input.value);
+
+      if (value > 0) {
+        wrapper.classList.remove('hidden');
+      } else {
+        wrapper.classList.add('hidden');
+        checkbox.checked = false;
+      }
+    });
+
   }
 
   /**
@@ -185,6 +216,16 @@ export default class Filter {
       }
 
       sessionStorage.setItem(`filter-details-${detailsNode.id}`, detailsNode.open ? 'close' : 'open');
+    });
+  }
+
+  applyCheckboxes() {
+    this.checkboxes.forEach(({ fieldName, selector }) => {
+      const checkbox = document.querySelector(selector);
+      if (!checkbox) return;
+
+      const value = checkbox.checked ? '1' : '0';
+      UrlGeneration.set(fieldName, [value]);
     });
   }
 }
