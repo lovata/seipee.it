@@ -1,7 +1,10 @@
 <?php namespace Lovata\Basecode\Classes\Event\Product;
 
 use Lovata\Buddies\Facades\AuthHelper;
+use Lovata\FilterShopaholic\Classes\Store\FilterValueStore;
+use Lovata\Shopaholic\Classes\Collection\ProductCollection;
 use Lovata\Shopaholic\Classes\Item\ProductItem;
+use Lovata\Shopaholic\Models\Offer;
 use Media\Classes\MediaLibrary;
 
 /**
@@ -45,6 +48,27 @@ class ProductModelHandler
                 }
 
                 return $query->pluck('alias');
+            });
+        });
+
+        ProductCollection::extend(function (ProductCollection $obList) {
+
+            if (empty($obList) || !$obList instanceof ProductCollection) {
+                return;
+            }
+
+            $obList->addDynamicMethod('filterByQuantityCount', function (int $quantity) use ($obList) {
+
+                if ($quantity <= 0) {
+                    return $obList;
+                }
+
+                $productIdList = Offer::active()
+                    ->where('quantity', '>=', $quantity)
+                    ->pluck('product_id')
+                    ->toArray();
+
+                return $obList->intersect($productIdList);
             });
         });
     }

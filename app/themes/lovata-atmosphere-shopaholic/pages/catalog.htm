@@ -182,7 +182,7 @@ function onInit() {
             }
 
             $bRequiredQuantityFilter = (bool) input('required_quantity');
-            $bOnlyParentProductFilter = input('only_parent', true);
+            $bOnlyParentProductFilter = (bool) input('only_parent', true);
 
             $this['fMinPriceFilterValue'] = $fMinPriceFilterValue;
             $this['fMaxPriceFilterValue'] = $fMaxPriceFilterValue;
@@ -197,16 +197,16 @@ function onInit() {
             $this['obOfferPropertyList'] = $obOfferPropertyList;
         }
 
-        $arProductList = $obProductList->page($iPage, $this->Pagination->getCountPerPage());
-
-        if (!empty($bRequiredQuantityFilter)) {
-            $obProductList = $obProductList->filterByQuantity();
-        }
-
         $sSearchString = input('search');
         if (!empty($sSearchString)) {
             $obProductList = $obProductList->search($sSearchString);
         }
+
+        if (!empty($bRequiredQuantityFilter)) {
+            $obProductList = $obProductList->filterByQuantityCount($fQuantityValue);
+        }
+
+        $arProductList = $obProductList->page($iPage, $this->Pagination->getCountPerPage());
 
         $iMaxPage = $this->Pagination->getMaxPage($obProductList->count());
         $iCount = $obProductList->count();
