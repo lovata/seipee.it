@@ -196,7 +196,7 @@ function onInit() {
 
         $sSearchString = input('search');
         if (!empty($sSearchString)) {
-            $obProductList = $obProductList->search($sSearchString);
+            $obProductList = $obProductList->customSearch($sSearchString);
         }
 
         $iMaxPage = $this->Pagination->getMaxPage($obProductList->count());
