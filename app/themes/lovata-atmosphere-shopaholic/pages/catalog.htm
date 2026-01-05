@@ -181,23 +181,32 @@ function onInit() {
                 $obProductList->filterByDiscount();
             }
 
+            $bRequiredQuantityFilter = (bool) input('required_quantity');
+            $bOnlyParentProductFilter = (bool) input('only_parent', true);
+
             $this['fMinPriceFilterValue'] = $fMinPriceFilterValue;
             $this['fMaxPriceFilterValue'] = $fMaxPriceFilterValue;
             $this['fQuantityValue'] = $fQuantityValue;
             $this['fSearchValue'] = $fSearchValue;
             $this['bSaleFilter'] = $bSaleFilter;
+            $this['bRequiredQuantityFilter'] = $bRequiredQuantityFilter;
+            $this['bOnlyParentProductFilter'] = $bOnlyParentProductFilter;
 
             $this['arFilterValue'] = $arFilterValue;
             $this['obProductPropertyList'] = $obProductPropertyList;
             $this['obOfferPropertyList'] = $obOfferPropertyList;
         }
 
-        $arProductList = $obProductList->page($iPage, $this->Pagination->getCountPerPage());
-
         $sSearchString = input('search');
         if (!empty($sSearchString)) {
             $obProductList = $obProductList->customSearch($sSearchString);
         }
+
+        if (!empty($bRequiredQuantityFilter)) {
+            $obProductList = $obProductList->filterByQuantityCount($fQuantityValue);
+        }
+
+        $arProductList = $obProductList->page($iPage, $this->Pagination->getCountPerPage());
 
         $iMaxPage = $this->Pagination->getMaxPage($obProductList->count());
         $iCount = $obProductList->count();
