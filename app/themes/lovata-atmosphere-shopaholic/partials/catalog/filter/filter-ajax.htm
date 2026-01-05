@@ -88,6 +88,15 @@
                                     id = 'filter-quantity'
                                 %}
                             </div>
+                            <div class="_shopaholic-required-check-quantity transition-all duration-200 {{ not bRequiredQuantityFilter ? 'hidden' }}">
+                                {% partial 'form/input-checkbox'
+                                wrapperClasses = 'mt-4 md:mt-3 mb-8'
+                                id = 'required_quantity'
+                                name = 'required_quantity'
+                                labelText = 'filter_quantity_required_checkbox'|_
+                                checked = bRequiredQuantityFilter
+                                %}
+                            </div>
                         </div>
                         <div class="_filter-details border-b border-gray-300">
                             <div class="text-base font-medium text-blue-800 cursor-pointer pb-4 pt-4 ps-4 pe-5 after:end-5 focus-visible:text-blue-800 focus-visible:outline-2 focus-visible:outline-dotted focus-visible:outline-blue-800">{{ 'filter_item_code'|_ }}</div>
@@ -103,6 +112,15 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div>
+                    {% partial 'form/input-checkbox'
+                    wrapperClasses = 'mt-4 md:mt-3 mb-8'
+                    id = 'only_parent'
+                    name = 'only_parent'
+                    labelText = 'filter_only_parent'|_
+                    checked = bOnlyParentProductFilter
+                    %}
                 </div>
                 <div class="ms-4 me-5">
                     {% partial 'form/button'
@@ -183,6 +201,15 @@
                         id = 'filter-quantity'
                     %}
                 </div>
+                <div class="_shopaholic-required-check-quantity transition-all duration-200 {{ not bRequiredQuantityFilter ? 'hidden' }}">
+                    {% partial 'form/input-checkbox'
+                        wrapperClasses = 'mt-4 md:mt-3 mb-8'
+                        id = 'required_quantity'
+                        name = 'required_quantity'
+                        labelText = 'filter_quantity_required_checkbox'|_
+                        checked = bRequiredQuantityFilter
+                    %}
+                </div>
             </div>
             <div class="_filter-details block">
                 <div class="hover:!no-underline text-base font-medium w-full">{{ 'filter_item_code'|_ }}</div>
@@ -197,6 +224,15 @@
                         id = 'search'
                     %}
                 </div>
+            </div>
+            <div>
+                {% partial 'form/input-checkbox'
+                    wrapperClasses = 'mt-4 md:mt-3 mb-8'
+                    id = 'only_parent'
+                    name = 'only_parent'
+                    labelText = 'filter_only_parent'|_
+                    checked = bOnlyParentProductFilter
+                %}
             </div>
             <div class="_filter-details block">
                 {% partial 'form/button'

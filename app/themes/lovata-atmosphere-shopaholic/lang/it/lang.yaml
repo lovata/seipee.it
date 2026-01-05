@@ -108,8 +108,10 @@ filter_from: 'da'
 filter_item_code: "Codice articolo"
 filter_max: 'Max'
 filter_min: 'Min'
+filter_only_parent: 'Mostra solo i genitori'
 filter_price: 'Prezzo'
 filter_quantity_required: "Quantità richiesta"
+filter_quantity_required_checkbox: 'Mostrami solo quelli disponibili'
 filter_reset_all: 'Reimposta tutto'
 filter_result_no: 'Nessun risultato corrisponde ai criteri di filtro. Rimuovi tutti i filtri o cancellali per mostrare i risultati.'
 filter_see_all: 'Vedi tutto'
