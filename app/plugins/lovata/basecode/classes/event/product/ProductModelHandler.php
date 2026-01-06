@@ -7,7 +7,6 @@ use Lovata\Shopaholic\Classes\Collection\ProductCollection;
 use Lovata\Shopaholic\Classes\Item\ProductItem;
 use Lovata\Shopaholic\Models\Offer;
 use Lovata\Shopaholic\Models\Product;
-use Lovata\Shopaholic\Classes\Collection\ProductCollection;
 
 use Media\Classes\MediaLibrary;
 use Lovata\Shopaholic\Models\Settings;
@@ -88,8 +87,9 @@ class ProductModelHandler
                 )));
 
                 return $obCollection->applySorting($resultIDs);
+            });
         });
-              
+
         ProductCollection::extend(function (ProductCollection $obList) {
 
             if (empty($obList) || !$obList instanceof ProductCollection) {
