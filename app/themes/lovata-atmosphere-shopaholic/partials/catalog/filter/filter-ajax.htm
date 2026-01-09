@@ -88,7 +88,7 @@
                                     id = 'filter-quantity'
                                 %}
                             </div>
-                            <div class="_shopaholic-required-check-quantity transition-all duration-200 {{ not bRequiredQuantityFilter ? 'hidden' }}">
+                            <div class="_shopaholic-required-check-quantity transition-all duration-200 {{ (not bRequiredQuantityFilter and not fQuantityValue) ? 'hidden' : '' }}">
                                 {% partial 'form/input-checkbox'
                                 wrapperClasses = 'mt-4 md:mt-3 mb-8'
                                 id = 'required_quantity'
@@ -201,7 +201,7 @@
                         id = 'filter-quantity'
                     %}
                 </div>
-                <div class="_shopaholic-required-check-quantity transition-all duration-200 {{ not bRequiredQuantityFilter ? 'hidden' }}">
+                <div class="_shopaholic-required-check-quantity transition-all duration-200 {{ (not bRequiredQuantityFilter and not fQuantityValue) ? 'hidden' : '' }}">
                     {% partial 'form/input-checkbox'
                         wrapperClasses = 'mt-4 md:mt-3 mb-8'
                         id = 'required_quantity'
