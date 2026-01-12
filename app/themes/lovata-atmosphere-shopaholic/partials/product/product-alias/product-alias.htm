@@ -37,6 +37,7 @@ body %}
         </label>
         <input id="edit-alias-input" name="alias" type="text" class="w-full border p-2 rounded mb-4" required>
         <input type="hidden" name="alias_old" id="edit-alias-old">
+        <input type="hidden" name="product_id" id="alias_product_id">
         {% partial 'form/button'
             text = 'form_save'|_
             id = 'edit-alias-save'
