@@ -29,6 +29,7 @@ class ProductPropertiesSyncService
     {
         $productsProcessed = 0; $linksCreated = 0; $linksUpdated = 0; $skipped = 0; $missing = 0; $processed = 0;
         $byProduct = [];
+        $nativePropertyIds = [];
 
         foreach ($this->api->paginate('xbtvw_B2B_productVar', $rows, $where, $maxPages, $maxItems) as $pageData) {
             $list = Arr::get($pageData, 'result', []);
@@ -72,6 +73,7 @@ class ProductPropertiesSyncService
                         ]);
                         $linksCreated++;
                     }
+                    $this->addPropertyToList($nativePropertyIds, $prop);
                     $processed++;
                 } else {
                     // No specific value in the row; cannot create link
@@ -80,7 +82,32 @@ class ProductPropertiesSyncService
             }
         }
 
+        PropertiesSyncService::addPropertiesToSet('native', array_unique($nativePropertyIds));
+
         $productsProcessed = count($byProduct);
         return compact('productsProcessed','linksCreated','linksUpdated','skipped','missing');
+    }
+
+    protected array $excludedNames = [
+        'MOTORI',
+        'POLARITÀ',
+        'GRANDEZZA MOTORE',
+        'FORMA',
+        'SERIE',
+        'POTENZA',
+        'VOLTAGGIO',
+        'SIGLA FORNITORE',
+    ];
+
+    /**
+     * @param array    $propertyIds
+     * @param Property $property
+     * @return void
+     */
+    protected function addPropertyToList(array &$propertyIds, Property $property): void
+    {
+        if (!in_array($property->id, $propertyIds) && !in_array($property->name, $this->excludedNames ?? [])) {
+            $propertyIds[] = $property->id;
+        }
     }
 }
