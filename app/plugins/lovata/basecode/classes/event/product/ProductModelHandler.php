@@ -1,13 +1,18 @@
 <?php namespace Lovata\Basecode\Classes\Event\Product;
 
-use Log;
+use App;
+use Lovata\ApiSynchronization\Models\ProductAlias;
+use Lovata\Buddies\Facades\AuthHelper;
+use Lovata\Shopaholic\Classes\Collection\ProductCollection;
 use Lovata\Shopaholic\Classes\Item\ProductItem;
+use Lovata\Shopaholic\Models\Offer;
+use Lovata\Shopaholic\Models\Product;
+
 use Media\Classes\MediaLibrary;
-use System\Models\File;
+use Lovata\Shopaholic\Models\Settings;
+use Lovata\SearchShopaholic\Classes\Helper\SearchHelper;
 
 /**
- * Class ProductModelHandler
- * @package Lovata\Basecode\Classes\Event\Product
  * @author Andrey Kharanenka, a.khoronenko@lovata.com, LOVATA Group
  */
 class ProductModelHandler
@@ -28,6 +33,81 @@ class ProductModelHandler
                 $filePath = self::PATH_IMAGE_SERIES . $value . '.webp';
 
                 return MediaLibrary::url($filePath);
+            });
+        });
+
+        ProductItem::extend(function (ProductItem $obItem) {
+            $obItem->addDynamicMethod('getAliasesAttribute', function () use ($obItem) {
+                $product = $obItem->getObject();
+
+                if (!$product) {
+                    return collect();
+                }
+
+                $user = AuthHelper::getUser();
+
+                $query = $product->product_aliases();
+
+                if ($user) {
+                    $query->where('user_id', $user->id);
+                }
+
+                return $query->pluck('alias');
+            });
+        });
+
+        ProductCollection::extend(function (ProductCollection $obCollection) {
+
+            if (empty($obCollection) || !$obCollection instanceof ProductCollection) {
+                return;
+            }
+
+            /** @var ProductCollection $obCollection */
+            $obCollection->addDynamicMethod('customSearch', function ($sSearch) use ($obCollection) {
+
+                $user = AuthHelper::getUser();
+
+                $priorityIDs = ProductAlias::where('user_id', $user->id)
+                    ->where('alias', 'LIKE', '%'.$sSearch.'%')
+                    ->pluck('product_id')
+                    ->toArray();
+
+                /** @var array $arSettings */
+                $arSettings = Settings::getValue('product_search_by');
+
+                /** @var SearchHelper $obSearchHelper */
+                $obSearchHelper = App::make(SearchHelper::class, [
+                    'sModel' => Product::class
+                ]);
+                $searchIDs = $obSearchHelper->result($sSearch, $arSettings) ?? [];
+
+                $resultIDs = array_values(array_unique(array_merge(
+                    $priorityIDs,
+                    $searchIDs
+                )));
+
+                return $obCollection->applySorting($resultIDs);
+            });
+        });
+
+        ProductCollection::extend(function (ProductCollection $obList) {
+
+            if (empty($obList) || !$obList instanceof ProductCollection) {
+                return;
+            }
+
+            $obList->addDynamicMethod('filterByQuantityCount', function (int $quantity) use ($obList) {
+
+                if ($quantity <= 0) {
+                    return $obList;
+                }
+
+                $productIdList = Offer::active()
+                    ->where('quantity', '>=', $quantity)
+                    ->pluck('product_id')
+                    ->toArray();
+
+                return $obList->intersect($productIdList);
             });
         });
     }

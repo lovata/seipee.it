@@ -161,7 +161,18 @@ class OffCanvas {
     const offCanvas = this;
 
     this.eventKeyDown = (event) => {
-      if (event.keyCode === 27 || event.keyCode === 8) {
+      const active = document.activeElement;
+      const isInput = active && (
+        active.tagName === 'INPUT' ||
+        active.tagName === 'TEXTAREA' ||
+        active.isContentEditable
+      );
+
+      if (event.keyCode === 27) {
+        OffCanvasContainer.instance().close(dialogID);
+      }
+      else if (event.keyCode === 8 && !isInput) {
+        event.preventDefault();
         OffCanvasContainer.instance().close(dialogID);
       }
     };

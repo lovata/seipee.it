@@ -1,56 +1,155 @@
-import {OffCanvasContainer} from "/partials/common/off-canvas/off-canvas";
+import { OffCanvasContainer } from "/partials/common/off-canvas/off-canvas";
+import {FlashMessage} from "/partials/message/flash-message";
 
-const aliasModal = 'add_alias';
-const aliasInput = '#edit-alias-input';
-const aliasEditBtn = '.edit-alias-btn';
-const aliasSaveBtn = '#edit-alias-save';
-const aliasClass = '._alias-item';
-document.addEventListener('DOMContentLoaded', () => {
-
-  document.querySelectorAll(aliasEditBtn).forEach(btn => {
-    btn.addEventListener('click', (event) => {
-
-      const item = btn.closest('._alias-item');
-
-      const id = item.dataset.idAlias;
-      const alias = item.dataset.alias;
-
-      OffCanvasContainer.instance().open(aliasModal);
-
-      const offCanvas = OffCanvasContainer.instance().find(aliasModal);
-      const inputValue = offCanvas.dialogNode.querySelector(aliasInput);
-
-      inputValue.value = alias;
-      inputValue.dataset.id = id;
-    });
-  });
-
-  document.querySelectorAll('.delete-alias').forEach(btn => {
-    btn.addEventListener('click', () => {
-      if (confirm('Вы уверены, что хотите удалить этот alias?')) {
-        const aliasItem = btn.closest(aliasClass);
-        if (aliasItem) {
-          aliasItem.remove();
-        }
-      }
-    });
-  });
-});
-
-document.addEventListener('click', (event) => {
-  const btn = event.target.closest(aliasSaveBtn);
-  if (!btn) return;
-
-  const offCanvas = OffCanvasContainer.instance().find(aliasModal);
-  const inputValue = offCanvas.dialogNode.querySelector(aliasInput);
-
-  const aliasItem = document.querySelector(aliasClass + `[data-id-alias="${inputValue.dataset.id}"] span`);
-
-  if (aliasItem) {
-    aliasItem.textContent = inputValue.value;
-    const parent = aliasItem.closest(aliasClass);
-    parent.dataset.alias = inputValue.value;
+class AliasManager {
+  constructor() {
+    this.formSelector = '#edit-alias-form';
+    this.aliasItemSelector = '._alias-item';
+    this.editBtnSelector = '.edit-alias-btn';
+    this.deleteBtnSelector = '.delete-alias';
+    this.aliasModal = 'add_alias';
+    this.aliasInputSelector = '#edit-alias-input';
+    this.aliasOldInputSelector = '#edit-alias-old';
+    this.aliasProductIdSelector = '#alias_product_id';
+    this.productIdSelector = '#edit-alias-product-id';
+    this.addBtnSelector = '.add-alias-btn';
+    this.oldAliasValue = null;
   }
 
-  OffCanvasContainer.instance().close(aliasModal);
+  init() {
+    this.initEditHandler();
+    this.initDeleteHandler();
+    this.initAddHandler();
+    this.formSendHandler();
+  }
+
+  initEditHandler() {
+    document.addEventListener('click', (event) => {
+      const btn = event.target.closest(this.editBtnSelector);
+      if (!btn) return;
+
+      const item = btn.closest(this.aliasItemSelector);
+      if (!item) return;
+
+      const span = item.querySelector('span');
+      this.oldAliasValue = span ? span.textContent.trim() : '';
+
+      const offCanvas = OffCanvasContainer.instance();
+      offCanvas.open(this.aliasModal);
+
+      const productIdInput = document.querySelector(this.productIdSelector);
+      const productId = productIdInput ? productIdInput.value : null;
+
+      const modal = offCanvas.find(this.aliasModal);
+      const input = modal.dialogNode.querySelector(this.aliasInputSelector);
+      const inputProductId = modal.dialogNode.querySelector(this.aliasProductIdSelector);
+      const inputOld = modal.dialogNode.querySelector(this.aliasOldInputSelector);
+
+      if (inputProductId) inputProductId.value = productId;
+      if (input) input.value = this.oldAliasValue;
+      if (inputOld) inputOld.value = this.oldAliasValue;
+    });
+  }
+
+  initDeleteHandler() {
+    document.addEventListener('click', (event) => {
+      const btn = event.target.closest(this.deleteBtnSelector);
+      if (!btn) return;
+
+
+      if (!confirm(window.messages.product_alias_delete_confirm)) return;
+
+      const item = btn.closest(this.aliasItemSelector);
+      if (!item) return;
+
+      const aliasValue = item.querySelector('span')?.textContent.trim();
+
+      const productIdInput = document.querySelector(this.productIdSelector);
+      const productId = productIdInput ? productIdInput.value : null;
+
+      this.sendDeleteRequest(aliasValue, productId);
+    });
+  }
+
+  initAddHandler() {
+    const addBtn = document.querySelector(this.addBtnSelector);
+    if (!addBtn) return;
+
+    addBtn.addEventListener('click', () => {
+      const offCanvas = OffCanvasContainer.instance();
+      offCanvas.open(this.aliasModal);
+
+      const modal = offCanvas.find(this.aliasModal);
+      const input = modal.dialogNode.querySelector(this.aliasInputSelector);
+      const inputOld = modal.dialogNode.querySelector(this.aliasOldInputSelector);
+      const inputProductId = modal.dialogNode.querySelector(this.aliasProductIdSelector);
+
+      const productIdInput = document.querySelector(this.productIdSelector);
+      const productId = productIdInput ? productIdInput.value : null;
+
+      if (inputProductId) inputProductId.value = productId;
+      if (input) input.value = '';
+      if (inputOld) inputOld.value = '';
+    });
+  }
+  sendDeleteRequest(value, productId) {
+    const form = document.createElement('form');
+
+    const aliasInput = document.createElement('input');
+    aliasInput.type = 'hidden';
+    aliasInput.name = 'alias';
+    aliasInput.value = value;
+    form.appendChild(aliasInput);
+
+    const productInput = document.createElement('input');
+    productInput.type = 'hidden';
+    productInput.name = 'product_id';
+    productInput.value = productId;
+    form.appendChild(productInput);
+
+    oc.request(form, 'ProductAliasesManager::onDelete', {
+      complete: () => {
+        const obFlashMessage = new FlashMessage(window.messages.product_alias_delete, 'success');
+        obFlashMessage.show();
+      }
+    });
+  }
+
+  formSendHandler() {
+    document.addEventListener('submit', (event) => {
+      const form = event.target.closest(this.formSelector);
+      if (!form) return;
+
+      event.preventDefault();
+
+      const submitBtn = form.querySelector('[type="submit"]');
+      if (submitBtn) submitBtn.setAttribute('disabled', 'disabled');
+
+      const oldAliasInput = form.querySelector('[name="alias_old"]');
+      const isEdit = oldAliasInput && oldAliasInput.value.trim() !== '';
+
+      oc.request(form, 'ProductAliasesManager::onUpdate', {
+        complete: (response) => {
+          if (submitBtn) submitBtn.removeAttribute('disabled');
+
+          let obFlashMessage;
+
+          if (isEdit) {
+            obFlashMessage = new FlashMessage(window.messages.product_alias_update, 'success');
+          } else {
+            obFlashMessage = new FlashMessage(window.messages.product_alias_create, 'success');
+          }
+          obFlashMessage.show();
+
+          const offCanvas = OffCanvasContainer.instance();
+          offCanvas.close(this.aliasModal);
+        },
+      });
+    });
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const aliasManager = new AliasManager();
+  aliasManager.init();
 });

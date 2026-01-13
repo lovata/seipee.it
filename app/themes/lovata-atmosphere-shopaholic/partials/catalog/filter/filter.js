@@ -12,6 +12,9 @@ export default class Filter {
 
     const obProductList = new ProductList();
     this.obListHelper = obProductList.getListHelper();
+
+    this.inputs = [];
+    this.checkboxes = [];
   }
 
   init() {
@@ -39,23 +42,66 @@ export default class Filter {
       .setFieldName('sale')
       .init();
 
-    const obQtyFilter = new ShopaholicFilterInput({
-      fieldName: 'quantity',
-      inputSelector: '._shopaholic-qty-filter',
-      obProductListHelper: this.obListHelper,
-      inputName: 'filter-quantity',
-      numericOnly: true
-    });
-    obQtyFilter.init();
+    this.inputs = [
+      new ShopaholicFilterInput({
+        fieldName: 'quantity',
+        inputSelector: '._shopaholic-qty-filter',
+        inputName: 'filter-quantity',
+        numericOnly: true
+      }),
+      new ShopaholicFilterInput({
+        fieldName: 'search',
+        inputSelector: '._shopaholic-search-filter',
+        inputName: 'search',
+        numericOnly: false
+      })
+    ];
 
-    const obSearchFilter = new ShopaholicFilterInput({
-      fieldName: 'search',
-      inputSelector: '._shopaholic-search-filter',
-      obProductListHelper: this.obListHelper,
-      inputName: 'search',
-      numericOnly: false
+    this.checkboxes = [
+      {
+        fieldName: 'required_quantity',
+        selector: '#required_quantity'
+      },
+      {
+        fieldName: 'only_parent',
+        selector: '#only_parent'
+      }
+    ];
+  }
+
+  initApplyButton() {
+    document.addEventListener('click', (event) => {
+      const buttonNode = event.target.closest('._filter-apply');
+      if (!buttonNode) return;
+
+      UrlGeneration.init();
+
+      this.inputs.forEach(input => input.apply());
+      this.applyCheckboxes();
+
+      UrlGeneration.remove('page');
+      UrlGeneration.update();
+
+      this.obListHelper.send();
     });
-    obSearchFilter.init();
+
+    document.addEventListener('input', (event) => {
+      const input = event.target.closest('._shopaholic-qty-filter');
+      if (!input) return;
+
+      const wrapper = document.querySelector('._shopaholic-required-check-quantity');
+      const checkbox = wrapper.querySelector('input[type="checkbox"]');
+
+      const value = Number(input.value);
+
+      if (value > 0) {
+        wrapper.classList.remove('hidden');
+      } else {
+        wrapper.classList.add('hidden');
+        checkbox.checked = false;
+      }
+    });
+
   }
 
   /**
@@ -172,12 +218,30 @@ export default class Filter {
       sessionStorage.setItem(`filter-details-${detailsNode.id}`, detailsNode.open ? 'close' : 'open');
     });
   }
+
+  applyCheckboxes() {
+    this.checkboxes.forEach(({ fieldName, selector }) => {
+      const checkbox = document.querySelector(selector);
+      if (!checkbox) return;
+
+      if (fieldName === 'only_parent') {
+        UrlGeneration.set(fieldName, [checkbox.checked ? '1' : '0']);
+      } else if (checkbox.checked) {
+        UrlGeneration.set(fieldName, ['1']);
+      } else {
+        UrlGeneration.remove(fieldName);
+      }
+    });
+  }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
   const obFilter = new Filter();
   obFilter.initSummaryEvents();
   obFilter.initClearButton();
+
+  obFilter.initHandlers();
+  obFilter.initApplyButton();
 
   oc.ajax('onInit', {
     update: {'catalog/filter/filter-ajax': '._filter'},

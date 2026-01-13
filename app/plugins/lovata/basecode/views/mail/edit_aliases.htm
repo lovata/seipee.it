@@ -1,0 +1,9 @@
+<p>Name: {{ name }}</p>
+<p>Email: {{ email }}</p>
+<p>Product name: {{ product_name }}</p>
+<p>Product number: {{ product_code }}</p>
+<p>Alias: {{ alias }}</p>
+{% if alias_old is defined and alias_old|trim != '' %}
+    <p>Old alias: {{ alias_old }}</p>
+{% endif %}
+<p>Request type: {{ type }}</p>
