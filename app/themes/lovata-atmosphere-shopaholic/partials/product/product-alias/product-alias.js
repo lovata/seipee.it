@@ -10,8 +10,9 @@ class AliasManager {
     this.aliasModal = 'add_alias';
     this.aliasInputSelector = '#edit-alias-input';
     this.aliasOldInputSelector = '#edit-alias-old';
+    this.aliasProductIdSelector = '#alias_product_id';
     this.productIdSelector = '#edit-alias-product-id';
-    this.addBtnSelector = '#add-alias-btn';
+    this.addBtnSelector = '.add-alias-btn';
     this.oldAliasValue = null;
   }
 
@@ -36,9 +37,15 @@ class AliasManager {
       const offCanvas = OffCanvasContainer.instance();
       offCanvas.open(this.aliasModal);
 
+      const productIdInput = document.querySelector(this.productIdSelector);
+      const productId = productIdInput ? productIdInput.value : null;
+
       const modal = offCanvas.find(this.aliasModal);
       const input = modal.dialogNode.querySelector(this.aliasInputSelector);
+      const inputProductId = modal.dialogNode.querySelector(this.aliasProductIdSelector);
       const inputOld = modal.dialogNode.querySelector(this.aliasOldInputSelector);
+
+      if (inputProductId) inputProductId.value = productId;
       if (input) input.value = this.oldAliasValue;
       if (inputOld) inputOld.value = this.oldAliasValue;
     });
@@ -75,6 +82,12 @@ class AliasManager {
       const modal = offCanvas.find(this.aliasModal);
       const input = modal.dialogNode.querySelector(this.aliasInputSelector);
       const inputOld = modal.dialogNode.querySelector(this.aliasOldInputSelector);
+      const inputProductId = modal.dialogNode.querySelector(this.aliasProductIdSelector);
+
+      const productIdInput = document.querySelector(this.productIdSelector);
+      const productId = productIdInput ? productIdInput.value : null;
+
+      if (inputProductId) inputProductId.value = productId;
       if (input) input.value = '';
       if (inputOld) inputOld.value = '';
     });

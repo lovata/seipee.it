@@ -224,8 +224,13 @@ export default class Filter {
       const checkbox = document.querySelector(selector);
       if (!checkbox) return;
 
-      const value = checkbox.checked ? '1' : '0';
-      UrlGeneration.set(fieldName, [value]);
+      if (fieldName === 'only_parent') {
+        UrlGeneration.set(fieldName, [checkbox.checked ? '1' : '0']);
+      } else if (checkbox.checked) {
+        UrlGeneration.set(fieldName, ['1']);
+      } else {
+        UrlGeneration.remove(fieldName);
+      }
     });
   }
 }

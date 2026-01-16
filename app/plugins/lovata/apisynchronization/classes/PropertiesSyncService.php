@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Arr;
 use Lovata\PropertiesShopaholic\Models\Property;
+use Lovata\PropertiesShopaholic\Models\PropertySet;
 use Lovata\PropertiesShopaholic\Models\PropertyValue;
 use Lovata\PropertiesShopaholic\Models\PropertyValueLink;
 use Lovata\Shopaholic\Models\Product;
@@ -151,6 +152,7 @@ class PropertiesSyncService
         $linked = 0;
         $skipped = 0;
         $processed = 0;
+        $propertyIds = [];
 
         $where = 'CodiceCliente is null';
 
@@ -211,6 +213,7 @@ class PropertiesSyncService
                             'element_type' => Product::class,
                         ]);
                         $linked++;
+                        $this->addPropertyToList($propertyIds, $property->id);
                     } catch (\Exception $e) {
                         // Log error and skip
                         \Log::error('Failed to create PropertyValueLink: ' . $e->getMessage(), [
@@ -228,26 +231,9 @@ class PropertiesSyncService
             }
         }
 
-        return compact('linked', 'skipped');
-    }
+        self::addPropertiesToSet('custom', array_unique($propertyIds));
 
-    protected function extractLabel(array $row): string
-    {
-        // Per official docs, prefer 'Valore' as the translation text.
-        $label = $row['Valore'] ?? '';
-        if (is_string($label) && $label !== '') {
-            return $label;
-        }
-        // Fallbacks for legacy/alternative payloads we observed earlier
-        $trad = $row['Traduzione'] ?? null;
-        if (is_string($trad) && $trad !== '') {
-            return $trad;
-        }
-        $descr = $row['Descrizione'] ?? null;
-        if (is_string($descr) && $descr !== '') {
-            return $descr;
-        }
-        return '';
+        return compact('linked', 'skipped');
     }
 
     protected function mapLang(string $code): ?string
@@ -263,5 +249,39 @@ class PropertiesSyncService
             'ESP' => 'es', 'SPA' => 'es',
         ];
         return $map[$code] ?? null;
+    }
+
+    /**
+     * @param array $propertyIds
+     * @param $id
+     * @return void
+     */
+    protected function addPropertyToList(array &$propertyIds, $id): void
+    {
+        if (!in_array($id, $propertyIds)) {
+            $propertyIds[] = $id;
+        }
+    }
+
+    /**
+     * Add properties to a PropertySet with the given name.
+     * Creates the PropertySet if it doesn't exist.
+     * @param string $setName
+     * @param array $propertyIds
+     */
+    public static function addPropertiesToSet(string $setName, array $propertyIds): void
+    {
+        if (empty($propertyIds)) {
+            return;
+        }
+
+        $propertySet = PropertySet::where('name', $setName)->first();
+        if (!$propertySet) {
+            $propertySet = new PropertySet();
+            $propertySet->name = $setName;
+            $propertySet->code = $setName;
+            $propertySet->save();
+        }
+        $propertySet->product_property()->syncWithoutDetaching($propertyIds);
     }
 }

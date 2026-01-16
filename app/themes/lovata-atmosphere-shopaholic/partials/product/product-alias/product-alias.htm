@@ -14,7 +14,7 @@
         {% endfor %}
     {% endif %}
     <button
-        class="flex items-center gap-2 bg-gray-200 px-3 py-2 rounded-md bg-green-600 text-white hover:bg-green-700 _offCanvasOpen"
+        class="flex items-center gap-2 bg-gray-200 px-3 py-2 rounded-md bg-green-600 text-white hover:bg-green-700 _offCanvasOpen add-alias-btn"
         data-for="add_alias"
     >
         ➕ {{'form_alias_add'|_ }}
@@ -37,6 +37,7 @@ body %}
         </label>
         <input id="edit-alias-input" name="alias" type="text" class="w-full border p-2 rounded mb-4" required>
         <input type="hidden" name="alias_old" id="edit-alias-old">
+        <input type="hidden" name="product_id" id="alias_product_id">
         {% partial 'form/button'
             text = 'form_save'|_
             id = 'edit-alias-save'
