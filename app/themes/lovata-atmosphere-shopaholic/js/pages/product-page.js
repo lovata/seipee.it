@@ -80,8 +80,6 @@ function initReqeustQuatation() {
     if (hiddenInput) {
       const variants = collectPropertyValues();
       hiddenInput.value = JSON.stringify(variants);
-
-      console.log('Собранные варианты при открытии формы:', variants);
     }
   });
 }
@@ -119,7 +117,6 @@ function initRequestQuotationSubmit() {
     const submitBtn = form.querySelector('[type="submit"]');
     if (submitBtn) submitBtn.setAttribute('disabled', 'disabled');
 
-    // если нужно обновлять variants прямо перед отправкой
     const hiddenInput = form.querySelector('#selected_variants');
     if (hiddenInput) {
       hiddenInput.value = JSON.stringify(collectPropertyValues());
