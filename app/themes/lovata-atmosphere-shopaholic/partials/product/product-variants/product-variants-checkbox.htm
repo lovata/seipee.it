@@ -1,32 +1,56 @@
-{% set options = [
-{ 'id': 1, 'name': 'Variant 1', 'description': 'Description Variant 1' },
-{ 'id': 2, 'name': 'Variant 2', 'description': 'Description Variant 2' },
-{ 'id': 3, 'name': 'Variant 3', 'description': 'Description Variant 3' },
-] %}
+{% set customGroupId = 4 %}
+{% set obPropertyList = obProduct.property %}
+{% set obGroupPropertyList = obPropertyList.group(customGroupId) %}
 
+{% if obGroupPropertyList.isNotEmpty() %}
 <div class="max-w-4xl mx-auto space-y-4">
+    <h2 class="text-xl font-semibold text-gray-800">
+        {{ 'product_custom_variants'|_ }}:
+    </h2>
 
-    <h2 class="text-xl font-semibold text-gray-800">{{'product_custom_variants'|_}}:</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {% for obProperty in obGroupPropertyList %}
+        {% if obProperty.hasValue() %}
+        {% set obPropertyValueList = obProperty.property_value.sort() %}
+        {% set options = [] %}
+        {% for obValue in obPropertyValueList %}
+        {% set options = options|merge([{
+        value: obValue.value,
+        label: obValue.label | default(obValue.value)
+        }]) %}
+        {% endfor %}
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
-        {% for option in options %}
-        <label class="border rounded-lg p-4 flex items-start cursor-pointer hover:shadow-md transition relative group">
-
-            {% partial 'form/input-checkbox'
-                wrapperClasses = 'mr-4 mt-1'
-                id = 'option_' ~ option.id
+        <div class="border rounded-lg p-4 group">
+            <div class="flex items-center justify-between">
+                {% partial 'form/input-switcher'
+                wrapperClasses = ''
+                id = 'option_' ~ obProperty.id
                 name = 'variants[]'
                 labelText = ''
-            %}
-
-            <div>
-                <h3 class="font-semibold text-lg">{{ option.name }}</h3>
-                <p class="text-gray-600 mt-1">{{ option.description }}</p>
+                attributes = { 'data-property-switch': obProperty.id }
+                %}
+                <h3 class="font-semibold text-lg ml-3 mb-0">{{ obProperty.name }}</h3>
             </div>
 
-            <span class="absolute inset-0 rounded-lg border-2 border-transparent group-hover:border-blue-300 pointer-events-none"></span>
-        </label>
+            <div
+                class="grid transition-[grid-template-rows,opacity] duration-300 ease-out grid-rows-[0fr] opacity-0"
+                data-property-wrapper="{{ obProperty.id }}"
+            >
+                {% partial 'form/select'
+                id = 'property_' ~ obProperty.id
+                name = 'properties[' ~ obProperty.id ~ ']'
+                options = options
+                placeholder = ('Select'|_) ~ ' ' ~ obProperty.name
+                wrapperClasses = 'overflow-hidden'
+                inputClasses= 'focus:!ring-0 focus:!outline-none focus:!shadow-none'
+                disabled= true
+                hideClearButton = true
+                dataAtributes = 'data-property-select=' ~ obProperty.id ~ ' data-property-name="' ~ obProperty.name ~ '"'
+                %}
+            </div>
+        </div>
+        {% endif %}
         {% endfor %}
     </div>
-
 </div>
+{% endif %}
