@@ -1,5 +1,8 @@
-1.0.0:
+v1.0.0:
     - 'Init plugin'
-1.0.1:
+v1.0.1:
     - 'Update lovata_buddies_users'
     - TableUpdateBuddiesUsersAddParentPermissionFields.php
+v1.0.2:
+    - 'Update lovata_buddies_users'
+    - table_create_request_quotations.php

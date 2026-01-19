@@ -52,36 +52,30 @@ Params:
 
 {# Get propert list #}
 {% set obPropertyList = obProduct.property %}
-{# Get property group list  #}
-{% set obGroupList = obPropertyList.getGroupList() %}
 
-{% for obGroup in obGroupList %}
-    {# Filter property list by group  #}
-    {% set obGroupPropertyList = obPropertyList.group(obGroup.id) %}
-    {% if obGroupPropertyList.isNotEmpty() %}
-        <div class="flex flex-col md:flex-row" >
-            <div class="mt-4 md:mt-0">
-                <table>
-                    <caption class="text-start w-max font-bold pb-2 caption-top">{{ obGroup.name }}:</caption>
-                    <tbody class="flex flex-col space-y-2">
-                        {% for obProperty in obGroupPropertyList %}
-                            {% if obProperty.hasValue() %}
-                                {% set obPropertyValueList = obProperty.property_value.sort() %}
-                                <tr>
-                                    <th class="text-start min-w-18 font-normal text-gray-600">{{ obProperty.name }}</th>
-                                    <td class="ps-1.5">
-                                        {% set allValues = [] %}
-                                        {% for obValue in obPropertyValueList %}
-                                         {% set allValues = allValues|merge([obValue.label | default(obValue.value)]) %}
-                                        {% endfor %}
-                                        {{ allValues|join(', ') }} {{ obProperty.measure.name }}
-                                    </td>
-                                </tr>
-                            {% endif %}
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    {% endif %}
-{% endfor %}
+{% set obGroupPropertyList = obPropertyList.group(1) %}
+{% if obGroupPropertyList.isNotEmpty() %}
+<div class="flex flex-col md:flex-row" >
+    <div class="mt-4 md:mt-0">
+        <table>
+            <tbody class="flex flex-col space-y-2">
+            {% for obProperty in obGroupPropertyList %}
+            {% if obProperty.hasValue() %}
+            {% set obPropertyValueList = obProperty.property_value.sort() %}
+            <tr>
+                <th class="text-start min-w-18 font-normal text-gray-600">{{ obProperty.name }}</th>
+                <td class="ps-1.5">
+                    {% set allValues = [] %}
+                    {% for obValue in obPropertyValueList %}
+                    {% set allValues = allValues|merge([obValue.label | default(obValue.value)]) %}
+                    {% endfor %}
+                    {{ allValues|join(', ') }} {{ obProperty.measure.name }}
+                </td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}

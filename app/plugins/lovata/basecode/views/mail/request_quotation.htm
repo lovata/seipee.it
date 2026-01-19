@@ -1,0 +1,12 @@
+<p>Name: {{ name }}</p>
+<p>Email: {{ email }}</p>
+<p>Product name: {{ product_name }}</p>
+<p>Product number: {{ product_code }}</p>
+<p>Title: {{ title }}</p>
+<p>Notes: {{ notes }}</p>
+{% if product_aliases is defined and product_aliases|trim != '' %}
+    <p>Alias: {{ product_aliases }}</p>
+{% endif %}
+{% if variants is defined and variants|trim != '' %}
+    <p>Variants: {{ variants }}</p>
+{% endif %}

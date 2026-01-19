@@ -133,6 +133,7 @@ form_required_fields: 'campi obbligatori'
 form_save: 'Salva'
 form_send: 'Invia'
 form_search: 'Cerca'
+form_select: 'Selezione'
 form_user_address_postal: 'Indirizzo postale'
 form_user_city: 'Città'
 form_user_country: 'Paese'
@@ -326,6 +327,9 @@ reviews_stars_rating_4: 'Molto buono'
 reviews_stars_rating_5: 'Fantastico'
 reviews_today_at: 'Oggi alle :time'
 reviews_would_recommend: 'Consiglieresti questo prodotto?'
+
+request_quotation_title: 'Il tuo Preventivo'
+request_quotation_text: 'Grazie! Il tuo preventivo è stato inviato con successo e ora è in elaborazione.'
 
 # Search
 search_category: 'Categoria'

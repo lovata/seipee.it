@@ -46,6 +46,7 @@
             {% partial 'product/product-tabs/product-tab-documents' obProduct = obProduct %}
         {% endpartial %}
 
+        {% partial 'product/product-native-variants' %}
     </div>
     <div class="order-2 lg:ps-14 mt-7">
         {% if obOfferList.isNotEmpty() %}
@@ -90,9 +91,8 @@
                     <div class="_custom-product hidden flex flex-row items-center space-x-2 rtl:space-x-reverse">
                         {% partial 'form/button'
                             text = 'product_custom'|_
-                            disabled = true
-                            wrapperClasses = '_shopaholic-cart-add font-bold w-full md:w-auto md:min-w-60 !py-2 md:!py-3 no-underline hover:text-white'
-                            url = '/request-quotation'
+                            id = 'request-quotation-btn'
+                            wrapperClasses = 'font-bold w-full md:w-auto md:min-w-60 !py-2 md:!py-3 no-underline hover:text-white _offCanvasOpen'
                         %}
                     </div>
                     {% endif %}
@@ -176,3 +176,75 @@
         {% endif %}
     {% endif %}
 {% endfor %}
+
+{% set productName = SeoToolbox.getPageTitle(obSeoModel, arSEOParams)|default(obProduct.name) %}
+
+{% partial 'common/off-canvas/off-canvas'
+id = 'request-quotation'
+position = 'right'
+canvasClasses = 'ps-0 pe-0 cursor-auto'
+backgroundClasses = 'bg-gray-50'
+headerClasses = 'mr-4 ml-4 md:mr-0 md:ml-0'
+indentClasses = 'py-10'
+body %}
+
+<div class="p-4">
+    <div class="max-w-sm mx-auto bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 mb-50">
+        <div class="p-4">
+            <img
+                class="w-full h-48 sm:h-64 object-cover rounded-lg"
+                src="{{ obProduct.image }}"
+                alt="{{ productName }}"
+            />
+        </div>
+        <div class="p-4">
+            <h2 class="text-lg font-semibold text-gray-800">
+                {{ productName }}
+            </h2>
+            <p class="text-sm text-gray-500 mt-1">
+                Product code: <span class="font-medium text-gray-700">{{ obProduct.code }}</span>
+            </p>
+            {% if obProduct.aliases is not empty %}
+                <p class="text-sm text-gray-500">
+                    Alias code: <span class="font-medium text-gray-700">{{ obProduct.aliases | join(', ') }}</span>
+                </p>
+            {% endif %}
+            <p class="text-sm text-gray-500">
+                {{ obProduct.description }}
+            </p>
+        </div>
+    </div>
+    <div class="max-w-sm mx-auto mt-7 md:mt-0">
+        <form id="request-quotation-form">
+            {% partial 'form/input'
+            id = 'quotation_title'
+            labelText = 'form_quotation_title'|_
+            name = 'quotation_title'
+            required = 'required'
+            type = 'text'
+            wrapperClasses = 'mb-6 relative'
+            labelClasses = 'text-sm'
+            %}
+
+            {% partial 'form/textarea'
+            id="form_quotation_notes"
+            name="form_quotation_notes"
+            labelClasses="text-gray-600 inline-block mb-1 text-sm"
+            rows="5"
+            cols="50"
+            labelText = 'form_quotation_notes' |_
+            required = 'required'
+            %}
+
+            <input type="hidden" name="selected_variants" id="selected_variants" value="">
+            <input type="hidden" name="product_id" value="{{obProduct.id}}">
+
+            {% partial 'form/button'
+            text = 'form_send'|_
+            type = 'submit'
+            wrapperClasses = 'w-full md:w-auto mt-12 md:mt-8'
+            %}
+        </form>
+    </div>
+</div>
+{% endpartial %}
