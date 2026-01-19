@@ -158,7 +158,7 @@ form_quotation_title: 'Note aggiuntive'
 # Messages
 messages_generic_error: 'Si è verificato un errore'
 messages_product_alias_create: 'La tua richiesta di aggiungere un nuovo alias è stata inviata'
-messages_product_alias_delete: 'La tua richiesta di eliminare l\'alias è stata inviata'
+messages_product_alias_delete: 'La tua richiesta di eliminare l''alias è stata inviata'
 messages_product_alias_delete_confirm: 'Sei sicuro di voler eliminare questo alias?'
 messages_product_alias_update: 'La tua richiesta di modificare l\'alias è stata inviata'
 messages_user_delete_confirm: 'Sei sicuro di voler eliminare questo utente?'
