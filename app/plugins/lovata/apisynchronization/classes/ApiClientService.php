@@ -218,7 +218,7 @@ class ApiClientService
         }
 
         try {
-            $response = $this->http->get('/api/v2/GetStored', [
+            $response = $this->http->get('/api/v2/StoredGet', [
                 'timeout' => 5,
                 'headers' => [
                     'Accept'        => 'application/json',

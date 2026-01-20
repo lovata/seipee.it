@@ -1,0 +1,32 @@
+fields:
+    title:
+        label: Title
+        span: auto
+        readOnly: 1
+        type: text
+    variants:
+        label: Variants
+        type: repeater
+        span: auto
+        form:
+            fields:
+                value:
+                    label: Value
+                    type: text
+                    readOnly: 1
+                name:
+                    label: Name
+                    type: text
+                    readOnly: 1
+    notes:
+        label: Notes
+        span: auto
+        type: text
+        readOnly: 1
+    user:
+        label: User
+        nameFrom: name
+        descriptionFrom: description
+        span: auto
+        readOnly: 1
+        type: relation

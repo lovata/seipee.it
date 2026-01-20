@@ -132,6 +132,7 @@ form_no: 'No'
 form_quantity: 'Quantity'
 form_required_fields: 'required fields'
 form_save: 'Save'
+form_select: 'Select'
 form_send: 'Send'
 form_search: 'Search'
 form_user_address_postal: 'Postal address'
@@ -327,6 +328,9 @@ reviews_stars_rating_4: 'Very good'
 reviews_stars_rating_5: 'Amazing'
 reviews_today_at: 'Today at :time'
 reviews_would_recommend: 'Would you recommend this product?'
+
+request_quotation_title: 'Your Quotation'
+request_quotation_text: 'Thank you! Your quotation has been successfully submitted and is now being processed.'
 
 # Search
 search_category: 'Category'

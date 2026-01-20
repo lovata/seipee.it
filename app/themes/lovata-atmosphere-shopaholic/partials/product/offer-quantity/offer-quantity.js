@@ -63,32 +63,4 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
   }
-
-  const checkboxes = document.querySelectorAll('input[name="variants[]"]');
-  const defaultProducts = document.querySelectorAll('._default-product');
-  const customProducts = document.querySelectorAll('._custom-product');
-
-  checkboxes.forEach(cb => {
-    cb.addEventListener("change", () => {
-      const anyChecked = [...checkboxes].some(c => c.checked);
-
-      if (anyChecked) {
-        defaultProducts.forEach(el => {
-          if (!el.classList.contains('hidden')) {
-            el.classList.add('hidden');
-          }
-        });
-
-        customProducts.forEach(el => {
-          if (el.classList.contains('hidden')) {
-            el.classList.remove('hidden');
-          }
-        });
-      } else {
-        defaultProducts.forEach(el => el.classList.remove('hidden'));
-        customProducts.forEach(el => el.classList.add('hidden'));
-      }
-    });
-  });
-
 });

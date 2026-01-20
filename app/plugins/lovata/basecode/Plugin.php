@@ -35,6 +35,7 @@ class Plugin extends PluginBase
             '\Lovata\BaseCode\Components\UserChildrenPage' => 'UserChildrenPage',
             '\Lovata\BaseCode\Components\OrderPageCustom' => 'OrderPageCustom',
             '\Lovata\BaseCode\Components\ProductAliasesManager' => 'ProductAliasesManager',
+            '\Lovata\BaseCode\Components\RequestQuotation' => 'RequestQuotation',
         ];
     }
 

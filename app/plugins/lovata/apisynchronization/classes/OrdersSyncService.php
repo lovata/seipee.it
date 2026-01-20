@@ -14,15 +14,14 @@ use Lovata\Buddies\Models\User;
  * OrdersSyncService
  *
  * Syncs order history from Seipee API (xbtvw_B2B_StoricoOrd) into OrderPosition.
- * Filters by CD_DO = 'OCI' to get only relevant order items.
  */
 class OrdersSyncService
 {
     /** @var ApiClientService */
-    protected $api;
+    protected ApiClientService $api;
 
     /** @var Command|null */
-    protected $console;
+    protected ?Command $console;
 
     public function __construct(ApiClientService $api, Command $console = null)
     {
@@ -32,7 +31,6 @@ class OrdersSyncService
 
     /**
      * Sync orders from Seipee API table xbtvw_B2B_StoricoOrd.
-     * Filters by CD_DO = 'OCI' to get only order items.
      *
      * @param int $rows Rows per page
      * @return array Statistics
@@ -71,14 +69,12 @@ class OrdersSyncService
                     $numeroDoc = $this->safeString($row['NumeroDoc'] ?? '');
                     $cdAR = $this->safeString($row['CD_AR'] ?? '');
 
-                    // Collect delivery dates from DVI records (they have DataConsegna)
+                    // Collect delivery dates from DVI records
                     if ($cdDO === 'DVI') {
                         $dataConsegna = $row['DataConsegna'] ?? null;
                         if ($idDOTes && $dataConsegna && !isset($deliveryDates[$idDOTes])) {
                             $deliveryDates[$idDOTes] = $dataConsegna;
-                            $this->log('DVI: Stored delivery date '.$dataConsegna.' for order ID '.$idDOTes);
                         }
-                        // Don't continue - process DVI positions too!
                     }
 
                     // Process both DVI and OCI records: create orders and positions
@@ -88,8 +84,14 @@ class OrdersSyncService
                             continue;
                         }
 
-                        // Find or create Order (using delivery dates collected so far)
+                        // Find or create Order
                         $orderResult = $this->findOrCreateOrder($row, $idDOTes, $deliveryDates);
+
+                        // Free memory: remove used delivery date immediately
+                        if (isset($deliveryDates[$idDOTes])) {
+                            unset($deliveryDates[$idDOTes]);
+                        }
+
                         if (!$orderResult['order']) {
                             $skipped++;
                             continue;
@@ -133,7 +135,7 @@ class OrdersSyncService
             $processedOrders = [];
         }
 
-        $this->log('Sync completed! Found delivery dates for '.count($deliveryDates).' orders');
+        $this->log('Sync completed!');
         return [
             'createdOrders' => $createdOrders,
             'updatedOrders' => $updatedOrders,
@@ -201,6 +203,12 @@ class OrdersSyncService
 
                         // Find or create Order
                         $orderResult = $this->findOrCreateOrder($row, $idDOTes, $deliveryDates);
+
+                        // Free memory: remove used delivery date immediately
+                        if (isset($deliveryDates[$idDOTes])) {
+                            unset($deliveryDates[$idDOTes]);
+                        }
+
                         if (!$orderResult['order']) {
                             $skipped++;
                             continue;

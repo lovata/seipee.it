@@ -17,8 +17,10 @@ require:
     - Lovata.PropertiesShopaholic
     - Lovata.FilterShopaholic
 translate:
+    ar: lang/ar/lang.yaml
+    de: lang/de/lang.yaml
     en: lang/en/lang.yaml
+    it: lang/it/lang.yaml
     pl: lang/pl/lang.yaml
     ru: lang/ru/lang.yaml
-    de: lang/de/lang.yaml
-    ar: lang/ar/lang.yaml
+    
