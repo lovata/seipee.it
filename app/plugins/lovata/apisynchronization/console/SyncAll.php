@@ -58,14 +58,6 @@ class SyncAll extends Command
             return $code;
         }
 
-        $this->info('Step 6: seipee:sync.orders');
-        $code = Artisan::call('seipee:sync.orders', $common);
-        $this->output->write(Artisan::output());
-        if ($code !== 0) {
-            $this->error('seipee:sync.orders failed with exit code '.$code);
-            return $code;
-        }
-
         $this->info('All sync steps finished successfully.');
         return 0;
     }
