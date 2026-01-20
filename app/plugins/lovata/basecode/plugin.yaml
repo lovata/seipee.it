@@ -4,6 +4,13 @@ plugin:
     author: Lovata
     icon: oc-icon-magic
     homepage: ''
+navigation:
+    orders-shopaholic-menu:
+        label: 'Requests'
+        url: lovata/basecode/requestquotations
+        icon: icon-shopping-cart
+        permissions:
+            - shopaholic-order
 permissions:
     lovata-site-settings:
         label: 'lovata.basecode::lang.permission.settings'

@@ -85,6 +85,7 @@ Params:
                     </div>
                 {% endfor %}
             {% endif %}
+            {% partial 'product/product-native-variants' %}
             <div class="flex justify-between grow flex items-end">
                 {% partial 'product/offer-quantity/offer-quantity'
                     iMax = obOffer.quantity

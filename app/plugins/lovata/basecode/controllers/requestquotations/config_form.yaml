@@ -1,0 +1,10 @@
+name: RequestQuotations
+form: $/lovata/basecode/models/requestquotation/fields.yaml
+modelClass: Lovata\BaseCode\Models\RequestQuotation
+defaultRedirect: lovata/basecode/requestquotations
+create:
+    redirect: 'lovata/basecode/requestquotations/update/:id'
+    redirectClose: lovata/basecode/requestquotations
+update:
+    redirect: lovata/basecode/requestquotations
+    redirectClose: lovata/basecode/requestquotations
