@@ -11,6 +11,7 @@ use Lovata\ApiSynchronization\console\SyncProperties;
 use Lovata\ApiSynchronization\console\SyncProductAliases;
 use Lovata\ApiSynchronization\console\SyncOrders;
 use Lovata\ApiSynchronization\console\SyncUndeliveredOrders;
+use Lovata\ApiSynchronization\console\ClearOrders;
 use Lovata\ApiSynchronization\Models\SyncSettings;
 use Lovata\OrdersShopaholic\Classes\Processor\OrderProcessor;
 use \Lovata\ApiSynchronization\console\SyncCustomers;
@@ -79,6 +80,7 @@ class Plugin extends PluginBase
         $this->registerConsoleCommand('seipee:sync.product-aliases', SyncProductAliases::class);
         $this->registerConsoleCommand('seipee:sync.orders', SyncOrders::class);
         $this->registerConsoleCommand('seipee:sync.undelivered-orders', SyncUndeliveredOrders::class);
+        $this->registerConsoleCommand('seipee:clear-orders', ClearOrders::class);
 //        $this->registerConsoleCommand('seipee:sync.orders-from-seipee', SyncOrdersFromSeipee::class);
         $this->registerConsoleCommand('seipee:properties.purge', PurgeProperties::class);
     }

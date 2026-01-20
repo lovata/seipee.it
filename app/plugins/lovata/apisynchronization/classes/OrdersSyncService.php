@@ -14,6 +14,7 @@ use Lovata\Buddies\Models\User;
  * OrdersSyncService
  *
  * Syncs order history from Seipee API (xbtvw_B2B_StoricoOrd) into OrderPosition.
+ * Each API record represents one order position with all order data included.
  */
 class OrdersSyncService
 {
@@ -31,6 +32,7 @@ class OrdersSyncService
 
     /**
      * Sync orders from Seipee API table xbtvw_B2B_StoricoOrd.
+     * Each record contains complete order and position data.
      *
      * @param int $rows Rows per page
      * @return array Statistics
@@ -44,15 +46,10 @@ class OrdersSyncService
         $skipped = 0;
         $errors = 0;
         $processedOrders = []; // Track orders to update totals
-        $deliveryDates = []; // Store delivery dates from DVI records
 
         $this->log('Starting orders sync from xbtvw_B2B_StoricoOrd...');
 
-        // Single request for both DVI and OCI records
-        $where = "CD_DO IN ('DVI', 'OCI')";
-        $where = "";
-
-        foreach ($this->api->paginate('xbtvw_B2B_StoricoOrd', $rows, $where) as $pageData) {
+        foreach ($this->api->paginate('xbtvw_B2B_StoricoOrd', $rows) as $pageData) {
             $list = Arr::get($pageData, 'result', []);
 
             if (empty($list)) {
@@ -63,59 +60,43 @@ class OrdersSyncService
 
             foreach ($list as $row) {
                 try {
-                    $cdDO = $this->safeString($row['CD_DO'] ?? '');
                     $idDOTes = (int)($row['ID_DOTes'] ?? 0);
                     $idDORig = (int)($row['ID_DORig'] ?? 0);
                     $numeroDoc = $this->safeString($row['NumeroDoc'] ?? '');
                     $cdAR = $this->safeString($row['CD_AR'] ?? '');
 
-                    // Collect delivery dates from DVI records
-                    if ($cdDO === 'DVI') {
-                        $dataConsegna = $row['DataConsegna'] ?? null;
-                        if ($idDOTes && $dataConsegna && !isset($deliveryDates[$idDOTes])) {
-                            $deliveryDates[$idDOTes] = $dataConsegna;
-                        }
+                    // Skip invalid records
+                    if (!$idDOTes || !$idDORig || !$numeroDoc || !$cdAR) {
+                        $skipped++;
+                        continue;
                     }
 
-                    // Process both DVI and OCI records: create orders and positions
-                    if ($cdDO === 'DVI' || $cdDO === 'OCI') {
-                        if (!$idDORig || !$numeroDoc || !$cdAR) {
-                            $skipped++;
-                            continue;
-                        }
+                    // Find or create Order
+                    $orderResult = $this->findOrCreateOrder($row, $idDOTes);
 
-                        // Find or create Order
-                        $orderResult = $this->findOrCreateOrder($row, $idDOTes, $deliveryDates);
+                    if (!$orderResult['order']) {
+                        $skipped++;
+                        continue;
+                    }
 
-                        // Free memory: remove used delivery date immediately
-                        if (isset($deliveryDates[$idDOTes])) {
-                            unset($deliveryDates[$idDOTes]);
-                        }
+                    $order = $orderResult['order'];
+                    if ($orderResult['created']) {
+                        $createdOrders++;
+                    } elseif ($orderResult['updated']) {
+                        $updatedOrders++;
+                    }
 
-                        if (!$orderResult['order']) {
-                            $skipped++;
-                            continue;
-                        }
+                    // Track order for totals update
+                    $processedOrders[$order->id] = $order;
 
-                        $order = $orderResult['order'];
-                        if ($orderResult['created']) {
-                            $createdOrders++;
-                        } elseif ($orderResult['updated']) {
-                            $updatedOrders++;
-                        }
-
-                        // Track order for totals update
-                        $processedOrders[$order->id] = $order;
-
-                        // Find or create OrderPosition
-                        $positionResult = $this->findOrCreateOrderPosition($order, $row, $idDORig);
-                        if ($positionResult['created']) {
-                            $createdPositions++;
-                        } elseif ($positionResult['updated']) {
-                            $updatedPositions++;
-                        } else {
-                            $skipped++;
-                        }
+                    // Find or create OrderPosition
+                    $positionResult = $this->findOrCreateOrderPosition($order, $row, $idDORig);
+                    if ($positionResult['created']) {
+                        $createdPositions++;
+                    } elseif ($positionResult['updated']) {
+                        $updatedPositions++;
+                    } else {
+                        $skipped++;
                     }
 
                 } catch (\Throwable $e) {
@@ -202,7 +183,7 @@ class OrdersSyncService
                         }
 
                         // Find or create Order
-                        $orderResult = $this->findOrCreateOrder($row, $idDOTes, $deliveryDates);
+                        $orderResult = $this->findOrCreateOrder($row, $idDOTes);
 
                         // Free memory: remove used delivery date immediately
                         if (isset($deliveryDates[$idDOTes])) {
@@ -264,26 +245,45 @@ class OrdersSyncService
     }
 
     /**
-     * Find or create Order from API row
+     * Find or create Order from API row.
+     * Each row contains complete order data.
      *
-     * @param array $row
-     * @param int $idDOTes
-     * @param array $deliveryDates Array of delivery dates from DVI records
+     * @param array $row Complete order data from API
+     * @param int $idDOTes Order ID from Seipee
      * @return array ['order' => Order|null, 'created' => bool, 'updated' => bool]
      */
-    protected function findOrCreateOrder(array $row, int $idDOTes, array $deliveryDates = []): array
+    protected function findOrCreateOrder(array $row, int $idDOTes): array
     {
         $numeroDoc = $this->safeString($row['NumeroDoc'] ?? '');
         $cdCF = $this->safeString($row['CD_CF'] ?? ''); // Customer code
-        $dataDoc = $row['DataDoc'] ?? null; // Document date
         $cdPG = $this->safeString($row['CD_PG'] ?? ''); // Payment type code
+        $cdDO = $this->safeString($row['CD_DO'] ?? ''); // Document type code
+        $descTipoDoc = $this->safeString($row['DescTipoDoc'] ?? ''); // Document type description
+
+        $dataDoc = $row['DataDoc'] ?? null; // Document date
+        $dataConsegna = $row['DataConsegna'] ?? null; // Delivery date
         $docEvaso = (bool)($row['DocEvaso'] ?? false); // Document fulfilled/delivered
 
-        // Get delivery date from DVI records (not from OCI row)
-        $dataConsegna = $deliveryDates[$idDOTes] ?? null;
+        // Financial totals
+        $notaPrincipale = $row['NotaPrincipale'] ?? null; // Main note
+        $totImponibileE = $this->toFloat($row['TotImponibileE'] ?? 0); // Total excl. VAT
+        $totDocumentoE = $this->toFloat($row['TotDocumentoE'] ?? 0); // Total incl. VAT
+        $righe = (int)($row['Righe'] ?? 0); // Number of rows (items count)
 
-        // Try to find existing order by seipee_order_id (ID_DOTes)
+        // Try to find existing order by seipee_order_id (most reliable)
         $order = Order::where('seipee_order_id', (string)$idDOTes)->first();
+
+        // If not found, try by order_number
+        if (!$order && $numeroDoc) {
+            $order = Order::where('order_number', $numeroDoc)->first();
+
+            // Update seipee_order_id if found by order_number
+            if ($order && !$order->seipee_order_id) {
+                $order->seipee_order_id = (string)$idDOTes;
+                $order->save();
+                $this->log('Updated seipee_order_id for existing order: '.$numeroDoc);
+            }
+        }
 
         $created = false;
         $updated = false;
@@ -294,19 +294,19 @@ class OrdersSyncService
             $order->seipee_order_id = (string)$idDOTes;
             $order->order_number = $numeroDoc;
 
-            // Try to find user by customer code (stored in external_id)
+            // Try to find user by customer code
             $user = User::where('external_id', $cdCF)->first();
             if ($user) {
                 $order->user_id = $user->id;
             }
 
-            // Set default status (find first or create)
+            // Set default status
             $status = Status::first();
             if ($status) {
                 $order->status_id = $status->id;
             }
 
-            // Parse and set document date
+            // Set document date as created_at
             if ($dataDoc) {
                 try {
                     $order->created_at = \Carbon\Carbon::parse($dataDoc);
@@ -324,29 +324,53 @@ class OrdersSyncService
             if ($dataConsegna) {
                 try {
                     $order->delivery_date = \Carbon\Carbon::parse($dataConsegna);
-                    $this->log('Set delivery_date: '.$dataConsegna.' for order '.$numeroDoc);
                 } catch (\Exception $e) {
-                    $this->log('Failed to parse delivery date: '.$dataConsegna.' - '.$e->getMessage(), 'warning');
+                    $this->log('Failed to parse delivery date: '.$dataConsegna, 'warning');
                 }
-            } else {
-                $this->log('No delivery date found for order '.$numeroDoc.' (ID_DOTes: '.$idDOTes.')');
             }
 
             // Set delivery status
             $order->is_delivered = $docEvaso;
 
+            // Store additional data in property field
+            $property = [];
+
+            if ($notaPrincipale && !empty($notaPrincipale)) {
+                $property['notes'] = $this->extractValue($notaPrincipale);
+            }
+
+            if ($totImponibileE !== null) {
+                $property['total_excl_vat'] = $totImponibileE;
+            }
+
+            if ($totDocumentoE !== null) {
+                $property['total_incl_vat'] = $totDocumentoE;
+            }
+
+            if ($cdDO) {
+                $property['document_type_code'] = $cdDO;
+            }
+
+            if ($descTipoDoc) {
+                $property['document_type_description'] = $descTipoDoc;
+            }
+
+            $order->property = $property;
             $order->save();
             $created = true;
 
             $this->log('Created order: '.$numeroDoc.' (Seipee ID: '.$idDOTes.')');
         } else {
             // Order exists, check if update needed
+            $propertyChanged = false;
+            $property = $order->property ?? [];
+
             if ($order->order_number !== $numeroDoc) {
                 $order->order_number = $numeroDoc;
                 $updated = true;
             }
 
-            // Update user if found and not set
+            // Update user if not set
             if (!$order->user_id && $cdCF) {
                 $user = User::where('external_id', $cdCF)->first();
                 if ($user) {
@@ -368,16 +392,49 @@ class OrdersSyncService
                     if (!$order->delivery_date || $order->delivery_date->ne($newDeliveryDate)) {
                         $order->delivery_date = $newDeliveryDate;
                         $updated = true;
-                        $this->log('Updated delivery_date: '.$dataConsegna.' for order '.$numeroDoc);
                     }
                 } catch (\Exception $e) {
-                    $this->log('Failed to parse delivery date: '.$dataConsegna.' - '.$e->getMessage(), 'warning');
+                    $this->log('Failed to parse delivery date: '.$dataConsegna, 'warning');
                 }
             }
 
             // Update delivery status
             if ($order->is_delivered !== $docEvaso) {
                 $order->is_delivered = $docEvaso;
+                $updated = true;
+            }
+
+            // Update property fields
+            if ($notaPrincipale && !empty($notaPrincipale)) {
+                $newNotes = $this->extractValue($notaPrincipale);
+                if (($property['notes'] ?? null) !== $newNotes) {
+                    $property['notes'] = $newNotes;
+                    $propertyChanged = true;
+                }
+            }
+
+            if ($totImponibileE !== null && ($property['total_excl_vat'] ?? null) !== $totImponibileE) {
+                $property['total_excl_vat'] = $totImponibileE;
+                $propertyChanged = true;
+            }
+
+            if ($totDocumentoE !== null && ($property['total_incl_vat'] ?? null) !== $totDocumentoE) {
+                $property['total_incl_vat'] = $totDocumentoE;
+                $propertyChanged = true;
+            }
+
+            if ($cdDO && ($property['document_type_code'] ?? null) !== $cdDO) {
+                $property['document_type_code'] = $cdDO;
+                $propertyChanged = true;
+            }
+
+            if ($descTipoDoc && ($property['document_type_description'] ?? null) !== $descTipoDoc) {
+                $property['document_type_description'] = $descTipoDoc;
+                $propertyChanged = true;
+            }
+
+            if ($propertyChanged) {
+                $order->property = $property;
                 $updated = true;
             }
 
@@ -395,28 +452,55 @@ class OrdersSyncService
     }
 
     /**
-     * Find or create OrderPosition from API row
+     * Extract value from mixed type (handle empty objects/arrays)
+     */
+    protected function extractValue($value)
+    {
+        if ($value === null || $value === '') {
+            return null;
+        }
+
+        if (is_array($value)) {
+            return empty($value) ? null : $value;
+        }
+
+        if (is_object($value)) {
+            $arr = (array)$value;
+            return empty($arr) ? null : $arr;
+        }
+
+        if (is_string($value)) {
+            return trim($value) ?: null;
+        }
+
+        return $value;
+    }
+
+    /**
+     * Find or create OrderPosition from API row.
+     * Each row contains complete position data.
      *
      * @param Order $order
-     * @param array $row
-     * @param int $idDORig
+     * @param array $row Complete position data from API
+     * @param int $idDORig Position ID from Seipee
      * @return array ['created' => bool, 'updated' => bool]
      */
-    protected function findOrCreateOrderPosition(Order $order, array $row, int $idDORig): array
+    public function findOrCreateOrderPosition(Order $order, array $row, int $idDORig): array
     {
         $cdAR = $this->safeString($row['CD_AR'] ?? ''); // Item code
-        $descrizione = $this->safeString($row['Descrizione'] ?? '');
-        $variante = $this->extractVariant($row['Variante'] ?? null);
+        $descrizione = $this->safeString($row['Descrizione'] ?? ''); // Description
+        $variante = $this->extractVariant($row['Variante'] ?? null); // Variant
         $cdARMisura = $this->safeString($row['Cd_ARMisura'] ?? 'NR'); // Unit of measure
-        $qta = $this->toFloat($row['Qta'] ?? 0);
 
-        // Debug: check raw value from API
-
+        $qta = $this->toFloat($row['Qta'] ?? 0); // Quantity
         $qtaEvadibile = $this->toFloat($row['QtaEvadibile'] ?? 0); // Deliverable quantity
-        $prezzoUnitario = $this->toFloat($row['PrezzoUnitarioV'] ?? 0);
-        $prezzoTotale = $this->toFloat($row['PrezzoTotaleV'] ?? 0);
-        $scontoRiga = $this->safeString($row['ScontoRiga'] ?? '');
-        $dataConsegna = $row['DataConsegna'] ?? null;
+        $prezzoUnitario = $this->toFloat($row['PrezzoUnitarioV'] ?? 0); // Unit price
+        $prezzoTotale = $this->toFloat($row['PrezzoTotaleV'] ?? 0); // Total price
+        $scontoRiga = $this->safeString($row['ScontoRiga'] ?? ''); // Discount
+
+        $dataConsegna = $row['DataConsegna'] ?? null; // Delivery date
+        $commessa = $row['Commessa'] ?? null; // Commission
+        $sottoCommessa = $row['SottoCommessa'] ?? null; // Sub-commission
         $rigaEvasa = (bool)($row['RigaEvasa'] ?? false); // Row fulfilled flag
 
         // Find offer by code
@@ -440,8 +524,7 @@ class OrdersSyncService
                 $position->item_type = Offer::class;
                 $position->offer_id = $offer->id;
             } else {
-                // If offer not found, we need to create a generic position
-                // Use a dummy product or skip - for now let's skip
+                // If offer not found, skip this position
                 $this->log('Offer not found for code: '.$cdAR, 'warning');
                 return ['created' => false, 'updated' => false];
             }
@@ -460,21 +543,32 @@ class OrdersSyncService
         $property = $position->property ?? [];
         $property['seipee_row_id'] = $idDORig;
         $property['description'] = $descrizione;
-        $property['deliverable_qty'] = $qtaEvadibile; // For delivery status calculation
-        $property['row_fulfilled'] = $rigaEvasa; // Row fulfillment flag
+        $property['unit_of_measure'] = $cdARMisura;
+        $property['deliverable_qty'] = $qtaEvadibile;
+        $property['row_fulfilled'] = $rigaEvasa;
+        $property['total_price'] = $prezzoTotale;
+
         if ($variante) {
             $property['variant'] = $variante;
         }
+
         if ($scontoRiga) {
             $property['discount'] = $scontoRiga;
         }
+
         if ($dataConsegna) {
             $property['delivery_date'] = $dataConsegna;
         }
-        $property['total_price'] = $prezzoTotale;
+
+        if ($commessa && !empty($commessa)) {
+            $property['commessa'] = $this->extractValue($commessa);
+        }
+
+        if ($sottoCommessa && !empty($sottoCommessa)) {
+            $property['sotto_commessa'] = $this->extractValue($sottoCommessa);
+        }
 
         $position->property = $property;
-
         $position->save();
 
         if ($created) {
@@ -547,7 +641,13 @@ class OrdersSyncService
      *
      * @param Order $order
      */
-    protected function updateOrderTotals(Order $order): void
+    /**
+     * Update order totals based on positions
+     *
+     * @param Order $order
+     * @return void
+     */
+    public function updateOrderTotals(Order $order): void
     {
         // Reload positions to get latest data
         $order->load('order_position');
