@@ -12,3 +12,6 @@
 1.3.2:
     - Create product aliases table for customer-specific product codes
     - create_product_aliases_table.php
+1.4.0:
+    - Add additional Seipee fields to orders (payment_type, delivery_date, is_delivered, items_count)
+    - add_seipee_fields_to_orders.php

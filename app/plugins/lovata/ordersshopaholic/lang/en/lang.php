@@ -48,6 +48,10 @@
         'status'       => 'Status',
         'order_number' => 'Order number',
         'user'         => 'Buyer',
+        'rows'         => 'Rows',
+        'payment'      => 'Payment',
+        'delivery_date' => 'Delivery date',
+        'delivered'    => 'Delivered',
 
         'new'         => 'New',
         'canceled'    => 'Canceled',
@@ -158,6 +162,13 @@
     'order_position'           => [
         'name'       => 'position',
         'list_title' => 'Position list',
+        'model_number' => 'Model number',
+        'product_name' => 'Product name',
+        'unit_of_measure' => 'Unit of measure',
+        'ordered_quantity' => 'Ordered Quantity',
+        'delivered_quantity' => 'Delivered quantity',
+        'unit_price' => 'Unit Price',
+        'total_price' => 'Total Price',
     ],
     'status'                   => [
         'name'       => 'status',

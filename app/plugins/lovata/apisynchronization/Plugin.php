@@ -9,10 +9,14 @@ use Lovata\ApiSynchronization\console\SyncProduct;
 use Lovata\ApiSynchronization\console\SyncProductProperties;
 use Lovata\ApiSynchronization\console\SyncProperties;
 use Lovata\ApiSynchronization\console\SyncProductAliases;
+use Lovata\ApiSynchronization\console\SyncOrders;
+use Lovata\ApiSynchronization\console\SyncUndeliveredOrders;
+use Lovata\ApiSynchronization\Models\SyncSettings;
 use Lovata\OrdersShopaholic\Classes\Processor\OrderProcessor;
 use \Lovata\ApiSynchronization\console\SyncCustomers;
 
 use System\Classes\PluginBase;
+use Backend;
 
 class Plugin extends PluginBase
 {
@@ -36,6 +40,35 @@ class Plugin extends PluginBase
         });
     }
 
+    /**
+     * Register settings
+     */
+    public function registerSettings()
+    {
+        return [
+            'sync-settings' => [
+                'label'       => 'Sync Settings',
+                'description' => 'Configure automatic synchronization interval for undelivered orders',
+                'category'    => 'Seipee Sync',
+                'icon'        => 'icon-refresh',
+                'class'       => 'Lovata\ApiSynchronization\Models\SyncSettings',
+                'order'       => 500,
+                'keywords'    => 'sync synchronization cron schedule interval',
+                'permissions' => ['lovata.apisynchronization.access_settings'],
+            ],
+        ];
+    }
+
+    public function registerPermissions()
+    {
+        return [
+            'lovata.apisynchronization.access_settings' => [
+                'tab'   => 'Seipee Sync',
+                'label' => 'Access sync settings',
+            ],
+        ];
+    }
+
     public function register()
     {
         $this->registerConsoleCommand('seipee:sync', SyncAll::class);
@@ -44,12 +77,31 @@ class Plugin extends PluginBase
         $this->registerConsoleCommand('seipee:sync.products', SyncProduct::class);
         $this->registerConsoleCommand('seipee:sync.customers', SyncCustomers::class);
         $this->registerConsoleCommand('seipee:sync.product-aliases', SyncProductAliases::class);
-//        $this->registerConsoleCommand('seipee:sync.orders', SyncOrdersFromSeipee::class);
+        $this->registerConsoleCommand('seipee:sync.orders', SyncOrders::class);
+        $this->registerConsoleCommand('seipee:sync.undelivered-orders', SyncUndeliveredOrders::class);
+//        $this->registerConsoleCommand('seipee:sync.orders-from-seipee', SyncOrdersFromSeipee::class);
         $this->registerConsoleCommand('seipee:properties.purge', PurgeProperties::class);
     }
 
     public function registerSchedule($schedule)
     {
+        // Full sync once a day
         $schedule->command('seipee:sync')->daily();
+
+        // Sync undelivered orders with dynamic interval from settings
+        try {
+            $settings = SyncSettings::get('lovata_apisync_settings');
+
+            if ($settings && $settings->is_enabled) {
+                $cronExpression = $settings->getCronExpression();
+                $schedule->command('seipee:sync.undelivered-orders')->cron($cronExpression);
+            } else {
+                // Fallback to default 4 hours if settings not configured
+                $schedule->command('seipee:sync.undelivered-orders')->cron('0 */4 * * *');
+            }
+        } catch (\Exception $e) {
+            // Fallback to default 4 hours if settings not available (during installation)
+            $schedule->command('seipee:sync.undelivered-orders')->cron('0 */4 * * *');
+        }
     }
 }

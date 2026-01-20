@@ -50,6 +50,10 @@ use Lovata\OrdersShopaholic\Classes\PromoMechanism\OrderPromoMechanismProcessor;
  * @property \Lovata\OrdersShopaholic\Classes\PromoMechanism\TotalPriceContainer         $total_price_data
  * @property array                                                                       $property
  * @property string                                                                      $seipee_order_id
+ * @property string                                                                      $payment_type
+ * @property \Carbon\Carbon                                                              $delivery_date
+ * @property bool                                                                        $is_delivered
+ * @property int                                                                         $items_count
  *
  * @property \Carbon\Carbon                                                              $created_at
  * @property \Carbon\Carbon                                                              $updated_at
@@ -128,7 +132,7 @@ class Order extends Model
     ];
 
     public $jsonable = ['property'];
-    public $dates = ['created_at', 'updated_at'];
+    public $dates = ['created_at', 'updated_at', 'delivery_date'];
     public $encryptable = ['payment_data', 'payment_response'];
     public $hidden = ['payment_data', 'payment_response'];
 
@@ -145,6 +149,10 @@ class Order extends Model
         'payment_data',
         'site_id',
         'seipee_order_id',
+        'payment_type',
+        'delivery_date',
+        'is_delivered',
+        'items_count',
     ];
 
     public $cached = [
@@ -161,6 +169,10 @@ class Order extends Model
         'created_at',
         'updated_at',
         'seipee_order_id',
+        'payment_type',
+        'delivery_date',
+        'is_delivered',
+        'items_count',
     ];
 
     public $hasMany = [

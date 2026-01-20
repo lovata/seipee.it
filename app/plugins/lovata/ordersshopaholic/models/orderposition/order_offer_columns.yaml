@@ -1,40 +1,42 @@
 columns:
-    offer_name:
-          label: 'lovata.toolbox::lang.field.name'
-          relation: offer
-          select: name
-          searchable: true
-          sortable: true
     code:
-          label: 'lovata.shopaholic::lang.field.vendor_code'
-          type: text
-          searchable: true
-          sortable: true
-    price:
-          label: 'lovata.shopaholic::lang.field.price'
-          type: text
-          searchable: false
-          sortable: false
-    old_price:
-          label: 'lovata.shopaholic::lang.field.old_price'
-          type: text
-          searchable: false
-          sortable: false
+        label: 'lovata.ordersshopaholic::lang.order_position.model_number'
+        type: text
+        searchable: true
+        sortable: true
+    product_name:
+        label: 'lovata.ordersshopaholic::lang.order_position.product_name'
+        type: partial
+        path: $/lovata/ordersshopaholic/controllers/orderpositions/_product_name_column.htm
+        searchable: true
+        sortable: false
+    unit_of_measure:
+        label: 'lovata.ordersshopaholic::lang.order_position.unit_of_measure'
+        type: partial
+        path: $/lovata/ordersshopaholic/controllers/orderpositions/_unit_of_measure_column.htm
+        searchable: false
+        sortable: false
     quantity:
-          label: 'lovata.shopaholic::lang.field.quantity'
-          type: text
-          searchable: false
-          sortable: true
-          width: 140px
+        label: 'lovata.ordersshopaholic::lang.order_position.ordered_quantity'
+        type: text
+        searchable: false
+        sortable: true
+        width: 100px
+    delivered_quantity:
+        label: 'lovata.ordersshopaholic::lang.order_position.delivered_quantity'
+        type: partial
+        path: $/lovata/ordersshopaholic/controllers/orderpositions/_delivered_quantity_column.htm
+        searchable: false
+        sortable: false
+        width: 120px
+    price:
+        label: 'lovata.ordersshopaholic::lang.order_position.unit_price'
+        type: text
+        searchable: false
+        sortable: false
     total_price:
-          label: 'lovata.ordersshopaholic::lang.field.position_price'
-          type: partial
-          path: $/lovata/ordersshopaholic/controllers/orderpositions/_total_price_column.htm
-          searchable: false
-          sortable: false
-    old_total_price:
-          label: 'lovata.ordersshopaholic::lang.field.old_position_price'
-          type: partial
-          path: $/lovata/ordersshopaholic/controllers/orderpositions/_total_old_price_column.htm
-          searchable: false
-          sortable: false
+        label: 'lovata.ordersshopaholic::lang.order_position.total_price'
+        type: partial
+        path: $/lovata/ordersshopaholic/controllers/orderpositions/_total_price_column.htm
+        searchable: false
+        sortable: false

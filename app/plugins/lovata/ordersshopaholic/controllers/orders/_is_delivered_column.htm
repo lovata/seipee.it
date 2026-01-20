@@ -1,0 +1,11 @@
+<?php
+/** @var \Lovata\OrdersShopaholic\Models\Order $record */
+$isDelivered = $record->is_delivered ?? false;
+?>
+
+<?php if ($isDelivered): ?>
+    Yes
+<?php else: ?>
+    No
+<?php endif; ?>
+

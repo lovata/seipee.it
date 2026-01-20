@@ -1,0 +1,8 @@
+<?php
+/** @var \Lovata\OrdersShopaholic\Models\OrderPosition $record */
+// Get delivered quantity from property (QtaEvadibile from API)
+$deliveredQty = $record->property['deliverable_qty'] ?? 0;
+
+echo e(number_format($deliveredQty, 2, '.', ''));
+?>
+

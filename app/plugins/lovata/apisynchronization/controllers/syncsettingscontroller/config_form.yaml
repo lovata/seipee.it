@@ -1,0 +1,22 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+# Record name
+name: Sync Settings
+
+# Model Form Field configuration
+form: $/lovata/apisynchronization/models/syncsettings/fields.yaml
+
+# Redirect to the list after save
+create:
+    redirect: lovata/apisynchronization/syncsettings/update/:id
+    redirectClose: lovata/apisynchronization/syncsettings
+
+update:
+    redirect: lovata/apisynchronization/syncsettings
+    redirectClose: lovata/apisynchronization/syncsettings
+
+# Update operation
+modelClass: Lovata\ApiSynchronization\Models\SyncSettings
+

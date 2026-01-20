@@ -1,0 +1,16 @@
+<?php
+/** @var \Lovata\OrdersShopaholic\Models\OrderPosition $record */
+// Get product name from property (description from API) or from offer
+$productName = $record->property['description'] ?? '';
+
+if (!$productName && $record->offer) {
+    $productName = $record->offer->name;
+}
+
+if (!$productName && $record->item) {
+    $productName = $record->item->name;
+}
+
+echo e($productName);
+?>
+

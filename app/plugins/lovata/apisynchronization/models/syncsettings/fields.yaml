@@ -1,0 +1,53 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+fields:
+    is_enabled:
+        label: Enable Automatic Sync
+        type: switch
+        comment: Enable or disable automatic synchronization of undelivered orders
+        default: true
+        span: full
+
+    section_interval:
+        label: Sync Interval
+        type: section
+        comment: Configure how often the undelivered orders sync should run
+
+    sync_interval_hours:
+        label: Hours
+        type: number
+        comment: Number of hours between each sync (0-23)
+        default: 4
+        span: left
+        attributes:
+            min: 0
+            max: 23
+            step: 1
+
+    sync_interval_minutes:
+        label: Minutes
+        type: number
+        comment: Number of minutes to add to hours (0-59)
+        default: 0
+        span: right
+        attributes:
+            min: 0
+            max: 59
+            step: 1
+
+    interval_description:
+        label: Current Interval
+        type: partial
+        path: $/lovata/apisynchronization/models/SyncSettings/_interval_display.htm
+        span: full
+
+secondaryTabs:
+    fields:
+        help_content:
+            tab: Help
+            type: partial
+            path: $/lovata/apisynchronization/models/SyncSettings/_help_content.htm
+            span: full
+

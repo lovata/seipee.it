@@ -1,0 +1,25 @@
+<?php
+/** @var \Lovata\ApiSynchronization\Models\SyncSettings $model */
+?>
+
+<div class="callout callout-info">
+    <div class="header">
+        <i class="icon-clock-o"></i>
+        <h3>Sync will run every: <strong><?= e($model->interval_description) ?></strong></h3>
+    </div>
+    <div class="content">
+        <p>
+            <?php if ($model->is_enabled): ?>
+                <span class="label label-success">Enabled</span>
+                The synchronization is currently <strong>enabled</strong> and will run automatically.
+            <?php else: ?>
+                <span class="label label-danger">Disabled</span>
+                The synchronization is currently <strong>disabled</strong>.
+            <?php endif; ?>
+        </p>
+        <p>
+            <strong>Generated Cron Expression:</strong> <code><?= e($model->getCronExpression()) ?></code>
+        </p>
+    </div>
+</div>
+

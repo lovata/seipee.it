@@ -1,0 +1,8 @@
+<?php
+/** @var \Lovata\OrdersShopaholic\Models\OrderPosition $record */
+// Get unit of measure from property (Cd_ARMisura from API) - should always be "NR" (pieces)
+$unitOfMeasure = $record->property['unit_of_measure'] ?? 'NR';
+
+echo e($unitOfMeasure);
+?>
+

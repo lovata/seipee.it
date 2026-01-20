@@ -1,0 +1,63 @@
+<div class="callout callout-info">
+    <div class="header">
+        <i class="icon-info-circle"></i>
+        <h3>Sync Settings Help</h3>
+    </div>
+    <div class="content">
+        <h4>What does this sync do?</h4>
+        <p>
+            This automatic synchronization performs two important tasks:
+        </p>
+        <ol>
+            <li><strong>Sync undelivered orders</strong> - Fetches all orders from Seipee API where DocEvaso = false (not delivered) and creates/updates them in the system</li>
+            <li><strong>Update delivery status</strong> - Checks all local orders marked as undelivered and updates their status if they became delivered in Seipee</li>
+        </ol>
+
+        <h4>How to configure the interval</h4>
+        <ul>
+            <li><strong>Hours:</strong> Set a value from 0 to 23</li>
+            <li><strong>Minutes:</strong> Set a value from 0 to 59</li>
+        </ul>
+
+        <h4>Examples</h4>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Hours</th>
+                    <th>Minutes</th>
+                    <th>Result</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>4</td>
+                    <td>0</td>
+                    <td>Runs every 4 hours (00:00, 04:00, 08:00, 12:00, 16:00, 20:00)</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>30</td>
+                    <td>Runs every 1 hour and 30 minutes</td>
+                </tr>
+                <tr>
+                    <td>0</td>
+                    <td>30</td>
+                    <td>Runs every 30 minutes</td>
+                </tr>
+                <tr>
+                    <td>0</td>
+                    <td>15</td>
+                    <td>Runs every 15 minutes</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h4>Important Notes</h4>
+        <ul>
+            <li><strong>Cron must be configured:</strong> Make sure your system cron is set up to run Laravel's scheduler</li>
+            <li><strong>Performance:</strong> Very frequent syncs (e.g., every few minutes) may impact system performance</li>
+            <li><strong>Recommended:</strong> For most cases, syncing every 2-4 hours is sufficient</li>
+        </ul>
+    </div>
+</div>
+
