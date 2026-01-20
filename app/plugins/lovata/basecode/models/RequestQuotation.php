@@ -15,8 +15,8 @@ class RequestQuotation extends Model
     public $rules = [
         'title'                 => 'required|max:255',
         'notes'                 => 'required|max:255',
-        'variants'              => 'nullable|json',
-        'product_id'            => 'required|exists:shopaholic_products,id',
+        'variants'              => 'array',
+        'product_id'            => 'required|exists:lovata_shopaholic_products,id',
         'user_id'               => 'required|exists:lovata_buddies_users,id'
     ];
 

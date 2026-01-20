@@ -1,5 +1,6 @@
 <?php namespace Lovata\BaseCode\Components;
 
+use Log;
 use Lovata\Buddies\Facades\AuthHelper;
 use Lovata\Shopaholic\Models\Product;
 use Lovata\Shopaholic\Models\Settings;
@@ -48,7 +49,11 @@ class RequestQuotation extends \Lovata\Buddies\Components\Buddies
             'user_id' => $user->id ?? null,
         ];
 
+        Log::info(print_r($data, true));
+
         $requestQuotation = RequestQuotationModel::create($data);
+
+        Log::info('created request quotation');
 
         $this->sendNotificationManagerEmail($request, $user);
     }
@@ -56,6 +61,8 @@ class RequestQuotation extends \Lovata\Buddies\Components\Buddies
     private function sendNotificationManagerEmail($request, $user)
     {
         $sEmailList = Settings::getValue('creating_order_manager_email_list');
+
+        \Log::info(print_r($sEmailList, true));
 
         if (empty($sEmailList)) {
             return;
