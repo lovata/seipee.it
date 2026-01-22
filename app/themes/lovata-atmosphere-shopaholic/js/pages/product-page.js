@@ -80,8 +80,6 @@ function initReqeustQuatation() {
     if (hiddenInput) {
       const variants = collectPropertyValues();
       hiddenInput.value = JSON.stringify(variants);
-
-      console.log('Собранные варианты при открытии формы:', variants);
     }
   });
 }
@@ -119,21 +117,20 @@ function initRequestQuotationSubmit() {
     const submitBtn = form.querySelector('[type="submit"]');
     if (submitBtn) submitBtn.setAttribute('disabled', 'disabled');
 
-    // если нужно обновлять variants прямо перед отправкой
     const hiddenInput = form.querySelector('#selected_variants');
     if (hiddenInput) {
       hiddenInput.value = JSON.stringify(collectPropertyValues());
     }
 
     oc.request(form, 'RequestQuotation::onSend', {
-      complete: () => {
+      complete: (response) => {
         if (submitBtn) submitBtn.removeAttribute('disabled');
         const offCanvas = OffCanvasContainer.instance();
         offCanvas.close('request-quotation');
-
-        window.location.href = '/request-quotation-success';
+        if (response.redirect) {
+          window.location.href = response.redirect;
+        }
       },
-
       error: () => {
         if (submitBtn) submitBtn.removeAttribute('disabled');
       }
