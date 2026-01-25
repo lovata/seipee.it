@@ -67,6 +67,14 @@ use Lovata\OrdersShopaholic\Classes\PromoMechanism\OrderPromoMechanismProcessor;
  * @property double                                                    $width
  * @property string                                                    $code
  * @property array                                                     $property
+ * @property string|null                                               $api_description
+ * @property string|null                                               $api_variant
+ * @property float|null                                                $api_deliverable_qty
+ * @property string|null                                               $api_discount
+ * @property bool|null                                                 $api_row_fulfilled
+ * @property string|null                                               $api_delivery_date
+ * @property string|null                                               $api_total_price
+ * @property string|null                                               $api_unit_of_measure
  *
  * @property mixed                                                     $item
  * @method \October\Rain\Database\Relations\MorphTo item()
@@ -520,5 +528,89 @@ class OrderPosition extends Model
         }
 
         OrderPromoMechanismProcessor::update($obOrder);
+    }
+
+    /**
+     * Get description from API (Descrizione)
+     * @return string|null
+     */
+    public function getApiDescriptionAttribute()
+    {
+        return $this->property['description'] ?? null;
+    }
+
+    /**
+     * Get variant from API (Variante)
+     * @return string|null
+     */
+    public function getApiVariantAttribute()
+    {
+        return $this->property['variant'] ?? null;
+    }
+
+    /**
+     * Get deliverable quantity from API (QtaEvadibile)
+     * @return float|null
+     */
+    public function getApiDeliverableQtyAttribute()
+    {
+        return $this->property['deliverable_qty'] ?? null;
+    }
+
+    /**
+     * Get discount from API (ScontoRiga)
+     * @return string|null
+     */
+    public function getApiDiscountAttribute()
+    {
+        return $this->property['discount'] ?? null;
+    }
+
+    /**
+     * Get row fulfilled status from API (RigaEvasa)
+     * @return bool|null
+     */
+    public function getApiRowFulfilledAttribute()
+    {
+        return $this->property['row_fulfilled'] ?? null;
+    }
+
+    /**
+     * Get delivery date from API (DataConsegna)
+     * @return string|null
+     */
+    public function getApiDeliveryDateAttribute()
+    {
+        $date = $this->property['delivery_date'] ?? null;
+        if ($date) {
+            try {
+                return \Carbon\Carbon::parse($date)->format('Y-m-d');
+            } catch (\Exception $e) {
+                return $date;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Get total price from API (PrezzoTotaleV)
+     * @return string|null
+     */
+    public function getApiTotalPriceAttribute()
+    {
+        $value = $this->property['total_price'] ?? null;
+        if ($value !== null) {
+            return PriceHelper::format($value);
+        }
+        return null;
+    }
+
+    /**
+     * Get unit of measure from API (Cd_ARMisura)
+     * @return string|null
+     */
+    public function getApiUnitOfMeasureAttribute()
+    {
+        return $this->property['unit_of_measure'] ?? null;
     }
 }

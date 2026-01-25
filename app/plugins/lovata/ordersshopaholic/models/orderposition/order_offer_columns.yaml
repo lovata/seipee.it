@@ -40,3 +40,37 @@ columns:
         path: $/lovata/ordersshopaholic/controllers/orderpositions/_total_price_column.htm
         searchable: false
         sortable: false
+    api_description:
+        label: 'Description (API)'
+        type: text
+        searchable: false
+        sortable: false
+    api_variant:
+        label: 'Variant (API)'
+        type: text
+        searchable: false
+        sortable: false
+    api_deliverable_qty:
+        label: 'Deliverable Qty (API)'
+        type: text
+        searchable: false
+        sortable: false
+        width: 120px
+    api_discount:
+        label: 'Discount (API)'
+        type: text
+        searchable: false
+        sortable: false
+        width: 100px
+    api_row_fulfilled:
+        label: 'Fulfilled (API)'
+        type: text
+        searchable: false
+        sortable: false
+        width: 100px
+    api_delivery_date:
+        label: 'Delivery Date (API)'
+        type: text
+        searchable: false
+        sortable: false
+        width: 120px

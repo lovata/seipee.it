@@ -64,6 +64,27 @@ tabs:
             span: left
             type: dropdown
             tab: 'lovata.ordersshopaholic::lang.tab.info'
+        api_notes:
+            label: 'Notes (API)'
+            span: full
+            type: textarea
+            disabled: true
+            tab: 'lovata.ordersshopaholic::lang.tab.info'
+            comment: 'Notes from Seipee API (NotaPrincipale)'
+        api_total_excl_vat:
+            label: 'Total excl. VAT (API)'
+            span: left
+            type: text
+            disabled: true
+            tab: 'lovata.ordersshopaholic::lang.tab.info'
+            comment: 'Total excluding VAT from Seipee API (TotImponibileE)'
+        api_total_incl_vat:
+            label: 'Total incl. VAT (API)'
+            span: right
+            type: text
+            disabled: true
+            tab: 'lovata.ordersshopaholic::lang.tab.info'
+            comment: 'Total including VAT from Seipee API (TotDocumentoE)'
         order_offer:
             span: full
             path: $/lovata/ordersshopaholic/controllers/orders/_order_offer.htm

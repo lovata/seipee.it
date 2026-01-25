@@ -35,9 +35,11 @@ class OrdersSyncService
      * Each record contains complete order and position data.
      *
      * @param int $rows Rows per page
+     * @param bool $useMock Use mock data from JSON file instead of API
+     * @param string|null $mockFile Path to mock JSON file (relative to plugin root or absolute)
      * @return array Statistics
      */
-    public function sync(int $rows = 200): array
+    public function sync(int $rows = 200, bool $useMock = false, string $mockFile = null): array
     {
         $createdOrders = 0;
         $updatedOrders = 0;
@@ -47,10 +49,21 @@ class OrdersSyncService
         $errors = 0;
         $processedOrders = []; // Track orders to update totals
 
-        $this->log('Starting orders sync from xbtvw_B2B_StoricoOrd...');
+        if ($useMock) {
+            $this->log('Starting orders sync from MOCK DATA...');
+            $mockData = $this->loadMockData($mockFile);
+            $dataSource = [$mockData]; // Wrap in array to simulate pagination
+        } else {
+            $this->log('Starting orders sync from xbtvw_B2B_StoricoOrd...');
+            $dataSource = $this->api->paginate('xbtvw_B2B_StoricoOrd', $rows);
+        }
 
-        foreach ($this->api->paginate('xbtvw_B2B_StoricoOrd', $rows) as $pageData) {
-            $list = Arr::get($pageData, 'result', []);
+        foreach ($dataSource as $pageData) {
+            if ($useMock) {
+                $list = $pageData; // Mock data is already the list
+            } else {
+                $list = Arr::get($pageData, 'result', []);
+            }
 
             if (empty($list)) {
                 continue;
@@ -128,13 +141,61 @@ class OrdersSyncService
     }
 
     /**
-     * Sync only undelivered orders (DocEvaso = false)
-     * Used for periodic updates to check delivery status
+     * Load mock data from JSON file
+     *
+     * @param string|null $mockFile Path to mock file (if null, uses default)
+     * @return array Mock data
+     * @throws \RuntimeException
+     */
+    protected function loadMockData(string $mockFile = null): array
+    {
+        if ($mockFile === null) {
+            $mockFile = plugins_path('lovata/apisynchronization/mock_orders.json');
+        } elseif (!file_exists($mockFile)) {
+            // Try relative to plugin path
+            $relativePath = plugins_path('lovata/apisynchronization/' . $mockFile);
+            if (file_exists($relativePath)) {
+                $mockFile = $relativePath;
+            }
+        }
+
+        if (!file_exists($mockFile)) {
+            throw new \RuntimeException('Mock data file not found: ' . $mockFile);
+        }
+
+        $this->log('Loading mock data from: ' . $mockFile);
+
+        $content = file_get_contents($mockFile);
+        $data = json_decode($content, true);
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new \RuntimeException('Invalid JSON in mock file: ' . json_last_error_msg());
+        }
+
+        if (!is_array($data)) {
+            throw new \RuntimeException('Mock data must be an array');
+        }
+
+        $this->log('Loaded ' . count($data) . ' mock records');
+
+        return $data;
+    }
+
+    /**
+     * Sync undelivered orders and mark as delivered those that are missing from API.
+     *
+     * Logic:
+     * 1. Fetch all undelivered orders from API (DocEvaso = false)
+     * 2. Track processed seipee_order_id
+     * 3. Find orders in our DB that are marked as undelivered (is_delivered = false)
+     * 4. For each DB order NOT in processed list - sync individually (it became delivered)
      *
      * @param int $rows Rows per page
+     * @param bool $useMock Use mock data from JSON file instead of API
+     * @param string|null $mockFile Path to mock JSON file
      * @return array Statistics
      */
-    public function syncUndelivered(int $rows = 200): array
+    public function syncUndelivered(int $rows = 200, bool $useMock = false, string $mockFile = null): array
     {
         $createdOrders = 0;
         $updatedOrders = 0;
@@ -143,15 +204,29 @@ class OrdersSyncService
         $skipped = 0;
         $errors = 0;
         $processedOrders = []; // Track orders to update totals
-        $deliveryDates = []; // Store delivery dates from DVI records
+        $processedSeipeeIds = []; // Track seipee_order_id from API
 
-        $this->log('Starting undelivered orders sync (DocEvaso = false)...');
+        if ($useMock) {
+            $this->log('Starting undelivered orders sync from MOCK DATA...');
+            $mockData = $this->loadMockData($mockFile);
+            // Filter only undelivered orders from mock data
+            $mockData = array_filter($mockData, function($row) {
+                return ($row['DocEvaso'] ?? true) === false;
+            });
+            $dataSource = [$mockData]; // Wrap in array to simulate pagination
+        } else {
+            $this->log('Starting undelivered orders sync (DocEvaso = false)...');
+            // Filter: both DVI and OCI, but only undelivered (DocEvaso = false)
+            $where = "CD_DO IN ('DVI', 'OCI') AND DocEvaso = 0";
+            $dataSource = $this->api->paginate('xbtvw_B2B_StoricoOrd', $rows, $where);
+        }
 
-        // Filter: both DVI and OCI, but only undelivered (DocEvaso = false)
-        $where = "CD_DO IN ('DVI', 'OCI') AND DocEvaso = 0";
-
-        foreach ($this->api->paginate('xbtvw_B2B_StoricoOrd', $rows, $where) as $pageData) {
-            $list = Arr::get($pageData, 'result', []);
+        foreach ($dataSource as $pageData) {
+            if ($useMock) {
+                $list = $pageData; // Mock data is already the list
+            } else {
+                $list = Arr::get($pageData, 'result', []);
+            }
 
             if (empty($list)) {
                 continue;
@@ -167,53 +242,42 @@ class OrdersSyncService
                     $numeroDoc = $this->safeString($row['NumeroDoc'] ?? '');
                     $cdAR = $this->safeString($row['CD_AR'] ?? '');
 
-                    // Collect delivery dates from DVI records
-                    if ($cdDO === 'DVI') {
-                        $dataConsegna = $row['DataConsegna'] ?? null;
-                        if ($idDOTes && $dataConsegna && !isset($deliveryDates[$idDOTes])) {
-                            $deliveryDates[$idDOTes] = $dataConsegna;
-                        }
+                    // Track this seipee order ID
+                    if ($idDOTes) {
+                        $processedSeipeeIds[$idDOTes] = true;
                     }
 
-                    // Process both DVI and OCI records
-                    if ($cdDO === 'DVI' || $cdDO === 'OCI') {
-                        if (!$idDORig || !$numeroDoc || !$cdAR) {
-                            $skipped++;
-                            continue;
-                        }
+                    if (!$idDORig || !$numeroDoc || !$cdAR) {
+                        $skipped++;
+                        continue;
+                    }
 
-                        // Find or create Order
-                        $orderResult = $this->findOrCreateOrder($row, $idDOTes);
+                    // Find or create Order
+                    $orderResult = $this->findOrCreateOrder($row, $idDOTes);
 
-                        // Free memory: remove used delivery date immediately
-                        if (isset($deliveryDates[$idDOTes])) {
-                            unset($deliveryDates[$idDOTes]);
-                        }
+                    if (!$orderResult['order']) {
+                        $skipped++;
+                        continue;
+                    }
 
-                        if (!$orderResult['order']) {
-                            $skipped++;
-                            continue;
-                        }
+                    $order = $orderResult['order'];
+                    if ($orderResult['created']) {
+                        $createdOrders++;
+                    } elseif ($orderResult['updated']) {
+                        $updatedOrders++;
+                    }
 
-                        $order = $orderResult['order'];
-                        if ($orderResult['created']) {
-                            $createdOrders++;
-                        } elseif ($orderResult['updated']) {
-                            $updatedOrders++;
-                        }
+                    // Track order for totals update
+                    $processedOrders[$order->id] = $order;
 
-                        // Track order for totals update
-                        $processedOrders[$order->id] = $order;
-
-                        // Find or create OrderPosition
-                        $positionResult = $this->findOrCreateOrderPosition($order, $row, $idDORig);
-                        if ($positionResult['created']) {
-                            $createdPositions++;
-                        } elseif ($positionResult['updated']) {
-                            $updatedPositions++;
-                        } else {
-                            $skipped++;
-                        }
+                    // Find or create OrderPosition
+                    $positionResult = $this->findOrCreateOrderPosition($order, $row, $idDORig);
+                    if ($positionResult['created']) {
+                        $createdPositions++;
+                    } elseif ($positionResult['updated']) {
+                        $updatedPositions++;
+                    } else {
+                        $skipped++;
                     }
 
                 } catch (\Throwable $e) {
@@ -233,7 +297,38 @@ class OrdersSyncService
             $processedOrders = [];
         }
 
-        $this->log('Undelivered orders sync completed!');
+        $this->log('Undelivered orders sync completed. Checking for delivered orders...');
+
+        // Find orders in DB marked as undelivered but not in API response
+        $undeliveredInDb = Order::where('is_delivered', false)
+            ->whereNotNull('seipee_order_id')
+            ->pluck('seipee_order_id')
+            ->toArray();
+
+        $deliveredCount = 0;
+        foreach ($undeliveredInDb as $seipeeOrderId) {
+            // If not in processed list, it means the order is now delivered in API
+            if (!isset($processedSeipeeIds[$seipeeOrderId])) {
+                $this->log('Order '.$seipeeOrderId.' is now delivered. Syncing...');
+
+                try {
+                    $result = $this->syncOrderById($seipeeOrderId);
+                    if ($result['success']) {
+                        $deliveredCount++;
+                        $updatedOrders++;
+                    }
+                } catch (\Throwable $e) {
+                    $errors++;
+                    $this->log('Error syncing delivered order '.$seipeeOrderId.': '.$e->getMessage(), 'error');
+                    Log::error('OrdersSyncService (delivered order sync) error: '.$e->getMessage(), [
+                        'seipee_order_id' => $seipeeOrderId,
+                        'trace' => $e->getTraceAsString(),
+                    ]);
+                }
+            }
+        }
+
+        $this->log("Sync completed! Found {$deliveredCount} orders that became delivered.");
         return [
             'createdOrders' => $createdOrders,
             'updatedOrders' => $updatedOrders,
@@ -241,7 +336,79 @@ class OrdersSyncService
             'updatedPositions' => $updatedPositions,
             'skipped' => $skipped,
             'errors' => $errors,
+            'deliveredCount' => $deliveredCount,
         ];
+    }
+
+    /**
+     * Sync a specific order by its Seipee ID.
+     * Used to update orders that became delivered.
+     *
+     * @param int|string $seipeeOrderId Seipee order ID (ID_DOTes)
+     * @return array ['success' => bool, 'message' => string]
+     */
+    public function syncOrderById($seipeeOrderId): array
+    {
+        try {
+            $this->log("Fetching order {$seipeeOrderId} from API...");
+
+            // Fetch order data from API
+            $where = "ID_DOTes = {$seipeeOrderId}";
+            $data = $this->api->fetch('xbtvw_B2B_StoricoOrd', 1, 100, $where);
+            $list = Arr::get($data, 'result', []);
+
+            if (empty($list)) {
+                $this->log("Order {$seipeeOrderId} not found in API", 'warning');
+                return ['success' => false, 'message' => 'Order not found in API'];
+            }
+
+            $updatedPositions = 0;
+            $createdPositions = 0;
+            $order = null;
+
+            // Process all positions for this order
+            foreach ($list as $row) {
+                $idDOTes = (int)($row['ID_DOTes'] ?? 0);
+                $idDORig = (int)($row['ID_DORig'] ?? 0);
+
+                if ($idDOTes != $seipeeOrderId) {
+                    continue;
+                }
+
+                // First row creates/updates the order
+                if (!$order) {
+                    $orderResult = $this->findOrCreateOrder($row, $idDOTes);
+                    $order = $orderResult['order'];
+
+                    if (!$order) {
+                        return ['success' => false, 'message' => 'Failed to find/create order'];
+                    }
+                }
+
+                // Process position
+                if ($idDORig) {
+                    $positionResult = $this->findOrCreateOrderPosition($order, $row, $idDORig);
+                    if ($positionResult['created']) {
+                        $createdPositions++;
+                    } elseif ($positionResult['updated']) {
+                        $updatedPositions++;
+                    }
+                }
+            }
+
+            // Update order totals
+            if ($order) {
+                $this->updateOrderTotals($order);
+                $this->log("Order {$seipeeOrderId} synced successfully ({$createdPositions} created, {$updatedPositions} updated positions)");
+                return ['success' => true, 'message' => 'Order synced successfully'];
+            }
+
+            return ['success' => false, 'message' => 'No order processed'];
+
+        } catch (\Throwable $e) {
+            $this->log('Error syncing order '.$seipeeOrderId.': '.$e->getMessage(), 'error');
+            return ['success' => false, 'message' => $e->getMessage()];
+        }
     }
 
     /**

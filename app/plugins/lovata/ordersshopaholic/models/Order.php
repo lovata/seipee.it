@@ -54,6 +54,9 @@ use Lovata\OrdersShopaholic\Classes\PromoMechanism\OrderPromoMechanismProcessor;
  * @property \Carbon\Carbon                                                              $delivery_date
  * @property bool                                                                        $is_delivered
  * @property int                                                                         $items_count
+ * @property string|null                                                                 $api_notes
+ * @property string|null                                                                 $api_total_excl_vat
+ * @property string|null                                                                 $api_total_incl_vat
  *
  * @property \Carbon\Carbon                                                              $created_at
  * @property \Carbon\Carbon                                                              $updated_at
@@ -622,5 +625,40 @@ class Order extends Model
         }
 
         return $iWeight;
+    }
+
+    /**
+     * Get notes from API (NotaPrincipale)
+     * @return string|null
+     */
+    public function getApiNotesAttribute()
+    {
+        return $this->property['notes'] ?? null;
+    }
+
+    /**
+     * Get total excl. VAT from API (TotImponibileE)
+     * @return string|null
+     */
+    public function getApiTotalExclVatAttribute()
+    {
+        $value = $this->property['total_excl_vat'] ?? null;
+        if ($value !== null) {
+            return PriceHelper::format($value);
+        }
+        return null;
+    }
+
+    /**
+     * Get total incl. VAT from API (TotDocumentoE)
+     * @return string|null
+     */
+    public function getApiTotalInclVatAttribute()
+    {
+        $value = $this->property['total_incl_vat'] ?? null;
+        if ($value !== null) {
+            return PriceHelper::format($value);
+        }
+        return null;
     }
 }
