@@ -38,7 +38,7 @@ class SyncOrders extends Command
         if ($useMock) {
             $this->info('Syncing orders from MOCK DATA...');
         } else {
-            $this->info('Syncing orders from xbtvw_B2B_StoricoOrd (CD_DO = OCI)...');
+            $this->info('Syncing orders from xbtvw_B2B_StoricoOrd...');
         }
 
         try {

@@ -59,6 +59,8 @@
         'in_progress' => 'In progress',
 
         'total_price'                    => 'Total price',
+        'total_price_with_vat'           => 'Total price incl. VAT',
+        'notes'                          => 'Notes',
         'old_total_price'                => 'Old total price',
         'position_price'                 => 'Position price',
         'old_position_price'             => 'old position price',

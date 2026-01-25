@@ -69,7 +69,6 @@ use Lovata\OrdersShopaholic\Classes\PromoMechanism\OrderPromoMechanismProcessor;
  * @property array                                                     $property
  * @property string|null                                               $api_description
  * @property string|null                                               $api_variant
- * @property float|null                                                $api_deliverable_qty
  * @property string|null                                               $api_discount
  * @property bool|null                                                 $api_row_fulfilled
  * @property string|null                                               $api_delivery_date
@@ -187,6 +186,12 @@ class OrderPosition extends Model
         'old_total_price',
         'discount_price'
     ];
+
+    /**
+     * Flag to skip automatic price update during API sync
+     * @var bool
+     */
+    public $skipPriceUpdate = false;
 
     /**
      * Before save model event
@@ -507,8 +512,12 @@ class OrderPosition extends Model
 
         $iActivePriceType = PriceTypeHelper::instance()->getActivePriceTypeID();
 
-        $this->price = $obItem->setActivePriceType($iActivePriceType)->setActiveCurrency($sCurrencyCode)->price_value;
-        $this->old_price = $obItem->setActivePriceType($iActivePriceType)->setActiveCurrency($sCurrencyCode)->old_price_value;
+        // Only update price if not skipped (e.g., during API sync)
+        if (!$this->skipPriceUpdate) {
+            $this->price = $obItem->setActivePriceType($iActivePriceType)->setActiveCurrency($sCurrencyCode)->price_value;
+            $this->old_price = $obItem->setActivePriceType($iActivePriceType)->setActiveCurrency($sCurrencyCode)->old_price_value;
+        }
+
         $this->tax_percent = $obItem->tax_percent;
         $this->code = $obItem->code;
         $this->weight = $obItem->weight;

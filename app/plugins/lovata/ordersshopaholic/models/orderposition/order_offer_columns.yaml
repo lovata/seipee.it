@@ -41,35 +41,34 @@ columns:
         searchable: false
         sortable: false
     api_description:
-        label: 'Description (API)'
+        label: 'Description'
         type: text
         searchable: false
         sortable: false
     api_variant:
-        label: 'Variant (API)'
+        label: 'Variant'
         type: text
         searchable: false
         sortable: false
-    api_deliverable_qty:
-        label: 'Deliverable Qty (API)'
+    property[deliverable_qty]:
+        label: 'Deliverable Qty'
         type: text
-        searchable: false
-        sortable: false
-        width: 120px
+        searchable: true
+        sortable: true
     api_discount:
-        label: 'Discount (API)'
+        label: 'Discount'
         type: text
         searchable: false
         sortable: false
         width: 100px
     api_row_fulfilled:
-        label: 'Fulfilled (API)'
+        label: 'Fulfilled'
         type: text
         searchable: false
         sortable: false
         width: 100px
     api_delivery_date:
-        label: 'Delivery Date (API)'
+        label: 'Delivery Date'
         type: text
         searchable: false
         sortable: false

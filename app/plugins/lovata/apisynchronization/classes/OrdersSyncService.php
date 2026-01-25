@@ -111,7 +111,6 @@ class OrdersSyncService
                     } else {
                         $skipped++;
                     }
-
                 } catch (\Throwable $e) {
                     $errors++;
                     $this->log('Error processing row: '.$e->getMessage(), 'error');
@@ -122,10 +121,6 @@ class OrdersSyncService
                 }
             }
 
-            // Update order totals for all orders in this batch
-            foreach ($processedOrders as $order) {
-                $this->updateOrderTotals($order);
-            }
             $processedOrders = [];
         }
 
@@ -217,7 +212,7 @@ class OrdersSyncService
         } else {
             $this->log('Starting undelivered orders sync (DocEvaso = false)...');
             // Filter: both DVI and OCI, but only undelivered (DocEvaso = false)
-            $where = "CD_DO IN ('DVI', 'OCI') AND DocEvaso = 0";
+            $where = "DocEvaso = 0";
             $dataSource = $this->api->paginate('xbtvw_B2B_StoricoOrd', $rows, $where);
         }
 
@@ -290,10 +285,6 @@ class OrdersSyncService
                 }
             }
 
-            // Update order totals for all orders in this batch
-            foreach ($processedOrders as $order) {
-                $this->updateOrderTotals($order);
-            }
             $processedOrders = [];
         }
 
@@ -396,9 +387,7 @@ class OrdersSyncService
                 }
             }
 
-            // Update order totals
             if ($order) {
-                $this->updateOrderTotals($order);
                 $this->log("Order {$seipeeOrderId} synced successfully ({$createdPositions} created, {$updatedPositions} updated positions)");
                 return ['success' => true, 'message' => 'Order synced successfully'];
             }
@@ -431,20 +420,18 @@ class OrdersSyncService
         $dataConsegna = $row['DataConsegna'] ?? null; // Delivery date
         $docEvaso = (bool)($row['DocEvaso'] ?? false); // Document fulfilled/delivered
 
-        // Financial totals
         $notaPrincipale = $row['NotaPrincipale'] ?? null; // Main note
+
         $totImponibileE = $this->toFloat($row['TotImponibileE'] ?? 0); // Total excl. VAT
         $totDocumentoE = $this->toFloat($row['TotDocumentoE'] ?? 0); // Total incl. VAT
-        $righe = (int)($row['Righe'] ?? 0); // Number of rows (items count)
+        $rows = $row['Righe'] ?? 0; // Number of rows (items count)
 
         // Try to find existing order by seipee_order_id (most reliable)
         $order = Order::where('seipee_order_id', (string)$idDOTes)->first();
 
-        // If not found, try by order_number
         if (!$order && $numeroDoc) {
             $order = Order::where('order_number', $numeroDoc)->first();
 
-            // Update seipee_order_id if found by order_number
             if ($order && !$order->seipee_order_id) {
                 $order->seipee_order_id = (string)$idDOTes;
                 $order->save();
@@ -456,12 +443,10 @@ class OrdersSyncService
         $updated = false;
 
         if (!$order) {
-            // Create new order
             $order = new Order();
             $order->seipee_order_id = (string)$idDOTes;
             $order->order_number = $numeroDoc;
 
-            // Try to find user by customer code
             $user = User::where('external_id', $cdCF)->first();
             if ($user) {
                 $order->user_id = $user->id;
@@ -473,21 +458,16 @@ class OrdersSyncService
                 $order->status_id = $status->id;
             }
 
-            // Set document date as created_at
             if ($dataDoc) {
                 try {
                     $order->created_at = \Carbon\Carbon::parse($dataDoc);
-                } catch (\Exception $e) {
-                    // Use current time if parsing fails
-                }
+                } catch (\Exception $e) {}
             }
 
-            // Set payment type
             if ($cdPG) {
                 $order->payment_type = $cdPG;
             }
 
-            // Set delivery date
             if ($dataConsegna) {
                 try {
                     $order->delivery_date = \Carbon\Carbon::parse($dataConsegna);
@@ -496,8 +476,9 @@ class OrdersSyncService
                 }
             }
 
-            // Set delivery status
             $order->is_delivered = $docEvaso;
+
+            $order->items_count = $rows;
 
             // Store additional data in property field
             $property = [];
@@ -528,7 +509,6 @@ class OrdersSyncService
 
             $this->log('Created order: '.$numeroDoc.' (Seipee ID: '.$idDOTes.')');
         } else {
-            // Order exists, check if update needed
             $propertyChanged = false;
             $property = $order->property ?? [];
 
@@ -546,13 +526,11 @@ class OrdersSyncService
                 }
             }
 
-            // Update payment type
             if ($cdPG && $order->payment_type !== $cdPG) {
                 $order->payment_type = $cdPG;
                 $updated = true;
             }
 
-            // Update delivery date
             if ($dataConsegna) {
                 try {
                     $newDeliveryDate = \Carbon\Carbon::parse($dataConsegna);
@@ -565,9 +543,14 @@ class OrdersSyncService
                 }
             }
 
-            // Update delivery status
             if ($order->is_delivered !== $docEvaso) {
                 $order->is_delivered = $docEvaso;
+                $updated = true;
+            }
+
+            $newItemsCount = $row['Righe'] ?? 0;
+            if ($order->items_count !== $newItemsCount) {
+                $order->items_count = $newItemsCount;
                 $updated = true;
             }
 
@@ -703,7 +686,15 @@ class OrdersSyncService
 
         // Update position fields
         $position->quantity = (int)$qta;
-        $position->price = $prezzoUnitario;
+
+        // Set price, use 0 if price is null or invalid
+        if ($prezzoUnitario !== null) {
+            $position->price = $prezzoUnitario;
+        } else {
+            $position->price = 0;
+            $this->log("Price is null for position {$cdAR} in order {$order->order_number}, setting to 0", 'warning');
+        }
+
         $position->code = $cdAR;
 
         // Store additional data in property field
@@ -736,8 +727,11 @@ class OrdersSyncService
         }
 
         $position->property = $property;
-        $position->save();
 
+        // Prevent automatic price overwriting during sync
+        $position->skipPriceUpdate = true;
+
+        $position->save();
         if ($created) {
             $this->log('Created position: '.$cdAR.' for order '.$order->order_number);
         } elseif ($updated) {
@@ -800,38 +794,6 @@ class OrdersSyncService
             return '';
         }
         return trim((string)$value);
-    }
-
-    /**
-     * Update order totals: items_count
-     * Note: position_total_price is a computed field and should not be set directly
-     *
-     * @param Order $order
-     */
-    /**
-     * Update order totals based on positions
-     *
-     * @param Order $order
-     * @return void
-     */
-    public function updateOrderTotals(Order $order): void
-    {
-        // Reload positions to get latest data
-        $order->load('order_position');
-
-        // Calculate total items count (sum of quantities)
-        $itemsCount = 0;
-
-        foreach ($order->order_position as $position) {
-            $itemsCount += (int)$position->quantity;
-        }
-
-        // Update order if value changed
-        if ($order->items_count !== $itemsCount) {
-            $order->items_count = $itemsCount;
-            $order->save();
-            $this->log('Updated items count for order '.$order->order_number.': '.$itemsCount.' items');
-        }
     }
 
     /**

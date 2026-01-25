@@ -112,6 +112,15 @@ class PropertiesSyncService
                     $needsSave = true;
                 }
 
+                //Fallback for Italian language
+                if ($locale === 'en') {
+                    $itLabel = $pv->getAttributeTranslated('label', 'it');
+                    if ($itLabel !== $label) {
+                        $pv->setAttributeTranslated('label', $label, 'it');
+                        $needsSave = true;
+                    }
+                }
+
                 if ($isNew) {
                     $pv->save();
                     $created++;

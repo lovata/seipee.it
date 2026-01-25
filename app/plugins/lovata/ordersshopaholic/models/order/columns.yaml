@@ -24,12 +24,21 @@ columns:
         type: date
         sortable: true
         searchable: false
-    position_total_price:
+    property[total_excl_vat]:
         label: 'lovata.ordersshopaholic::lang.field.total_price'
-        type: partial
-        path: $/lovata/ordersshopaholic/controllers/orders/_total_price_column.htm
-        searchable: false
-        sortable: false
+        type: text
+        searchable: true
+        sortable: true
+    property[total_incl_vat]:
+        label: 'lovata.ordersshopaholic::lang.field.total_price_with_vat'
+        type: text
+        searchable: true
+        sortable: true
+    property[notes]:
+        label: 'lovata.ordersshopaholic::lang.field.notes'
+        type: text
+        searchable: true
+        sortable: true
     is_delivered:
         label: 'lovata.ordersshopaholic::lang.field.delivered'
         type: partial
