@@ -24,7 +24,7 @@ class ApiClientService
             'base_uri'    => $this->baseUrl,
             // Remote host may use self-signed cert in staging; disable verification if needed.
             'verify'      => (bool) env('APISYNC_VERIFY_SSL', false),
-            'timeout'     => (int) env('APISYNC_TIMEOUT', 30),
+            'timeout'     => (int) env('APISYNC_TIMEOUT', 300),
             'http_errors' => false,
         ]);
     }
@@ -37,7 +37,7 @@ class ApiClientService
         $this->http = new Client([
             'base_uri'    => $this->baseUrl,
             'verify'      => $verify,
-            'timeout'     => (int) env('APISYNC_TIMEOUT', 30),
+            'timeout'     => (int) env('APISYNC_TIMEOUT', 300),
             'http_errors' => false,
         ]);
     }

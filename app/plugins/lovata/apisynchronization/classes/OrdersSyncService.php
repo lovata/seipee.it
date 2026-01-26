@@ -58,70 +58,88 @@ class OrdersSyncService
             $dataSource = $this->api->paginate('xbtvw_B2B_StoricoOrd', $rows);
         }
 
-        foreach ($dataSource as $pageData) {
-            if ($useMock) {
-                $list = $pageData; // Mock data is already the list
-            } else {
-                $list = Arr::get($pageData, 'result', []);
-            }
-
-            if (empty($list)) {
-                continue;
-            }
-
-            $this->log('Processing batch of '.count($list).' items...');
-
-            foreach ($list as $row) {
+        try {
+            foreach ($dataSource as $pageData) {
                 try {
-                    $idDOTes = (int)($row['ID_DOTes'] ?? 0);
-                    $idDORig = (int)($row['ID_DORig'] ?? 0);
-                    $numeroDoc = $this->safeString($row['NumeroDoc'] ?? '');
-                    $cdAR = $this->safeString($row['CD_AR'] ?? '');
-
-                    // Skip invalid records
-                    if (!$idDOTes || !$idDORig || !$numeroDoc || !$cdAR) {
-                        $skipped++;
-                        continue;
-                    }
-
-                    // Find or create Order
-                    $orderResult = $this->findOrCreateOrder($row, $idDOTes);
-
-                    if (!$orderResult['order']) {
-                        $skipped++;
-                        continue;
-                    }
-
-                    $order = $orderResult['order'];
-                    if ($orderResult['created']) {
-                        $createdOrders++;
-                    } elseif ($orderResult['updated']) {
-                        $updatedOrders++;
-                    }
-
-                    // Track order for totals update
-                    $processedOrders[$order->id] = $order;
-
-                    // Find or create OrderPosition
-                    $positionResult = $this->findOrCreateOrderPosition($order, $row, $idDORig);
-                    if ($positionResult['created']) {
-                        $createdPositions++;
-                    } elseif ($positionResult['updated']) {
-                        $updatedPositions++;
+                    if ($useMock) {
+                        $list = $pageData; // Mock data is already the list
                     } else {
-                        $skipped++;
+                        $list = Arr::get($pageData, 'result', []);
                     }
-                } catch (\Throwable $e) {
-                    $errors++;
-                    $this->log('Error processing row: '.$e->getMessage(), 'error');
-                    Log::error('OrdersSyncService error: '.$e->getMessage(), [
-                        'row' => $row ?? null,
-                        'trace' => $e->getTraceAsString(),
-                    ]);
+
+                    if (empty($list)) {
+                        continue;
+                    }
+
+                    $this->log('Processing batch of '.count($list).' items...');
+
+                    foreach ($list as $row) {
+                        try {
+                            $idDOTes = (int)($row['ID_DOTes'] ?? 0);
+                            $idDORig = (int)($row['ID_DORig'] ?? 0);
+                            $numeroDoc = $this->safeString($row['NumeroDoc'] ?? '');
+                            $cdAR = $this->safeString($row['CD_AR'] ?? '');
+
+                            // Skip invalid records
+                            if (!$idDOTes || !$idDORig || !$numeroDoc || !$cdAR) {
+                                $skipped++;
+                                continue;
+                            }
+
+                            // Find or create Order
+                            $orderResult = $this->findOrCreateOrder($row, $idDOTes);
+
+                            if (!$orderResult['order']) {
+                                $skipped++;
+                                continue;
+                            }
+
+                            $order = $orderResult['order'];
+                            if ($orderResult['created']) {
+                                $createdOrders++;
+                            } elseif ($orderResult['updated']) {
+                                $updatedOrders++;
+                            }
+
+                            // Track order for totals update
+                            $processedOrders[$order->id] = $order;
+
+                            // Find or create OrderPosition
+                            $positionResult = $this->findOrCreateOrderPosition($order, $row, $idDORig);
+                            if ($positionResult['created']) {
+                                $createdPositions++;
+                            } elseif ($positionResult['updated']) {
+                                $updatedPositions++;
+                            } else {
+                                $skipped++;
+                            }
+                        } catch (\Throwable $e) {
+                            $errors++;
+                            $this->log('Error processing row: '.$e->getMessage(), 'error');
+                            Log::error('OrdersSyncService error: '.$e->getMessage(), [
+                                'row' => $row ?? null,
+                                'trace' => $e->getTraceAsString(),
+                            ]);
+                        }
+                    }
+
+                    $processedOrders = [];
+                } catch (\RuntimeException $e) {
+                    // Handle timeout errors - log and continue with what we have
+                    if (strpos($e->getMessage(), 'Operation timed out') !== false || strpos($e->getMessage(), 'timeout') !== false) {
+                        $this->log('Timeout error on page: '.$e->getMessage(), 'warning');
+                        $this->log('Continuing with already processed data...', 'warning');
+                        break; // Exit pagination loop but continue with sync completion
+                    }
+                    throw $e; // Re-throw if not a timeout error
                 }
             }
-
-            $processedOrders = [];
+        } catch (\Throwable $e) {
+            // Log critical errors but still return what was processed
+            $this->log('Critical error during sync: '.$e->getMessage(), 'error');
+            Log::error('OrdersSyncService critical error: '.$e->getMessage(), [
+                'trace' => $e->getTraceAsString(),
+            ]);
         }
 
         $this->log('Sync completed!');
@@ -216,76 +234,94 @@ class OrdersSyncService
             $dataSource = $this->api->paginate('xbtvw_B2B_StoricoOrd', $rows, $where);
         }
 
-        foreach ($dataSource as $pageData) {
-            if ($useMock) {
-                $list = $pageData; // Mock data is already the list
-            } else {
-                $list = Arr::get($pageData, 'result', []);
-            }
-
-            if (empty($list)) {
-                continue;
-            }
-
-            $this->log('Processing batch of '.count($list).' undelivered items...');
-
-            foreach ($list as $row) {
+        try {
+            foreach ($dataSource as $pageData) {
                 try {
-                    $cdDO = $this->safeString($row['CD_DO'] ?? '');
-                    $idDOTes = (int)($row['ID_DOTes'] ?? 0);
-                    $idDORig = (int)($row['ID_DORig'] ?? 0);
-                    $numeroDoc = $this->safeString($row['NumeroDoc'] ?? '');
-                    $cdAR = $this->safeString($row['CD_AR'] ?? '');
-
-                    // Track this seipee order ID
-                    if ($idDOTes) {
-                        $processedSeipeeIds[$idDOTes] = true;
-                    }
-
-                    if (!$idDORig || !$numeroDoc || !$cdAR) {
-                        $skipped++;
-                        continue;
-                    }
-
-                    // Find or create Order
-                    $orderResult = $this->findOrCreateOrder($row, $idDOTes);
-
-                    if (!$orderResult['order']) {
-                        $skipped++;
-                        continue;
-                    }
-
-                    $order = $orderResult['order'];
-                    if ($orderResult['created']) {
-                        $createdOrders++;
-                    } elseif ($orderResult['updated']) {
-                        $updatedOrders++;
-                    }
-
-                    // Track order for totals update
-                    $processedOrders[$order->id] = $order;
-
-                    // Find or create OrderPosition
-                    $positionResult = $this->findOrCreateOrderPosition($order, $row, $idDORig);
-                    if ($positionResult['created']) {
-                        $createdPositions++;
-                    } elseif ($positionResult['updated']) {
-                        $updatedPositions++;
+                    if ($useMock) {
+                        $list = $pageData; // Mock data is already the list
                     } else {
-                        $skipped++;
+                        $list = Arr::get($pageData, 'result', []);
                     }
 
-                } catch (\Throwable $e) {
-                    $errors++;
-                    $this->log('Error processing row: '.$e->getMessage(), 'error');
-                    Log::error('OrdersSyncService (undelivered) error: '.$e->getMessage(), [
-                        'row' => $row ?? null,
-                        'trace' => $e->getTraceAsString(),
-                    ]);
+                    if (empty($list)) {
+                        continue;
+                    }
+
+                    $this->log('Processing batch of '.count($list).' undelivered items...');
+
+                    foreach ($list as $row) {
+                        try {
+                            $cdDO = $this->safeString($row['CD_DO'] ?? '');
+                            $idDOTes = (int)($row['ID_DOTes'] ?? 0);
+                            $idDORig = (int)($row['ID_DORig'] ?? 0);
+                            $numeroDoc = $this->safeString($row['NumeroDoc'] ?? '');
+                            $cdAR = $this->safeString($row['CD_AR'] ?? '');
+
+                            // Track this seipee order ID
+                            if ($idDOTes) {
+                                $processedSeipeeIds[$idDOTes] = true;
+                            }
+
+                            if (!$idDORig || !$numeroDoc || !$cdAR) {
+                                $skipped++;
+                                continue;
+                            }
+
+                            // Find or create Order
+                            $orderResult = $this->findOrCreateOrder($row, $idDOTes);
+
+                            if (!$orderResult['order']) {
+                                $skipped++;
+                                continue;
+                            }
+
+                            $order = $orderResult['order'];
+                            if ($orderResult['created']) {
+                                $createdOrders++;
+                            } elseif ($orderResult['updated']) {
+                                $updatedOrders++;
+                            }
+
+                            // Track order for totals update
+                            $processedOrders[$order->id] = $order;
+
+                            // Find or create OrderPosition
+                            $positionResult = $this->findOrCreateOrderPosition($order, $row, $idDORig);
+                            if ($positionResult['created']) {
+                                $createdPositions++;
+                            } elseif ($positionResult['updated']) {
+                                $updatedPositions++;
+                            } else {
+                                $skipped++;
+                            }
+
+                        } catch (\Throwable $e) {
+                            $errors++;
+                            $this->log('Error processing row: '.$e->getMessage(), 'error');
+                            Log::error('OrdersSyncService (undelivered) error: '.$e->getMessage(), [
+                                'row' => $row ?? null,
+                                'trace' => $e->getTraceAsString(),
+                            ]);
+                        }
+                    }
+
+                    $processedOrders = [];
+                } catch (\RuntimeException $e) {
+                    // Handle timeout errors - log and continue with what we have
+                    if (strpos($e->getMessage(), 'Operation timed out') !== false || strpos($e->getMessage(), 'timeout') !== false) {
+                        $this->log('Timeout error on page: '.$e->getMessage(), 'warning');
+                        $this->log('Continuing with already processed data...', 'warning');
+                        break; // Exit pagination loop but continue with sync completion
+                    }
+                    throw $e; // Re-throw if not a timeout error
                 }
             }
-
-            $processedOrders = [];
+        } catch (\Throwable $e) {
+            // Log critical errors but still return what was processed
+            $this->log('Critical error during undelivered sync: '.$e->getMessage(), 'error');
+            Log::error('OrdersSyncService critical error (undelivered): '.$e->getMessage(), [
+                'trace' => $e->getTraceAsString(),
+            ]);
         }
 
         $this->log('Undelivered orders sync completed. Checking for delivered orders...');

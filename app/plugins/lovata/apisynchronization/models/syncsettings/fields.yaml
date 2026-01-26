@@ -40,7 +40,7 @@ fields:
     interval_description:
         label: Current Interval
         type: partial
-        path: $/lovata/apisynchronization/models/SyncSettings/_interval_display.htm
+        path: $/lovata/apisynchronization/models/syncsettings/_interval_display.htm
         span: full
 
 secondaryTabs:
@@ -48,6 +48,6 @@ secondaryTabs:
         help_content:
             tab: Help
             type: partial
-            path: $/lovata/apisynchronization/models/SyncSettings/_help_content.htm
+            path: $/lovata/apisynchronization/models/syncsettings/_help_content.htm
             span: full
 
