@@ -160,3 +160,16 @@
     - 'Fixed October v4 compatibility'
 1.33.0:
     - 'Improve performance.'
+1.33.1:
+    - 'Added product variations with many-to-many properties support.'
+    - create_table_product_variations.php
+    - create_table_product_variation_properties.php
+1.33.2:
+    - 'Simplified variations: added variation_group to pivot table, deprecated intermediate ProductVariation table.'
+    - add_variation_group_to_pivot.php
+1.33.3:
+    - 'Removed deprecated ProductVariation table, using pivot table directly.'
+    - drop_product_variations_table.php
+1.33.4:
+    - 'Make variation_id nullable in pivot table since we use variation_group now.'
+    - make_variation_id_nullable.php

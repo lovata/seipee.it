@@ -6,30 +6,34 @@ use Lovata\PropertiesShopaholic\Models\PropertyValue;
 use Lovata\PropertiesShopaholic\Models\PropertyValueLink;
 use Lovata\Shopaholic\Models\Product;
 
-class ProductPropertiesSyncService
+class ProductPropertiesSyncService extends AbstractPropertySyncService
 {
-    protected ApiClientService $api;
-
-    public function __construct(ApiClientService $api)
-    {
-        $this->api = $api;
-    }
+    // Cache для минимизации запросов к БД
+    protected array $propertiesCache = [];
+    protected array $valuesCache = [];
+    protected array $productsCache = [];
 
     /**
      * Sync properties for products using xbtvw_B2B_productVar.
-     * This attaches PropertyValue links when the API row contains a value external code `CodiceCaratteristica`.
-     * If only group `Codice` is present (no specific value), the property is ensured to exist but no link is created.
+     * Processes ALL properties from API:
+     * - Properties in $excludedNames -> PropertyValueLink (1 to many)
+     * - Properties NOT in $excludedNames -> ProductVariation + pivot (many to many)
      *
      * @param string|null $where SQL-like filter, e.g., "CodiceArticolo='900041322A03FA000025'"
      * @param int $rows
      * @param int|null $maxPages
+     * @param int|null $maxItems
      * @return array
      */
     public function sync(?string $where = null, int $rows = 200, ?int $maxPages = null, ?int $maxItems = null): array
     {
-        $productsProcessed = 0; $linksCreated = 0; $linksUpdated = 0; $skipped = 0; $missing = 0; $processed = 0;
+        $linksCreated = 0; $linksUpdated = 0;
+        $variationLinksCreated = 0;
+        $skipped = 0; $missing = 0;
         $byProduct = [];
-        $nativePropertyIds = [];
+        $excludedPropertyIds = [];
+        $variationPropertyIds = [];
+        $clearedProducts = []; // Track products we've already detached variations for
 
         foreach ($this->api->paginate('xbtvw_B2B_productVar', $rows, $where, $maxPages, $maxItems) as $pageData) {
             $list = Arr::get($pageData, 'result', []);
@@ -39,75 +43,174 @@ class ProductPropertiesSyncService
                 $byProduct[$productExt] = true;
 
                 $propCode = trim((string)($row['CodiceTipoCaratteristica'] ?? ''));
-                $prop = null;
-                if ($propCode !== '') {
-                    $prop = Property::where('external_id', $propCode)->first();
+                $valueCode = trim((string)($row['CodiceCaratteristica'] ?? ''));
+
+                if ($propCode === '' || $valueCode === '') {
+                    $skipped++;
+                    continue;
                 }
 
-                $valueCode = trim((string)($row['CodiceCaratteristica'] ?? ''));
-                if ($valueCode !== '' && $prop) {
-                    $value = PropertyValue::where('external_id', $valueCode)->first();
-                    $product = Product::where('external_id', $productExt)->first();
+                // Get cached or load property
+                $prop = $this->getPropertyCached($propCode);
+                if (!$prop) { $missing++; continue; }
 
-                    if (!$product) { $missing++; $processed++; continue; }
-                    if (!$value)   { $missing++; $processed++; continue; }
+                // Get cached or load value
+                $value = $this->getValueCached($valueCode);
+                if (!$value) { $missing++; continue; }
 
-                    // Check if link exists
-                    $exists = PropertyValueLink::where([
-                        'product_id' => $product->id,
-                        'property_id'=> $prop->id,
-                        'value_id'   => $value->id,
-                        'element_id' => $product->id,
-                        'element_type' => Product::class,
-                    ])->first();
+                // Get cached or load product
+                $product = $this->getProductCached($productExt);
+                if (!$product) { $missing++; continue; }
 
-                    if ($exists) {
-                        $linksUpdated++; // idempotent; nothing to change
-                    } else {
-                        PropertyValueLink::create([
-                            'product_id' => $product->id,
-                            'property_id'=> $prop->id,
-                            'value_id'   => $value->id,
-                            'element_id' => $product->id,
-                            'element_type' => Product::class,
-                        ]);
+                // Detach all variations for this product on first encounter
+                if (!isset($clearedProducts[$product->id])) {
+                    \DB::table('lovata_shopaholic_product_variation_properties')
+                        ->where('product_id', $product->id)
+                        ->delete();
+                    $clearedProducts[$product->id] = true;
+                }
+
+                // Check if property is in excludedNames
+                $isExcluded = in_array($prop->name, $this->excludedNames ?? []);
+
+                if ($isExcluded) {
+                    // Process as regular property (1 to many)
+                    $result = $this->syncRegularProperty($product, $prop, $value);
+                    if ($result['created']) {
                         $linksCreated++;
+                    } elseif ($result['updated']) {
+                        $linksUpdated++;
                     }
-                    $this->addPropertyToList($nativePropertyIds, $prop);
-                    $processed++;
+                    $this->addPropertyToListIfExcluded($excludedPropertyIds, $prop);
                 } else {
-                    // No specific value in the row; cannot create link
-                    $skipped++;
+                    \DB::table('lovata_shopaholic_product_variation_properties')->insert([
+                        'product_id' => $product->id,
+                        'property_id' => $prop->id,
+                        'value_id' => $value->id,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
+
+                    $variationLinksCreated++;
+                    $this->addPropertyToList($variationPropertyIds, $prop);
                 }
             }
         }
 
-        PropertiesSyncService::addPropertiesToSet('native', array_unique($nativePropertyIds));
+        // Register properties in sets
+        PropertiesSyncService::addPropertiesToSet('native', array_unique($excludedPropertyIds));
+        PropertiesSyncService::addPropertiesToSet('native_variations', array_unique($variationPropertyIds));
 
         $productsProcessed = count($byProduct);
-        return compact('productsProcessed','linksCreated','linksUpdated','skipped','missing');
-    }
+        $productsClearedVariations = count($clearedProducts);
 
-    protected array $excludedNames = [
-        'MOTORI',
-        'POLARITÀ',
-        'GRANDEZZA MOTORE',
-        'FORMA',
-        'SERIE',
-        'POTENZA',
-        'VOLTAGGIO',
-        'SIGLA FORNITORE',
-    ];
+        return compact(
+            'productsProcessed',
+            'productsClearedVariations',
+            'linksCreated',
+            'linksUpdated',
+            'variationLinksCreated',
+            'skipped',
+            'missing'
+        );
+    }
 
     /**
-     * @param array    $propertyIds
-     * @param Property $property
-     * @return void
+     * Get property from cache or load from DB
      */
-    protected function addPropertyToList(array &$propertyIds, Property $property): void
+    protected function getPropertyCached(string $externalId): ?Property
     {
-        if (!in_array($property->id, $propertyIds) && !in_array($property->name, $this->excludedNames ?? [])) {
-            $propertyIds[] = $property->id;
+        if (!isset($this->propertiesCache[$externalId])) {
+            $this->propertiesCache[$externalId] = Property::where('external_id', $externalId)->first();
         }
+        return $this->propertiesCache[$externalId];
+    }
+
+    /**
+     * Get property value from cache or load from DB
+     */
+    protected function getValueCached(string $externalId): ?PropertyValue
+    {
+        if (!isset($this->valuesCache[$externalId])) {
+            $this->valuesCache[$externalId] = PropertyValue::where('external_id', $externalId)->first();
+        }
+        return $this->valuesCache[$externalId];
+    }
+
+    /**
+     * Get product from cache or load from DB
+     */
+    protected function getProductCached(string $externalId): ?Product
+    {
+        if (!isset($this->productsCache[$externalId])) {
+            $this->productsCache[$externalId] = Product::where('external_id', $externalId)->first();
+        }
+        return $this->productsCache[$externalId];
+    }
+
+    /**
+     * Sync regular property (1 to many via PropertyValueLink)
+     */
+    protected function syncRegularProperty(Product $product, Property $prop, PropertyValue $value): array
+    {
+        // Check if link exists
+        $exists = PropertyValueLink::where([
+            'product_id' => $product->id,
+            'property_id' => $prop->id,
+            'value_id' => $value->id,
+            'element_id' => $product->id,
+            'element_type' => Product::class,
+        ])->first();
+
+        if ($exists) {
+            return ['created' => false, 'updated' => true];
+        }
+
+        PropertyValueLink::create([
+            'product_id' => $product->id,
+            'property_id' => $prop->id,
+            'value_id' => $value->id,
+            'element_id' => $product->id,
+            'element_type' => Product::class,
+        ]);
+
+        return ['created' => true, 'updated' => false];
+    }
+
+    /**
+     * Sync variation property (many to many via direct pivot insertion)
+     */
+    protected function syncVariationProperty(Product $product, Property $prop, PropertyValue $value, string $variationGroup): array
+    {
+        // Check if pivot exists
+        $exists = \DB::table('lovata_shopaholic_product_variation_properties')
+            ->where('product_id', $product->id)
+            ->where('property_id', $prop->id)
+            ->where('value_id', $value->id)
+            ->exists();
+
+        if ($exists) {
+            return [
+                'variationCreated' => false,
+                'variationUpdated' => false,
+                'linkCreated' => false,
+            ];
+        }
+
+        // Insert directly into pivot table
+        \DB::table('lovata_shopaholic_product_variation_properties')->insert([
+            'product_id' => $product->id,
+            'property_id' => $prop->id,
+            'value_id' => $value->id,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        return [
+            'variationCreated' => true, // First property in this group = "variation created"
+            'variationUpdated' => false,
+            'linkCreated' => true,
+        ];
     }
 }
+
