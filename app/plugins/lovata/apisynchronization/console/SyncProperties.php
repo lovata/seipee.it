@@ -16,6 +16,14 @@ class SyncProperties extends Command
 
         $api = new ApiClientService();
 
+        try {
+            $this->info('Authenticating ...');
+            $api->authenticate();
+        } catch (\Throwable $e) {
+            $this->error('Auth failed: '.$e->getMessage());
+            return 1;
+        }
+
         $sync = new PropertiesSyncService($api);
 
         $this->info('Syncing groups (xbtvw_B2B_TipoVar) ...');
