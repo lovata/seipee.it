@@ -3,24 +3,18 @@ Params:
 - wraperClasses
 #}
 
-{% set nativeGroupId = 3 %}
-{% set obPropertyList = obProduct.property %}
-{% set obGroupPropertyList = obPropertyList.group(nativeGroupId) %}
+{% set variants = obProduct.native_variants %}
 
-{% if obGroupPropertyList.isNotEmpty() %}
+{% if variants is not empty %}
 <div class="mt-2 flex flex-wrap gap-2">
-    {% for obProperty in obGroupPropertyList %}
-    {% if obProperty.hasValue() %}
-    {% set obPropertyValueList = obProperty.property_value.sort() %}
+    {% for variant in variants %}
+    {% if variant.values is not empty %}
+    {% for valueItem in variant.values %}
     <span class="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-700 border">
-                    {{ obProperty.name }}:
-                    {% set allValues = [] %}
-                    {% for obValue in obPropertyValueList %}
-                    {% set allValues = allValues|merge([obValue.label | default(obValue.value)]) %}
-                    {% endfor %}
-                    {{ allValues|join(', ') }} {{ obProperty.measure.name }}
+                    {{ variant.property_name }}: {{ valueItem.value }}
                 </span>
+    {% endfor %}
     {% endif %}
+    {% endfor %}
 </div>
-{% endfor %}
 {% endif %}

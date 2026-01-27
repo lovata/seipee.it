@@ -29,7 +29,7 @@ class ProductModelHandler
             $product->addDynamicMethod('getImageAttribute', function () use ($product) {
                 $model = $product->getObject();
 
-                $value = mb_substr($model->property[self::SERIES_PROPERTY_ID], 1) ?? '';
+                $value = mb_substr($model->property[self::SERIES_PROPERTY_ID] ?? '', 1);
                 $filePath = self::PATH_IMAGE_SERIES . $value . '.webp';
 
                 return MediaLibrary::url($filePath);
@@ -108,6 +108,14 @@ class ProductModelHandler
                     ->toArray();
 
                 return $obList->intersect($productIdList);
+            });
+        });
+
+        ProductItem::extend(function (ProductItem $product) {
+            $product->addDynamicMethod('getNativeVariantsAttribute', function () use ($product) {
+                $model = $product->getObject();
+
+                return $model->getGroupedVariations();
             });
         });
     }
