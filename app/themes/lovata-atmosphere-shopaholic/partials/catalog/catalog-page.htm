@@ -18,9 +18,7 @@
         {% endif %}
     </section>
     <div class="_sorting-container w-full md:col-span-3">
-        <h1 class="uppercase font-medium text-xl md:text-3xl">
-            {{ SeoToolbox.getPageTitle(obSeoModel, arSEOParams)|default(obActiveCategory.name) }}
-        </h1>
+        <h1 class="uppercase font-medium text-xl md:text-3xl">{{'breadcrumbs_catalog'|_}}</h1>
         {% if obActiveCategory.preview_text is not empty %}
             <div class="w-full flex flex-col my-4 md:mb-0">
                 {% partial 'common/expandable-text/expandable-text'
