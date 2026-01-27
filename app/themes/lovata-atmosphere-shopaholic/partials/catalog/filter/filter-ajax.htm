@@ -90,7 +90,7 @@
                             </div>
                             <div class="_shopaholic-required-check-quantity transition-all duration-200 {{ (not bRequiredQuantityFilter and not fQuantityValue) ? 'hidden' : '' }}">
                                 {% partial 'form/input-checkbox'
-                                wrapperClasses = 'mt-4 md:mt-3 mb-8'
+                                wrapperClasses = 'mt-4 md:mt-3 mb-8 flex items-center'
                                 id = 'required_quantity'
                                 name = 'required_quantity'
                                 labelText = 'filter_quantity_required_checkbox'|_
@@ -115,7 +115,7 @@
                 </div>
                 <div>
                     {% partial 'form/input-checkbox'
-                    wrapperClasses = 'mt-4 md:mt-3 mb-8'
+                    wrapperClasses = 'mt-4 md:mt-3 mb-8 flex items-center'
                     id = 'only_parent'
                     name = 'only_parent'
                     labelText = 'filter_only_parent'|_
@@ -203,7 +203,7 @@
                 </div>
                 <div class="_shopaholic-required-check-quantity transition-all duration-200 {{ (not bRequiredQuantityFilter and not fQuantityValue) ? 'hidden' : '' }}">
                     {% partial 'form/input-checkbox'
-                        wrapperClasses = 'mt-4 md:mt-3 mb-8'
+                        wrapperClasses = 'mt-4 md:mt-3 mb-8 flex items-center'
                         id = 'required_quantity'
                         name = 'required_quantity'
                         labelText = 'filter_quantity_required_checkbox'|_
@@ -227,7 +227,7 @@
             </div>
             <div>
                 {% partial 'form/input-checkbox'
-                    wrapperClasses = 'mt-4 md:mt-3 mb-8'
+                    wrapperClasses = 'mt-4 md:mt-3 mb-8 flex items-center'
                     id = 'only_parent'
                     name = 'only_parent'
                     labelText = 'filter_only_parent'|_

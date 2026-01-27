@@ -329,8 +329,8 @@ reviews_stars_rating_5: 'Amazing'
 reviews_today_at: 'Today at :time'
 reviews_would_recommend: 'Would you recommend this product?'
 
-request_quotation_title: 'Your Quotation'
-request_quotation_text: 'Thank you! Your quotation has been successfully submitted and is now being processed.'
+request_quotation_title: 'Thank you!'
+request_quotation_text: 'Your quotation has been successfully submitted and is now being processed.'
 
 # Search
 search_category: 'Category'
