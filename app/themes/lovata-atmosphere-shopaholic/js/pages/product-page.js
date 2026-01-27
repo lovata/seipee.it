@@ -123,14 +123,14 @@ function initRequestQuotationSubmit() {
     }
 
     oc.request(form, 'RequestQuotation::onSend', {
-      complete: () => {
+      complete: (response) => {
         if (submitBtn) submitBtn.removeAttribute('disabled');
         const offCanvas = OffCanvasContainer.instance();
         offCanvas.close('request-quotation');
-
-        window.location.href = '/request-quotation-success';
+        if (response.redirect) {
+          window.location.href = response.redirect;
+        }
       },
-
       error: () => {
         if (submitBtn) submitBtn.removeAttribute('disabled');
       }

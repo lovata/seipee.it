@@ -336,11 +336,11 @@ class Product extends ImportModel
                 ];
             }
 
-            // защита от дублей
             $result[$propertyId]['values'][$value->id] = [
                 'id'    => $value->id,
                 'value' => $value->value,
                 'code'  => $value->slug ?? $value->external_id,
+                'label'  => $value->label,
             ];
         }
 

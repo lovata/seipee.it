@@ -328,8 +328,8 @@ reviews_stars_rating_5: 'Fantastico'
 reviews_today_at: 'Oggi alle :time'
 reviews_would_recommend: 'Consiglieresti questo prodotto?'
 
-request_quotation_title: 'Il tuo Preventivo'
-request_quotation_text: 'Grazie! Il tuo preventivo è stato inviato con successo e ora è in elaborazione.'
+request_quotation_title: 'Grazie!'
+request_quotation_text: 'Il tuo preventivo è stato inviato con successo e ora è in elaborazione.'
 
 # Search
 search_category: 'Categoria'
