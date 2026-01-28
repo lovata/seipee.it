@@ -35,27 +35,6 @@ class TestProductVariationsGrouped extends Command
         $this->info('External ID: ' . ($product->external_id ?? 'N/A'));
         $this->line('');
 
-        // Get variation options (unique values by property)
-        $options = $product->getVariationOptions();
-
-        if (empty($options)) {
-            $this->warn('No variations found for this product.');
-            return 0;
-        }
-
-        $this->line('┌─────────────────────────────────────────────────┐');
-        $this->line('│ VARIATION OPTIONS (for frontend selectors)     │');
-        $this->line('└─────────────────────────────────────────────────┘');
-        $this->line('');
-
-        foreach ($options as $propertyData) {
-            $this->info('  ' . $propertyData['property_name'] . ' (' . $propertyData['property_code'] . ')');
-            foreach ($propertyData['values'] as $valueData) {
-                $this->line('    • ' . $valueData['value']);
-            }
-            $this->line('');
-        }
-
         // Get grouped variations
         $variations = $product->getGroupedVariations();
 

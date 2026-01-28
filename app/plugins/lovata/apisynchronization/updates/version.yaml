@@ -15,3 +15,6 @@
 1.4.0:
     - Add additional Seipee fields to orders (payment_type, delivery_date, is_delivered, items_count)
     - add_seipee_fields_to_orders.php
+1.5.0:
+    - Add is_scheduled field to orders table for tracking CFP scheduled orders
+    - add_is_scheduled_to_orders.php

@@ -9,7 +9,6 @@ use Kharanenka\Scope\ExternalIDField;
 use Kharanenka\Scope\NameField;
 use Kharanenka\Scope\SlugField;
 
-use Lovata\ApiSynchronization\Models\ProductAlias;
 use October\Rain\Database\Traits\Sluggable;
 use October\Rain\Database\Traits\SoftDelete;
 use October\Rain\Database\Traits\Validation;
@@ -132,11 +131,11 @@ use Lovata\Shopaholic\Classes\Import\ImportProductModelFromCSV;
  * Downloadable file for Shopaholic
  * @property bool                                                                                      $is_file_access
  *
- * Product Aliases (Seipee API Sync)
+ * Product Aliases (Seipee API Sync) - Extended via Lovata\ApiSynchronization\Classes\Event\ExtendModelsHandler
  * @property \October\Rain\Database\Collection|\Lovata\ApiSynchronization\Models\ProductAlias[]        $product_aliases
  * @method static \October\Rain\Database\Relations\HasMany|\Lovata\ApiSynchronization\Models\ProductAlias product_aliases()
  *
- * Product Variations (Seipee API Sync)
+ * Product Variations (Seipee API Sync) - Extended via Lovata\ApiSynchronization\Classes\Event\ExtendModelsHandler
  * @method array getGroupedVariations() Get grouped product variations with translated property and value names
  */
 class Product extends ImportModel
@@ -183,7 +182,6 @@ class Product extends ImportModel
     public $attachMany = ['images' => 'System\Models\File'];
     public $hasMany = [
         'offer' => [Offer::class],
-        'product_aliases' => [ProductAlias::class],
     ];
     public $belongsTo = [
         'category' => [Category::class],
@@ -286,69 +284,6 @@ class Product extends ImportModel
         if (empty($this->slug)) {
             $this->slugAttributes();
         }
-    }
-
-    /**
-     * Get grouped product variations with translated property and value names
-     *
-     * @return array
-     */
-    public function getGroupedVariations()
-    {
-        $pivotRecords = \DB::table('lovata_shopaholic_product_variation_properties')
-            ->where('product_id', $this->id)
-            ->get();
-
-        if ($pivotRecords->isEmpty()) {
-            return [];
-        }
-
-        $propertyIds = $pivotRecords->pluck('property_id')->unique();
-        $valueIds = $pivotRecords->pluck('value_id')->unique();
-
-        $properties = \Lovata\PropertiesShopaholic\Models\Property::whereIn('id', $propertyIds)
-            ->get()
-            ->keyBy('id');
-
-        $values = \Lovata\PropertiesShopaholic\Models\PropertyValue::whereIn('id', $valueIds)
-            ->get()
-            ->keyBy('id');
-
-        $result = [];
-
-        foreach ($pivotRecords as $pivot) {
-            $propertyId = $pivot->property_id;
-            $valueId = $pivot->value_id;
-
-            $property = $properties->get($propertyId);
-            $value = $values->get($valueId);
-
-            if (!$property || !$value) {
-                continue;
-            }
-
-            if (!isset($result[$propertyId])) {
-                $result[$propertyId] = [
-                    'property_id'   => $property->id,
-                    'property_name' => $property->name,
-                    'property_code' => $property->code ?? $property->external_id,
-                    'values'        => [],
-                ];
-            }
-
-            $result[$propertyId]['values'][$value->id] = [
-                'id'    => $value->id,
-                'value' => $value->value,
-                'code'  => $value->slug ?? $value->external_id,
-                'label'  => $value->label,
-            ];
-        }
-
-        foreach ($result as &$property) {
-            $property['values'] = array_values($property['values']);
-        }
-
-        return array_values($result);
     }
 
     /**

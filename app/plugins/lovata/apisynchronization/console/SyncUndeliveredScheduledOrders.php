@@ -1,0 +1,353 @@
+<?php namespace Lovata\ApiSynchronization\console;
+
+use Illuminate\Console\Command;
+use Lovata\ApiSynchronization\classes\ApiClientService;
+use Lovata\ApiSynchronization\classes\ScheduledOrdersSyncService;
+use Lovata\OrdersShopaholic\Models\Order;
+use Symfony\Component\Console\Input\InputOption;
+use Log;
+
+/**
+ * Class SyncUndeliveredScheduledOrders
+ * Syncs only undelivered scheduled orders from Seipee API (xbtvw_B2B_CFP) and updates delivery status
+ *
+ * @package Lovata\ApiSynchronization\Console
+ */
+class SyncUndeliveredScheduledOrders extends Command
+{
+    /**
+     * @var string The console command name.
+     */
+    protected $name = 'seipee:sync.undelivered-scheduled-orders';
+
+    /**
+     * @var string The console command description.
+     */
+    protected $description = 'Sync undelivered scheduled orders from Seipee API (xbtvw_B2B_CFP) and update delivery status';
+
+    /**
+     * Execute the console command.
+     * @return int
+     */
+    public function handle()
+    {
+        $rows = $this->option('rows') ?? 200;
+        $useMock = (bool) $this->option('mock');
+        $mockFile = $this->option('mock-file');
+
+        $this->info('Starting undelivered scheduled orders sync...');
+
+        try {
+            $api = new ApiClientService();
+
+            if (!$useMock) {
+                $api->authenticate();
+            }
+
+            // Use new syncUndelivered method from ScheduledOrdersSyncService
+            $syncService = new ScheduledOrdersSyncService($api, $this);
+
+            if ($useMock) {
+                $this->info('Syncing undelivered scheduled orders from MOCK DATA...');
+            } else {
+                $this->info('Syncing undelivered scheduled orders from Seipee API (xbtvw_B2B_CFP, DocEvaso = false)...');
+            }
+
+            $result = $syncService->syncUndelivered($rows, $useMock, $mockFile);
+
+            $this->info('Sync results:');
+            $this->info('  Orders: created='.$result['createdOrders'].', updated='.$result['updatedOrders']);
+            $this->info('  Positions: created='.$result['createdPositions'].', updated='.$result['updatedPositions'].', skipped='.$result['skipped']);
+
+            if (isset($result['deliveredCount'])) {
+                $this->info('  Scheduled orders marked as delivered: '.$result['deliveredCount']);
+            }
+
+            if ($result['errors'] > 0) {
+                $this->error('Errors: '.$result['errors']);
+                return 1;
+            }
+
+            $this->info('Sync completed successfully!');
+            return 0;
+
+        } catch (\Exception $e) {
+            $this->error('Error during sync: '.$e->getMessage());
+            Log::error('SyncUndeliveredScheduledOrders error: '.$e->getMessage(), [
+                'trace' => $e->getTraceAsString(),
+            ]);
+            return 1;
+        }
+    }
+
+    /**
+     * Step 1: Sync undelivered scheduled orders from Seipee (DocEvaso = false)
+     *
+     * @param ApiClientService $api
+     * @param int $rows
+     * @return array
+     */
+    protected function syncUndeliveredOrdersFromSeipee(ApiClientService $api, int $rows): array
+    {
+        // Use ScheduledOrdersSyncService but filter by DocEvaso = false (undelivered)
+        $syncService = new ScheduledOrdersSyncService($api, $this);
+
+        // Sync with filter for undelivered orders only
+        return $syncService->syncUndelivered($rows);
+    }
+
+    /**
+     * Step 2: Full sync/update for local undelivered scheduled orders
+     * Updates all order data and positions (add/update/delete) from Seipee API
+     *
+     * @param ApiClientService $api
+     * @param int $rows
+     * @return array
+     */
+    protected function updateDeliveryStatusFromSeipee(ApiClientService $api, int $rows): array
+    {
+        $markedAsDelivered = 0;
+        $stillUndelivered = 0;
+
+        // Get all local scheduled orders that are NOT delivered
+        $undeliveredOrders = Order::where('is_delivered', false)
+            ->where('is_scheduled', true)
+            ->whereNotNull('seipee_order_id')
+            ->get();
+
+        $this->info('Found '.$undeliveredOrders->count().' undelivered scheduled orders in local system');
+
+        if ($undeliveredOrders->isEmpty()) {
+            return [
+                'markedAsDelivered' => 0,
+                'stillUndelivered' => 0,
+            ];
+        }
+
+        // Get their IDs to check in API
+        $seipeeOrderIds = $undeliveredOrders->pluck('seipee_order_id')->toArray();
+
+        // Full sync orders from API
+        $this->fullSyncOrders($api, $seipeeOrderIds, $rows);
+
+        // Count updated delivery statuses
+        foreach ($undeliveredOrders as $order) {
+            // Reload order from DB to get fresh data
+            $order->refresh();
+
+            if ($order->is_delivered) {
+                $markedAsDelivered++;
+                $this->info('  Scheduled order '.$order->order_number.' is now delivered');
+            } else {
+                $stillUndelivered++;
+            }
+        }
+
+        return [
+            'markedAsDelivered' => $markedAsDelivered,
+            'stillUndelivered' => $stillUndelivered,
+        ];
+    }
+
+    /**
+     * Full sync scheduled orders from Seipee API - update all order data and positions
+     *
+     * @param ApiClientService $api
+     * @param array $seipeeOrderIds
+     * @param int $rows
+     * @return void
+     */
+    protected function fullSyncOrders(ApiClientService $api, array $seipeeOrderIds, int $rows): void
+    {
+        if (empty($seipeeOrderIds)) {
+            return;
+        }
+
+        // Use ScheduledOrdersSyncService for full sync
+        $syncService = new ScheduledOrdersSyncService($api, $this);
+
+        // Build WHERE clause for specific order IDs
+        $idList = implode(',', array_map('intval', $seipeeOrderIds));
+        $where = "ID_DOTes IN ($idList) AND CD_DO IN ('DVI', 'OCI')";
+
+        $this->info('Fetching latest data from API for '.count($seipeeOrderIds).' scheduled orders...');
+
+        // Collect all API data for these orders
+        $orderData = []; // [ID_DOTes => [rows]]
+        $deliveryDates = [];
+
+        foreach ($api->paginate('xbtvw_B2B_CFP', $rows, $where) as $pageData) {
+            $list = $pageData['result'] ?? [];
+
+            foreach ($list as $row) {
+                $idDOTes = (int)($row['ID_DOTes'] ?? 0);
+                $cdDO = $row['CD_DO'] ?? '';
+
+                if (!$idDOTes) {
+                    continue;
+                }
+
+                // Collect delivery dates from DVI
+                if ($cdDO === 'DVI') {
+                    $dataConsegna = $row['DataConsegna'] ?? null;
+                    if ($dataConsegna && !isset($deliveryDates[$idDOTes])) {
+                        $deliveryDates[$idDOTes] = $dataConsegna;
+                    }
+                }
+
+                // Group rows by order ID
+                if (!isset($orderData[$idDOTes])) {
+                    $orderData[$idDOTes] = [];
+                }
+                $orderData[$idDOTes][] = $row;
+            }
+        }
+
+        $this->info('Processing '.count($orderData).' scheduled orders from API...');
+
+        // Process each order
+        foreach ($orderData as $idDOTes => $rows) {
+            try {
+                $this->syncSingleOrder($syncService, $idDOTes, $rows, $deliveryDates);
+            } catch (\Exception $e) {
+                $this->error('Error syncing scheduled order ID '.$idDOTes.': '.$e->getMessage());
+                Log::error('Full sync error for scheduled order: '.$e->getMessage(), [
+                    'idDOTes' => $idDOTes,
+                    'trace' => $e->getTraceAsString(),
+                ]);
+            }
+        }
+    }
+
+    /**
+     * Sync single scheduled order with all its positions
+     *
+     * @param ScheduledOrdersSyncService $syncService
+     * @param int $idDOTes
+     * @param array $rows
+     * @param array $deliveryDates
+     * @return void
+     */
+    protected function syncSingleOrder(ScheduledOrdersSyncService $syncService, int $idDOTes, array $rows, array $deliveryDates): void
+    {
+        // Find local order
+        $order = Order::where('seipee_order_id', (string)$idDOTes)->first();
+
+        if (!$order) {
+            $this->warn('  Scheduled order with Seipee ID '.$idDOTes.' not found locally, skipping');
+            return;
+        }
+
+        // Track existing position IDs from API
+        $apiPositionIds = [];
+
+        // Process each row (DVI and OCI)
+        foreach ($rows as $row) {
+            $idDORig = (int)($row['ID_DORig'] ?? 0);
+            $cdDO = $row['CD_DO'] ?? '';
+
+            if (!$idDORig || ($cdDO !== 'DVI' && $cdDO !== 'OCI')) {
+                continue;
+            }
+
+            // Track this position
+            $apiPositionIds[] = $idDORig;
+
+            // Update order data (from any row, will be same for all rows of this order)
+            $this->updateOrderFromRow($order, $row, $deliveryDates);
+
+            // Create/update position
+            $syncService->findOrCreateOrderPosition($order, $row, $idDORig);
+        }
+
+        // Save order
+        $order->save();
+
+        // Delete positions that no longer exist in API
+        $this->deleteRemovedPositions($order, $apiPositionIds);
+
+        // Update order totals
+        $syncService->updateOrderTotals($order);
+
+        $this->info('  Synced scheduled order '.$order->order_number.' with '.count($apiPositionIds).' positions');
+    }
+
+    /**
+     * Update order fields from API row
+     *
+     * @param Order $order
+     * @param array $row
+     * @param array $deliveryDates
+     * @return void
+     */
+    protected function updateOrderFromRow(Order $order, array $row, array $deliveryDates): void
+    {
+        $idDOTes = (int)($row['ID_DOTes'] ?? 0);
+        $cdPG = $row['CD_PG'] ?? null;
+        $docEvaso = (bool)($row['DocEvaso'] ?? false);
+
+        // Update payment type
+        if ($cdPG && $order->payment_type !== $cdPG) {
+            $order->payment_type = $cdPG;
+        }
+
+        // Update delivery date from collected dates
+        if (isset($deliveryDates[$idDOTes])) {
+            try {
+                $newDeliveryDate = \Carbon\Carbon::parse($deliveryDates[$idDOTes]);
+                if (!$order->delivery_date || !$order->delivery_date->eq($newDeliveryDate)) {
+                    $order->delivery_date = $newDeliveryDate;
+                }
+            } catch (\Exception $e) {
+                // Ignore parsing errors
+            }
+        }
+
+        // Update delivery status
+        if ($order->is_delivered !== $docEvaso) {
+            $order->is_delivered = $docEvaso;
+        }
+
+        // Ensure is_scheduled is set to true
+        if (!$order->is_scheduled) {
+            $order->is_scheduled = true;
+        }
+    }
+
+    /**
+     * Delete positions that no longer exist in API
+     *
+     * @param Order $order
+     * @param array $apiPositionIds Array of ID_DORig from API
+     * @return void
+     */
+    protected function deleteRemovedPositions(Order $order, array $apiPositionIds): void
+    {
+        if (empty($apiPositionIds)) {
+            return;
+        }
+
+        // Find positions that exist locally but not in API
+        $deletedCount = $order->order_position()
+            ->whereRaw("JSON_EXTRACT(property, '$.seipee_row_id') IS NOT NULL")
+            ->whereRaw("JSON_EXTRACT(property, '$.seipee_row_id') NOT IN (".implode(',', $apiPositionIds).")")
+            ->delete();
+
+        if ($deletedCount > 0) {
+            $this->info('    Deleted '.$deletedCount.' removed positions from scheduled order '.$order->order_number);
+        }
+    }
+
+    /**
+     * Get the console command options.
+     * @return array
+     */
+    protected function getOptions()
+    {
+        return [
+            ['rows', null, InputOption::VALUE_OPTIONAL, 'Number of rows per page', 200],
+            ['mock', null, InputOption::VALUE_NONE, 'Use mock data from JSON file instead of API'],
+            ['mock-file', null, InputOption::VALUE_OPTIONAL, 'Path to mock JSON file (default: mock_scheduled_orders.json)'],
+        ];
+    }
+}

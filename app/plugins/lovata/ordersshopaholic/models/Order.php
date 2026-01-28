@@ -54,6 +54,10 @@ use Lovata\OrdersShopaholic\Classes\PromoMechanism\OrderPromoMechanismProcessor;
  * @property \Carbon\Carbon                                                              $delivery_date
  * @property bool                                                                        $is_delivered
  * @property int                                                                         $items_count
+ *
+ * Seipee API Sync - Extended via Lovata\ApiSynchronization\Classes\Event\ExtendModelsHandler
+ * @property bool                                                                        $is_scheduled
+ *
  * @property string|null                                                                 $api_notes
  * @property string|null                                                                 $api_total_excl_vat
  * @property string|null                                                                 $api_total_incl_vat

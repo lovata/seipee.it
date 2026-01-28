@@ -1,6 +1,7 @@
 <?php namespace Lovata\ApiSynchronization;
 
 use Event;
+use Lovata\ApiSynchronization\Classes\Event\ExtendModelsHandler;
 use Lovata\ApiSynchronization\classes\OrderExportService;
 use Lovata\ApiSynchronization\console\PurgeProperties;
 use Lovata\ApiSynchronization\console\SyncAll;
@@ -11,6 +12,8 @@ use Lovata\ApiSynchronization\console\SyncProperties;
 use Lovata\ApiSynchronization\console\SyncProductAliases;
 use Lovata\ApiSynchronization\console\SyncOrders;
 use Lovata\ApiSynchronization\console\SyncUndeliveredOrders;
+use Lovata\ApiSynchronization\console\SyncScheduledOrders;
+use Lovata\ApiSynchronization\console\SyncUndeliveredScheduledOrders;
 use Lovata\ApiSynchronization\console\ClearOrders;
 use Lovata\ApiSynchronization\Models\SyncSettings;
 use Lovata\OrdersShopaholic\Classes\Processor\OrderProcessor;
@@ -35,6 +38,9 @@ class Plugin extends PluginBase
 
     public function boot()
     {
+        // Subscribe to Product and Order models extensions
+        Event::subscribe(ExtendModelsHandler::class);
+
         Event::listen(OrderProcessor::EVENT_ORDER_CREATED, function ($order) {
             $exportService = new OrderExportService();
             $exportService->exportOrder($order);
@@ -97,13 +103,17 @@ class Plugin extends PluginBase
             if ($settings && $settings->is_enabled) {
                 $cronExpression = $settings->getCronExpression();
                 $schedule->command('seipee:sync.undelivered-orders')->cron($cronExpression);
+                // Also sync undelivered scheduled orders from CFP
+                $schedule->command('seipee:sync.undelivered-scheduled-orders')->cron($cronExpression);
             } else {
                 // Fallback to default 4 hours if settings not configured
                 $schedule->command('seipee:sync.undelivered-orders')->cron('0 */4 * * *');
+                $schedule->command('seipee:sync.undelivered-scheduled-orders')->cron('0 */4 * * *');
             }
         } catch (\Exception $e) {
             // Fallback to default 4 hours if settings not available (during installation)
             $schedule->command('seipee:sync.undelivered-orders')->cron('0 */4 * * *');
+            $schedule->command('seipee:sync.undelivered-scheduled-orders')->cron('0 */4 * * *');
         }
     }
 }
