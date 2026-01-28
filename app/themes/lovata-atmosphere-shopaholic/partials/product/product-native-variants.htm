@@ -11,7 +11,7 @@ Params:
     {% if variant.values is not empty %}
     {% for valueItem in variant.values %}
     <span class="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-700 border">
-                    {{ variant.property_name }}: {{ valueItem.value }}
+                    {{ variant.property_name }}: {{ valueItem.label }}
                 </span>
     {% endfor %}
     {% endif %}
