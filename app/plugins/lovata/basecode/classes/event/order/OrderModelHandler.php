@@ -3,6 +3,7 @@
 use Lang;
 use Kharanenka\Helper\Result;
 use Lovata\ApiSynchronization\classes\OfferPriceService;
+use Lovata\OrdersShopaholic\Classes\Collection\OrderCollection;
 use Lovata\OrdersShopaholic\Classes\Processor\OrderProcessor;
 use Lovata\OrdersShopaholic\Models\Order;
 
@@ -61,6 +62,41 @@ class OrderModelHandler
 
                 $obOrder->property = $arOrderDataProperty;
             }
+        });
+
+        OrderCollection::extend(function ($obOrderList) {
+            $obOrderList->addDynamicMethod('filterByName', function ($name) use ($obOrderList) {
+                if (empty($name)) {
+                    return $obOrderList;
+                }
+
+                $arResultIDList = Order::where('seipee_order_id', 'LIKE', '%' . $name . '%')
+                    ->pluck('id')
+                    ->toArray();
+
+                return $obOrderList->intersect($arResultIDList);
+            });
+            $obOrderList->addDynamicMethod('filterByDate', function ($dateFrom = null, $dateTo = null) use ($obOrderList) {
+                $query = Order::query();
+
+                if (!empty($dateFrom)) {
+                    $query->where('created_at', '>=', $dateFrom);
+                }
+                if (!empty($dateTo)) {
+                    $query->where('created_at', '<=', $dateTo);
+                }
+
+                $arResultIDList = $query->pluck('id')->toArray();
+
+                return $obOrderList->intersect($arResultIDList);
+            });
+            $obOrderList->addDynamicMethod('filterByDelivered', function () use ($obOrderList) {
+                $arResultIDList = Order::where('is_delivered', 1)
+                    ->pluck('id')
+                    ->toArray();
+
+                return $obOrderList->intersect($arResultIDList);
+            });
         });
     }
 }

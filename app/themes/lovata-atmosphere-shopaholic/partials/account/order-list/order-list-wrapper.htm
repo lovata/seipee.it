@@ -1,0 +1,11 @@
+<div id="orderListWrapper">
+    {% if arOrderList is not empty %}
+        {% partial 'account/order-list/order-list' arOrderList = arOrderList %}
+    {% else %}
+        {% partial 'message/info-message'
+            wrapperClasses = 'mt-28 md:mt-14'
+            icon = 'empty.svg'
+            message = 'account_no_orders'|_
+        %}
+    {% endif %}
+</div>
