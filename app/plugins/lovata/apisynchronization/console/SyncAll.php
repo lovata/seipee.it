@@ -8,7 +8,7 @@ class SyncAll extends Command
 {
     protected $name = 'seipee:sync';
 
-    protected $description = 'Runs Seipee sync pipeline: properties => products => product-properties => customers => product-aliases => orders.';
+    protected $description = 'Runs Seipee sync pipeline: properties => products => product-properties (includes variations) => customers => product-aliases => orders.';
 
     public function handle()
     {
@@ -34,7 +34,7 @@ class SyncAll extends Command
             return $code;
         }
 
-        $this->info('Step 3/3: seipee:sync.product-properties');
+        $this->info('Step 3/3: seipee:sync.product-properties (includes variations)');
         $code = Artisan::call('seipee:sync.product-properties', $common);
         $this->output->write(Artisan::output());
         if ($code !== 0) {

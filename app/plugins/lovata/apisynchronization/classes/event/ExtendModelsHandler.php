@@ -1,7 +1,9 @@
 <?php namespace Lovata\ApiSynchronization\Classes\Event;
 
 use Lovata\ApiSynchronization\Models\ProductAlias;
+use Lovata\ApiSynchronization\Models\ShippingDocumentPosition;
 use Lovata\OrdersShopaholic\Models\Order;
+use Lovata\OrdersShopaholic\Models\OrderPosition;
 use Lovata\PropertiesShopaholic\Models\Property;
 use Lovata\PropertiesShopaholic\Models\PropertyValue;
 use Lovata\Shopaholic\Models\Product;
@@ -22,6 +24,7 @@ class ExtendModelsHandler
     {
         $this->extendProductModel();
         $this->extendOrderModel();
+        $this->extendOrderPositionModel();
     }
 
     /**
@@ -108,6 +111,17 @@ class ExtendModelsHandler
             if (property_exists($model, 'cached') && is_array($model->cached)) {
                 $model->cached[] = 'is_scheduled';
             }
+        });
+    }
+
+    /**
+     * Extend OrderPosition model with shipping_document_positions relation
+     */
+    protected function extendOrderPositionModel()
+    {
+        OrderPosition::extend(function($model) {
+            // Add shipping_document_positions relation
+            $model->hasMany['shipping_document_positions'] = [ShippingDocumentPosition::class, 'key' => 'order_position_id'];
         });
     }
 }

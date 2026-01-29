@@ -25,9 +25,13 @@ class SyncProductProperties extends Command
         }
 
         $sync = new ProductPropertiesSyncService($api);
-        $this->info('Syncing product properties ...');
+        $this->info('Syncing product properties and variations ...');
         $res = $sync->sync(null, $rows);
-        $this->line('Products processed='.$res['productsProcessed'].', links created='.$res['linksCreated'].', links existing='.$res['linksUpdated'].', skipped='.$res['skipped'].', missing refs='.$res['missing']);
+
+        $this->line('Products processed: '.$res['productsProcessed']);
+        $this->line('Regular properties (1-to-many): links created='.$res['linksCreated'].', links existing='.$res['linksUpdated']);
+        $this->line('Variations (many-to-many): variations created='.$res['variationsCreated'].', variations updated='.$res['variationsUpdated'].', links created='.$res['variationLinksCreated']);
+        $this->line('Skipped: '.$res['skipped'].', missing refs: '.$res['missing']);
 
         $this->info('Done.');
         return 0;

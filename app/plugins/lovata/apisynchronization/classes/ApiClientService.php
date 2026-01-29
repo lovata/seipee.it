@@ -246,6 +246,42 @@ class ApiClientService
     }
 
     /**
+     * Generic GET request to API endpoint
+     *
+     * @param string $endpoint
+     * @param array $queryParams
+     * @return array
+     */
+    public function get(string $endpoint, array $queryParams = []): array
+    {
+        if (!$this->token) {
+            $this->authenticate();
+        }
+
+        try {
+            $response = $this->http->get('/api/v2/' . ltrim($endpoint, '/'), [
+                'timeout' => 30,
+                'headers' => [
+                    'Accept'        => 'application/json',
+                    'Authorization' => 'Bearer '.$this->token,
+                ],
+                'query' => $queryParams,
+            ]);
+        } catch (GuzzleException $e) {
+            throw new \RuntimeException('GET request failed: '.$e->getMessage(), 0, $e);
+        }
+
+        $status = $response->getStatusCode();
+        $body = (string) $response->getBody();
+
+        if ($status >= 400) {
+            throw new \RuntimeException('GET failed with status '.$status.': '.$body);
+        }
+
+        return json_decode($body, true) ?: [];
+    }
+
+    /**
      * Iterate pages and return a generator yielding each page's decoded array.
      * Stops after totRows covered or maxPages reached.
      *
