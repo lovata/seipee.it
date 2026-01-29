@@ -18,10 +18,8 @@ Params:
 {% set obTotalPriceData = obOrder.total_price_data %}
 {% set obOrderPositionList = obOrder.order_position %}
 {% set orderProps = obOrder.property %}
-<li class="bg-white border-y border-outline-variant
-             lg:border-y-0 lg:border-none
-           _order_item">
-    <div class="lg:grid-cols-10 lg:grid lg:grid-flow-col lg:grid-cols-[repeat(auto-fit,minmax(120px,1fr))]">
+<li class="bg-white border-y border-outline-variant lg:border-y-0 lg:border-none _order_item">
+    <div class="lg:grid lg:grid-flow-col lg:grid-cols-[1fr_1fr_1fr_1fr_1fr_1fr_1fr_1fr_1fr_minmax(160px,200px)]">
         <div class="grid grid-cols-2 lg:px-3 lg:py-2 lg:block">
             <span class="text-sm font-medium lg:hidden">{{ 'account_order_number'|_ }}:&nbsp;</span>
             <span class="text-sm font-medium text-end lg:text-start lg:font-normal lg:text-base">
@@ -44,16 +42,16 @@ Params:
         </div>
 
         <div class="grid grid-cols-2 lg:py-2 lg:px-3 lg:block">
-            <span class="text-sm lg:hidden">{{ 'account_order_payment'|_ }}&nbsp;</span>
+            <span class="text-sm lg:hidden">{{ 'account_order_delivery_date'|_ }}&nbsp;</span>
             <span class="text-sm text-end lg:text-start lg:text-base">
-                    {{ obOrder.payment_type }}
+                    {{ obOrder.delivery_date|date('d/m/Y') }}
                 </span>
         </div>
 
         <div class="grid grid-cols-2 lg:py-2 lg:px-3 lg:block">
-            <span class="text-sm lg:hidden">{{ 'account_order_delivery_date'|_ }}&nbsp;</span>
+            <span class="text-sm lg:hidden">{{ 'account_order_payment'|_ }}&nbsp;</span>
             <span class="text-sm text-end lg:text-start lg:text-base">
-                    {{ obOrder.delivery_date|date('d/m/Y') }}
+                    {{ obOrder.payment_type }}
                 </span>
         </div>
 

@@ -1,5 +1,5 @@
-title = "Account Orders"
-url = "/account/orders"
+title = "Account Scheduled Orders"
+url = "/account/orders/scheduled"
 layout = "main"
 is_hidden = 0
 
@@ -72,7 +72,7 @@ private function applyOrderFilters($obOrderList)
     $sDateTo     = input('date_to');
     $bDelivered  = input('delivered') !== null;
 
-    $obOrderList = $obOrderList->regular();
+    $obOrderList = $obOrderList->scheduled();
 
     if ($sSearchName) {
         $obOrderList = $obOrderList->filterByName($sSearchName);
@@ -111,12 +111,12 @@ private function applyOrderFilters($obOrderList)
 ==
 {% set arBreadcrumbs = [
     { 'name': 'account_my_account'|_, 'url': 'account'|page },
-    { 'name': 'account_order_history'|_ }
+    { 'name': 'account_order_history_scheduled'|_ }
 ] %}
 
 {% partial 'common/breadcrumbs' arBreadcrumbs=arBreadcrumbs %}
 <div class="mb-8 mt-1 lg:mb-16">
-    <h1 class="uppercase text-xl mb-4 font-medium lg:text-3xl">{{'account_order_history'|_}}</h1>
+    <h1 class="uppercase text-xl mb-4 font-medium lg:text-3xl">{{'account_order_history_scheduled'|_}}</h1>
     <form class="mb-6"  data-request="onFilterOrders" data-request-update="'account/order-list/order-list-wrapper': '#orderListWrapper'">
         <div class="flex flex-col md:flex-row md:items-center gap-4">
 

@@ -90,8 +90,22 @@ class OrderModelHandler
 
                 return $obOrderList->intersect($arResultIDList);
             });
-            $obOrderList->addDynamicMethod('filterByDelivered', function () use ($obOrderList) {
-                $arResultIDList = Order::where('is_delivered', 1)
+            $obOrderList->addDynamicMethod('filterByNotDelivered', function () use ($obOrderList) {
+                $arResultIDList = Order::where('is_delivered', 0)
+                    ->pluck('id')
+                    ->toArray();
+
+                return $obOrderList->intersect($arResultIDList);
+            });
+            $obOrderList->addDynamicMethod('scheduled', function () use ($obOrderList) {
+                $arResultIDList = Order::where('is_scheduled', 1)
+                    ->pluck('id')
+                    ->toArray();
+
+                return $obOrderList->intersect($arResultIDList);
+            });
+            $obOrderList->addDynamicMethod('regular', function () use ($obOrderList) {
+                $arResultIDList = Order::where('is_scheduled', 0)
                     ->pluck('id')
                     ->toArray();
 
