@@ -14,6 +14,9 @@ use Lovata\ApiSynchronization\console\SyncOrders;
 use Lovata\ApiSynchronization\console\SyncUndeliveredOrders;
 use Lovata\ApiSynchronization\console\SyncScheduledOrders;
 use Lovata\ApiSynchronization\console\SyncUndeliveredScheduledOrders;
+use Lovata\ApiSynchronization\console\SyncShippingDocuments;
+use Lovata\ApiSynchronization\console\SyncUndeliveredShippingDocuments;
+use Lovata\ApiSynchronization\console\ShowShippingDocumentPositions;
 use Lovata\ApiSynchronization\console\ClearOrders;
 use Lovata\ApiSynchronization\Models\SyncSettings;
 use Lovata\OrdersShopaholic\Classes\Processor\OrderProcessor;
@@ -33,6 +36,13 @@ class Plugin extends PluginBase
             'description' => 'Utility commands and services to fetch data from Seipee API',
             'author'      => 'Seipee',
             'icon'        => 'icon-refresh'
+        ];
+    }
+
+    public function registerComponents()
+    {
+        return [
+            'Lovata\ApiSynchronization\Components\ShippingDocuments' => 'shippingDocuments',
         ];
     }
 
@@ -105,15 +115,18 @@ class Plugin extends PluginBase
                 $schedule->command('seipee:sync.undelivered-orders')->cron($cronExpression);
                 // Also sync undelivered scheduled orders from CFP
                 $schedule->command('seipee:sync.undelivered-scheduled-orders')->cron($cronExpression);
+                $schedule->command('seipee:sync.undelivered-shipping-documents')->cron($cronExpression);
             } else {
                 // Fallback to default 4 hours if settings not configured
                 $schedule->command('seipee:sync.undelivered-orders')->cron('0 */4 * * *');
                 $schedule->command('seipee:sync.undelivered-scheduled-orders')->cron('0 */4 * * *');
+                $schedule->command('seipee:sync.undelivered-shipping-documents')->cron('0 */4 * * *');
             }
         } catch (\Exception $e) {
             // Fallback to default 4 hours if settings not available (during installation)
             $schedule->command('seipee:sync.undelivered-orders')->cron('0 */4 * * *');
             $schedule->command('seipee:sync.undelivered-scheduled-orders')->cron('0 */4 * * *');
+            $schedule->command('seipee:sync.undelivered-shipping-documents')->cron('0 */4 * * *');
         }
     }
 }

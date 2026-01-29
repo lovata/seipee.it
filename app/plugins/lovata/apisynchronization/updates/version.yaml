@@ -18,3 +18,9 @@
 1.5.0:
     - Add is_scheduled field to orders table for tracking CFP scheduled orders
     - add_is_scheduled_to_orders.php
+1.6.0:
+    - Create shipping documents table for transport documents from ERP
+    - create_shipping_documents_table.php
+1.6.1:
+    - Create shipping document positions table with order position link
+    - create_shipping_document_positions_table.php
