@@ -1,5 +1,6 @@
 <?php namespace Lovata\Basecode\Classes\Event\User;
 
+use Lovata\ApiSynchronization\Models\ShippingDocument;
 use Lovata\Buddies\Classes\Item\UserItem;
 use Lovata\Buddies\Models\User;
 use Lovata\OrdersShopaholic\Classes\Collection\OrderCollection;
@@ -34,6 +35,12 @@ class UserModelHandler
             $obUser->hasMany['children'] = [
                 User::class,
                 'key' => 'parent_id'
+            ];
+        });
+
+        User::extend(function (User $obUser) {
+            $obUser->hasMany['documents'] = [
+                ShippingDocument::class
             ];
         });
 
@@ -78,6 +85,14 @@ class UserModelHandler
                 $obOrderList = OrderCollection::make()->user($userId);
 
                 return $obOrderList;
+            });
+        });
+
+        UserItem::extend(function (UserItem $obItem) {
+            $obItem->addDynamicMethod('getDocumentsAttribute', function () use ($obItem) {
+                $user = $obItem->getObject();
+
+                return $user->documents();
             });
         });
     }
