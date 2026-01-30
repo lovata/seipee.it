@@ -20,6 +20,7 @@ account_order_form_number: "Numero d'ordine"
 account_order_form_search: 'Cerca'
 account_order_form_to: 'A'
 account_order_history: "Cronologia degli ordini"
+account_order_history_scheduled: 'Ordini programmati'
 account_order_history_delete: 'Cancella cronologia'
 account_order_history_delete_message: 'Vuoi cancellare la cronologia dei tuoi ordini?'
 account_order_items: 'Articoli dell’ordine'
