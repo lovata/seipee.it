@@ -1,6 +1,6 @@
 <div id="orderListWrapper">
-    {% if arOrderList is not empty %}
-        {% partial 'account/order-list/order-list' arOrderList = arOrderList %}
+    {% if obDocumentList is not empty %}
+        {% partial 'account/documents-list/documents-list' obDocumentList = obDocumentList %}
     {% else %}
         {% set categorySlug = 'default' %}
         {% set locale = this.locale ?? 'it' %} {# или получаем локаль любым способом #}

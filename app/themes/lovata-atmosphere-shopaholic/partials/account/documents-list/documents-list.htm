@@ -1,0 +1,30 @@
+{#
+Params:
+- obDocumentList
+#}
+
+{% set iPage = obDocumentList.currentPage %}
+{% set iMaxPage = obDocumentList.lastPage %}
+
+<div class="hidden lg:grid lg:grid-flow-col lg:grid-cols-[1fr_1fr_1fr_1fr_minmax(160px,200px)] lg:bg-gray-200">
+    <div class="py-2 px-3 text-base font-medium">{{ 'account_document_number'|_ }}</div>
+    <div class="py-2 px-3 text-base font-medium">{{ 'account_document_date'|_ }}</div>
+    <div class="py-2 px-3 text-base font-medium">{{ 'account_document_order_number'|_ }}</div>
+    <div class="py-2 px-3 text-base font-medium">{{ 'account_document_see_more'|_ }}</div>
+    <div class="py-2 px-3 text-base font-medium"></div>
+</div>
+<ul class="_documents-list flex flex-col space-y-2 lg:space-y-0 lg:block pl-0">
+    {% partial 'account/documents-list/documents-list-ajax'
+        obDocumentList = obDocumentList.items
+    %}
+</ul>
+{% if iMaxPage > iPage %}
+    <div class="flex justify-center">
+        {% partial 'form/button'
+            isGhost = true
+            text = 'account_order_more'|_
+            dataAtribute = 'data-max-page=' ~ iMaxPage ~ ' data-page=1'
+            wrapperClasses = '_show-more-documents mt-8 lg:mt-10'
+        %}
+    </div>
+{% endif %}
