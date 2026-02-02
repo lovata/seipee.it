@@ -6,7 +6,7 @@ Params:
 {% set iPage = Pagination.getPageFromRequest() %}
 {% set iMaxPage = Pagination.getMaxPage(obOrderList.count()) %}
 
-<div class="hidden lg:grid lg:grid-flow-col lg:grid-cols-[1fr_1fr_1fr_1fr_1fr_1fr_1fr_1fr_1fr_minmax(160px,200px)] lg:bg-gray-200">
+<div class="hidden lg:grid lg:grid-flow-col lg:grid-cols-[1fr_minmax(120px,120px)_1fr_minmax(120px,120px)_1fr_1fr_1fr_1fr_1fr_1fr_minmax(160px,200px)] lg:bg-gray-200">
     <div class="py-2 px-3 text-base font-medium">{{ 'account_order_number'|_ }}</div>
     <div class="py-2 px-3 text-base font-medium">{{ 'account_order_date'|_ }}</div>
     <div class="py-2 px-3 text-base font-medium">{{ 'account_order_rows'|_ }}</div>
