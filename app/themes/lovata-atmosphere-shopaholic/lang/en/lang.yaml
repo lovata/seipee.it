@@ -1,4 +1,5 @@
 # Account
+account: 'Account'
 account_add_new_user: 'Add new user'
 account_checkout_guest_heading: 'Continue without signing in'
 account_checkout_guest_message: 'To use a promo code, sign in or :account_create first.'
@@ -94,18 +95,23 @@ breadcrumbs_contact: 'Contact us'
 breadcrumbs_home: 'Home'
 breadcrumbs_product_brands: 'Brands'
 
+button_hide_all: 'Hide all'
+
 # Catalog
 catalog_catalog: 'Catalog'
 catalog_categories: 'Categories'
 catalog_categories_show: 'Show all'
-catalog_loading_price: 'Loading price...'
+catalog_loading_price: 'Caricamento prezzo...'
 catalog_new_search: 'New search'
+catalog_no_products: 'No products'
 catalog_product_brands: 'Product brands'
 catalog_product_categories: 'Product categories'
 catalog_products_also_like: 'You might also like'
 catalog_products_popular: 'Popular products'
 catalog_products_show_more: 'More products'
 catalog_products_viewed: 'Recently viewed'
+
+cart: 'Cart'
 
 # Contact
 contact_address: 'Address'
@@ -185,6 +191,8 @@ form_user_zip_code: 'ZIP code'
 form_yes: 'Yes'
 form_quotation_notes: 'Label of the quotation'
 form_quotation_title: 'Additional notes'
+
+header_welcome: 'Welcome to'
 
 # Messages
 messages_generic_error: 'An error occurred'
@@ -307,10 +315,10 @@ purchase_coupon_code: 'Coupon code'
 purchase_coupon_have: 'Do you have a coupon?'
 purchase_coupon_remove: 'Remove Coupon'
 purchase_customer_data: 'Contact details'
+purchase_delivery: 'Delivery'
 purchase_delivery_method_choose: 'Choose a delivery point'
 purchase_delivery_method: 'Delivery method'
 purchase_delivery_terms: 'Delivery Terms and Conditions'
-purchase_delivery: 'Delivery'
 purchase_discount_your: 'Your discount is'
 purchase_for_free: 'Free'
 purchase_go_to_cart: 'Go to the cart'
@@ -328,6 +336,7 @@ purchase_start_shopping: 'Start shopping'
 purchase_subtotal: 'Subtotal'
 purchase_success_message: 'Thank you for shopping at our shop!'
 purchase_summary: 'Summary'
+purchase_tax: 'Tax'
 purchase_total: 'Total'
 
 # Reviews
@@ -392,6 +401,8 @@ theme_powered_by_theme: 'Atmosphere'
 theme_powered_by: 'Powered by :theme_powered_by_plugin and the :theme_powered_by_theme theme.'
 theme_social_media_list_not_added: 'No social medias has been added.'
 theme_social_media_list: 'Our social medias'
+
+text_pickup_points: 'Pickup points'
 
 # Validation messages
 validation_missing_value_checkbox: 'This field is required.'

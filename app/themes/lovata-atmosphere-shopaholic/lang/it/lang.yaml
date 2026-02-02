@@ -1,4 +1,5 @@
 # Account
+account: 'Conto'
 account_add_new_user: 'Aggiungi nuovo utente'
 account_checkout_guest_heading: 'Continua senza effettuare l''accesso'
 account_checkout_guest_message: 'Per utilizzare un codice promozionale, accedi o :account_create prima.'
@@ -94,17 +95,23 @@ breadcrumbs_contact: 'Contattaci'
 breadcrumbs_home: 'Home'
 breadcrumbs_product_brands: 'Marchi'
 
+button_hide_all: 'Nascondi tutto'
+
 # Catalog
 catalog_catalog: 'Catalogo'
 catalog_categories: 'Categorie'
 catalog_categories_show: 'Mostra tutto'
+catalog_loading_price: 'Loading price...'
 catalog_new_search: 'Nuova ricerca'
+catalog_no_products: 'Nessun prodotto'
 catalog_product_brands: 'Marchi di prodotti'
 catalog_product_categories: 'Categorie di prodotti'
 catalog_products_also_like: 'Potrebbe piacerti anche'
 catalog_products_popular: 'Prodotti popolari'
 catalog_products_show_more: 'Altri prodotti'
 catalog_products_viewed: 'Visti di recente'
+
+cart: 'Carrello'
 
 # Contact
 contact_address: 'Indirizzo'
@@ -184,6 +191,8 @@ form_user_zip_code: 'CAP'
 form_yes: 'Sì'
 form_quotation_notes: 'Etichetta del preventivo'
 form_quotation_title: 'Note aggiuntive'
+
+header_welcome: 'Benvenuti in'
 
 # Messages
 messages_generic_error: 'Si è verificato un errore'
@@ -328,6 +337,7 @@ purchase_subtotal: 'Subtotale'
 purchase_success_message: 'Grazie per aver acquistato nel nostro negozio!'
 purchase_summary: 'Riepilogo'
 purchase_total: 'Totale'
+purchase_tax: 'Tassa'
 
 # Reviews
 reviews_create_successfully: 'La recensione è stata creata con successo. Sarà pubblicata dopo moderazione.'
@@ -391,6 +401,8 @@ theme_powered_by_theme: 'Atmosphere'
 theme_powered_by: 'Fornito da :theme_powered_by_plugin e dal tema :theme_powered_by_theme.'
 theme_social_media_list_not_added: 'Nessun social media aggiunto.'
 theme_social_media_list: 'I nostri social media'
+
+text_pickup_points: 'Punti di ritiro'
 
 # Validation messages
 validation_missing_value_checkbox: 'Questo campo è obbligatorio.'
