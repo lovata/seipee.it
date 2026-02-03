@@ -45,25 +45,17 @@ class ProductItemsSyncService
      * Sync products from Seipee API table xbtvw_B2B_product.
      * - Upserts Product by external_id = CodiceArticolo
      * - Ensures one default Offer per product with price and dimensions
-     * - Optionally fetches inventory data from warehouse endpoints and updates offer quantities
+     * - Does NOT sync inventory quantities (use seipee:sync.inventory for that)
      * - Saves only when data changed; supports dry-run and item cap
      *
      * @param string|null $where
      * @param int $rows
-     * @param bool $syncInventory Whether to sync inventory quantities (default: false)
      * @return array
      */
-    public function sync(?string $where = null, int $rows = 200, bool $syncInventory = false): array
+    public function sync(?string $where = null, int $rows = 200): array
     {
         $createdProducts = 0; $updatedProducts = 0; $skippedProducts = 0;
         $createdOffers = 0; $updatedOffers = 0; $skippedOffers = 0; $errors = 0; $processed = 0;
-
-        // Optionally fetch inventory data from both warehouse endpoints
-        $inventory = [];
-        if ($syncInventory) {
-            $inventoryService = new InventorySyncService($this->api);
-            $inventory = $inventoryService->fetchInventory($rows);
-        }
 
         foreach ($this->api->paginate('xbtvw_B2B_product', $rows, $where) as $pageData) {
             $list = Arr::get($pageData, 'result', []);
@@ -142,14 +134,7 @@ class ProductItemsSyncService
                     if ($height !== null && (string)$offer->height !== (string)$height) { $offer->height = $height; $offerNeedsSave = true; }
                     if ($weight !== null && (string)$offer->weight !== (string)$weight) { $offer->weight = $weight; $offerNeedsSave = true; }
 
-                    // Update quantity from inventory data (only if inventory sync is enabled)
-                    if ($syncInventory) {
-                        $quantityInStock = isset($inventory[$extId]) ? (int)$inventory[$extId] : 0;
-                        if ((int)$offer->quantity !== $quantityInStock) {
-                            $offer->quantity = $quantityInStock;
-                            $offerNeedsSave = true;
-                        }
-                    }
+                    // Note: Inventory quantities are synced separately via seipee:sync.inventory
 
                     if ($isNewOffer) {
                         $offer->save();
