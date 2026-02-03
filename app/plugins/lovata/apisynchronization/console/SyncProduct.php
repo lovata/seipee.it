@@ -13,7 +13,6 @@ class SyncProduct extends Command
     public function handle()
     {
         $rows = (int) ($this->option('rows') ?: 200);
-        $withInventory = (bool) $this->option('with-inventory');
 
         $api = new ApiClientService();
 
@@ -26,14 +25,10 @@ class SyncProduct extends Command
         }
 
         $sync = new ProductItemsSyncService($api);
+        $this->info('Syncing products from xbtvw_B2B_product ...');
+        $this->line('Note: Use seipee:sync.inventory to sync inventory quantities separately.');
 
-        if ($withInventory) {
-            $this->info('Syncing products from xbtvw_B2B_product (with inventory) ...');
-        } else {
-            $this->info('Syncing products from xbtvw_B2B_product (without inventory) ...');
-        }
-
-        $res = $sync->sync(null, $rows, $withInventory);
+        $res = $sync->sync(null, $rows);
         $this->line('Products: created='.$res['createdProducts'].', updated='.$res['updatedProducts'].', skipped='.$res['skippedProducts']);
         $this->line('Offers: created='.$res['createdOffers'].', updated='.$res['updatedOffers'].', skipped='.$res['skippedOffers']);
         if (!empty($res['errors'])) {
@@ -48,7 +43,6 @@ class SyncProduct extends Command
     {
         return [
             ['rows', null, \Symfony\Component\Console\Input\InputOption::VALUE_OPTIONAL, 'Rows per page', 200],
-            ['with-inventory', null, \Symfony\Component\Console\Input\InputOption::VALUE_NONE, 'Also sync inventory quantities (slower)'],
         ];
     }
 }

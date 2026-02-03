@@ -7,11 +7,13 @@ use Log;
 /**
  * InventorySyncService
  *
- * Fetches inventory data from two Seipee API endpoints:
+ * Syncs inventory data from two Seipee API endpoints:
  * - xbtvw_B2B_Giac (internal warehouse stock)
  * - xbtvw_B2B_GiacCD (external warehouse / consignment stock)
  *
- * Aggregates quantities by CodiceArticolo (item code) and syncs to Offers.
+ * Processes each batch immediately and updates offer quantities.
+ * Stores internal and external warehouse quantities in separate fields (warehouse_internal, warehouse_external).
+ * Total quantity = warehouse_internal + warehouse_external.
  */
 class InventorySyncService
 {
@@ -23,57 +25,8 @@ class InventorySyncService
     }
 
     /**
-     * Fetch inventory data from both endpoints and aggregate by item code.
-     *
-     * @param int $rows Number of rows per page
-     * @return array Associative array: ['CodiceArticolo' => total_quantity]
-     */
-    public function fetchInventory(int $rows = 200): array
-    {
-        $inventory = [];
-
-        // Fetch from internal warehouse (xbtvw_B2B_Giac)
-        foreach ($this->api->paginate('xbtvw_B2B_Giac', $rows) as $pageData) {
-            $list = Arr::get($pageData, 'result', []);
-            foreach ($list as $row) {
-                $itemCode = self::safeString($row['CodiceArticolo'] ?? null);
-                $quantity = self::toFloat($row['Quantita'] ?? null);
-
-                if ($itemCode === '' || $quantity === null) {
-                    continue;
-                }
-
-                if (!isset($inventory[$itemCode])) {
-                    $inventory[$itemCode] = 0;
-                }
-                $inventory[$itemCode] += $quantity;
-            }
-        }
-
-        // Fetch from external warehouse (xbtvw_B2B_GiacCD)
-        foreach ($this->api->paginate('xbtvw_B2B_GiacCD', $rows) as $pageData) {
-            $list = Arr::get($pageData, 'result', []);
-            foreach ($list as $row) {
-                $itemCode = self::safeString($row['CodiceArticolo'] ?? null);
-                $quantity = self::toFloat($row['Quantita'] ?? null);
-
-                if ($itemCode === '' || $quantity === null) {
-                    continue;
-                }
-
-                if (!isset($inventory[$itemCode])) {
-                    $inventory[$itemCode] = 0;
-                }
-                $inventory[$itemCode] += $quantity;
-            }
-        }
-
-        return $inventory;
-    }
-
-    /**
      * Sync inventory quantities to existing offers.
-     * Fetches inventory data and updates offer quantities based on CodiceArticolo (external_id).
+     * Processes each batch immediately and updates offers with warehouse-specific data.
      *
      * @param int $rows Number of rows per page
      * @return array Statistics: ['updated' => int, 'skipped' => int, 'errors' => int]
@@ -84,34 +37,103 @@ class InventorySyncService
         $skipped = 0;
         $errors = 0;
 
-        // Fetch inventory data from both warehouse endpoints
-        $inventory = $this->fetchInventory($rows);
+        // Process internal warehouse (xbtvw_B2B_Giac)
+        foreach ($this->api->paginate('xbtvw_B2B_Giac', $rows) as $pageData) {
+            $list = Arr::get($pageData, 'result', []);
+            foreach ($list as $row) {
+                $itemCode = self::safeString($row['CodiceArticolo'] ?? null);
+                $quantity = self::toFloat($row['Quantita'] ?? null);
 
-        // Update offers based on inventory data
-        foreach ($inventory as $itemCode => $quantity) {
-            try {
-                $offer = Offer::where('code', $itemCode)->first();
-
-                if (!$offer) {
+                if ($itemCode === '' || $quantity === null) {
                     $skipped++;
                     continue;
                 }
 
-                $quantityInStock = (int)$quantity;
-                if ((int)$offer->quantity !== $quantityInStock) {
-                    $offer->quantity = $quantityInStock;
-                    $offer->save();
-                    $updated++;
-                } else {
-                    $skipped++;
+                try {
+                    $offer = Offer::where('code', $itemCode)->first();
+
+                    if (!$offer) {
+                        $skipped++;
+                        continue;
+                    }
+
+                    // Get current external warehouse quantity
+                    $externalQty = (int)($offer->warehouse_external ?? 0);
+                    $internalQty = (int)$quantity;
+
+                    // Update internal warehouse quantity
+                    $offer->warehouse_internal = $internalQty;
+
+                    // Calculate total quantity
+                    $totalQty = $internalQty + $externalQty;
+
+                    if ((int)$offer->quantity !== $totalQty) {
+                        $offer->quantity = $totalQty;
+                        $offer->save();
+                        $updated++;
+                    } else {
+                        $offer->save(); // Save warehouse field even if quantity didn't change
+                        $skipped++;
+                    }
+                } catch (\Throwable $e) {
+                    $errors++;
+                    Log::error('InventorySyncService error (internal) for item '.$itemCode.': '.$e->getMessage(), [
+                        'item_code' => $itemCode,
+                        'quantity' => $quantity,
+                        'warehouse' => 'internal',
+                        'trace' => $e->getTraceAsString(),
+                    ]);
                 }
-            } catch (\Throwable $e) {
-                $errors++;
-                Log::error('InventorySyncService error for item '.$itemCode.': '.$e->getMessage(), [
-                    'item_code' => $itemCode,
-                    'quantity' => $quantity,
-                    'trace' => $e->getTraceAsString(),
-                ]);
+            }
+        }
+
+        // Process external warehouse (xbtvw_B2B_GiacCD)
+        foreach ($this->api->paginate('xbtvw_B2B_GiacCD', $rows) as $pageData) {
+            $list = Arr::get($pageData, 'result', []);
+            foreach ($list as $row) {
+                $itemCode = self::safeString($row['CodiceArticolo'] ?? null);
+                $quantity = self::toFloat($row['Quantita'] ?? null);
+
+                if ($itemCode === '' || $quantity === null) {
+                    $skipped++;
+                    continue;
+                }
+
+                try {
+                    $offer = Offer::where('code', $itemCode)->first();
+
+                    if (!$offer) {
+                        $skipped++;
+                        continue;
+                    }
+
+                    // Get current internal warehouse quantity
+                    $internalQty = (int)($offer->warehouse_internal ?? 0);
+                    $externalQty = (int)$quantity;
+
+                    // Update external warehouse quantity
+                    $offer->warehouse_external = $externalQty;
+
+                    // Calculate total quantity
+                    $totalQty = $internalQty + $externalQty;
+
+                    if ((int)$offer->quantity !== $totalQty) {
+                        $offer->quantity = $totalQty;
+                        $offer->save();
+                        $updated++;
+                    } else {
+                        $offer->save(); // Save warehouse field even if quantity didn't change
+                        $skipped++;
+                    }
+                } catch (\Throwable $e) {
+                    $errors++;
+                    Log::error('InventorySyncService error (external) for item '.$itemCode.': '.$e->getMessage(), [
+                        'item_code' => $itemCode,
+                        'quantity' => $quantity,
+                        'warehouse' => 'external',
+                        'trace' => $e->getTraceAsString(),
+                    ]);
+                }
             }
         }
 

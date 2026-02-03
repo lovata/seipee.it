@@ -7,6 +7,7 @@ use Lovata\OrdersShopaholic\Models\OrderPosition;
 use Lovata\PropertiesShopaholic\Models\Property;
 use Lovata\PropertiesShopaholic\Models\PropertyValue;
 use Lovata\Shopaholic\Models\Product;
+use Lovata\Shopaholic\Models\Offer;
 
 /**
  * Class ExtendModelsHandler
@@ -23,6 +24,7 @@ class ExtendModelsHandler
     public function subscribe()
     {
         $this->extendProductModel();
+        $this->extendOfferModel();
         $this->extendOrderModel();
         $this->extendOrderPositionModel();
     }
@@ -93,6 +95,32 @@ class ExtendModelsHandler
 
                 return array_values($result);
             });
+        });
+    }
+
+    /**
+     * Extend Offer model with warehouse fields for Seipee API Sync
+     */
+    protected function extendOfferModel()
+    {
+        Offer::extend(function($model) {
+            // Add warehouse fields to fillable
+            $model->addFillable([
+                'warehouse_internal',
+                'warehouse_external',
+            ]);
+
+            // Add warehouse fields to cached (if cached is used)
+            if (property_exists($model, 'cached') && is_array($model->cached)) {
+                $model->cached[] = 'warehouse_internal';
+                $model->cached[] = 'warehouse_external';
+            }
+
+            // Add casts for warehouse fields
+            $model->addCasts([
+                'warehouse_internal' => 'integer',
+                'warehouse_external' => 'integer',
+            ]);
         });
     }
 

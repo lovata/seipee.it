@@ -24,3 +24,6 @@
 1.6.1:
     - Create shipping document positions table with order position link
     - create_shipping_document_positions_table.php
+1.6.3:
+    - Add warehouse_internal and warehouse_external fields to offers table
+    - add_warehouse_fields_to_offers.php
