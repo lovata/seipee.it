@@ -423,8 +423,3 @@ wishlist_remove_label: 'Remove from wish list'
 wishlist_remove_success: 'Product was removed from wish list.'
 wishlist_start_shopping: 'Start shopping'
 wishlist_title: 'Wish list' #TODO: Unify headings  translation keys
-
-page_request_quotation: 'Request quotation'
-
-
-text_pickup_points: 'Pickup points'
