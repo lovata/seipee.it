@@ -27,67 +27,67 @@ Params:
         <div class="grid grid-cols-2 lg:px-3 lg:py-2 lg:block">
             <span class="text-sm font-medium lg:hidden">{{ 'account_order_number'|_ }}:&nbsp;</span>
             <span class="text-sm font-medium text-end lg:text-start lg:font-normal lg:text-base">
-                    {{ obOrder.seipee_order_id }}
+                    {{ obOrder.order_number }}
                 </span>
         </div>
 
-        <div class="grid grid-cols-2 lg:py-2 lg:px-3 lg:block">
+        <div class="grid grid-cols-2 px-3 py-2 lg:block">
             <span class="text-sm lg:hidden">{{ 'account_order_date'|_ }}&nbsp;</span>
             <span class="text-sm text-end lg:text-start lg:text-base">
                     {{ obOrder.created_at|date('d/m/Y') }}
                 </span>
         </div>
 
-        <div class="grid grid-cols-2 lg:py-2 lg:px-3 lg:block">
+        <div class="grid grid-cols-2 px-3 py-2 lg:block">
             <span class="text-sm lg:hidden">{{ 'account_order_rows'|_ }}&nbsp;</span>
             <span class="text-sm text-end lg:text-start lg:text-base">
                     {{ obOrderPositionList.count() }}
                 </span>
         </div>
 
-        <div class="grid grid-cols-2 lg:py-2 lg:px-3 lg:block">
+        <div class="grid grid-cols-2 px-3 py-2 lg:block">
             <span class="text-sm lg:hidden">{{ 'account_order_delivery_date'|_ }}&nbsp;</span>
             <span class="text-sm text-end lg:text-start lg:text-base">
                     {{ obOrder.delivery_date|date('d/m/Y') }}
                 </span>
         </div>
 
-        <div class="grid grid-cols-2 lg:py-2 lg:px-3 lg:block">
+        <div class="grid grid-cols-2 px-3 py-2 lg:block">
             <span class="text-sm lg:hidden">{{ 'account_order_payment'|_ }}&nbsp;</span>
             <span class="text-sm text-end lg:text-start lg:text-base">
                     {{ obOrder.payment_type }}
                 </span>
         </div>
 
-        <div class="grid grid-cols-2 lg:py-2 lg:px-3 lg:block">
+        <div class="grid grid-cols-2 px-3 py-2 lg:block">
             <span class="text-sm lg:hidden">{{ 'account_order_total_ex_vat'|_ }}&nbsp;</span>
             <span class="text-sm text-end lg:text-start lg:text-base">
                     {{ orderProps.total_excl_vat ?? '—' }}
                 </span>
         </div>
 
-        <div class="grid grid-cols-2 lg:py-2 lg:px-3 lg:block">
+        <div class="grid grid-cols-2 px-3 py-2 lg:block">
             <span class="text-sm lg:hidden">{{ 'account_order_total_with_vat'|_ }}&nbsp;</span>
             <span class="text-sm text-end lg:text-start lg:text-base">
                     {{ orderProps.total_incl_vat ?? '—' }}
                 </span>
         </div>
 
-        <div class="grid grid-cols-2 lg:py-2 lg:px-3 lg:block">
+        <div class="grid grid-cols-2 px-3 py-2 lg:block">
             <span class="text-sm lg:hidden">{{ 'account_order_notes'|_ }}&nbsp;</span>
             <span class="text-sm text-end lg:text-start lg:text-base">
                     {{ orderProps.notes ?? '—' }}
                 </span>
         </div>
 
-        <div class="grid grid-cols-2 lg:py-2 lg:px-3 lg:block">
+        <div class="grid grid-cols-2 px-3 py-2 lg:block">
             <span class="text-sm lg:hidden">{{ 'account_order_delivered'|_ }}&nbsp;</span>
             <span class="text-sm text-end lg:text-start lg:text-base">
                     {{ obOrder.is_delivered ? 'Yes' : 'No' }}
                 </span>
         </div>
 
-        <div class="grid grid-cols-2 lg:py-2 lg:px-3 lg:block">
+        <div class="grid grid-cols-2 px-3 py-2 lg:block">
             <span class="text-sm lg:hidden">{{ 'account_order_see_more'|_ }}&nbsp;</span>
             <span class="text-sm text-end lg:text-start lg:text-base">
                 <button type="button" class="_toggle_button" data-toggle-id="{{ obOrder.order_number }}"><i class="bi bi-chevron-down _toggle_icon"></i></button>

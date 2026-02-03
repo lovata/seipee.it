@@ -1,6 +1,8 @@
 <?php namespace Lovata\ApiSynchronization\classes;
 
 use Illuminate\Support\Arr;
+use Lovata\Shopaholic\Models\Offer;
+use Log;
 
 /**
  * InventorySyncService
@@ -9,7 +11,7 @@ use Illuminate\Support\Arr;
  * - xbtvw_B2B_Giac (internal warehouse stock)
  * - xbtvw_B2B_GiacCD (external warehouse / consignment stock)
  *
- * Aggregates quantities by CodiceArticolo (item code).
+ * Aggregates quantities by CodiceArticolo (item code) and syncs to Offers.
  */
 class InventorySyncService
 {
@@ -67,6 +69,53 @@ class InventorySyncService
         }
 
         return $inventory;
+    }
+
+    /**
+     * Sync inventory quantities to existing offers.
+     * Fetches inventory data and updates offer quantities based on CodiceArticolo (external_id).
+     *
+     * @param int $rows Number of rows per page
+     * @return array Statistics: ['updated' => int, 'skipped' => int, 'errors' => int]
+     */
+    public function syncInventoryToOffers(int $rows = 200): array
+    {
+        $updated = 0;
+        $skipped = 0;
+        $errors = 0;
+
+        // Fetch inventory data from both warehouse endpoints
+        $inventory = $this->fetchInventory($rows);
+
+        // Update offers based on inventory data
+        foreach ($inventory as $itemCode => $quantity) {
+            try {
+                $offer = Offer::where('code', $itemCode)->first();
+
+                if (!$offer) {
+                    $skipped++;
+                    continue;
+                }
+
+                $quantityInStock = (int)$quantity;
+                if ((int)$offer->quantity !== $quantityInStock) {
+                    $offer->quantity = $quantityInStock;
+                    $offer->save();
+                    $updated++;
+                } else {
+                    $skipped++;
+                }
+            } catch (\Throwable $e) {
+                $errors++;
+                Log::error('InventorySyncService error for item '.$itemCode.': '.$e->getMessage(), [
+                    'item_code' => $itemCode,
+                    'quantity' => $quantity,
+                    'trace' => $e->getTraceAsString(),
+                ]);
+            }
+        }
+
+        return compact('updated', 'skipped', 'errors');
     }
 
     protected static function toFloat($value): ?float
