@@ -1,9 +1,14 @@
+{#
+Params:
+- arOrderList
+- bRepeatOrder
+#}
 <div id="orderListWrapper">
     {% if arOrderList is not empty %}
         {% partial 'account/order-list/order-list' arOrderList = arOrderList %}
     {% else %}
         {% set categorySlug = 'default' %}
-        {% set locale = this.locale ?? 'it' %} {# или получаем локаль любым способом #}
+        {% set locale = this.locale ?? 'it' %}
         {% set buttonHref = (locale != 'it' ? '/' ~ locale ~ '/' : '/') ~ categorySlug %}
         {% partial 'message/info-message'
             wrapperClasses = 'mt-28 md:mt-14'

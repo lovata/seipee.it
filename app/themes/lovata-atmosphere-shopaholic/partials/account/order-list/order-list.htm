@@ -5,8 +5,11 @@ Params:
 
 {% set iPage = Pagination.getPageFromRequest() %}
 {% set iMaxPage = Pagination.getMaxPage(obOrderList.count()) %}
-
-<div class="hidden lg:grid lg:grid-flow-col lg:grid-cols-[1fr_minmax(120px,120px)_1fr_minmax(120px,120px)_1fr_1fr_1fr_1fr_1fr_1fr_minmax(160px,200px)] lg:bg-gray-200">
+{% set gridCols = bRepeatOrder
+? 'lg:grid-cols-[1fr_1fr_1fr_1fr_1fr_1fr_1fr_1fr_1fr_minmax(160px,200px)]'
+: 'lg:grid-cols-[1fr_1fr_1fr_1fr_1fr_1fr_1fr_1fr_1fr]'
+%}
+<div class="hidden lg:grid lg:grid-flow-col {{ gridCols }} lg:bg-gray-200">
     <div class="py-2 px-3 text-base font-medium">{{ 'account_order_number'|_ }}</div>
     <div class="py-2 px-3 text-base font-medium">{{ 'account_order_date'|_ }}</div>
     <div class="py-2 px-3 text-base font-medium">{{ 'account_order_rows'|_ }}</div>
@@ -17,7 +20,9 @@ Params:
     <div class="py-2 px-3 text-base font-medium">{{ 'account_order_notes'|_ }}</div>
     <div class="py-2 px-3 text-base font-medium">{{ 'account_order_delivered'|_ }}</div>
     <div class="py-2 px-3 text-base font-medium">{{ 'account_order_see_more'|_ }}</div>
-    <div class="py-2 px-3 text-base font-medium"></div>
+    {% if bRepeatOrder %}
+        <div class="py-2 px-3 text-base font-medium"></div>
+    {% endif %}
 </div>
 <ul class="_orders-list flex flex-col space-y-2 lg:space-y-0 lg:block pl-0">
     {% partial 'account/order-list/order-list-ajax'

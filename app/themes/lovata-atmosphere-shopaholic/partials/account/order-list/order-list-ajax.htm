@@ -1,6 +1,7 @@
 {#
 Params:
 - obOrderList
+- bRepeatOrder
 #}
 
 {# TODO: Come up with a more correct way to transfer the color sColorState #}
@@ -13,77 +14,80 @@ Params:
 {% endif %}
 
 {% set arOrderList = obOrderList.page(iPage, Pagination.getCountPerPage()) %}
-
+{% set gridCols = bRepeatOrder
+? 'lg:grid-cols-[1fr_1fr_1fr_1fr_1fr_1fr_1fr_1fr_1fr_minmax(160px,200px)]'
+: 'lg:grid-cols-[1fr_1fr_1fr_1fr_1fr_1fr_1fr_1fr_1fr]'
+%}
 {% for obOrder in arOrderList %}
 {% set obTotalPriceData = obOrder.total_price_data %}
 {% set obOrderPositionList = obOrder.order_position %}
 {% set orderProps = obOrder.property %}
 <li class="bg-white border-y border-outline-variant lg:border-y-0 lg:border-none _order_item">
-    <div class="lg:grid lg:grid-flow-col lg:grid-cols-[1fr_minmax(120px,120px)_1fr_minmax(120px,120px)_1fr_1fr_1fr_1fr_1fr_1fr_minmax(160px,200px)]">
-        <div class="grid grid-cols-2 px-3 py-2 lg:block">
+    <div class="lg:grid lg:grid-flow-col {{gridCols}}">
+        <div class="grid grid-cols-2 lg:px-3 lg:py-2 lg:block">
             <span class="text-sm font-medium lg:hidden">{{ 'account_order_number'|_ }}:&nbsp;</span>
             <span class="text-sm font-medium text-end lg:text-start lg:font-normal lg:text-base">
-                    {{ obOrder.order_number }}
+                    {{ obOrder.seipee_order_id }}
                 </span>
         </div>
 
-        <div class="grid grid-cols-2 px-3 py-2 lg:block">
+        <div class="grid grid-cols-2 lg:py-2 lg:px-3 lg:block">
             <span class="text-sm lg:hidden">{{ 'account_order_date'|_ }}&nbsp;</span>
             <span class="text-sm text-end lg:text-start lg:text-base">
                     {{ obOrder.created_at|date('d/m/Y') }}
                 </span>
         </div>
 
-        <div class="grid grid-cols-2 px-3 py-2 lg:block">
+        <div class="grid grid-cols-2 lg:py-2 lg:px-3 lg:block">
             <span class="text-sm lg:hidden">{{ 'account_order_rows'|_ }}&nbsp;</span>
             <span class="text-sm text-end lg:text-start lg:text-base">
                     {{ obOrderPositionList.count() }}
                 </span>
         </div>
 
-        <div class="grid grid-cols-2 px-3 py-2 lg:block">
+        <div class="grid grid-cols-2 lg:py-2 lg:px-3 lg:block">
             <span class="text-sm lg:hidden">{{ 'account_order_delivery_date'|_ }}&nbsp;</span>
             <span class="text-sm text-end lg:text-start lg:text-base">
                     {{ obOrder.delivery_date|date('d/m/Y') }}
                 </span>
         </div>
 
-        <div class="grid grid-cols-2 px-3 py-2 lg:block">
+        <div class="grid grid-cols-2 lg:py-2 lg:px-3 lg:block">
             <span class="text-sm lg:hidden">{{ 'account_order_payment'|_ }}&nbsp;</span>
             <span class="text-sm text-end lg:text-start lg:text-base">
                     {{ obOrder.payment_type }}
                 </span>
         </div>
 
-        <div class="grid grid-cols-2 px-3 py-2 lg:block">
+        <div class="grid grid-cols-2 lg:py-2 lg:px-3 lg:block">
             <span class="text-sm lg:hidden">{{ 'account_order_total_ex_vat'|_ }}&nbsp;</span>
             <span class="text-sm text-end lg:text-start lg:text-base">
                     {{ orderProps.total_excl_vat ?? '—' }}
                 </span>
         </div>
 
-        <div class="grid grid-cols-2 px-3 py-2 lg:block">
+        <div class="grid grid-cols-2 lg:py-2 lg:px-3 lg:block">
             <span class="text-sm lg:hidden">{{ 'account_order_total_with_vat'|_ }}&nbsp;</span>
             <span class="text-sm text-end lg:text-start lg:text-base">
                     {{ orderProps.total_incl_vat ?? '—' }}
                 </span>
         </div>
 
-        <div class="grid grid-cols-2 px-3 py-2 lg:block">
+        <div class="grid grid-cols-2 lg:py-2 lg:px-3 lg:block">
             <span class="text-sm lg:hidden">{{ 'account_order_notes'|_ }}&nbsp;</span>
             <span class="text-sm text-end lg:text-start lg:text-base">
                     {{ orderProps.notes ?? '—' }}
                 </span>
         </div>
 
-        <div class="grid grid-cols-2 px-3 py-2 lg:block">
+        <div class="grid grid-cols-2 lg:py-2 lg:px-3 lg:block">
             <span class="text-sm lg:hidden">{{ 'account_order_delivered'|_ }}&nbsp;</span>
             <span class="text-sm text-end lg:text-start lg:text-base">
                     {{ obOrder.is_delivered ? 'Yes' : 'No' }}
                 </span>
         </div>
 
-        <div class="grid grid-cols-2 px-3 py-2 lg:block">
+        <div class="grid grid-cols-2 lg:py-2 lg:px-3 lg:block">
             <span class="text-sm lg:hidden">{{ 'account_order_see_more'|_ }}&nbsp;</span>
             <span class="text-sm text-end lg:text-start lg:text-base">
                 <button type="button" class="_toggle_button" data-toggle-id="{{ obOrder.order_number }}"><i class="bi bi-chevron-down _toggle_icon"></i></button>
@@ -91,15 +95,17 @@ Params:
         </div>
 
         {# Actions #}
-        <div class="grid grid-cols-2 px-3 py-2 lg:block">
+        {% if bRepeatOrder %}
+        <div class="grid grid-cols-2 lg:py-2 lg:px-3 lg:block">
             {% if obUser.can_order %}
-                {% partial 'form/button'
-                text='order_again'|_
-                isGhost=true
-                wrapperClasses='_order_again_button'
+            {% partial 'form/button'
+            text='order_again'|_
+            isGhost=true
+            wrapperClasses='_order_again_button'
             %}
             {% endif %}
         </div>
+        {% endif %}
     </div>
     <div class="_order_details hidden" data-toggle-target="{{ obOrder.order_number }}">
         <div class="hidden lg:grid gap-2 items-start bg-gray-200 lg:grid-cols-[2fr_3fr_1fr_1fr_1fr_1fr_1fr]">
