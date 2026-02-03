@@ -1,6 +1,7 @@
 {#
 Params:
 - obOrderList
+- bRepeatOrder
 #}
 
 {# TODO: Come up with a more correct way to transfer the color sColorState #}
@@ -13,13 +14,16 @@ Params:
 {% endif %}
 
 {% set arOrderList = obOrderList.page(iPage, Pagination.getCountPerPage()) %}
-
+{% set gridCols = bRepeatOrder
+? 'lg:grid-cols-[1fr_1fr_1fr_1fr_1fr_1fr_1fr_1fr_1fr_minmax(160px,200px)]'
+: 'lg:grid-cols-[1fr_1fr_1fr_1fr_1fr_1fr_1fr_1fr_1fr]'
+%}
 {% for obOrder in arOrderList %}
 {% set obTotalPriceData = obOrder.total_price_data %}
 {% set obOrderPositionList = obOrder.order_position %}
 {% set orderProps = obOrder.property %}
 <li class="bg-white border-y border-outline-variant lg:border-y-0 lg:border-none _order_item">
-    <div class="lg:grid lg:grid-flow-col lg:grid-cols-[1fr_1fr_1fr_1fr_1fr_1fr_1fr_1fr_1fr_minmax(160px,200px)]">
+    <div class="lg:grid lg:grid-flow-col {{gridCols}}">
         <div class="grid grid-cols-2 lg:px-3 lg:py-2 lg:block">
             <span class="text-sm font-medium lg:hidden">{{ 'account_order_number'|_ }}:&nbsp;</span>
             <span class="text-sm font-medium text-end lg:text-start lg:font-normal lg:text-base">
@@ -91,15 +95,17 @@ Params:
         </div>
 
         {# Actions #}
+        {% if bRepeatOrder %}
         <div class="grid grid-cols-2 lg:py-2 lg:px-3 lg:block">
             {% if obUser.can_order %}
-                {% partial 'form/button'
-                text='order_again'|_
-                isGhost=true
-                wrapperClasses='_order_again_button'
+            {% partial 'form/button'
+            text='order_again'|_
+            isGhost=true
+            wrapperClasses='_order_again_button'
             %}
             {% endif %}
         </div>
+        {% endif %}
     </div>
     <div class="_order_details hidden" data-toggle-target="{{ obOrder.order_number }}">
         <div class="hidden lg:grid gap-2 items-start bg-gray-200 lg:grid-cols-[2fr_3fr_1fr_1fr_1fr_1fr_1fr]">
