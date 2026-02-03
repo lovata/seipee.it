@@ -88,18 +88,25 @@ class Plugin extends PluginBase
 
     public function register()
     {
+        //Night sync
         $this->registerConsoleCommand('seipee:sync', SyncAll::class);
         $this->registerConsoleCommand('seipee:sync.properties', SyncProperties::class);
         $this->registerConsoleCommand('seipee:sync.product-properties', SyncProductProperties::class);
         $this->registerConsoleCommand('seipee:sync.products', SyncProduct::class);
         $this->registerConsoleCommand('seipee:sync.customers', SyncCustomers::class);
         $this->registerConsoleCommand('seipee:sync.product-aliases', SyncProductAliases::class);
+
+        //Onetime sync
         $this->registerConsoleCommand('seipee:sync.orders', SyncOrders::class);
-        $this->registerConsoleCommand('seipee:sync.undelivered-orders', SyncUndeliveredOrders::class);
         $this->registerConsoleCommand('seipee:sync.scheduled-orders', SyncScheduledOrders::class);
-        $this->registerConsoleCommand('seipee:sync.undelivered-scheduled-orders', SyncUndeliveredScheduledOrders::class);
         $this->registerConsoleCommand('seipee:sync.shipping-documents', SyncShippingDocuments::class);
+
+        //Scheduled sync
+        $this->registerConsoleCommand('seipee:sync.undelivered-orders', SyncUndeliveredOrders::class);
+        $this->registerConsoleCommand('seipee:sync.undelivered-scheduled-orders', SyncUndeliveredScheduledOrders::class);
         $this->registerConsoleCommand('seipee:sync.undelivered-shipping-documents', SyncUndeliveredShippingDocuments::class);
+
+        //Data actions purposes
         $this->registerConsoleCommand('seipee:show-shipping-document-positions', ShowShippingDocumentPositions::class);
         $this->registerConsoleCommand('seipee:clear-orders', ClearOrders::class);
         $this->registerConsoleCommand('seipee:show-variations', TestProductVariationsGrouped::class);
@@ -118,7 +125,6 @@ class Plugin extends PluginBase
             if ($settings && $settings->is_enabled) {
                 $cronExpression = $settings->getCronExpression();
                 $schedule->command('seipee:sync.undelivered-orders')->cron($cronExpression);
-                // Also sync undelivered scheduled orders from CFP
                 $schedule->command('seipee:sync.undelivered-scheduled-orders')->cron($cronExpression);
                 $schedule->command('seipee:sync.undelivered-shipping-documents')->cron($cronExpression);
             } else {
