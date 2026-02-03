@@ -100,6 +100,7 @@ catalog_categories: 'Categories'
 catalog_categories_show: 'Show all'
 catalog_loading_price: 'Loading price...'
 catalog_new_search: 'New search'
+catalog_no_products: 'No products found'
 catalog_product_brands: 'Product brands'
 catalog_product_categories: 'Product categories'
 catalog_products_also_like: 'You might also like'
@@ -263,6 +264,7 @@ profile_annual_turnover: 'Annual turnover'
 profile_bank_branch: 'Bank branch'
 profile_bank_credentials: 'Bank credentials'
 profile_bank_name: 'Bank name'
+profile_building_number: 'Building number'
 profile_business_sector: 'Business sector'
 profile_carrier_phone_number: 'Carrier phone number'
 profile_city: 'City'
@@ -423,3 +425,6 @@ wishlist_start_shopping: 'Start shopping'
 wishlist_title: 'Wish list' #TODO: Unify headings  translation keys
 
 page_request_quotation: 'Request quotation'
+
+
+text_pickup_points: 'Pickup points'
