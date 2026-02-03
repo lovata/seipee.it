@@ -10,6 +10,7 @@ use Lovata\ApiSynchronization\console\SyncProduct;
 use Lovata\ApiSynchronization\console\SyncProductProperties;
 use Lovata\ApiSynchronization\console\SyncProperties;
 use Lovata\ApiSynchronization\console\SyncProductAliases;
+use Lovata\ApiSynchronization\console\SyncInventory;
 use Lovata\ApiSynchronization\console\SyncOrders;
 use Lovata\ApiSynchronization\console\SyncUndeliveredOrders;
 use Lovata\ApiSynchronization\console\SyncScheduledOrders;
@@ -93,6 +94,7 @@ class Plugin extends PluginBase
         $this->registerConsoleCommand('seipee:sync.properties', SyncProperties::class);
         $this->registerConsoleCommand('seipee:sync.product-properties', SyncProductProperties::class);
         $this->registerConsoleCommand('seipee:sync.products', SyncProduct::class);
+        $this->registerConsoleCommand('seipee:sync.inventory', SyncInventory::class);
         $this->registerConsoleCommand('seipee:sync.customers', SyncCustomers::class);
         $this->registerConsoleCommand('seipee:sync.product-aliases', SyncProductAliases::class);
 

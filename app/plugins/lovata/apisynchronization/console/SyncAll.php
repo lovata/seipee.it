@@ -8,7 +8,7 @@ class SyncAll extends Command
 {
     protected $name = 'seipee:sync';
 
-    protected $description = 'Runs Seipee sync pipeline: properties => products => product-properties (includes variations) => customers => product-aliases => orders.';
+    protected $description = 'Runs Seipee sync pipeline: properties => products => product-properties (includes variations) => customers => product-aliases => inventory.';
 
     public function handle()
     {
@@ -55,6 +55,14 @@ class SyncAll extends Command
         $this->output->write(Artisan::output());
         if ($code !== 0) {
             $this->error('seipee:sync.product-aliases failed with exit code '.$code);
+            return $code;
+        }
+
+        $this->info('Step 6: seipee:sync.inventory');
+        $code = Artisan::call('seipee:sync.inventory', $common);
+        $this->output->write(Artisan::output());
+        if ($code !== 0) {
+            $this->error('seipee:sync.inventory failed with exit code '.$code);
             return $code;
         }
 
