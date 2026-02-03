@@ -70,7 +70,7 @@ class OrderModelHandler
                     return $obOrderList;
                 }
 
-                $arResultIDList = Order::where('seipee_order_id', 'LIKE', '%' . $name . '%')
+                $arResultIDList = Order::where('order_number', 'LIKE', '%' . $name . '%')
                     ->pluck('id')
                     ->toArray();
 
