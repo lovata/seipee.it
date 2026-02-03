@@ -96,3 +96,17 @@ document.addEventListener('DOMContentLoaded', () => {
   const obProductList = new ProductList();
   obProductList.init();
 });
+
+document.addEventListener('product:list.updated', () => {
+  const catalog = document.querySelector('.catalog_wrapper');
+
+  if (!catalog) return;
+
+  const yOffset = -80;
+  const y = catalog.getBoundingClientRect().top + window.pageYOffset + yOffset;
+
+  window.scrollTo({
+    top: y,
+    behavior: 'smooth'
+  });
+});
