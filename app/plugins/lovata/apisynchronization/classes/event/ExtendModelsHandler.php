@@ -122,7 +122,6 @@ class ExtendModelsHandler
                 });
             });
         });
-
         ProductItem::extend(function (ProductItem $product) {
             $product->addDynamicMethod('getCustomVariants', function () use ($product) {
                 $cacheKey = 'product_custom_variants';
