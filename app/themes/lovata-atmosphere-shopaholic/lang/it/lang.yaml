@@ -1,5 +1,7 @@
 # Account
+account_account: 'Profilo'
 account_add_new_user: 'Aggiungi nuovo utente'
+account_cart: 'Carrello'
 account_checkout_guest_heading: 'Continua senza effettuare l''accesso'
 account_checkout_guest_message: 'Per utilizzare un codice promozionale, accedi o :account_create prima.'
 account_checkout_guest: 'Vai al checkout'
@@ -210,7 +212,7 @@ multisite_region_language_change: 'Cambia regione e lingua'
 multisite_settings_change: 'Modifica impostazioni'
 multisite_settings: 'Impostazioni di paese e lingua'
 
-#Order
+# Order
 order_again: 'Ripeti ordine'
 
 # Pagination
@@ -226,6 +228,8 @@ profile_email: 'Email'
 profile_b2b_permission: 'Permesso B2B'
 
 # Product
+product_request_quotation_title: 'Grazie!'
+product_request_quotation_text: 'Il tuo preventivo è stato inviato con successo e ora è in elaborazione.'
 product_accessories: 'Accessori'
 product_add_to_cart: 'Aggiungi al carrello'
 product_aliases: 'Pseudonimi'
@@ -254,7 +258,7 @@ product_tab_documents: 'Documenti'
 product_weight: 'Peso'
 product_width: 'Larghezza'
 
-#Profile
+# Profile
 profile_administration_contact: 'Contatto amministrativo'
 profile_administration_contact_email: 'Email del contatto amministrativo'
 profile_administration_contact_fax: 'Fax del contatto amministrativo'
@@ -298,6 +302,7 @@ profile_vat_number: 'Partita IVA'
 profile_website: 'Sito web'
 
 # Purchase
+purchase_cart: 'Carrello'
 purchase_cart_add_success: 'Prodotto aggiunto al carrello.'
 purchase_cart_empty: 'Il tuo carrello è vuoto.'
 purchase_cart_remove_success: 'Il prodotto è stato rimosso dal carrello.'
@@ -360,9 +365,6 @@ reviews_stars_rating_4: 'Molto buono'
 reviews_stars_rating_5: 'Fantastico'
 reviews_today_at: 'Oggi alle :time'
 reviews_would_recommend: 'Consiglieresti questo prodotto?'
-
-request_quotation_title: 'Grazie!'
-request_quotation_text: 'Il tuo preventivo è stato inviato con successo e ora è in elaborazione.'
 
 # Search
 search_category: 'Categoria'
