@@ -28,64 +28,64 @@ Params:
         <div class="grid grid-cols-2 px-3 py-1 pt-2">
             <span class="text-lg font-medium">{{ 'account_order_number'|_ }}:&nbsp;</span>
             <span class="text-lg lg:text-lg font-medium text-end">
-                    {{ obOrder.order_number }}
-                </span>
+                {{ obOrder.order_number }}
+            </span>
         </div>
 
         <div class="grid grid-cols-[30%_1fr] px-3 py-1">
             <span class="text-sm font-medium ">{{ 'account_order_date'|_ }}&nbsp;</span>
             <span class="text-sm text-end">
-                    {{ obOrder.created_at|date('d/m/Y') }}
-                </span>
+                {{ obOrder.created_at|date('d/m/Y') }}
+            </span>
         </div>
 
         <div class="grid grid-cols-[30%_1fr] px-3 py-1">
             <span class="text-sm font-medium ">{{ 'account_order_rows'|_ }}&nbsp;</span>
             <span class="text-sm text-end">
-                    {{ obOrderPositionList.count() }}
-                </span>
+                {{ obOrderPositionList.count() }}
+            </span>
         </div>
 
         <div class="grid grid-cols-[30%_1fr] px-3 py-1">
             <span class="text-sm font-medium ">{{ 'account_order_delivery_date'|_ }}&nbsp;</span>
             <span class="text-sm text-end">
-                    {{ obOrder.delivery_date|date('d/m/Y') }}
-                </span>
+                {{ obOrder.delivery_date|date('d/m/Y') }}
+            </span>
         </div>
 
         <div class="grid grid-cols-[30%_1fr] px-3 py-1">
             <span class="text-sm font-medium ">{{ 'account_order_payment'|_ }}&nbsp;</span>
             <span class="text-sm text-end">
-                    {{ obOrder.payment_type }}
-                </span>
+                {{ obOrder.payment_type }}
+            </span>
         </div>
 
         <div class="grid grid-cols-[30%_1fr] px-3 py-1">
             <span class="text-sm font-medium ">{{ 'account_order_total_ex_vat'|_ }}&nbsp;</span>
             <span class="text-sm text-end">
-                    {{ orderProps.total_excl_vat ?? '—' }}
-                </span>
+                {{ orderProps.total_excl_vat ?? '—' }}{{ orderProps.total_excl_vat > 0 ? obOrder.currency_symbol : '' }}
+            </span>
         </div>
 
         <div class="grid grid-cols-[30%_1fr] px-3 py-1">
             <span class="text-sm font-medium ">{{ 'account_order_total_with_vat'|_ }}&nbsp;</span>
             <span class="text-sm text-end">
-                    {{ orderProps.total_incl_vat ?? '—' }}
-                </span>
+                {{ orderProps.total_incl_vat ?? '—' }}{{ orderProps.total_incl_vat > 0 ? obOrder.currency_symbol : '' }}
+            </span>
         </div>
 
         <div class="grid grid-cols-[30%_1fr] px-3 py-1">
             <span class="text-sm font-medium ">{{ 'account_order_notes'|_ }}&nbsp;</span>
             <span class="text-sm text-start">
-                    {{ orderProps.notes ?? '<div class="text-end">—</div>' }}
-                </span>
+                {{ orderProps.notes ?? '<div class="text-end">—</div>' }}
+            </span>
         </div>
 
         <div class="grid grid-cols-[30%_1fr] px-3 py-1">
             <span class="text-sm font-medium ">{{ 'account_order_delivered'|_ }}&nbsp;</span>
             <span class="text-sm text-end">
-                    {{ obOrder.is_delivered ? 'Yes' : 'No' }}
-                </span>
+                {{ obOrder.is_delivered ? 'Yes' : 'No' }}
+            </span>
         </div>
 
         <div class="px-3 py-2">
@@ -146,7 +146,7 @@ Params:
                         <div class="grid grid-cols-2 px-3 py-1">
                             <span class="text-sm font-medium">{{ 'account_order_position_total_price'|_ }}:&nbsp;</span>
                             <span class="text-sm text-end">
-                                {{ obProductProps.total_price ?? '—' }}
+                                {{ obProductProps.total_price ?? '—' }}{{ obProductProps.total_price > 0 ? obOrder.currency_symbol : '' }}
                             </span>
                         </div>
                     </div>
