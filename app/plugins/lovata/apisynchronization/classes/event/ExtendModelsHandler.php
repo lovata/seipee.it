@@ -7,6 +7,7 @@ use Lovata\OrdersShopaholic\Models\OrderPosition;
 use Lovata\PropertiesShopaholic\Models\Property;
 use Lovata\PropertiesShopaholic\Models\PropertyValue;
 use Lovata\PropertiesShopaholic\Models\PropertySet;
+use Lovata\Shopaholic\Classes\Item\ProductItem;
 use Lovata\Shopaholic\Models\Product;
 use Lovata\Shopaholic\Models\Offer;
 use Cache;
@@ -101,6 +102,28 @@ class ExtendModelsHandler
 
             // Add getCustomVariants method with caching
             $model->addDynamicMethod('getCustomVariants', function() use ($model) {
+                $cacheKey = 'product_custom_variants';
+
+                return Cache::remember($cacheKey, 129600, function() {
+                    $propertySet = PropertySet::with('product_property.property_value')
+                        ->where('name', 'custom')
+                        ->first();
+
+                    if (!$propertySet || !$propertySet->product_property) {
+                        return collect([]);
+                    }
+
+                    $properties = $propertySet->product_property->map(function ($item) {
+                        $item['variants'] = $item->getPropertyVariants();
+                        return $item;
+                    });
+
+                    return $properties;
+                });
+            });
+        });
+        ProductItem::extend(function (ProductItem $product) {
+            $product->addDynamicMethod('getCustomVariants', function () use ($product) {
                 $cacheKey = 'product_custom_variants';
 
                 return Cache::remember($cacheKey, 129600, function() {
