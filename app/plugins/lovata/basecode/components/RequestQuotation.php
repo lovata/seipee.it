@@ -105,8 +105,6 @@ class RequestQuotation extends \Lovata\Buddies\Components\Buddies
 
         $arMailData['variants'] = implode("; ", $humanReadableVariants);
 
-        \Log::info(print_r($arMailData, true));
-
         $obSendMailHelper = SendMailHelper::instance();
         $obSendMailHelper->send(
             'lovata.basecode::mail.request_quotation',
