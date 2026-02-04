@@ -38,7 +38,7 @@
 }
 
 .tabs:not(.is__responsive) .tabs__content_wrapper {
-  @apply md:flex md:items-start md:justify-between py-5;
+  @apply md:flex md:items-start md:justify-between;
 }
 
 .tabs.style__accordion,

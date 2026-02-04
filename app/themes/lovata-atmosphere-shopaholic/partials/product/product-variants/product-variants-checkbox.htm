@@ -1,6 +1,4 @@
-{% set customGroupId = 4 %}
-{% set obPropertyList = obProduct.property %}
-{% set obGroupPropertyList = obPropertyList.group(customGroupId) %}
+{% set obGroupPropertyList = obProduct.getCustomVariants() %}
 
 {% if obGroupPropertyList.isNotEmpty() %}
 <div class="max-w-4xl mx-auto space-y-4">
@@ -11,17 +9,17 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {% for obProperty in obGroupPropertyList %}
         {% if obProperty.hasValue() %}
-        {% set obPropertyValueList = obProperty.property_value.sort() %}
+        {% set obPropertyValueList = obProperty.variants %}
         {% set options = [] %}
-        {% for obValue in obPropertyValueList %}
-        {% set options = options|merge([{
-        value: obValue.value,
-        label: obValue.label | default(obValue.value)
-        }]) %}
+        {% for key, val in obPropertyValueList %}
+            {% set options = options|merge([{
+                value: key,
+                label: val
+            }]) %}
         {% endfor %}
 
         <div class="border rounded-lg p-4 group">
-            <div class="flex items-center justify-between">
+            <div class="flex items-center">
                 {% partial 'form/input-switcher'
                 wrapperClasses = ''
                 id = 'option_' ~ obProperty.id
