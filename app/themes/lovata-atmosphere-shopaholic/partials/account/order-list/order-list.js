@@ -37,8 +37,11 @@ class OrderList {
 
   sendOrderAgainRequest(buttonNode) {
     const orderItemNode = buttonNode.closest('._order_item');
-    const orderPositionNodes = orderItemNode ? orderItemNode.querySelectorAll('._order_position_list li') : [];
+    const orderPositionNodes = orderItemNode
+      ? orderItemNode.querySelectorAll('._order_details > ._order_position_list > ._order_position_list')
+      : [];
     if (!orderPositionNodes || orderPositionNodes.length === 0) {
+      console.log('return');
       return;
     }
 
