@@ -251,3 +251,7 @@ html, body {
 .fr-view img.fr-dii.fr-fir {
   @apply pl-5
 }
+
+._custom-checkbox input {
+  margin-top: 5px;
+}
