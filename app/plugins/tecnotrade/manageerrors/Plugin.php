@@ -41,6 +41,8 @@ class Plugin extends PluginBase
      * boot method, called right before the request route.
      */
     public function boot() {
+        return;
+
         App::error(function (Exception $exception) {
             // Se l'errore proviene dal backend, lo lasciamo gestire a October CMS
             if (BackendAuth::check()) {
