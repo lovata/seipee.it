@@ -14,162 +14,150 @@ Params:
 {% endif %}
 
 {% set arOrderList = obOrderList.page(iPage, Pagination.getCountPerPage()) %}
-{% set gridCols = bRepeatOrder
-? 'lg:grid-cols-[1fr_1fr_1fr_1fr_1fr_1fr_1fr_1fr_1fr_minmax(160px,200px)]'
-: 'lg:grid-cols-[1fr_1fr_1fr_1fr_1fr_1fr_1fr_1fr_1fr]'
-%}
+
 {% for obOrder in arOrderList %}
 {% set obTotalPriceData = obOrder.total_price_data %}
 {% set obOrderPositionList = obOrder.order_position %}
 {% set orderProps = obOrder.property %}
-<li class="bg-white border-y border-outline-variant lg:border-y-0 lg:border-none _order_item">
-    <div class="lg:grid lg:grid-flow-col {{gridCols}}">
-        <div class="grid grid-cols-2 lg:px-3 lg:py-2 lg:block">
-            <span class="text-sm font-medium lg:hidden">{{ 'account_order_number'|_ }}:&nbsp;</span>
-            <span class="text-sm font-medium text-end lg:text-start lg:font-normal lg:text-base">
+<li class="_order_item">
+    <div class="bg-white border-t border-x border-outline-variant rounded-ss-md rounded-se-md overflow-hidden">
+        <div class="grid grid-cols-2 px-3 py-1 pt-2">
+            <span class="text-lg font-medium">{{ 'account_order_number'|_ }}:&nbsp;</span>
+            <span class="text-lg lg:text-lg font-medium text-end">
                     {{ obOrder.order_number }}
                 </span>
         </div>
 
-        <div class="grid grid-cols-2 px-3 py-2 lg:block">
-            <span class="text-sm lg:hidden">{{ 'account_order_date'|_ }}&nbsp;</span>
-            <span class="text-sm text-end lg:text-start lg:text-base">
+        <div class="grid grid-cols-[30%_1fr] px-3 py-1">
+            <span class="text-sm font-medium ">{{ 'account_order_date'|_ }}&nbsp;</span>
+            <span class="text-sm text-end">
                     {{ obOrder.created_at|date('d/m/Y') }}
                 </span>
         </div>
 
-        <div class="grid grid-cols-2 px-3 py-2 lg:block">
-            <span class="text-sm lg:hidden">{{ 'account_order_rows'|_ }}&nbsp;</span>
-            <span class="text-sm text-end lg:text-start lg:text-base">
+        <div class="grid grid-cols-[30%_1fr] px-3 py-1">
+            <span class="text-sm font-medium ">{{ 'account_order_rows'|_ }}&nbsp;</span>
+            <span class="text-sm text-end">
                     {{ obOrderPositionList.count() }}
                 </span>
         </div>
 
-        <div class="grid grid-cols-2 px-3 py-2 lg:block">
-            <span class="text-sm lg:hidden">{{ 'account_order_delivery_date'|_ }}&nbsp;</span>
-            <span class="text-sm text-end lg:text-start lg:text-base">
+        <div class="grid grid-cols-[30%_1fr] px-3 py-1">
+            <span class="text-sm font-medium ">{{ 'account_order_delivery_date'|_ }}&nbsp;</span>
+            <span class="text-sm text-end">
                     {{ obOrder.delivery_date|date('d/m/Y') }}
                 </span>
         </div>
 
-        <div class="grid grid-cols-2 px-3 py-2 lg:block">
-            <span class="text-sm lg:hidden">{{ 'account_order_payment'|_ }}&nbsp;</span>
-            <span class="text-sm text-end lg:text-start lg:text-base">
+        <div class="grid grid-cols-[30%_1fr] px-3 py-1">
+            <span class="text-sm font-medium ">{{ 'account_order_payment'|_ }}&nbsp;</span>
+            <span class="text-sm text-end">
                     {{ obOrder.payment_type }}
                 </span>
         </div>
 
-        <div class="grid grid-cols-2 px-3 py-2 lg:block">
-            <span class="text-sm lg:hidden">{{ 'account_order_total_ex_vat'|_ }}&nbsp;</span>
-            <span class="text-sm text-end lg:text-start lg:text-base">
+        <div class="grid grid-cols-[30%_1fr] px-3 py-1">
+            <span class="text-sm font-medium ">{{ 'account_order_total_ex_vat'|_ }}&nbsp;</span>
+            <span class="text-sm text-end">
                     {{ orderProps.total_excl_vat ?? '—' }}
                 </span>
         </div>
 
-        <div class="grid grid-cols-2 px-3 py-2 lg:block">
-            <span class="text-sm lg:hidden">{{ 'account_order_total_with_vat'|_ }}&nbsp;</span>
-            <span class="text-sm text-end lg:text-start lg:text-base">
+        <div class="grid grid-cols-[30%_1fr] px-3 py-1">
+            <span class="text-sm font-medium ">{{ 'account_order_total_with_vat'|_ }}&nbsp;</span>
+            <span class="text-sm text-end">
                     {{ orderProps.total_incl_vat ?? '—' }}
                 </span>
         </div>
 
-        <div class="grid grid-cols-2 px-3 py-2 lg:block">
-            <span class="text-sm lg:hidden">{{ 'account_order_notes'|_ }}&nbsp;</span>
-            <span class="text-sm text-end lg:text-start lg:text-base">
-                    {{ orderProps.notes ?? '—' }}
+        <div class="grid grid-cols-[30%_1fr] px-3 py-1">
+            <span class="text-sm font-medium ">{{ 'account_order_notes'|_ }}&nbsp;</span>
+            <span class="text-sm text-start">
+                    {{ orderProps.notes ?? '<div class="text-end">—</div>' }}
                 </span>
         </div>
 
-        <div class="grid grid-cols-2 px-3 py-2 lg:block">
-            <span class="text-sm lg:hidden">{{ 'account_order_delivered'|_ }}&nbsp;</span>
-            <span class="text-sm text-end lg:text-start lg:text-base">
+        <div class="grid grid-cols-[30%_1fr] px-3 py-1">
+            <span class="text-sm font-medium ">{{ 'account_order_delivered'|_ }}&nbsp;</span>
+            <span class="text-sm text-end">
                     {{ obOrder.is_delivered ? 'Yes' : 'No' }}
                 </span>
         </div>
 
-        <div class="grid grid-cols-2 px-3 py-2 lg:block">
-            <span class="text-sm lg:hidden">{{ 'account_order_see_more'|_ }}&nbsp;</span>
-            <span class="text-sm text-end lg:text-start lg:text-base">
+        <div class="px-3 py-2">
+            <span class="text-m font-medium">{{ 'account_order_see_more'|_ }}&nbsp;</span>
+            <span class="text-m font-medium text-end">
                 <button type="button" class="_toggle_button" data-toggle-id="{{ obOrder.order_number }}"><i class="bi bi-chevron-down _toggle_icon"></i></button>
             </span>
         </div>
-
-        {# Actions #}
-        {% if bRepeatOrder %}
-        <div class="grid grid-cols-2 lg:py-2 lg:px-3 lg:block">
-            {% if obUser.can_order %}
-            {% partial 'form/button'
-            text='order_again'|_
-            isGhost=true
-            wrapperClasses='_order_again_button'
-            %}
-            {% endif %}
+    </div>
+    <div class="bg-gray-50 border border-outline-variant py-2 hidden _order_details" data-toggle-target="{{ obOrder.order_number }}">
+        <div class="_order_position_list">
+            {% for obOrderPosition in obOrderPositionList %}
+                {% set obOffer = obOrderPosition.offer %}
+                {% set obProduct = obOffer.product %}
+                {% set obProductProps = obOrderPosition.property %}
+                {% if obOffer.isNotEmpty() and obProduct.isNotEmpty() %}
+                    <div class="grid grid-cols-1 gap-2 _order_position_list" data-offer-id="{{ obOffer.id }}" data-quantity="{{ obOrderPosition.quantity }}">
+                        <div class="grid grid-cols-2 px-3 py-1">
+                            <span class="text-sm font-medium">{{ 'account_order_position_code'|_ }}:&nbsp;</span>
+                            <span class="text-sm text-end">
+                                {{ obProduct.code }}
+                            </span>
+                        </div>
+                        <div class="grid grid-cols-2 px-3 py-1">
+                            <span class="text-sm font-medium">{{ 'account_order_position_name'|_ }}:&nbsp;</span>
+                            <span class="text-sm text-end">
+                                {{ obProduct.name }}
+                            </span>
+                        </div>
+                        <div class="grid grid-cols-2 px-3 py-1">
+                            <span class="text-sm font-medium">{{ 'account_order_position_um'|_ }}:&nbsp;</span>
+                            <span class="text-sm text-end">
+                                {{ obProductProps.unit_of_measure ?? '—' }}
+                            </span>
+                        </div>
+                        <div class="grid grid-cols-2 px-3 py-1">
+                            <span class="text-sm font-medium">{{ 'account_order_position_quantity'|_ }}:&nbsp;</span>
+                            <span class="text-sm text-end">
+                                {{ obOrderPosition.quantity }}
+                            </span>
+                        </div>
+                        <div class="grid grid-cols-2 px-3 py-1">
+                            <span class="text-sm font-medium">{{ 'account_order_position_quantity_delivered'|_ }}:&nbsp;</span>
+                            <span class="text-sm text-end">
+                                {{ obProductProps.deliverable_qty ?? '—' }}
+                            </span>
+                        </div>
+                        <div class="grid grid-cols-2 px-3 py-1">
+                            <span class="text-sm font-medium">{{ 'account_order_position_unit_price'|_ }}:&nbsp;</span>
+                            <span class="text-sm text-end">
+                                {{ obOrderPosition.price }}
+                            </span>
+                        </div>
+                        <div class="grid grid-cols-2 px-3 py-1">
+                            <span class="text-sm font-medium">{{ 'account_order_position_total_price'|_ }}:&nbsp;</span>
+                            <span class="text-sm text-end">
+                                {{ obProductProps.total_price ?? '—' }}
+                            </span>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
         </div>
+    </div>
+
+    {# Actions #}
+    {% if bRepeatOrder %}
+    <div class="bg-white border-b border-x border-outline-variant rounded-es-md rounded-ee-md overflow-hidden grid grid-cols-2 py-3 px-3">
+        {% if obUser.can_order %}
+        {% partial 'form/button'
+        text='order_again'|_
+        isGhost=true
+        wrapperClasses='_order_again_button'
+        %}
         {% endif %}
     </div>
-    <div class="_order_details hidden" data-toggle-target="{{ obOrder.order_number }}">
-        <div class="hidden lg:grid gap-2 items-start bg-gray-200 lg:grid-cols-[2fr_3fr_1fr_1fr_1fr_1fr_1fr]">
-                <div class="py-2 px-3 text-base font-medium">{{ 'account_order_position_code'|_ }}</div>
-                <div class="py-2 px-3 text-base font-medium">{{ 'account_order_position_name'|_ }}</div>
-                <div class="py-2 px-3 text-base font-medium">{{ 'account_order_position_um'|_ }}</div>
-                <div class="py-2 px-3 text-base font-medium">{{ 'account_order_position_quantity'|_ }}</div>
-                <div class="py-2 px-3 text-base font-medium">{{ 'account_order_position_quantity_delivered'|_ }}</div>
-                <div class="py-2 px-3 text-base font-medium">{{ 'account_order_position_unit_price'|_ }}</div>
-                <div class="py-2 px-3 text-base font-medium">{{ 'account_order_position_total_price'|_ }}</div>
-            </div>
-            <div class="_order_position_list">
-                {% for obOrderPosition in obOrderPositionList %}
-                    {% set obOffer = obOrderPosition.offer %}
-                    {% set obProduct = obOffer.product %}
-                    {% set obProductProps = obOrderPosition.property %}
-                    {% if obOffer.isNotEmpty() and obProduct.isNotEmpty() %}
-                        <div class="_order_position_list grid grid-cols-1 gap-2 lg:grid-cols-[2fr_3fr_1fr_1fr_1fr_1fr_1fr] lg:items-start" data-offer-id="{{ obOffer.id }}" data-quantity="{{ obOrderPosition.quantity }}">
-                            <div class="grid grid-cols-2 lg:px-3 lg:py-2 lg:block">
-                                <span class="text-sm font-medium lg:hidden">{{ 'account_order_position_code'|_ }}:&nbsp;</span>
-                                <span class="text-sm font-medium text-end lg:text-start lg:font-normal lg:text-base">
-                                    {{ obProduct.code }}
-                                </span>
-                            </div>
-                            <div class="grid grid-cols-2 lg:px-3 lg:py-2 lg:block">
-                                <span class="text-sm font-medium lg:hidden">{{ 'account_order_position_name'|_ }}:&nbsp;</span>
-                                <span class="text-sm font-medium text-end lg:text-start lg:font-normal lg:text-base">
-                                    {{ obProduct.name }}
-                                </span>
-                            </div>
-                            <div class="grid grid-cols-2 lg:px-3 lg:py-2 lg:block">
-                                <span class="text-sm font-medium lg:hidden">{{ 'account_order_position_um'|_ }}:&nbsp;</span>
-                                <span class="text-sm font-medium text-end lg:text-start lg:font-normal lg:text-base">
-                                    {{ obProductProps.unit_of_measure ?? '—' }}
-                                </span>
-                            </div>
-                            <div class="grid grid-cols-2 lg:px-3 lg:py-2 lg:block">
-                                <span class="text-sm font-medium lg:hidden">{{ 'account_order_position_quantity'|_ }}:&nbsp;</span>
-                                <span class="text-sm font-medium text-end lg:text-start lg:font-normal lg:text-base">
-                                    {{ obOrderPosition.quantity }}
-                                </span>
-                            </div>
-                            <div class="grid grid-cols-2 lg:px-3 lg:py-2 lg:block">
-                                <span class="text-sm font-medium lg:hidden">{{ 'account_order_position_quantity_delivered'|_ }}:&nbsp;</span>
-                                <span class="text-sm font-medium text-end lg:text-start lg:font-normal lg:text-base">
-                                    {{ obProductProps.deliverable_qty ?? '—' }}
-                                </span>
-                            </div>
-                            <div class="grid grid-cols-2 lg:px-3 lg:py-2 lg:block">
-                                <span class="text-sm font-medium lg:hidden">{{ 'account_order_position_unit_price'|_ }}:&nbsp;</span>
-                                <span class="text-sm font-medium text-end lg:text-start lg:font-normal lg:text-base">
-                                    {{ obOrderPosition.price }}
-                                </span>
-                            </div>
-                            <div class="grid grid-cols-2 lg:px-3 lg:py-2 lg:block">
-                                <span class="text-sm font-medium lg:hidden">{{ 'account_order_position_total_price'|_ }}:&nbsp;</span>
-                                <span class="text-sm font-medium text-end lg:text-start lg:font-normal lg:text-base">
-                                    {{ obProductProps.total_price ?? '—' }}
-                                </span>
-                            </div>
-                        </div>
-                    {% endif %}
-                {% endfor %}
-            </div>
-        </div>
+    {% endif %}
 </li>
 {% endfor %}
