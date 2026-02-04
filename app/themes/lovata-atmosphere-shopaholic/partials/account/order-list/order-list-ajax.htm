@@ -20,7 +20,11 @@ Params:
 {% set obOrderPositionList = obOrder.order_position %}
 {% set orderProps = obOrder.property %}
 <li class="_order_item">
-    <div class="bg-white border-t border-x border-outline-variant rounded-ss-md rounded-se-md overflow-hidden">
+    <div class="bg-white border-t border-x border-outline-variant rounded-ss-md rounded-se-md overflow-hidden
+    {% if not bRepeatOrder %}
+        [&:has(+_.hidden)]:border-b [&:has(+_.hidden)]:rounded-es-md [&:has(+_.hidden)]:rounded-ee-md
+    {% endif %}
+    ">
         <div class="grid grid-cols-2 px-3 py-1 pt-2">
             <span class="text-lg font-medium">{{ 'account_order_number'|_ }}:&nbsp;</span>
             <span class="text-lg lg:text-lg font-medium text-end">
@@ -91,7 +95,11 @@ Params:
             </span>
         </div>
     </div>
-    <div class="bg-gray-50 border border-outline-variant py-2 hidden _order_details" data-toggle-target="{{ obOrder.order_number }}">
+    <div class="bg-gray-50 border border-outline-variant py-2 hidden _order_details
+    {% if not bRepeatOrder %}
+        rounded-es-md rounded-ee-md
+    {% endif %}
+    " data-toggle-target="{{ obOrder.order_number }}">
         <div class="_order_position_list">
             {% for obOrderPosition in obOrderPositionList %}
                 {% set obOffer = obOrderPosition.offer %}
