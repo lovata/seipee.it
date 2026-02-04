@@ -249,7 +249,7 @@ product_price: 'Price'
 product_quantity_available: "Available"
 product_quantity_decrease: 'Decrease quantity'
 product_quantity_increase: 'Increase quantity'
-product_quantity_upon_request: "Upon_request"
+product_quantity_upon_request: "Upon request"
 product_request_quotation_text: 'Your quotation has been successfully submitted and is now being processed.'
 product_request_quotation_title: 'Thank you!'
 product_sorting_high_to_low: 'Price: High to Low'
