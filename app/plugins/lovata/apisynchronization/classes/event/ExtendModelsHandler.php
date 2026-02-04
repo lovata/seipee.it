@@ -6,8 +6,10 @@ use Lovata\OrdersShopaholic\Models\Order;
 use Lovata\OrdersShopaholic\Models\OrderPosition;
 use Lovata\PropertiesShopaholic\Models\Property;
 use Lovata\PropertiesShopaholic\Models\PropertyValue;
+use Lovata\PropertiesShopaholic\Models\PropertySet;
 use Lovata\Shopaholic\Models\Product;
 use Lovata\Shopaholic\Models\Offer;
+use Cache;
 
 /**
  * Class ExtendModelsHandler
@@ -24,13 +26,14 @@ class ExtendModelsHandler
     public function subscribe()
     {
         $this->extendProductModel();
+        $this->extendPropertyModel();
         $this->extendOfferModel();
         $this->extendOrderModel();
         $this->extendOrderPositionModel();
     }
 
     /**
-     * Extend Product model with product_aliases relation and getGroupedVariations method
+     * Extend Product model with product_aliases relation, getGroupedVariations and getCustomVariants methods
      */
     protected function extendProductModel()
     {
@@ -94,6 +97,42 @@ class ExtendModelsHandler
                 }
 
                 return array_values($result);
+            });
+
+            // Add getCustomVariants method with caching
+            $model->addDynamicMethod('getCustomVariants', function() use ($model) {
+                $cacheKey = 'product_custom_variants';
+
+                return Cache::remember($cacheKey, 129600, function() {
+                    $propertySet = PropertySet::with('product_property.property_value')
+                        ->where('name', 'custom')
+                        ->first();
+
+                    if (!$propertySet || !$propertySet->product_property) {
+                        return collect([]);
+                    }
+
+                    $properties = $propertySet->product_property->map(function ($item) {
+                        $item['variants'] = $item->getPropertyVariants();
+                        return $item;
+                    });
+
+                    return $properties;
+                });
+            });
+        });
+    }
+
+    /**
+     * Extend Property model with hasValue method
+     */
+    protected function extendPropertyModel()
+    {
+        Property::extend(function($model) {
+            // Add hasValue method to check if property has values
+            $model->addDynamicMethod('hasValue', function() use ($model) {
+                $obPropertyValues = $model->property_value;
+                return !empty($obPropertyValues) && $obPropertyValues->isNotEmpty();
             });
         });
     }

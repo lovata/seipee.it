@@ -242,6 +242,8 @@ class PropertiesSyncService
 
         self::addPropertiesToSet('custom', array_unique($propertyIds));
 
+        $this->rebuildCustomVariantsCache();
+
         return compact('linked', 'skipped');
     }
 
@@ -292,5 +294,27 @@ class PropertiesSyncService
             $propertySet->save();
         }
         $propertySet->product_property()->syncWithoutDetaching($propertyIds);
+    }
+
+    /**
+     * Rebuild cache for custom variants
+     * Clears cache and rebuilds it by calling getCustomVariants
+     */
+    protected function rebuildCustomVariantsCache(): void
+    {
+        $this->clearCustomVariantsCache();
+
+        $product = Product::first();
+        if ($product) {
+            $product->getCustomVariants();
+        }
+    }
+
+    /**
+     * Clear custom variants cache
+     */
+    protected function clearCustomVariantsCache(): void
+    {
+        \Cache::forget('product_custom_variants');
     }
 }
