@@ -83,8 +83,11 @@ Params:
 
         <div class="grid grid-cols-[30%_1fr] px-3 py-1">
             <span class="text-sm font-medium ">{{ 'account_order_delivered'|_ }}&nbsp;</span>
-            <span class="text-sm text-end">
-                {{ obOrder.is_delivered ? 'Yes' : 'No' }}
+            <span class="flex justify-end items-center">
+                {{ obOrder.is_delivered ?
+                    '<span class="inline-block w-3 h-3 rounded-full bg-green-500"></span>'
+                    : '<span class="inline-block w-3 h-3 rounded-full bg-red-500"></span>'
+                }}
             </span>
         </div>
 
