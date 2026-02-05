@@ -27,3 +27,6 @@
 1.6.3:
     - Add warehouse_internal and warehouse_external fields to offers table
     - add_warehouse_fields_to_offers.php
+1.6.4:
+    - Add customer Seipee fields to lovata_buddies_users table (erp_user_code, external_id, alternate_destination_code, payment, shipping)
+    - add_customer_fields_to_users.php
