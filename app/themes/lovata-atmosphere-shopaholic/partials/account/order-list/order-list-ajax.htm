@@ -63,14 +63,14 @@ Params:
         <div class="grid grid-cols-[30%_1fr] px-3 py-1">
             <span class="text-sm font-medium ">{{ 'account_order_total_ex_vat'|_ }}&nbsp;</span>
             <span class="text-sm text-end">
-                {{ orderProps.total_excl_vat ?? '—' }} €
+                {{ orderProps.total_excl_vat ?? '—' }}{{ orderProps.total_excl_vat > 0 ? obOrder.currency_symbol : '' }}
             </span>
         </div>
 
         <div class="grid grid-cols-[30%_1fr] px-3 py-1">
             <span class="text-sm font-medium ">{{ 'account_order_total_with_vat'|_ }}&nbsp;</span>
             <span class="text-sm text-end">
-                {{ orderProps.total_incl_vat ?? '—' }} €
+                {{ orderProps.total_incl_vat ?? '—' }}{{ orderProps.total_incl_vat > 0 ? obOrder.currency_symbol : '' }}
             </span>
         </div>
 
@@ -149,7 +149,7 @@ Params:
                         <div class="grid grid-cols-2 px-3 py-1">
                             <span class="text-sm font-medium">{{ 'account_order_position_total_price'|_ }}:&nbsp;</span>
                             <span class="text-sm text-end">
-                                {{ obProductProps.total_price ?? '—' }} €
+                                {{ obProductProps.total_price ?? '—' }}{{ obProductProps.total_price > 0 ? obOrder.currency_symbol : '' }}
                             </span>
                         </div>
                     </div>
