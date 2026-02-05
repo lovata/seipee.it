@@ -1,7 +1,9 @@
 <?php namespace Lovata\ApiSynchronization\Classes\Event;
 
 use Lovata\ApiSynchronization\Models\ProductAlias;
+use Lovata\ApiSynchronization\Models\ShippingDocument;
 use Lovata\ApiSynchronization\Models\ShippingDocumentPosition;
+use Lovata\Buddies\Models\User;
 use Lovata\OrdersShopaholic\Models\Order;
 use Lovata\OrdersShopaholic\Models\OrderPosition;
 use Lovata\PropertiesShopaholic\Models\Property;
@@ -29,6 +31,7 @@ class ExtendModelsHandler
         $this->extendProductModel();
         $this->extendPropertyModel();
         $this->extendOfferModel();
+        $this->extendUserModel();
         $this->extendOrderModel();
         $this->extendOrderPositionModel();
     }
@@ -188,20 +191,66 @@ class ExtendModelsHandler
     }
 
     /**
-     * Extend Order model with is_scheduled field for Seipee API Sync
+     * Extend User model with Seipee-specific fields and relations
+     */
+    protected function extendUserModel()
+    {
+        User::extend(function($model) {
+            // Add Seipee-specific fields to fillable
+            $model->addFillable([
+                'erp_user_code',
+                'external_id',
+                'alternate_destination_code',
+                'payment',
+                'shipping',
+            ]);
+
+            // Add Seipee-specific fields to cached
+            if (property_exists($model, 'cached') && is_array($model->cached)) {
+                $model->cached[] = 'erp_user_code';
+                $model->cached[] = 'external_id';
+            }
+
+            // Add product_aliases relation
+            $model->hasMany['product_aliases'] = [ProductAlias::class];
+        });
+    }
+
+    /**
+     * Extend Order model with Seipee-specific fields and relations
      */
     protected function extendOrderModel()
     {
         Order::extend(function($model) {
-            // Add is_scheduled field to fillable
+            // Add Seipee-specific fields to fillable
             $model->addFillable([
                 'is_scheduled',
+                'seipee_order_id',
+                'payment_type',
+                'delivery_date',
+                'is_delivered',
+                'items_count',
             ]);
 
-            // Add is_scheduled field to cached
+            // Add Seipee-specific fields to cached
             if (property_exists($model, 'cached') && is_array($model->cached)) {
                 $model->cached[] = 'is_scheduled';
+                $model->cached[] = 'seipee_order_id';
+                $model->cached[] = 'payment_type';
+                $model->cached[] = 'delivery_date';
+                $model->cached[] = 'is_delivered';
+                $model->cached[] = 'items_count';
             }
+
+            // Add delivery_date to dates array
+            if (property_exists($model, 'dates') && is_array($model->dates)) {
+                $model->dates[] = 'delivery_date';
+            }
+
+            // Add shipping_documents relation
+            $model->addDynamicMethod('shipping_documents', function() use ($model) {
+                return ShippingDocument::where('seipee_order_id', $model->seipee_order_id)->get();
+            });
         });
     }
 

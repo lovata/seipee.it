@@ -54,8 +54,6 @@ use Lovata\OrdersShopaholic\Classes\PromoMechanism\OrderPromoMechanismProcessor;
  * @property \Carbon\Carbon                                                              $delivery_date
  * @property bool                                                                        $is_delivered
  * @property int                                                                         $items_count
- *
- * Seipee API Sync - Extended via Lovata\ApiSynchronization\Classes\Event\ExtendModelsHandler
  * @property bool                                                                        $is_scheduled
  *
  * @property string|null                                                                 $api_notes
@@ -139,7 +137,7 @@ class Order extends Model
     ];
 
     public $jsonable = ['property'];
-    public $dates = ['created_at', 'updated_at', 'delivery_date'];
+    public $dates = ['created_at', 'updated_at'];
     public $encryptable = ['payment_data', 'payment_response'];
     public $hidden = ['payment_data', 'payment_response'];
 
@@ -155,11 +153,6 @@ class Order extends Model
         'manager_id',
         'payment_data',
         'site_id',
-        'seipee_order_id',
-        'payment_type',
-        'delivery_date',
-        'is_delivered',
-        'items_count',
     ];
 
     public $cached = [
@@ -175,11 +168,6 @@ class Order extends Model
         'property',
         'created_at',
         'updated_at',
-        'seipee_order_id',
-        'payment_type',
-        'delivery_date',
-        'is_delivered',
-        'items_count',
     ];
 
     public $hasMany = [

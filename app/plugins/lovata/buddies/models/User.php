@@ -66,6 +66,13 @@ use Lovata\Toolbox\Traits\Models\SetPropertyAttributeTrait;
  * Product Aliases (Seipee API Sync)
  * @property \Lovata\ApiSynchronization\Models\ProductAlias[]|\October\Rain\Database\Collection                                        $product_aliases
  * @method static \October\Rain\Database\Relations\HasMany|\Lovata\ApiSynchronization\Models\ProductAlias product_aliases()
+ *
+ * Seipee API Sync - Extended via Lovata\ApiSynchronization\Classes\Event\ExtendModelsHandler
+ * @property string                                                                                                                    $erp_user_code
+ * @property string                                                                                                                    $external_id
+ * @property string                                                                                                                    $alternate_destination_code
+ * @property string                                                                                                                    $payment
+ * @property string                                                                                                                    $shipping
  */
 class User extends UserModel
 {
@@ -104,11 +111,6 @@ class User extends UserModel
         'phone',
         'phone_list',
         'avatar',
-        'erp_user_code',
-        'external_id',
-        'alternate_destination_code',
-        'payment',
-        'shipping',
         'property',
     ];
 
@@ -121,8 +123,6 @@ class User extends UserModel
         'phone',
         'phone_list',
         'avatar',
-        'erp_user_code',
-        'external_id',
         'property',
     ];
 
@@ -139,7 +139,6 @@ class User extends UserModel
 
     public $hasMany = [
         'socialite_token' => [SocialiteToken::class],
-        'product_aliases' => [ProductAlias::class],
     ];
 
     /**
