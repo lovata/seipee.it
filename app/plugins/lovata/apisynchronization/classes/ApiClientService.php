@@ -18,7 +18,6 @@ class ApiClientService
     public function __construct()
     {
         $baseUrl = config('api.base_url');
-        \Log::info($baseUrl);
 
         $this->baseUrl = $baseUrl ? rtrim($baseUrl, '/') : '';
         $this->http = new Client([
