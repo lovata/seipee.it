@@ -4,19 +4,27 @@ Params:
 - obOffer
 - id
 #}
-<div>
-    <div class="inline-block w-3 h-3 rounded-full
+<div class="flex items-center gap-2">
+    <div
+        class="inline-block w-3 h-3 rounded-full
         {% if fQuantityValue is empty %}
             bg-gray-400
         {% elseif fQuantityValue > obOffer.quantity %}
             bg-orange-500
-        {% elseif obOffer.quantity >= fQuantityValue %}
+        {% else %}
             bg-green-500
+        {% endif %}"
+        {% if id is defined %}
+        id="{{ id }}"
+        data-quantity="{{ obOffer.quantity ?? 0 }}"
         {% endif %}
-    "
-     {% if id is defined %}
-         id="{{ id }}"
-         data-quantity="{{ obOffer.quantity ?? 0 }}"
-     {% endif %}
     ></div>
+
+    {% if fQuantityValue is not empty %}
+        {% if fQuantityValue > obOffer.quantity %}
+            <span class="text-orange-500 -mt-0.5">{{ 'product_quantity_upon_request'|_ }}</span>
+        {% else %}
+            <span class="text-green-500 -mt-0.5">{{ 'product_quantity_available'|_ }}</span>
+        {% endif %}
+    {% endif %}
 </div>

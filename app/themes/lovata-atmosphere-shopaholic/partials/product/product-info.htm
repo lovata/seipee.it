@@ -18,6 +18,33 @@ Params:
         {{ SeoToolbox.getPageTitle(obSeoModel, arSEOParams)|default(obProduct.name) }}
     </h1>
     <span class="text-gray-900 text-sm md:text-base">{{'product_code'|_}}: {{ obProduct.code }}</span>
+    <div class="mt-2 flex flex-wrap gap-2">
+                <span class="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-700 border">
+                    PROTEZIONE: PROTEZIONE IP65
+                </span>
+        <span class="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-700 border">
+                    VENTILAZIONI: VENTILAZIONE "IC416" 3ph V.400 50HZ PROTEZIONE IP65
+                </span>
+        <span class="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-700 border">
+                    VERNICIATURA: VERNICIATURA  CICLO   C4H
+                </span>
+        <span class="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-700 border">
+                    VERNICIATURA: !!!Abbinare la Var40130!!! = VERNICE BLEU  RAL  5010
+                </span>
+        <span class="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-700 border">
+                    CUSCINETTI: CUSCINETTO ANTERIORE ISOLATO 4/6/8P
+                </span>
+        <span class="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-700 border">
+                    FRENI ALTERNATA: TA-FRENO IN C.A. V.230-400-50+LEVA DI SBLOCCO
+                </span>
+        <span class="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-700 border">
+                    FRENI ALTERNATA: FRENO PROTEZIONE IP65
+                </span>
+        <span class="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-700 border">
+                    FRENI ALTERNATA: TA-TC GUAINA PROTEZIONE FRENO
+                </span>
+    </div>
+    {% partial 'product/product-native-variants' %}
 {#    <div class="_evaluation flex flex-wrap flex-row mt-4 md:mt-3 text-gray-600 text-sm md:text-base md:items-center">#}
 {#        <div class="flex me-3 md:me-4">#}
 {#            <div aria-hidden="true" class="flex flex-row items-center space-x-1 rtl:space-x-reverse me-4 mb-2 md:mb-0">#}
