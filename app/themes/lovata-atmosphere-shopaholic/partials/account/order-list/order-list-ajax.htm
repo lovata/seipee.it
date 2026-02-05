@@ -1,3 +1,5 @@
+[CurrencyList]
+==
 {#
 Params:
 - obOrderList
@@ -19,6 +21,7 @@ Params:
 {% set obTotalPriceData = obOrder.total_price_data %}
 {% set obOrderPositionList = obOrder.order_position %}
 {% set orderProps = obOrder.property %}
+{% set currencySymbol = obOrder.currency_symbol is not empty ? obOrder.currency_symbol : CurrencyList.make().active().first().symbol %}
 <li class="_order_item">
     <div class="bg-white border-t border-x border-outline-variant rounded-ss-md rounded-se-md overflow-hidden
     {% if not bRepeatOrder %}
@@ -63,14 +66,14 @@ Params:
         <div class="grid grid-cols-[30%_1fr] px-3 py-1">
             <span class="text-sm font-medium ">{{ 'account_order_total_ex_vat'|_ }}&nbsp;</span>
             <span class="text-sm text-end">
-                {{ orderProps.total_excl_vat ?? '—' }}{{ orderProps.total_excl_vat > 0 ? obOrder.currency_symbol : '' }}
+                {{ orderProps.total_excl_vat ?? '—' }}{{ orderProps.total_excl_vat > 0 ? currencySymbol : '' }}
             </span>
         </div>
 
         <div class="grid grid-cols-[30%_1fr] px-3 py-1">
             <span class="text-sm font-medium ">{{ 'account_order_total_with_vat'|_ }}&nbsp;</span>
             <span class="text-sm text-end">
-                {{ orderProps.total_incl_vat ?? '—' }}{{ orderProps.total_incl_vat > 0 ? obOrder.currency_symbol : '' }}
+                {{ orderProps.total_incl_vat ?? '—' }}{{ orderProps.total_incl_vat > 0 ? currencySymbol : '' }}
             </span>
         </div>
 
@@ -149,7 +152,7 @@ Params:
                         <div class="grid grid-cols-2 px-3 py-1">
                             <span class="text-sm font-medium">{{ 'account_order_position_total_price'|_ }}:&nbsp;</span>
                             <span class="text-sm text-end">
-                                {{ obProductProps.total_price ?? '—' }}{{ obProductProps.total_price > 0 ? obOrder.currency_symbol : '' }}
+                                {{ obProductProps.total_price ?? '—' }}{{ obProductProps.total_price > 0 ? currencySymbol : '' }}
                             </span>
                         </div>
                     </div>

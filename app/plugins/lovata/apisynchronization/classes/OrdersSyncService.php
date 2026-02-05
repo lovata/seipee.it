@@ -6,6 +6,7 @@ use Log;
 use Lovata\OrdersShopaholic\Models\Order;
 use Lovata\OrdersShopaholic\Models\OrderPosition;
 use Lovata\OrdersShopaholic\Models\Status;
+use Lovata\Shopaholic\Models\Currency;
 use Lovata\Shopaholic\Models\Offer;
 use Lovata\Shopaholic\Models\Product;
 use Lovata\Buddies\Models\User;
@@ -470,6 +471,7 @@ class OrdersSyncService
 
             if ($order && !$order->seipee_order_id) {
                 $order->seipee_order_id = (string)$idDOTes;
+                $order->currency_id = Currency::first()?->id;
                 $order->save();
                 $this->log('Updated seipee_order_id for existing order: '.$numeroDoc);
             }
@@ -480,6 +482,7 @@ class OrdersSyncService
 
         if (!$order) {
             $order = new Order();
+            $order->currency_id = Currency::first()?->id;
             $order->seipee_order_id = (string)$idDOTes;
             $order->order_number = $numeroDoc;
 
